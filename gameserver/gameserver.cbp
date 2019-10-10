@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="gameserver" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/servertest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/servertest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../include/Common/Robotlogicframe.h" />
+		<Unit filename="../include/Common/ServerServiceManager.h" />
+		<Unit filename="../include/Common/ccommon.h" />
+		<Unit filename="GameFrameManager.cpp" />
+		<Unit filename="GameFrameManager.h" />
+		<Unit filename="game_server.cpp" />
+		<Unit filename="gameframe/CDieOutMatchingMode.cpp" />
+		<Unit filename="gameframe/CPlayer.cpp" />
+		<Unit filename="gameframe/CPlayer.h" />
+		<Unit filename="gameframe/CRoom.cpp" />
+		<Unit filename="gameframe/CRoom.h" />
+		<Unit filename="gameframe/DBOperator.cpp" />
+		<Unit filename="gameframe/DBOperator.h" />
+		<Unit filename="gameframe/PlayerManager.cpp" />
+		<Unit filename="gameframe/PlayerManager.h" />
+		<Unit filename="gameframe/RoomManager.cpp" />
+		<Unit filename="gameframe/RoomManager.h" />
+		<Unit filename="gameparamconfig.cpp" />
+		<Unit filename="gameparamconfig.h" />
+		<Unit filename="gameserver_common.h" />
+		<Unit filename="makefile" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

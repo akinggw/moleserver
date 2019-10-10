@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libmolenet" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/molenet" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/molenet" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../include/molnet/AtomicBoolean.h" />
+		<Unit filename="../../include/molnet/AtomicCounter.h" />
+		<Unit filename="../../include/molnet/AtomicULong.h" />
+		<Unit filename="../../include/molnet/CTcpSocketClient.h" />
+		<Unit filename="../../include/molnet/CircularBuffer.h" />
+		<Unit filename="../../include/molnet/ListenSocketLinux.h" />
+		<Unit filename="../../include/molnet/Log.h" />
+		<Unit filename="../../include/molnet/MolMessageIn.h" />
+		<Unit filename="../../include/molnet/MolMessageOut.h" />
+		<Unit filename="../../include/molnet/MolNetMessage.h" />
+		<Unit filename="../../include/molnet/MolString.h" />
+		<Unit filename="../../include/molnet/Mutex.h" />
+		<Unit filename="../../include/molnet/Network.h" />
+		<Unit filename="../../include/molnet/Singleton.h" />
+		<Unit filename="../../include/molnet/Socket.h" />
+		<Unit filename="../../include/molnet/SocketDefines.h" />
+		<Unit filename="../../include/molnet/SocketMgrLinux.h" />
+		<Unit filename="../../include/molnet/SocketOps.h" />
+		<Unit filename="../../include/molnet/ThreadPool.h" />
+		<Unit filename="../../include/molnet/ThreadStarter.h" />
+		<Unit filename="../../include/molnet/common.h" />
+		<Unit filename="../../include/molnet/connectPool.h" />
+		<Unit filename="../../include/molnet/dalexcept.h" />
+		<Unit filename="../../include/molnet/dataprovider.h" />
+		<Unit filename="../../include/molnet/dataproviderfactory.h" />
+		<Unit filename="../../include/molnet/gettimeofday.h" />
+		<Unit filename="../../include/molnet/mysqldataprovider.h" />
+		<Unit filename="../../include/molnet/netallocator/NedAllocatedObject.h" />
+		<Unit filename="../../include/molnet/netallocator/NedAllocatorImpl.h" />
+		<Unit filename="../../include/molnet/netallocator/malloc.c.h" />
+		<Unit filename="../../include/molnet/netallocator/nedmalloc.h" />
+		<Unit filename="../../include/molnet/rc4.h" />
+		<Unit filename="../../include/molnet/recordset.h" />
+		<Unit filename="AtomicBoolean.cpp" />
+		<Unit filename="AtomicCounter.cpp" />
+		<Unit filename="AtomicULong.cpp" />
+		<Unit filename="CTcpSocketClient.cpp" />
+		<Unit filename="CircularBuffer.cpp" />
+		<Unit filename="Log.cpp" />
+		<Unit filename="MolMessageIn.cpp" />
+		<Unit filename="MolMessageOut.cpp" />
+		<Unit filename="MolNetMessage.cpp" />
+		<Unit filename="Mutex.cpp" />
+		<Unit filename="Socket.cpp" />
+		<Unit filename="SocketLinux.cpp" />
+		<Unit filename="SocketMgrLinux.cpp" />
+		<Unit filename="SocketOpsLinux.cpp" />
+		<Unit filename="ThreadPool.cpp" />
+		<Unit filename="connectPool.cpp" />
+		<Unit filename="dataprovider.cpp" />
+		<Unit filename="dataproviderfactory.cpp" />
+		<Unit filename="makefile" />
+		<Unit filename="mysqldataprovider.cpp" />
+		<Unit filename="netallocator/NedAllocatedObject.cpp" />
+		<Unit filename="netallocator/NedAllocatedObject.h" />
+		<Unit filename="netallocator/NedAllocatorImpl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="netallocator/NedAllocatorImpl.h" />
+		<Unit filename="netallocator/malloc.c.h" />
+		<Unit filename="netallocator/nedmalloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="netallocator/nedmalloc.h" />
+		<Unit filename="network.cpp" />
+		<Unit filename="rc4.cpp" />
+		<Unit filename="recordset.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

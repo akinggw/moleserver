@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .kuang{text-align: center;margin-top:200px;}
+        #mess{text-align: center}
+        .value{width: 200px;height:200px;border:1px solid;text-align: center;line-height: 200px;display: inline-block;}
+    </style>
+</head>
+<body>
+    <div id="mess">正在连接...</div>
+    <div class="kuang">
+        <div class="value" id="value1">小明小明</div>
+        <div class="value" id="value2">大胸大胸</div>
+        <div class="value" id="value3">小张小张</div>
+    </div>
+<script src="https://cdn.jsdelivr.net/gh/emn178/js-md5/build/md5.min.js"></script>
+    <script>
+        var mess = document.getElementById("mess");
+		var keepalivetimer;
+		var ws;
+		
+        if(window.WebSocket){
+            ws = new WebSocket('ws://127.0.0.1:3333');
+
+            ws.onopen = function(e){
+                console.log("连接服务器成功");
+                mess.innerHTML = "连接成功"	;	
+				
+				keepalivetimer = setInterval( function(){keepalive(ws)},5000);
+            }
+            ws.onclose = function(e){
+                console.log("服务器关闭");
+				mess.innerHTML = "服务器关闭";
+				clearInterval(keepalivetimer);
+            }
+            ws.onerror = function(){
+                console.log("连接出错");
+				mess.innerHTML = "连接出错";
+				clearInterval(keepalivetimer);
+            }
+
+            ws.onmessage = function(e){
+				alert(e.data);
+            }
+        }
+		
+		document.querySelector(".kuang").onclick = function(e){
+			//var time = new Date();
+			//ws.send(time + "  game1点击了“" + e.target.innerHTML+"”");
+		var senddata = {};
+		senddata.MsgId = 400;
+		senddata.username = "test";
+		senddata.userpwd = md5("112233");
+		senddata.machinecode = 'html5';
+
+		ws.send(JSON.stringify(senddata));
+		}		
+		
+function keepalive(ws) {
+      ws.send('100');
+};		
+    </script>
+</body>
+</html>
