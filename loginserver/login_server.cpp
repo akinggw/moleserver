@@ -6,22 +6,33 @@
 #include "DBOperator.h"
 #include "GameFrameManager.h"
 
-#define LOGINSERVER_CONFIG "./configs/server_config.ini"
+#define LOGINSERVER_CONFIG "/configs/server_config.ini"
 
 using namespace network;
 
 int main()
 {
     char strTmp[1024];
+	char m_curProgress_Path[256];
    	NetMessage myMes;
+	
+	getcwd(m_curProgress_Path,256);	
 
 	new GameFrameManager();
 	new DBOperator();
 
 	InitMolNet("login_server");
 
-	std::string serverip = GetIniSectionItem(LOGINSERVER_CONFIG,"LoginServer","ipaddress");
-	int serverport = atoi(GetIniSectionItem(LOGINSERVER_CONFIG,"LoginServer","port").c_str());
+	std::string loginserver_config_file = m_curProgress_Path;
+	loginserver_config_file += LOGINSERVER_CONFIG;
+	
+	std::string serverip = GetIniSectionItem(loginserver_config_file.c_str(),"LoginServer","ipaddress");
+	int serverport = atoi(GetIniSectionItem(loginserver_config_file.c_str(),"LoginServer","port").c_str());
+	std::string dbip = GetIniSectionItem(loginserver_config_file.c_str(),"database","ipaddress");
+	int dbport = atoi(GetIniSectionItem(loginserver_config_file.c_str(),"database","port").c_str());
+	std::string username = GetIniSectionItem(loginserver_config_file.c_str(),"database","username");
+	std::string userpwd = GetIniSectionItem(loginserver_config_file.c_str(),"database","userpwd");
+	std::string dbname = GetIniSectionItem(loginserver_config_file.c_str(),"database","dbname");	
 
 	serverip[serverip.length()-2] = '\0';
 
@@ -36,12 +47,6 @@ int main()
 	}
 
 	LOG_BASIC("登陆服务器:%s,端口:%d 启动成功。",serverip.c_str(),serverport);
-
-	std::string dbip = GetIniSectionItem(LOGINSERVER_CONFIG,"database","ipaddress");
-	int dbport = atoi(GetIniSectionItem(LOGINSERVER_CONFIG,"database","port").c_str());
-	std::string username = GetIniSectionItem(LOGINSERVER_CONFIG,"database","username");
-	std::string userpwd = GetIniSectionItem(LOGINSERVER_CONFIG,"database","userpwd");
-	std::string dbname = GetIniSectionItem(LOGINSERVER_CONFIG,"database","dbname");
 
     // start connect database
     if(!ServerDBOperator.Initilize(dbip,
