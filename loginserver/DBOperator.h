@@ -26,7 +26,7 @@ struct MemberDataStru
 	uint32 createtime;            //建立时间
 	uint32 lastlogintime;         //最后登录时间
 	char useravatar[256];         //用户头像
-	int ban;                      //是否被封号
+	int state;                      //是否被封号
 
 	int64 money;                  //手上的钱
 	int64 bankmoney;              //银行的钱

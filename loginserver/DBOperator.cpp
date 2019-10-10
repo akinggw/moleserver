@@ -276,19 +276,19 @@ bool DBOperator::GetUserData(uint32 UserId,MemberDataStru &UserData)
 	UserData.gtype = atoi(pRecord(0)(0,1).c_str());
 	strncpy(UserData.username , pRecord(0)(0,2).c_str(),CountArray(UserData.username));
 	strncpy(UserData.password , pRecord(0)(0,3).c_str(),CountArray(UserData.password));
-	strncpy(UserData.bankpassword , pRecord(0)(0,4).c_str(),CountArray(UserData.bankpassword));
-	strncpy(UserData.email , pRecord(0)(0,5).c_str(),CountArray(UserData.email));
-	UserData.sex = atoi(pRecord(0)(0,6).c_str());
-	strncpy(UserData.realname , pRecord(0)(0,7).c_str(),CountArray(UserData.realname));
-	strncpy(UserData.homeplace , pRecord(0)(0,8).c_str(),CountArray(UserData.homeplace));
-	strncpy(UserData.telephone , pRecord(0)(0,9).c_str(),CountArray(UserData.telephone));
-	strncpy(UserData.QQ , pRecord(0)(0,10).c_str(),CountArray(UserData.QQ));
-	strncpy(UserData.ipaddress , pRecord(0)(0,11).c_str(),CountArray(UserData.ipaddress));
-	UserData.createtime = atol(pRecord(0)(0,12).c_str());
-	UserData.lastlogintime = atol(pRecord(0)(0,13).c_str());
-	UserData.ban = atoi(pRecord(0)(0,14).c_str());
-	strncpy(UserData.machinecode , pRecord(0)(0,17).c_str(),CountArray(UserData.machinecode));
-	UserData.glockmachine = atoi(pRecord(0)(0,18).c_str());
+	strncpy(UserData.bankpassword , pRecord(0)(0,5).c_str(),CountArray(UserData.bankpassword));
+	strncpy(UserData.email , pRecord(0)(0,6).c_str(),CountArray(UserData.email));
+	UserData.sex = atoi(pRecord(0)(0,7).c_str());
+	strncpy(UserData.realname , pRecord(0)(0,8).c_str(),CountArray(UserData.realname));
+	strncpy(UserData.homeplace , pRecord(0)(0,9).c_str(),CountArray(UserData.homeplace));
+	strncpy(UserData.telephone , pRecord(0)(0,10).c_str(),CountArray(UserData.telephone));
+	strncpy(UserData.QQ , pRecord(0)(0,11).c_str(),CountArray(UserData.QQ));
+	strncpy(UserData.ipaddress , pRecord(0)(0,12).c_str(),CountArray(UserData.ipaddress));
+	UserData.createtime = atol(pRecord(0)(0,13).c_str());
+	UserData.lastlogintime = atol(pRecord(0)(0,14).c_str());
+	UserData.state = atoi(pRecord(0)(0,22).c_str());
+	strncpy(UserData.machinecode , pRecord(0)(0,18).c_str(),CountArray(UserData.machinecode));
+	UserData.glockmachine = atoi(pRecord(0)(0,19).c_str());
 
 	return true;
 }
@@ -317,7 +317,6 @@ bool DBOperator::GetOnlineGameRooms(std::vector<tagGameRoom> &pgamerooms)
         ptagGameRoom.tableplayercount = atoi(pRecord(i)(0,5).c_str());
         ptagGameRoom.state = atoi(pRecord(i)(0,14).c_str());
 
-        strncpy(ptagGameRoom.processname , pRecord(i)(0,15).c_str(),CountArray(ptagGameRoom.processname));
         strncpy(ptagGameRoom.serverip , pRecord(i)(0,6).c_str(),CountArray(ptagGameRoom.serverip));
         strncpy(ptagGameRoom.servername , pRecord(i)(0,2).c_str(),CountArray(ptagGameRoom.servername));
 

@@ -3,6 +3,7 @@
 #include "DBOperator.h"
 
 #include <map>
+#include <sstream>
 
 initialiseSingleton(GameFrameManager);
 
@@ -265,7 +266,7 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
 	}
 
 	// 检测用户是否已经被封号
-	if(pUserData.ban != 1)
+	if(pUserData.state != 1)
 	{
 		Json::Value root;
 		root["MsgId"] = IDD_MESSAGE_CENTER_LOGIN;
@@ -322,18 +323,22 @@ void GameFrameManager::OnProcessUserGetOnlineRoomMes(uint32 connId)
 
 	for(int i=0;i<(int)pgamerooms.size();i++)
     {
-        root[i]["gameid"] = pgamerooms[i].gameid;
-        root[i]["serverport"] = pgamerooms[i].serverport;
-        root[i]["serverip"] = pgamerooms[i].serverip;
-        root[i]["processname"] = pgamerooms[i].processname;
-        root[i]["servername"] = pgamerooms[i].servername;
-        root[i]["tablecount"] = pgamerooms[i].tablecount;
-        root[i]["tableplayercount"] = pgamerooms[i].tableplayercount;
-        root[i]["gamingtype"] = pgamerooms[i].gamingtype;
-        root[i]["lastmoney"] = (uint32)pgamerooms[i].lastmoney;
-        root[i]["pielement"] = (uint32)pgamerooms[i].pielement;
-        root[i]["roomrevenue"] = pgamerooms[i].roomrevenue;
-        root[i]["state"] = pgamerooms[i].state;
+        Json::Value root2;
+        root2["gameid"] = pgamerooms[i].gameid;
+        root2["serverport"] = pgamerooms[i].serverport;
+        root2["serverip"] = pgamerooms[i].serverip;
+        root2["servername"] = pgamerooms[i].servername;
+        root2["tablecount"] = pgamerooms[i].tablecount;
+        root2["tableplayercount"] = pgamerooms[i].tableplayercount;
+        root2["gamingtype"] = pgamerooms[i].gamingtype;
+        root2["lastmoney"] = (uint32)pgamerooms[i].lastmoney;
+        root2["pielement"] = (uint32)pgamerooms[i].pielement;
+        root2["roomrevenue"] = pgamerooms[i].roomrevenue;
+        root2["state"] = pgamerooms[i].state;
+
+        std::stringstream ss;
+        ss << "room" << i;
+        root[ss.str()] = root2;
     }
 
 	Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());

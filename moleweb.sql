@@ -146,9 +146,11 @@ CREATE TABLE `mol_member` (
   `machinecode` varchar(50) NOT NULL DEFAULT '',
   `glockmachine` int(1) NOT NULL DEFAULT '0',
   `commissionratio` int(5) NOT NULL DEFAULT '0',
+  `mol_membercol` varchar(45) DEFAULT NULL,
+  `state` int(1) DEFAULT '1',
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,6 +159,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
+INSERT INTO `mol_member` VALUES (1,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','d0970714757783e6cf17b26fb8e2298f','test@126.com',1,'test','','23423434','','127.0.0.1',1570681096,NULL,1,0,'','',0,0,NULL,1);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -495,4 +498,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-10 11:18:09
+-- Dump completed on 2019-10-10 12:22:01

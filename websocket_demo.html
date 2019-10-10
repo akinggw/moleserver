@@ -12,9 +12,9 @@
 <body>
     <div id="mess">正在连接...</div>
     <div class="kuang">
-        <div class="value" id="value1">小明小明</div>
-        <div class="value" id="value2">大胸大胸</div>
-        <div class="value" id="value3">小张小张</div>
+        <div class="value" id="value1" onclick="operator(1)">注册</div>
+        <div class="value" id="value2" onclick="operator(2)">登录</div>
+        <div class="value" id="value3" onclick="operator(3)">得到服务器列表</div>
     </div>
 <script src="https://cdn.jsdelivr.net/gh/emn178/js-md5/build/md5.min.js"></script>
     <script>
@@ -47,16 +47,40 @@
             }
         }
 		
-		document.querySelector(".kuang").onclick = function(e){
-			//var time = new Date();
-			//ws.send(time + "  game1点击了“" + e.target.innerHTML+"”");
-		var senddata = {};
-		senddata.MsgId = 400;
-		senddata.username = "test";
-		senddata.userpwd = md5("112233");
-		senddata.machinecode = 'html5';
+		function operator(id){
+			if(id == 2)
+			{
+				var senddata = {};
+				senddata.MsgId = 400;
+				senddata.username = "test";
+				senddata.userpwd = md5("112233");
+				senddata.machinecode = 'html5';
 
-		ws.send(JSON.stringify(senddata));
+				ws.send(JSON.stringify(senddata));
+			}
+			else if(id == 1)
+			{
+				var senddata = {};
+				senddata.MsgId =700;
+				senddata.UserName = "test";
+				senddata.UserPW = md5("112233");
+				senddata.Email = 'test@126.com';
+				senddata.Sex=1;
+				senddata.RealName="test";
+				senddata.Telephone="23423434";
+				senddata.AvatorIndex="/asdf/sadfsa.png";
+				senddata.pReferrer="test2";
+				senddata.pcardnumber="3432423";
+
+				ws.send(JSON.stringify(senddata));
+			}
+			else if(id == 3)
+			{
+				var senddata = {};
+				senddata.MsgId =800;
+
+				ws.send(JSON.stringify(senddata));
+			}
 		}		
 		
 function keepalive(ws) {

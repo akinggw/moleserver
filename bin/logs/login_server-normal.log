@@ -1,0 +1,279 @@
+[11:40][2019-10-10 11:40:45] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[11:40] [BSC] login_server.cpp:38 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:40] [BSC] login_server.cpp:60 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:40] [BSC] login_server.cpp:62 main 服务器启动成功，开始处理...
+[12:01][2019-10-10 12:01:39] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:01] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:01] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:01] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[12:29][2019-10-10 12:29:42] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:29] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:29] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:29] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[12:33][2019-10-10 12:33:41] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:33] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:33] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:33] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[12:35][2019-10-10 12:35:13] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:35] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:35] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:35] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[12:39][2019-10-10 12:39:48] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:39] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:39] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:39] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:43][2019-10-10 13:43:51] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:43] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:43] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:43] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:44][2019-10-10 13:44:27] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:44] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:44] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:44] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:52][2019-10-10 13:52:08] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:52] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:52] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:52] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:54][2019-10-10 13:54:54] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:54] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:54] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:54] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:55] [BSC] GameFrameManager.cpp:342 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "processname" : "�l���",
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:00][2019-10-10 14:00:21] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[14:00] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[14:00] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[14:00] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[14:00] [BSC] GameFrameManager.cpp:345 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "processname" : "",
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:00] [BSC] GameFrameManager.cpp:345 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "processname" : "h����",
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02][2019-10-10 14:02:07] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[14:02] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[14:02] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[14:02] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:02] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:04] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
+[14:04] [BSC] GameFrameManager.cpp:344 OnProcessUserGetOnlineRoomMes {
+   "MsgId" : 800,
+   "MsgSubId" : 802,
+   "RoomCount" : 1,
+   "room0" : {
+      "gameid" : 300001,
+      "gamingtype" : 0,
+      "lastmoney" : 10,
+      "pielement" : 1,
+      "roomrevenue" : 1,
+      "serverip" : "127.0.0.1",
+      "servername" : "欢乐斗地主普通场",
+      "serverport" : 3335,
+      "state" : 0,
+      "tablecount" : 10,
+      "tableplayercount" : 3
+   }
+}
+
