@@ -4,7 +4,7 @@
 基于websocket的服务器。
 
 #### 安装和编译
-1.首先下载下代码
+1.首先下载下代码\n
 git clone https://gitee.com/akinggw/moleserver.git
 2.在服务器上安装最新版本的mysql，建立新的数据库moleweb，然后导入moleweb.sql
 3.配置服务器，在bin/configs/server_config.ini
