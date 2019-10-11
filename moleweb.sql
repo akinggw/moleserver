@@ -113,7 +113,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,0,0,'2019-10-10 09:13:56',0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,0,0,'2019-10-10 14:32:30',0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +150,7 @@ CREATE TABLE `mol_member` (
   `state` int(1) DEFAULT '1',
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (1,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','d0970714757783e6cf17b26fb8e2298f','test@126.com',1,'test','','23423434','','127.0.0.1',1570681096,NULL,1,0,'','',0,0,NULL,1);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','d0970714757783e6cf17b26fb8e2298f','test@126.com',1,'test','','23423434','','127.0.0.1',1570688921,NULL,1,0,'','',0,0,NULL,1);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,6 +199,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
+INSERT INTO `mol_userdata` VALUES (2,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,6 +388,8 @@ registergameuserproc:begin
 		0,pname,ppassword,ppassword,pemail,psex,prealname,puseravatar,ptelephone,pipaddress,unix_timestamp(NOW()),lastuserid,pid);
 	
 	select LAST_INSERT_ID() into lastuserid; 	
+    
+    insert into mol_userdata (userid) values(lastuserid);
 	
 	if lastuserid > 0 then
 		if t_error=1 then
@@ -498,4 +501,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-10 12:22:01
+-- Dump completed on 2019-10-10 14:32:41

@@ -6,6 +6,7 @@
 #include "gameframe/PlayerManager.h"
 
 #include <map>
+#include <sstream>
 
 #define IDD_SEND_PLAYER_MAX_COUNT         30               // 一次最多发送多少个人的数据
 
@@ -294,10 +295,14 @@ void GameFrameManager::SendPlayerLoginSuccess(CPlayer *pPlayer)
     root["Runawayrate"] = pPlayer->GetRunawayrate();
     root["Sex"] = pPlayer->GetSex();
     root["RealName"] = pPlayer->GetRealName();
-    root["LoginIP"] = pPlayer->GetLoginIP();
+    //root["LoginIP"] = pPlayer->GetLoginIP();
     root["DeviceType"] = pPlayer->GetDeviceType();
     root["CurGameID"] = pPlayer->getCurGameID();
     root["CurServerId"] = pPlayer->getCurServerId();
+
+    in_addr inaddr;
+    inaddr.s_addr=pPlayer->GetLoginIP();
+    root["LoginIP"] = inet_ntoa(inaddr);
 
 	ServerPlayerManager.SendMsgToEveryone(root);
 }
@@ -615,28 +620,37 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 
 				for(int k=0;k<(int)pPlayerList[i].size();k++)
 				{
-					root[k]["ID"] = pPlayerList[i][k]->GetID();
-					root[k]["State"] = pPlayerList[i][k]->GetState();
-					root[k]["Type"] = pPlayerList[i][k]->GetType();
-					root[k]["RoomId"] = pPlayerList[i][k]->GetRoomId();
-					root[k]["ChairIndex"] = pPlayerList[i][k]->GetChairIndex();
-					root[k]["Name"] = pPlayerList[i][k]->GetName();
-					root[k]["Level"] = pPlayerList[i][k]->GetLevel();
-					root[k]["Money"] = (uint32)pPlayerList[i][k]->GetMoney();
-					root[k]["BankMoney"] = (uint32)pPlayerList[i][k]->GetBankMoney();
-					root[k]["Revenue"] = (uint32)pPlayerList[i][k]->GetRevenue();
-					root[k]["TotalResult"] = (uint32)pPlayerList[i][k]->GetTotalResult();
-					root[k]["Experience"] = pPlayerList[i][k]->GetExperience();
-					root[k]["TotalBureau"] = pPlayerList[i][k]->GetTotalBureau();
-					root[k]["SuccessBureau"] = pPlayerList[i][k]->GetSuccessBureau();
-					root[k]["FailBureau"] = pPlayerList[i][k]->GetFailBureau();
-					root[k]["RunawayBureau"] = pPlayerList[i][k]->GetRunawayBureau();
-					root[k]["SuccessRate"] = pPlayerList[i][k]->GetSuccessRate();
-					root[k]["Runawayrate"] = pPlayerList[i][k]->GetRunawayrate();
-					root[k]["Sex"] = pPlayerList[i][k]->GetSex();
-					root[k]["RealName"] = pPlayerList[i][k]->GetRealName();
-					root[k]["LoginIP"] = pPlayerList[i][k]->GetLoginIP();
-					root[k]["DeviceType"] = pPlayerList[i][k]->GetDeviceType();
+				    Json::Value root2;
+					root2["ID"] = pPlayerList[i][k]->GetID();
+					root2["State"] = pPlayerList[i][k]->GetState();
+					root2["Type"] = pPlayerList[i][k]->GetType();
+					root2["RoomId"] = pPlayerList[i][k]->GetRoomId();
+					root2["ChairIndex"] = pPlayerList[i][k]->GetChairIndex();
+					root2["Name"] = pPlayerList[i][k]->GetName();
+					root2["Level"] = pPlayerList[i][k]->GetLevel();
+					root2["Money"] = (uint32)pPlayerList[i][k]->GetMoney();
+					root2["BankMoney"] = (uint32)pPlayerList[i][k]->GetBankMoney();
+					root2["Revenue"] = (uint32)pPlayerList[i][k]->GetRevenue();
+					root2["TotalResult"] = (uint32)pPlayerList[i][k]->GetTotalResult();
+					root2["Experience"] = pPlayerList[i][k]->GetExperience();
+					root2["TotalBureau"] = pPlayerList[i][k]->GetTotalBureau();
+					root2["SuccessBureau"] = pPlayerList[i][k]->GetSuccessBureau();
+					root2["FailBureau"] = pPlayerList[i][k]->GetFailBureau();
+					root2["RunawayBureau"] = pPlayerList[i][k]->GetRunawayBureau();
+					root2["SuccessRate"] = pPlayerList[i][k]->GetSuccessRate();
+					root2["Runawayrate"] = pPlayerList[i][k]->GetRunawayrate();
+					root2["Sex"] = pPlayerList[i][k]->GetSex();
+					root2["RealName"] = pPlayerList[i][k]->GetRealName();
+					//root2["LoginIP"] = pPlayerList[i][k]->GetLoginIP();
+					root2["DeviceType"] = pPlayerList[i][k]->GetDeviceType();
+
+                    in_addr inaddr;
+                    inaddr.s_addr=pPlayerList[i][k]->GetLoginIP();
+                    root2["LoginIP"] = inet_ntoa(inaddr);
+
+                    std::stringstream ss;
+                    ss << "player" << i;
+                    root[ss.str()] = root2;
 				}
 
 				Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
@@ -680,12 +694,13 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 				pfirst=psecond = 0;
 				(*iter)->GetEnterMoneyRect(&pfirst,&psecond);
 
+				Json::Value root2;
 				// 发送房间状态
-				root[index]["RoomState"] = (int)(*iter)->GetRoomState();
-				root[index]["EnterPassword"] = (*iter)->getEnterPassword();
-				root[index]["first"] = (uint32)pfirst;
-				root[index]["second"] = (uint32)psecond;
-				root[index]["PlayerCount"] = (*iter)->GetPlayerCount();
+				root2["RoomState"] = (int)(*iter)->GetRoomState();
+				root2["EnterPassword"] = (*iter)->getEnterPassword();
+				root2["first"] = (uint32)pfirst;
+				root2["second"] = (uint32)psecond;
+				root2["PlayerCount"] = (*iter)->GetPlayerCount();
 
 				// 开始发送房间中玩家信息
 				for(int i=0;i<(*iter)->GetMaxPlayer();i++)
@@ -693,9 +708,18 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 					Player *pPlayer = (*iter)->GetPlayer(i);
 					if(pPlayer == NULL) continue;
 
-					root[index][i]["ID"] = pPlayer->GetID();
-					root[index][i]["ChairIndex"] = pPlayer->GetChairIndex();
+					Json::Value root3;
+					root3["ID"] = pPlayer->GetID();
+					root3["ChairIndex"] = pPlayer->GetChairIndex();
+
+                    std::stringstream ss;
+                    ss << "player" << i;
+                    root2[ss.str()] = root3;
 				}
+
+                std::stringstream ss;
+                ss << "room" << index;
+				root[ss.str()] = root2;
 			}
 
 			Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());

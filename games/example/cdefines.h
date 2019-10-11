@@ -11,6 +11,8 @@
 #include "../../include/Common/Robotlogicframe.h"
 #include "../../include/Common/serverlogicframe.h"
 
+#include <jsoncpp/json/json.h>
+
 using namespace network;
 
 #endif

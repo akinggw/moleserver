@@ -3,9 +3,9 @@ CPP = g++
 RM = rm -f
 
 ifeq ($(debug),1)
-	CFLAGS = -I ../../include/molnet -O0 -shared -g -Wall -fexceptions -fPIC -DLINUX -lpthread -lmysqlclient -ljsoncpp
+	CFLAGS = -I ../../include/molnet -O0 -shared -g -Wall -fexceptions -fPIC -DLINUX -lpthread -L ../../libs -lmolnet -lmysqlclient -ljsoncpp
 else
-	CFLAGS = -I ../../include/molnet -O2 -shared -fexceptions -fPIC -DLINUX -lpthread -lmysqlclient -ljsoncpp
+	CFLAGS = -I ../../include/molnet -O2 -shared -fexceptions -fPIC -DLINUX -lpthread -L ../../libs -lmolnet -lmysqlclient -ljsoncpp
 endif
 
 OBJDIR = objs

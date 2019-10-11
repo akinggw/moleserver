@@ -607,9 +607,7 @@ void RoomManager::OnProcessDisconnectNetMes(uint32 connId)
 		return;
 	}
 
-	bool isGaming = false;
-	if(m_ServerSet.GameType != ROOMTYPE_BISAI)
-		isGaming = (pPlayer->GetState() == PLAYERSTATE_GAMING);
+	bool isGaming = (pPlayer->GetState() == PLAYERSTATE_GAMING);
 
 	if(isGaming)
 	{
@@ -658,11 +656,8 @@ void RoomManager::OnProcessDisconnectNetMes(uint32 connId)
 		ServerPlayerManager.ClearPlayer(pPlayer);
 		Disconnect(pConnID);
 
-		if(m_ServerSet.GameType != ROOMTYPE_BISAI)
-		{
-			// 准备好了的用户是否继续开始游戏
-			pRoom->OnProcessContinueGaming();
-		}
+        // 准备好了的用户是否继续开始游戏
+        pRoom->OnProcessContinueGaming();
 
 		m_RoomLock.Release();
 		return;

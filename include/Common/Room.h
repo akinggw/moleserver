@@ -168,6 +168,9 @@ public:
 	/// 关闭所有的定时器
 	virtual void StopAllTimer(void) = 0;
 	//virtual std::string WideCharConverToUtf8(CString& str)=NULL;
+
+	/// 打印日志
+	virtual void Room_Log(enLogLevel loglevel,std::string log) = 0;
 };
 
 #endif

@@ -109,4 +109,13 @@ enum enStartMode
 	enStartMode_TimeControl,			//时间控制
 };
 
+// 日志等级
+enum enLogLevel
+{
+    BASIC = 0,
+    DETAIL,
+    ERROR,
+    DEBUG
+};
+
 #endif

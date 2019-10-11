@@ -1,25 +1,26 @@
 #include "cserverlogicframe.h"
+#include <sstream>
 
-/// ¹¹Ôìº¯Êı
+/// æ„é€ å‡½æ•°
 CServerLogicFrame::CServerLogicFrame():m_g_GameRoom(NULL)
 {
 
 }
 
-/// Îö¹¹º¯Êı
+/// ææ„å‡½æ•°
 CServerLogicFrame::~CServerLogicFrame()
 {
 
 }
 
-/// ÓÃÓÚ´¦ÀíÓÃ»§¿ªÊ¼ÓÎÏ·¿ªÊ¼ÏûÏ¢
+/// ç”¨äºå¤„ç†ç”¨æˆ·å¼€å§‹æ¸¸æˆå¼€å§‹æ¶ˆæ¯
 void CServerLogicFrame::OnProcessPlayerGameStartMes()
 {
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
 }
 
-/// ÓÃÓÚ´¦ÀíÓÃ»§½øÈëÓÎÏ··¿¼äºóµÄÏûÏ¢
+/// ç”¨äºå¤„ç†ç”¨æˆ·è¿›å…¥æ¸¸æˆæˆ¿é—´åçš„æ¶ˆæ¯
 void CServerLogicFrame::OnProcessPlayerRoomMes(int playerId,Json::Value &mes)
 {
 	assert(m_g_GameRoom != NULL);
@@ -27,41 +28,75 @@ void CServerLogicFrame::OnProcessPlayerRoomMes(int playerId,Json::Value &mes)
 
 }
 
-/// ´¦ÀíÓÃ»§½øÈë·¿¼äÏûÏ¢
+/// å¤„ç†ç”¨æˆ·è¿›å…¥æˆ¿é—´æ¶ˆæ¯
 void CServerLogicFrame::OnProcessEnterRoomMsg(int playerId)
 {
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
 
+    std::stringstream ss;
+    ss << "ç©å®¶" << playerId << "è¿›å…¥æˆ¿é—´äº†.";
+	m_g_GameRoom->Room_Log(BASIC,ss.str());
+
+	//m_g_GameRoom->GameStart();
+
+	m_g_GameRoom->StartTimer(100,10);
 }
 
-/// ´¦ÀíÓÃ»§Àë¿ª·¿¼äÏûÏ¢
+/// å¤„ç†ç”¨æˆ·ç¦»å¼€æˆ¿é—´æ¶ˆæ¯
 void CServerLogicFrame::OnProcessLeaveRoomMsg(int playerId)
 {
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
 
+    std::stringstream ss;
+    ss << "ç©å®¶" << playerId << "ç¦»å¼€æˆ¿é—´äº†.";
+	m_g_GameRoom->Room_Log(BASIC,ss.str());
+
+	m_g_GameRoom->StopTimer(100);
 }
 
-/// ´¦ÀíÓÃ»§¶ÏÏßÏûÏ¢
+/// å¤„ç†ç”¨æˆ·æ–­çº¿æ¶ˆæ¯
 void CServerLogicFrame::OnProcessOfflineRoomMes(int playerId)
 {
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
+
+    std::stringstream ss;
+    ss << "ç©å®¶" << playerId << "ä»æˆ¿é—´æ‰çº¿äº†.";
+	m_g_GameRoom->Room_Log(BASIC,ss.str());
 }
 
-/// ´¦ÀíÓÃ»§¶ÏÏßÖØÁ¬ÏûÏ¢
+/// å¤„ç†ç”¨æˆ·æ–­çº¿é‡è¿æ¶ˆæ¯
 void CServerLogicFrame::OnProcessReEnterRoomMes(int playerId)
 {
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
 
+    std::stringstream ss;
+    ss << "ç©å®¶" << playerId << "é‡å›æˆ¿é—´äº†.";
+	m_g_GameRoom->Room_Log(BASIC,ss.str());
 }
 
-/// ´¦ÀíÓÃ»§¶¨Ê±Æ÷ÏûÏ¢
+/// å¤„ç†ç”¨æˆ·å®šæ—¶å™¨æ¶ˆæ¯
 void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 {
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
+
+	if(timerId == 100 && curTimer <= 0)
+	{
+	    m_g_GameRoom->StopTimer(100);
+
+	    m_g_GameRoom->Room_Log(BASIC,"æ‰§è¡Œä¸€ä¸ªå®šæ—¶å™¨æ¶ˆæ¯.");
+
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_ROOM;
+        root["MsgSubId"] = IDD_MESSAGE_ROOM + 10;
+
+	    m_g_GameRoom->SendTableMsg(INVALID_CHAIR,root);
+
+	    m_g_GameRoom->StartTimer(100,10);
+	}
 
 }

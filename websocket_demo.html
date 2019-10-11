@@ -16,6 +16,12 @@
         <div class="value" id="value2" onclick="operator(2)">登录</div>
         <div class="value" id="value3" onclick="operator(3)">得到服务器列表</div>
     </div>
+    <div class="kuang">
+        <div class="value" id="value1" onclick="operator(4)">游戏服务器登录</div>
+        <div class="value" id="value2" onclick="operator(5)">得到在线玩家列表</div>
+        <div class="value" id="value3" onclick="operator(6)">得到游戏房间列表</div>
+		<div class="value" id="value3" onclick="operator(7)">进入房间</div>
+    </div>	
 <script src="https://cdn.jsdelivr.net/gh/emn178/js-md5/build/md5.min.js"></script>
     <script>
         var mess = document.getElementById("mess");
@@ -23,7 +29,7 @@
 		var ws;
 		
         if(window.WebSocket){
-            ws = new WebSocket('ws://127.0.0.1:3333');
+            ws = new WebSocket('ws://127.0.0.1:3335');
 
             ws.onopen = function(e){
                 console.log("连接服务器成功");
@@ -58,6 +64,16 @@
 
 				ws.send(JSON.stringify(senddata));
 			}
+			else if(id == 4)
+			{
+				var senddata = {};
+				senddata.MsgId = 500;
+				senddata.UserName = "test";
+				senddata.UserPW = md5("112233");
+				senddata.DeviceType = 1;
+
+				ws.send(JSON.stringify(senddata));	
+			}
 			else if(id == 1)
 			{
 				var senddata = {};
@@ -81,6 +97,35 @@
 
 				ws.send(JSON.stringify(senddata));
 			}
+			else if(id == 6)
+			{
+				var senddata = {};
+				senddata.MsgId =900;
+				senddata.MsgSubId =906;
+
+				ws.send(JSON.stringify(senddata));
+			}		
+			else if(id == 5)
+			{
+				var senddata = {};
+				senddata.MsgId =900;
+				senddata.MsgSubId =908;
+
+				ws.send(JSON.stringify(senddata));
+			}	
+			else if(id == 7)
+			{
+				var senddata = {};
+				senddata.MsgId =900;
+				senddata.MsgSubId =901;
+				senddata.RoomIndex=0;
+				senddata.ChairIndex=0;
+				senddata.EnterPWd="";
+				senddata.Enterfirst=0;
+				senddata.Entersecond=0;
+
+				ws.send(JSON.stringify(senddata));
+			}							
 		}		
 		
 function keepalive(ws) {

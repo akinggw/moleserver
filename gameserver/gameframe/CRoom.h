@@ -159,6 +159,9 @@ public:
 	/// 关闭所有的定时器
 	virtual void StopAllTimer(void);
 
+	/// 打印日志
+	virtual void Room_Log(enLogLevel loglevel,std::string log);
+
 	///时间事件
 	bool OnEventTimer(DWORD dwTimerID, DWORD wBindParam);
 

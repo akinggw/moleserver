@@ -413,22 +413,6 @@ void PlayerManager::ClearPlayer(CPlayer *pPlayer)
 	pPlayer->setCurGamingState(false);
 	ServerDBOperator.SetPlayerGameState(pPlayer);
 
-	if(m_ServerSet.GameType == ROOMTYPE_BISAI)
-	{
-		ServerRoomManager.LockRoomList();
-		CRoom *pRoom = ServerRoomManager.GetRoomById(pPlayer->GetRoomId());
-		if(pRoom != NULL)
-		{
-			pRoom->OnProcessLeaveRoomMsg(pPlayer->GetChairIndex());
-			pRoom->ClearPlayer(pPlayer);
-
-			// 设置玩家的状态为离开房间
-			pPlayer->SetRoomId(-1);
-			pPlayer->SetChairIndex(-1);
-		}
-		ServerRoomManager.UnlockRoomList();
-	}
-
 	m_PlayersLock.Acquire();
 
 	if(!m_LostPlayerList.empty())

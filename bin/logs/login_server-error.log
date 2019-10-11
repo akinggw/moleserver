@@ -14,3 +14,9 @@
 [14:00][2019-10-10 14:00:21] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-error.log'
 [14:00]epoll: Returned invalid fd (no pointer) of FD 12
 [14:02][2019-10-10 14:02:07] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-error.log'
+[14:11][2019-10-10 14:11:05] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-error.log'
+[14:27][2019-10-10 14:27:23] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-error.log'
+[14:27]Bind unsuccessful on port 3333.
+[14:27][2019-10-10 14:27:57] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-error.log'
+[14:27]Bind unsuccessful on port 3333.
+[14:29]epoll: Returned invalid fd (no pointer) of FD 12

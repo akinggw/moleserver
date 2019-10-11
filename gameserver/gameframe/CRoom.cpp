@@ -1188,15 +1188,6 @@ void CRoom::OnProcessLeaveRoomMsg(int playerId)
 	assert(m_ServerLogicFrame!=NULL);
 	if(m_ServerLogicFrame == NULL || playerId < 0 || playerId >= GetMaxPlayer()) return;
 
-	// 如果是比赛场的话，我直接结束游戏
-	if(m_ServerSet.GameType == ROOMTYPE_BISAI)
-	{
-		if(GetRoomState() == ROOMSTATE_GAMING)
-			GameEnd();
-
-		return;
-	}
-
 	m_ServerLogicFrame->OnProcessLeaveRoomMsg(playerId);
 
 	m_playersLock.Acquire();
@@ -1662,5 +1653,34 @@ bool CRoom::EliminatePlayer(Player *pPlayer)
 	return true;
 }
 
+/// 打印日志
+void CRoom::Room_Log(enLogLevel loglevel,std::string log)
+{
+    switch(loglevel)
+    {
+    case BASIC:
+        {
+            LOG_BASIC(log.c_str());
+        }
+        break;
+     case DETAIL:
+        {
+            LOG_DETAIL(log.c_str());
+        }
+        break;
+    case ERROR:
+        {
+            LOG_ERROR(log.c_str());
+        }
+        break;
+     case DEBUG:
+        {
+            LOG_DEBUG(log.c_str());
+        }
+        break;
+    default:
+        break;
+    }
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
