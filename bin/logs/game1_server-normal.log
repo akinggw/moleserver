@@ -205,3 +205,13 @@
 [10:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 执行一个定时器消息.
 [10:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 执行一个定时器消息.
 [10:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 玩家0离开房间了.
+[11:00][2019-10-11 11:00:01] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game1_server-normal.log'
+[11:00] [BSC] game_server.cpp:61 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:00] [BSC] game_server.cpp:78 main 游戏服务器欢乐斗地主普通场:ip:127.0.0.1,端口:3335 启动成功。
+[11:00] [BSC] game_server.cpp:80 main 服务器启动成功，开始处理...
+[11:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 玩家0进入房间了.
+[11:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 执行一个定时器消息.
+[11:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 执行一个定时器消息.
+[11:00] [BSC] gameframe/CRoom.cpp:1663 Room_Log 执行一个定时器消息.
+[11:01] [BSC] gameframe/CRoom.cpp:1663 Room_Log 执行一个定时器消息.
+[11:01] [BSC] gameframe/CRoom.cpp:1663 Room_Log 玩家0离开房间了.

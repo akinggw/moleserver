@@ -285,3 +285,7 @@
 [14:27] [BSC] login_server.cpp:43 main 【系统】 服务器启动失败,IP地址:127.0.0.1,端口:3333。
 [14:27][2019-10-10 14:27:57] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
 [14:27] [BSC] login_server.cpp:43 main 【系统】 服务器启动失败,IP地址:127.0.0.1,端口:3333。
+[10:59][2019-10-11 10:59:49] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[10:59] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[10:59] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[10:59] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...

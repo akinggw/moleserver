@@ -4,13 +4,15 @@
 #include "../../include/molnet/Network.h"
 #include "../../include/Common/serverlogicframe.h"
 
+#include "../../include/molnet/netallocator/NedAllocatedObject.h"
+
 #include "CRoom.h"
 #include "CPlayer.h"
 
 class Player;
 class Room;
 
-class CRoom : public Room
+class CRoom : public Room , public NedAllocatedObject
 {
 public:
 	CRoom(RoomType type=ROOMTYPE_NULL);
