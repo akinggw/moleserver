@@ -13,7 +13,7 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 6. 这个linux项目只作为一个通用的游戏服务器框架，不再接入具体的实际项目相关的需求。
 
 #### 安装和编译
-1. 首先下载下代码\n
+1. 首先下载下代码
 git clone https://gitee.com/akinggw/moleserver.git
 2. 在服务器上安装最新版本的mysql，建立新的数据库moleweb，然后导入moleweb.sql
 3. 配置服务器，在bin/configs/server_config.ini
@@ -35,4 +35,5 @@ port=3306
 
 #### 联系作者
 有问题加我微信啊:mole2d
+email:akinggw@126.com
 
