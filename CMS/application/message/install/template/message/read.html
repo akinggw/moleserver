@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="__STATIC__/libs/layui/css/layui.css">
+<div class="layui-form layui-form-pane" style="padding: 5%;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" autocomplete="off" class="layui-input" value="{$info.subject}" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">正文</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" readonly>{$info.content|raw}</textarea>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">数据重建</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote">数据操作会清空原有数据，进行从新建立，此操作不可恢复！</blockquote>
+        <form class="layui-form" method="post" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <label>请选择需要重建的模型</label>
+                <div class="w300">
+                    {php} echo \util\Form::select($Model, 0, 'name="modelid" id="modelid"', '重建全部模型');{/php}
+                </div>
+            </div>
+            <input type="hidden" name="delete" value="1">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit="">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

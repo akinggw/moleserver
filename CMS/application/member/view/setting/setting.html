@@ -1,0 +1,52 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">会员配置</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label>允许新会员注册</label>
+                <div class="layui-form-field-label">
+                    <input type="radio" name="setting[allowregister]" value="1" title="是" {if 1 == $setting['allowregister']}checked{/if}>
+                    <input type="radio" name="setting[allowregister]" value="0" title="否" {if 0 == $setting['allowregister']}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>新会员注册需要管理员审核</label>
+                <div class="layui-form-field-label">
+                    <input type="radio" name="setting[registerverify]" value="1" title="是" {if 1 == $setting['registerverify']}checked{/if}>
+                    <input type="radio" name="setting[registerverify]" value="0" title="否" {if 0 == $setting['registerverify']}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>是否开启登陆验证码</label>
+                <div class="layui-form-field-label">
+                    <input type="radio" name="setting[openverification]" value="1" title="是" {if 1 == $setting['openverification']}checked{/if}>
+                    <input type="radio" name="setting[openverification]" value="0" title="否" {if 0 == $setting['openverification']}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>1元人民币购买积分数量</label>
+                <div class="layui-form-field-label">
+                     <input type="number" name="setting[rmb_point_rate]" required="" lay-verify="required" placeholder="1元人民币购买积分数量" autocomplete="off" class="layui-input" value="{$setting.rmb_point_rate}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>新会员默认积分</label>
+                <div class="layui-form-field-label">
+                     <input type="number" name="setting[defualtpoint]" required="" lay-verify="required" placeholder="新会员默认积分" autocomplete="off" class="layui-input" value="{$setting.defualtpoint}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>新会员默认资金</label>
+                <div class="layui-form-field-label">
+                     <input type="number" name="setting[defualtamount]" required="" lay-verify="required" placeholder="新会员默认资金" autocomplete="off" class="layui-input" value="{$setting.defualtamount}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

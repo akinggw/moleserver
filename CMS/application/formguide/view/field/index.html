@@ -1,0 +1,63 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">字段列表</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm" type="button" href="{:url('formguide/index')}"><i class="iconfont icon-undo"></i>&nbsp;返回</a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:url('add',['id'=>$id])}">添加字段</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    {{#  if(!d.iffixed){ }}
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {{#  } }}
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index",["id"=>$id])}',
+        cols: [
+            [
+                { field: 'listorder', width: 60, title: '排序', edit: 'text' },
+                { field: 'id', width: 60, title: 'ID' },
+                { field: 'name', title: '字段名称' },
+                { field: 'title',width:120, title: '别名' },
+                { field: 'type',width:120, title: '字段类型' },
+                { field: 'create_time',width:180,title: '创建时间' },
+                { field: 'ifrequire', width: 80,align:"center", title: '必填', templet: '<div>{{#  if(d.ifrequire){ }} <button class="layui-btn layui-btn layui-btn-xs">是</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">否</button> {{#  } }} </div>'},
+                { field: 'status', width: 80,align:"center", title: '状态', templet: '<div>{{#  if(d.status){ }} <button class="layui-btn layui-btn layui-btn-xs">启用</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">禁用</button> {{#  } }} </div>'},
+                { fixed: 'right',width: 120,title: '操作', templet: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+        //监听单元格编辑
+    table.on('edit(table)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+        $.post('{:url("listorder")}', { 'id': data.id, 'value': value }, function(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg);
+            } else {
+                layer.msg(data.msg);
+            }
+
+        })
+    });
+});
+</script>
+{/block}

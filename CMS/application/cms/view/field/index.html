@@ -1,0 +1,85 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">字段列表</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm" type="button" href="{:url('models/index')}"><i class="iconfont icon-undo"></i>&nbsp;返回模型</a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:url('add',['modelid'=>$modelid])}">添加字段</a>
+    </div>
+</script>
+<script type="text/html" id="switchTpl">
+    {{#  if(d.iffixed==1){ }}
+    {{#  if(d.status==1){ }}
+    启用
+    {{#  } else { }}
+    禁用
+    {{#  } }}
+    {{#  } else { }}
+    <input type="checkbox" name="status" data-href="{:url('setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+    {{#  } }}
+</script>
+<script type="text/html" id="ifsearchTpl">
+    <input type="checkbox" name="ifsearch" data-href="{:url('setSearch')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="switchStatus" {{ d.ifsearch==1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="ifrequireTpl">
+    <input type="checkbox" name="ifrequire" data-href="{:url('setRequire')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="switchStatus" {{ d.ifrequire==1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="isaddTpl">
+    <input type="checkbox" name="isadd" data-href="{:url('setVisible')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="switchStatus" {{ d.isadd==1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="barTool">
+    {{#  if(!d.iffixed){ }}
+    <a href='{:url("edit")}?fieldid={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {{#  } }}
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index",["id"=>$modelid])}',
+        cols: [
+            [
+                { field: 'listorder', width: 60, title: '排序', edit: 'text' },
+                { field: 'id', width: 60, title: 'ID' },
+                { field: 'name', title: '字段名称' },
+                { field: 'title', title: '标题' },
+                { field: 'type',width:120, title: '字段类型' },
+                { field: 'ifsystem',width:60,align:"center", title: '主表',templet: '<div>{{#  if(d.ifsystem){ }} 是 {{#  } }} </div>'},
+                { field: 'create_time',width:180,title: '创建时间' },
+                { field: 'ifsearch', width: 90,align:"center", title: '搜索', templet: '#ifsearchTpl', unresize: true },
+                { field: 'ifrequire', width: 90,align:"center", title: '必填', templet: '#ifrequireTpl', unresize: true },
+                { field: 'isadd', width: 100,align:"center", title: '投稿显示', templet: '#isaddTpl', unresize: true },
+                { field: 'status', width: 100,align:"center", title: '状态', templet: '#switchTpl', unresize: true },
+                { fixed: 'right',width: 120,title: '操作', templet: '#barTool' }
+            ]
+        ]
+    });
+
+        //监听单元格编辑
+    table.on('edit(table)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+        $.post('{:url("listorder")}', { 'id': data.id, 'value': value }, function(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg);
+            } else {
+                layer.msg(data.msg);
+            }
+
+        })
+    });
+});
+</script>
+{/block}

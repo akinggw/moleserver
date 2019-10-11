@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if condition="isset($SEO['title']) && !empty($SEO['title'])"}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    <link rel="stylesheet" href="__CSS_PATH__/base.css">
+    <link rel="stylesheet" href="__CSS_PATH__/style.css">
+    <script src="__JS_PATH__/jquery.min.js"></script>
+    <script src="__JS_PATH__/jquery.SuperSlide.2.1.3.js"></script>
+</head>
+
+<body>
+    <!--S 头部-->
+    <div class="header">
+        <div class="w1200">
+            <div class="logo fl">
+                <img src="__IMG_PATH__/logo.png" alt="" />
+		    </div>
+            <div class="topright fr">
+            	<!--S 搜索栏-->
+            	<div class="topbtn fr">
+            		<div class="search-box fr">
+            			<span class="butn hov"><i></i></span>
+						<div class="share-sub" style="width: 0px;">
+						    <form name="formsearch" action="{:url('cms/index/search')}">
+						        <input class="fl tex" type="text" name="keyword" value="请输入关键字" onfocus="if(this.value==defaultValue)this.value=''" onblur="if(this.value=='')this.value=defaultValue">
+						        <input type="submit" value="" class="fl sub-btn ico">
+						    </form>
+						</div>
+            		</div>
+            	</div>
+                <!--E 搜索栏-->
+                <!--S 导航-->
+                <div class="nav fl">
+                    <ul class="navlist">
+                        <li {if !isset($catid)}class="hover"{/if}><a href="{:url('cms/index/index')}" title="首页">首页</a></li>
+                        {yzn module="cms" action="category" catid="0" cache="3600" order="listorder ASC" num="10" return="data"}
+                        {volist name="data" id="vo"}
+                        <li {if isset($catid) && in_array($catid,explode(',',$vo['arrchildid']))}class='hover'{/if}>
+                            <a href="{$vo.url}" title="{$vo.catname}">{$vo.catname}</a>
+                            <!--判断是否有子栏目-->
+                            {eq name="vo.child" value="1"}
+                            <div class="subnav">
+                                {yzn module="cms" action="category" catid="$vo['id']" cache="3600" order="listorder ASC" num="10" return="data"}
+                                {foreach $data as $key=>$vo }
+                                <a href="{$vo.url}" title="{$vo.catname}">{$vo.catname}</a>
+                                {/foreach}
+                                {/yzn}
+                            </div>
+                            {/eq}
+                        </li>
+                        {/volist}
+                        {/yzn}
+                    </ul>
+                </div>
+                <!--E 导航-->
+                <!--S 会员中心 需要安装会员模块-->
+                {if isModuleInstall('member')}
+                <div class="user fr">
+                	<ul>
+                		{if !$Think.session.user_auth.uid}
+                		<li class="log"><a href="{:url('member/index/login')}">登录</a></li>
+                		<li class="reg"><a href="{:url('member/index/register')}">注册</a></li>
+                		{else}
+                		<li><a href="{:url('member/index/index')}">会员：{$Think.session.user_auth.username}</a></li>
+                		<li><a href="{:url('member/index/logout')}">退出</a></li>
+                		{/if}
+                	</ul>
+                </div>
+                {/if}
+                <!--E 会员中心-->
+            </div>
+        </div>
+        <!--E 头部-->
+    </div>

@@ -1,0 +1,54 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<style type="text/css">
+.childrenBody {
+    background: #fff;
+}
+</style>
+<div class="layui-form">
+    <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a class="layui-btn layui-btn-sm" href="{:url('add')}">添加表单</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("info/index")}?formid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-primary">信息列表</a>
+    <a href='{:url("index/index")}?id={{ d.id }}' target="_blank" class="layui-btn layui-btn-xs">前台浏览</a>
+    <a href='{:url("field/index")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal">字段管理</a>
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use(['table', 'laydate'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form,
+        laydate = layui.laydate;
+    laydate.render({
+        elem: '#laydate',
+        range: true,
+    });
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'id', width: 60, title: 'ID' },
+                { field: 'name', title: '表单名称(信息数)'},
+                { field: 'tablename', width: 200, title: '表名' },
+                { field: 'description', width: 200, title: '简介' },
+                { field: 'create_time', width: 180, title: '创建时间' },
+                { field: 'status', width: 80, align: "center", title: '状态', templet: '<div>{{#  if(d.status){ }} <button class="layui-btn layui-btn layui-btn-xs">启用</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">禁用</button> {{#  } }} </div>'},
+                { fixed: 'right', width: 350, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{/block}

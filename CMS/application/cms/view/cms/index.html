@@ -1,0 +1,40 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-row">
+    <div class="layui-col-md2 layui-col-sm12" style="padding:0 10px;">
+        <div class="layui-card">
+            <div class="layui-card-header">栏目列表</div>
+            <div class="layui-card-body">
+                <iframe name="left" id="iframe_categorys" src="{:url('cms/cms/public_categorys')}" style="height: 100%; width: 100%;"  frameborder="0" scrolling="auto"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md10 layui-col-sm12" style="padding:0 10px;">
+        <div class="layui-card">
+            <div class="layui-card-header">内容管理</div>
+            <div class="layui-card-body">
+                <iframe name="right" id="iframe_categorys_list" src="{:url('cms/cms/panl')}"   style="height: 100%; width:100%;border:none;" frameborder="0" scrolling="auto"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+var B_frame_height = parent.layui.$(".iframe_box").height()-100;
+console.log(parent.layui.$(".iframe_box").height());
+$(window).on('resize', function () {
+    setTimeout(function () {
+    B_frame_height = parent.layui.$(".iframe_box").height()-100;
+        frameheight();
+    }, 100);
+});
+function frameheight(){
+  $("#iframe_categorys").height(B_frame_height);
+  $("#iframe_categorys_list").height(B_frame_height);
+}
+(function (){
+  frameheight();
+})();
+</script>
+{/block}

@@ -1,0 +1,60 @@
+<!--S 底部-->
+<div class="footer">
+    <div class="w1200 clearfix">
+        <div class="links">
+            <!--此处可用安装友情链接模块-->
+            <span>友情链接：</span>
+            <a href="http://www.baidu.com/" target="_blank">百度一下</a>
+            <a href="https://gitee.com/ken678/YZNCMS" target="_blank">源码下载</a>
+            <a href="https://www.kancloud.cn/ken678/yzncms" target="_blank">手册文档</a>
+            <a href="http://www.thinkphp.cn/" target="_blank">thinkphp</a>
+            <a href="http://www.taobao.com/" target="_blank">淘宝</a>
+            <!--此处可用安装友情链接模块-->
+        </div>
+        <ul class="botnavlist fl">
+            {yzn module="cms" action="category" catid="0" cache="3600" where="id in(1,6,8)" order="listorder ASC" num="4" return="data"}
+            {volist name="data" id="vo"}
+            <li><a href="{$vo.url}" title="{$vo.catname}">{$vo.catname}</a>
+                <div class="drop clearfix">
+                    <!--判断是否有子栏目-->
+                    {eq name="vo.child" value="1"}
+                    {yzn module="cms" action="category" catid="$vo['id']" cache="3600" order="listorder ASC" num="10" return="data"}
+                    {volist name="data" id="vo"}
+                    <a href="{$vo.url}" title="{$vo.catname}">{$vo.catname}</a>
+                    {/volist}
+                    {/yzn}
+                    {/eq}
+                </div>
+            </li>
+            {/volist}
+            {/yzn}
+        </ul>
+        <div class="qcode fr">
+            <!--此处变量可以后台配置设置调用-->
+            <div class="btel fl">
+                <p class="p2">0512-88888888</p>
+                <p class="p3">邮　箱：admin@admin.com</p>
+                <p class="p3">手　机：158-88888888</p>
+                <p class="p3">地　址：江苏省苏州市吴中区某某工业园一区</p>
+            </div>
+            <img class="ewm fr" src="__IMG_PATH__/erweima.jpg" alt=""></div>
+            <!--此处变量可以后台配置设置调用-->
+        </div>
+</div>
+<div class="copy">
+    <!--此处变量可以后台配置设置调用-->
+    <div class="w1200 clearfix">
+        <p class="fl">Copyright © 2018-2019&nbsp;&nbsp;某某网络科技有限公司 版权所有&nbsp;&nbsp;备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank" title="苏ICP备********号">苏ICP备********号</a></p>
+    </div>
+    <!--此处变量可以后台配置设置调用-->
+</div>
+<div class="tips">
+    <div class="w1200">
+        <p class="tc">【本站素材及资源全来源于互联网,非商业性质,仅供演示和学习,不承担任何版权问题,如果我们侵犯了您的权益,请来信告知,我们会在第一时间处理！】</p>
+    </div>
+</div>
+<!--E 底部-->
+<script src="__JS_PATH__/base.js"></script>
+</body>
+
+</html>

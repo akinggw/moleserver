@@ -1,0 +1,25 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<table class="layui-table">
+  <colgroup>
+    <col width="40%">
+    <col width="60%">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th>内容</th>
+    </tr> 
+  </thead>
+  <tbody>
+  	{volist name="fieldList" id="vo"}
+    <tr>
+      <td>{$vo.title}</td>
+      <td>{$vo.value|raw}</td>
+    </tr>
+    {/volist}
+  </tbody>
+</table>
+{/block}
+{block name="layui"}{/block}

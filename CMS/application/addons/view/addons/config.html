@@ -1,0 +1,77 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<form class="layui-form" action="{:url('saveConfig')}" method="post">
+    {empty name="custom_config"}
+        <div class="layui-card">
+            <div class="layui-card-header">插件配置-{$data.title}</div>
+            <div class="layui-card-body">
+            {foreach name="data['config']" item="form" key="o_key"}
+                 {switch name="form.type"}
+                       {case value="text"}
+                        <div class="layui-form-item">
+                            <label class="">{$form.title}</label>
+                            <div class="layui-form-field-label">
+                                <input type="text" name="config[{$o_key}]" placeholder="请输入{$form.title}" autocomplete="off" class="layui-input" value="{$form.value}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">{if $form.tips}{$form.tips|raw}{/if}</div>
+                        </div>
+                       {/case}
+                        {case value="textarea"}
+                        <div class="layui-form-item">
+                            <label class="">{$form.title}</label>
+                            <div class="layui-form-field-label">
+                                <textarea placeholder="请输入{$form.title}" class="layui-textarea" name="config[{$o_key}]">{$form.value}</textarea>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">{if $form.tips}{$form.tips|raw}{/if}</div>
+                        </div>
+                        {/case}
+                       {case value="password"}
+                        <div class="layui-form-item">
+                            <label class="">{$form.title}</label>
+                            <div class="layui-form-field-label">
+                                <input type="password" name="config[{$o_key}]" placeholder="请输入{$form.title}" autocomplete="off" class="layui-input" value="{$form.value}">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">{if $form.tips}{$form.tips|raw}{/if}</div>
+                        </div>
+                       {/case}
+                       {case value="radio"}
+                        <div class="layui-form-item">
+                            <label class="">{$form.title}</label>
+                            <div class="layui-form-field-label">
+                                {foreach name="form.options" item="opt" key="opt_k"}
+                                <input type="radio" name="config[{$o_key}]" value="{$opt_k}" title="{$opt}" {eq name="form.value" value="$opt_k"} checked{/eq}>
+                                {/foreach}
+                            </div>
+                                <div class="layui-form-mid layui-word-aux">{if $form.tips}{$form.tips|raw}{/if}</div>
+                        </div>
+                       {/case}
+                        {case value="select"}
+                        <div class="layui-form-item">
+                            <label class="">{$form.title}</label>
+                            <div class="layui-form-field-label">
+                                <select name="config[{$o_key}]">
+                                    <option value=""></option>
+                                    {foreach name="form.options" item="opt" key="opt_k"}
+                                    <option value="{$opt_k}" {eq name="form.value" value="$opt_k"}selected{/eq}>{$opt}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">{if $form.tips}{$form.tips|raw}{/if}</div>
+                        </div>
+                        {/case}
+                 {/switch}
+            {/foreach}
+            </div>
+        </div>
+    {else /}
+        {present name="custom_config"}
+        {$custom_config|raw}
+        {/present}
+    {/empty}
+    <input type="hidden" name="id" value="{:input('id')}" readonly>
+    <div class="layui-form-item">
+        <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+        <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+    </div>
+</form>
+{/block}

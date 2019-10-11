@@ -1,0 +1,85 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">添加配置</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">分组</label>
+                <div class="layui-input-inline w300">
+                    <select name="group" lay-verify="required">
+                        <option value=""></option>
+                        {volist name="groupArray" id="vo"}
+                        <option value="{$key}">{$vo}[{$key}]</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">配置类型</label>
+                <div class="layui-input-inline w300">
+                    <select name="type" lay-filter="type" lay-verify="required">
+                        <option value=""></option>
+                        {volist name="fieldType" id="vo"}
+                        <option value="{$vo.name}" data-ifoption="{$vo.ifoption}">{$vo.title}[{$vo.name}]</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">配置标题</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="字段中文标题" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">一般由中文组成，仅用于显示</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">配置名称</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="字段英文名称" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">由英文字母开头和下划线组成，如 <code>web_site_title</code></div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">配置默认值</label>
+                <div class="layui-input-inline w300">
+                    <textarea name="value" placeholder="未指定值时默认插入字段的值" class="layui-textarea"></textarea>
+                </div>
+                <div class="layui-form-mid layui-word-aux">配置类型为<code>数组</code>时请按如下格式填写：
+                    <br>键值:键名
+                    <br>键值:键名</div>
+            </div>
+            <div class="layui-form-item layui-form-text" id="options">
+                <label class="layui-form-label">配置项</label>
+                <div class="layui-input-inline w300">
+                    <textarea name="options" placeholder="键值:键名
+键值:键名
+键值:键名
+....." class="layui-textarea"></textarea>
+                </div>
+                <div class="layui-form-mid layui-word-aux">配置类型为<code>单选按钮,下拉框,复选框</code>时请按如下格式填写：
+                    <br>键值:键名
+                    <br>键值:键名</div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">配置备注</label>
+                <div class="layui-input-inline w300">
+                    <textarea name="remark" placeholder="填写配置说明" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-inline w300">
+                    <input type="number" name="listorder" autocomplete="off" placeholder="只能是正整数" class="layui-input" value="100">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

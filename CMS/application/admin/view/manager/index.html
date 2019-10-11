@@ -1,0 +1,49 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">管理员管理</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                <a class="layui-btn layui-btn-sm" href="{:url('add')}">添加管理员</a>
+              </div>
+            </script>
+            <script type="text/html" id="barTool">
+                {{#  if(d.id == 1){ }}
+                <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+                {{#  } else { }}
+                <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+                <a href='{:url("del")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+                {{#  } }}
+            </script>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$;
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'id', width: 80, title: 'ID'},
+                { field: 'username', width: 80, title: '登录名'},
+                { field: 'roleid', width: 120, title: '所属角色'},
+                { field: 'last_login_ip', title: '最后登录IP' },
+                { field: 'last_login_time', width: 200, title: '最后登录时间' },
+                { field: 'email',width: 200, title: 'E-mail' },
+                { field: 'nickname', title: '真实姓名' },
+                { fixed: 'right', width: 160, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+    });
+});
+</script>
+{/block}

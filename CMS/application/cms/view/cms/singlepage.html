@@ -1,0 +1,45 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+    <div class="layui-form-item">
+        <div class="layui-form-item">
+            <label class="">标题&nbsp;<font color="red">*</font></label>
+            <div class="layui-form-field-label">
+                <input type="text" name="modelField[title]" placeholder="请输入标题" autocomplete="off" class="layui-input" value="{$info['title']}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="">SEO关键词</label>
+            <div class="layui-form-field-label">
+                <input type="text" name="modelField[keywords]" placeholder="请输入SEO关键词" autocomplete="off" class="layui-input" value="{$info['keywords']}">
+            </div>
+            <div class="layui-form-mid layui-word-aux">多关键词之间用空格或者“,”隔开</div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="">SEO摘要</label>
+            <div class="layui-form-field-label">
+                <textarea placeholder="请输入SEO摘要" class="layui-textarea" name="modelField[description]">{$info['description']}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="">内容</label>
+            <div class="layui-form-field-label">
+                <script type="text/javascript" src="__STATIC__/libs/ueditor/ueditor.config.js"></script>
+                <script type="text/javascript" src="__STATIC__/libs/ueditor/ueditor.all.min.js"></script>
+                <script type="text/javascript">
+                var modelFieldExtcontent = UE.getEditor('modelFieldcontent', {
+                    initialFrameWidth: null,
+                    initialFrameHeight: 250,
+                    serverUrl: GV.ueditor_upload_url
+                });
+                </script>
+                <script type="text/plain" id="modelFieldcontent" name="modelField[content]">{$info['content']|raw}</script>
+            </div>
+        </div>
+        <input type="hidden" name="modelField[catid]" value="{$catid}">
+        <div>
+            <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+        </div>
+    </div>
+</form>
+{/block}

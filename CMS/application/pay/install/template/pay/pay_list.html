@@ -1,0 +1,36 @@
+{template file="member/header.html"/}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">入账记录</li>
+    </ul>
+    <div class="layui-tab-content" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+        	<table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+{template file="member/layui.html"/}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("pay_list")}',
+        cols: [
+            [
+                { field: 'trade_sn', title: '订单号' },
+                { field: 'payment', width: 120, title: '支付方式' },
+                { field: 'money', width: 100, title: '支付金额', templet: '<div>{{ d.money }} {{#  if(d.type==1){ }} 元 {{#  } else { }} 点 {{#  } }}</div>'},
+                { field: 'addtime', width: 180, title: '创建时间' },
+                { field: 'ip', width: 120, title: 'IP' },
+                { field: 'status', width: 100, align: "center", title: '订单状态', templet: '<div>{{#  if(d.status=="交易成功"){ }} <button type="button" class="layui-btn layui-btn-xs">{{d.status}}</button> {{#  } else { }} <button type="button" class="layui-btn layui-btn-xs layui-btn-danger">{{d.status}}</button> {{#  } }}</div>' },
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{template file="member/footer.html"/}

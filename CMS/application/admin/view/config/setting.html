@@ -1,0 +1,26 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                {volist name="groupArray" id="vo"}
+                <li class="{if $key==$group}layui-this{/if}"><a href="{:url('admin/config/setting',['group'=>$key])}">{$vo}</a></li>
+                {/volist}
+            </ul>
+            <div class="layui-tab-content">
+                <form class="layui-form" method="post">
+                    {include file="inputItem"  /}
+                    {if count($fieldList)}
+                    <div class="layui-form-item">
+                        <div>
+                            <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                        </div>
+                    </div>
+                    {/if}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

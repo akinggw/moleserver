@@ -1,0 +1,17 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+    <div class="layui-form-item">
+        <input type="text" name="info[subject]" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <input type="text" name="info[send_to]" required  lay-verify="required" placeholder="请输入收件人账号" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <textarea name="info[content]" placeholder="请输入内容" lay-verify="required" class="layui-textarea"></textarea>
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn" lay-submit lay-filter="formSubmit" lay-data="{pop:true, refresh: true}">立即提交</button>
+    </div>
+</form>
+{/block}

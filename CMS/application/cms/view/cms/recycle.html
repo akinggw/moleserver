@@ -1,0 +1,80 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<style type="text/css">
+.childrenBody {
+    background: #fff;
+}
+</style>
+<div class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form search-from" method="get">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="laydate" placeholder="搜索时间范围">
+                </div>
+                <div class="layui-input-inline">
+                    <input type="text" name="keyword" class="layui-input searchVal" placeholder="请输入标题关键词">
+                </div>
+                <a class="layui-btn search_btn" data-type="reload">搜索</a>
+            </div>
+        </form>
+    </blockquote>
+    <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a class="layui-btn layui-btn-sm" type="button" href="javascript:history.back(-1);"><i class="iconfont icon-undo"></i>返回</a>
+      <a class="layui-btn layui-btn-sm confirm layui-batch-all" data-href="{:url('restore',['catid'=>$catid])}">还原</a>
+      <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href="{:url('destroy',['catid'=>$catid])}">销毁</a>
+      <!--<a class="layui-btn layui-btn-sm layui-btn-normal ajax-get confirm" data-href="{:url('restore')}">还原全部</a>
+      <a class="layui-btn layui-btn-sm layui-btn-danger ajax-get confirm" data-href="{:url('destroy')}">清空回收站</a>-->
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a class="layui-btn layui-btn-xs ajax-get" data-href="{:url('restore')}?catid={{d.catid}}&ids={{d.id}}">还原</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del" data-href="{:url('destroy')}?catid={{d.catid}}&ids={{d.id}}">销毁</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use(['table', 'laydate'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form,
+        laydate = layui.laydate;
+    laydate.render({
+        elem: '#laydate',
+        range: true,
+    });
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("recycle",['catid'=>$catid])}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 70, title: 'ID' },
+                { field: 'title', title: '标题', templet: '#title' },
+                { field: 'updatetime', width: 180, title: '更新时间' },
+                { fixed: 'right', width: 150, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+    });
+
+    $(".search_btn").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                search_field: 'title',
+                keyword: $(".searchVal").val(),
+                filter_time: 'inputtime',
+                filter_time_range: $("#laydate").val()
+            }
+        })
+    });
+
+});
+</script>
+{/block}

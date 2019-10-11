@@ -1,0 +1,40 @@
+{template file="member/header.html"/}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">收件箱</li>
+    </ul>
+    <div class="layui-tab-content" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+            <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barTool">
+    <a href='{:url("read")}?id={{ d.id }}' lay-data="{width:'400px',height:'350px',title:'查看短消息'}" class="layui-btn layui-btn-xs layui-iframe">查看</a>
+</script>
+{template file="member/layui.html"/}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("inbox")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'subject', title: '标题' },
+                { field: 'send_from', width: 120, title: '发件人' },
+                { field: 'status', width: 80,align:'center', title: '状态',templet: '<div>{{#  if(d.status){ }} <button class="layui-btn layui-btn layui-btn-xs">已读</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">未读</button> {{#  } }}</div>' },
+                { field: 'replyid', width: 80,align:'center', title: '回复',templet: '<div>{{#  if(d.replyid){ }} <button class="layui-btn layui-btn layui-btn-xs">已回复</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">未回复</button> {{#  } }} </div>' },
+                { field: 'create_time', width: 180,  title: '发送时间' },
+                { fixed: 'right', width: 80, title: '操作', templet: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{template file="member/footer.html"/}

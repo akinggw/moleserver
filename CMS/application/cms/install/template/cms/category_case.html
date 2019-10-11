@@ -1,0 +1,66 @@
+{include file="header" /}
+<style type="text/css">
+body {
+    background: #f6f6f6;
+}
+</style>
+<div class="headline-bg"></div>
+<div class="main">
+    <div class="w1200">
+        <div class="container-top">
+            <h2>{:getCategory($catid,'catname')}<span>{:getCategory($catid,'catdir')}</span></h2>
+            <!-- 面包屑 -->
+            <div class="bread-nav">
+                <a href="{:url('cms/index/index')}">首页</a>&gt; {:catpos($catid)}
+            </div>
+        </div>
+        <div class="content">
+        	<!--S 筛选列表 -->
+            <div class="product_box">
+                <div class="classify-screen">
+                    {volist name=":filters($modelid,$catid)" id="vo"}
+                    <div class="classify-box clearfix">
+                        <h5 class="classify-name">{$vo.title}：</h5>
+                        <div class="classify-screen-con">
+                            <div class="classify-choose">
+                                {volist name="$vo.options" id="vs"}
+                                <a target="_self" href="{$vs.url}" {if $vs.active}class="selected"{/if}><span>{$vs.title}</span></a>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+            <!--E 筛选列表 -->
+            <!--S 筛选条件 -->
+            {php}$where=structure_filters_sql($modelid);{/php}
+            <!--E 筛选添加 -->
+            <div class="case_ny_list">
+            	<!--S 文章列表-->
+                <ul>
+                    {yzn module="cms" action="lists" where="$where" catid="$catid" cache="3600" order="listorder ASC" num="8" page="$page" return="data"}
+                    {volist name="data" id="vo" mod="4"}
+                    <li {eq name="mod" value="3" }style="margin-right:0;" {/eq}> <div class="_con">
+                        <div class="_img"><img  src="https://via.placeholder.com/270x210" alt="{$vo.title}"></div>
+                            <div class="_info">
+                                <h3>{$vo.title|str_cut=###,12}</h3>
+                                <div class="txt">
+                                    {$vo.description|str_cut=###,50}
+                                </div>
+                                <a href="{$vo.url}" class="_more">查看更多<i>&gt;</i></a>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                    {/yzn}
+                </ul>
+                <!--E 文章列表-->
+                <!--S 分页-->
+                {$pages|raw}
+                <!--E 分页-->
+            </div>
+        </div>
+    </div>
+</div>
+{include file="footer" /}

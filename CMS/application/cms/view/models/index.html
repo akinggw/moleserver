@@ -1,0 +1,48 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">模型列表</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm" href="{:url('add')}">添加模型</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+	<a href='{:url("field/index")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal">字段管理</a>
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" name="status" data-href="{:url('setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="开启|关闭" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'id', width: 80, title: '模型ID' },
+                { field: 'name', width: 120, title: '模型名称' },
+                { field: 'tablename', width:120,title: '数据表' },
+                { field: 'description', title: '描述' },
+                { field: 'type', width:120,title: '类型',templet: '<div>{{#  if(d.type==1){ }} 独立表 {{#  } else { }} 主附表 {{#  } }} </div>' },
+                { field: 'create_time',width:180, title: '创建时间' },
+                { field: 'status', width: 100, title: '状态', templet: '#statusTpl', unresize: true },
+                { fixed: 'right', title: '操作', width: 200, templet: '#barTool' }
+            ]
+        ]
+    });
+});
+</script>
+{/block}

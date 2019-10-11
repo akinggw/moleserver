@@ -1,0 +1,84 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">菜单管理</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="treeTable" lay-filter="treeTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+<div class="layui-btn-container">
+    <a class="layui-btn layui-btn-sm" href="{:url('add')}">新增后台菜单</a>
+    <a class="layui-btn layui-btn-sm layui-btn-normal" id="openAll">展开或折叠全部</a>
+</div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal">添加</a>
+    <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="status" data-href="{:url('setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+</script>
+{/block}
+{block name="script"}
+<script>
+var treeGrid = null;
+layui.use(['table', 'treeGrid'], function() {
+    var $ = layui.$,
+        treeGrid = layui.treeGrid,
+        tableId = 'treeTable',
+        ptable = null;
+    ptable = treeGrid.render({
+        id: tableId,
+        elem: '#' + tableId,
+        toolbar: '#toolbarDemo',
+        idField: 'id',
+        url: "{:url('index')}",
+        cellMinWidth: 100,
+        treeId: 'id', //树形id字段名称
+        treeUpId: 'parentid', //树形父id字段名称
+        treeShowName: 'title', //以树形式显示的字段
+        height: 'full-140',
+        isFilter: false,
+        iconOpen: false, //是否显示图标【默认显示】
+        isOpenDefault: false, //节点默认是展开还是折叠【默认展开】
+        onDblClickRow: false, //去除双击事件
+        cols: [
+            [
+                { field: 'listorder', align: 'center', width: 60, title: '排序', edit: 'text' },
+                { field: 'id', align: 'center', width: 60, title: 'ID' },
+                { field: 'title', title: '菜单名称', },
+                { width: 80,title: '图标',align: 'center',templet:"<div><i class='iconfont {{d.icon}}'></i></div>" },
+                { width: 200,title: '模块/控制器/方法',templet:"<div>{{d.app}}/{{d.controller}}/{{d.action}}</div>"},
+                { field: 'status', align: 'center', width: 120, title: '状态', templet: '#switchTpl', unresize: true },
+                { fixed: 'right', align: 'center', width: 200, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: false
+    })
+
+    //监听单元格编辑
+    treeGrid.on('edit(treeTable)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+        $.post('{:url("listorder")}', { 'id': data.id, 'value': value }, function(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg);
+            } else {
+                layer.msg(data.msg);
+            }
+
+        })
+    });
+
+    $('#openAll').click(function(e) {
+        var treedata = treeGrid.getDataTreeList(tableId);
+        treeGrid.treeOpenAll(tableId, !treedata[0][treeGrid.config.cols.isOpen]);
+    })
+
+});
+</script>
+{/block}

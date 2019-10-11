@@ -1,0 +1,58 @@
+{include file="header" /}
+<div class="fly-msg" style="margin-bottom: 20px;"> Hi，{$userinfo.username}，你已是我们的正式会员。 </div>
+<div class="layui-row layui-col-space20">
+    <div class="layui-col-md12">
+        <div class="fly-home fly-panel">
+            <img src="{$userinfo.avatar}" alt="{$userinfo.username}">
+            <h1> {$userinfo.username}({$userinfo.email})</h1>
+            <p class="fly-home-info">
+                <i class="iconfont icon-time"></i><span>{$userinfo.reg_time} 加入</span>
+            </p>
+            <p class="fly-home-sign">（这个人懒得留下签名）</p>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space20 layui-card-box">
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    账户余额
+                </div>
+                <div class="layui-card-body">
+                    <p class="amount">{$userinfo.amount}</p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    积分点数
+                </div>
+                <div class="layui-card-body">
+                    <p class="point">{$userinfo.point}</p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    用户组
+                </div>
+                <div class="layui-card-body">
+                    <p class="groupname">{$userinfo.groupname}</p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    上传登录时间
+                </div>
+                <div class="layui-card-body">
+                    <p class="time">{$userinfo.last_login_time|time_format}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="layui" /}
+{include file="footer" /}

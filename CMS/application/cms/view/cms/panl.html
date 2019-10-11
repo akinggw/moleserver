@@ -1,0 +1,73 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<style type="text/css">
+.childrenBody {
+    background: #fff;
+}
+</style>
+<div class="layui-row layui-col-space10 panel_box">
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+        <div class="panel_icon layui-bg-black">
+            <i class="icon iconfont icon-other layui-anim"></i>
+        </div>
+        <div class="panel_word">
+            <span>{$info.category}</span>
+            <cite>栏目数量</cite>
+        </div>
+    </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+        <div class="panel_icon layui-bg-red">
+            <i class="icon iconfont icon-apartment layui-anim"></i>
+        </div>
+        <div class="panel_word">
+            <span>{$info.model}</span>
+            <cite>模型数量</cite>
+        </div>
+    </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+        <div class="panel_icon layui-bg-green">
+            <i class="icon iconfont icon-shiyongwendang layui-anim"></i>
+        </div>
+        <div class="panel_word">
+            <span>{$info.doc}</span>
+            <cite>文档数量</cite>
+        </div>
+    </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg3">
+        <a href="javascript:;">
+        <div class="panel_icon layui-bg-blue">
+            <i class="icon iconfont icon-label layui-anim"></i>
+        </div>
+        <div class="panel_word">
+            <span>{$info.tags}</span>
+            <cite>Tags数量</cite>
+        </div>
+    </a>
+    </div>
+</div>
+<blockquote class="layui-elem-quote main_btn">
+    备注
+</blockquote>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use(['jquery'], function() {
+    var $ = layui.jquery;
+    //icon动画
+    $(".panel a").hover(function() {
+        $(this).find(".layui-anim").addClass("layui-anim-scaleSpring");
+    }, function() {
+        $(this).find(".layui-anim").removeClass("layui-anim-scaleSpring");
+    })
+    $(".panel a").click(function() {
+        parent.addTab($(this));
+    })
+})
+</script>
+{/block}

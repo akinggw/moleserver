@@ -1,0 +1,55 @@
+{include file="header" /}
+<style type="text/css">
+body {
+    background: #f6f6f6;
+}
+</style>
+<div class="headline-bg"></div>
+<div class="main" style="position: relative;">
+    <div class="w1200">
+        <div class="container-top">
+            <h2>{:getCategory($catid,'catname')}<span>{:getCategory($catid,'catdir')}</span></h2>
+            <!-- 面包屑 -->
+            <div class="bread-nav">
+                <a href="">首页</a>&gt; {:catpos($catid)}
+            </div>
+        </div>
+        <div class="content">
+            <!--S 内容 -->
+            <div class="case_ny_left">
+            	<h2>{$title}</h2>
+            	<div class="casePreview clearfix">
+            		<a class="backBtn" href="javascript:;">返回列表</a>
+            		<a class="previewBtn" href="javascript:;" target="_blank">预览案例</a>
+            	</div>
+            	<div class="caseTitle">项目标签</div>
+            	<div class="detaLabels">
+                    {notempty name="tags"}
+                    {volist name=":explode(',',$tags)" id="vo"}
+            		<a class="labelList" href="{:url('cms/index/tags',['tag'=>$vo])}">{$vo}</a>
+                    {/volist}
+                    {/notempty}
+            	</div>
+            	<div class="caseTitle">项目简介</div>
+            	<div class="detaIntro">{$description}</div>
+            	<div class="caseTitle">项目介绍</div>
+            	<div class="detaBody"><img src="https://via.placeholder.com/720x500" alt=""><br>{$content|raw}</div>
+            </div>
+            <div class="case_ny_right">
+            	<h3>热门新闻</h3>
+                {yzn module="cms" action="lists" catid="6" cache="3600" order="listorder ASC" num="5" page="$page" return="data"}
+                {volist name="data" id="vo"}
+            	<div class="newsBox">
+            		<div class="newsBody">
+            			<a class="newsTitle" href="{$vo.url}" title="{$vo.title}">{$vo.title}</a>
+            			<div class="newsIntro">{$vo.description|str_cut=###,50}</div>
+            		</div>
+            	</div>
+            	{/volist}
+                {/yzn}
+            </div>
+            <!--E 内容 -->
+        </div>
+    </div>
+</div>
+{include file="footer" /}

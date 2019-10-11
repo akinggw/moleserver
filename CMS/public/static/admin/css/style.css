@@ -1,0 +1,38 @@
+@charset "utf-8";
+/*login*/
+.login-main {padding: 0 20px; width: 400px;height: 335px; position: absolute; left: 50%; top: 50%; margin: -200px 0 0 -200px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; background: #fff; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; box-shadow: 0 0 50px #000;}
+.login-main .layui-elip {margin-top: 10%;height: 35px; line-height: 35px; font-size: 30px; font-weight: 100; text-align: center; }
+.login-main .layui-elip span.version {font-size: 12px; }
+.login-main form .layui-input-inline,.login-main form .layui-input-inline button{width: 100%; }
+.login-main form .verify-box input {display: inline-block; width: 60%; }
+.login-main .layui-elip, .login-main form .layui-input-inline {margin-bottom: 15px; }
+.login-main form .verify-box img {display: inline-block; margin-left: 2%; width: 36%; height: 38px; }
+
+.login-main .layui-form-item label {position: absolute; color: #757575; left: 10px; top: 9px; line-height: 20px; background: #fff; padding: 0 5px; font-size: 14px; cursor: text; }
+.login-main .layui-form-item label{transition: all 0.3s ease-in-out; -webkit-transition: all 0.3s ease-in-out; }
+.login-main .layui-form-item .layui-input-focus label{ top:-10px; font-size:12px; color:#ff6700;}
+.login-main .layui-form-item .layui-input-focus input{ border-color:#ff6700 !important;}
+.login-main .layui-form-item .layui-input-active label{ top:-10px; font-size:12px;}
+
+.login-main .layui-input-focus .layui-input::-webkit-input-placeholder{color:#757575;}
+.login-main .layui-input-focus .layui-input::-moz-placeholder{color:#757575;}
+.login-main .layui-input-focus .layui-input:-ms-input-placeholder{color:#757575;}
+.login-main .layui-input-focus .layui-input::placeholder{color:#757575;}
+.login-main .layui-input-focus .layui-input::-webkit-input-placeholder{transition: color 0.2s linear 0.2s;-webkit-transition: color 0.2s linear 0.2s;}
+.login-main .layui-input-focus .layui-input::-moz-placeholder{transition: color 0.2s linear 0.2s;}
+.login-main .layui-input-focus .layui-input:-ms-input-placeholder{transition: color 0.2s linear 0.2s;}
+.login-main .layui-input-focus .layui-input::placeholder{transition: color 0.2s linear 0.2s;-webkit-transition: color 0.2s linear 0.2s;}
+
+@media screen and (max-width: 450px) {
+    .layui-form-item .layui-input-inline {
+        margin: 0 0 10px 0px;
+    }
+    .login-main .layui-elip {
+        font-size: 20px;
+    }
+    .login-main {
+    	width: 300px;
+        padding: 0 10px;
+        margin: -150px 0 0 -150px;
+    }
+}

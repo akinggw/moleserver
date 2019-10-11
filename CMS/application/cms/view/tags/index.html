@@ -1,0 +1,65 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">Tags管理</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}'>批量删除</a>
+      <a class="layui-btn layui-btn-sm layui-btn-warm" href='{:url("create")}'>数据重建</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="status" {{ d.status==1 ? 'checked' : '' }}>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'listorder', width: 70, title: '排序', edit: 'text' },
+                { field: 'tag', title: 'Tags名称' },
+                { field: 'usetimes', width: 100, title: '信息总数' },
+                { field: 'hits', width: 100, title: '点击量' },
+                { field: 'url',width: 60,align:"center", title: 'URL',templet:'<div><a href="{{ d.url }}" target="_blank"><i class="iconfont icon-lianjie"></i></a></div>'},
+                { field: 'create_time', width: 180, title: '创建时间' },
+                { field: 'update_time', width: 180, title: '更新时间' },
+                { fixed: 'right', width: 150, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+    //监听单元格编辑
+    table.on('edit(dataTable)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+        $.post('{:url("cms/tags/listorder")}', { 'id': data.id, 'value': value }, function(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg);
+            } else {
+                layer.msg(data.msg);
+            }
+
+        })
+    });
+});
+</script>
+{/block}

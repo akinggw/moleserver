@@ -1,0 +1,39 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">管理日志</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm layui-btn-danger ajax-get" data-href="{:url('deletelog')}">删除一个月前日志</button>
+          </div>
+        </script>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$;
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbarDemo',
+        url: '{:url("admin/adminlog/index")}',
+        cols: [
+            [
+                { field: 'id', width: 80, title: 'ID', sort: true },
+                { field: 'uid', width: 80, title: '用户ID' },
+                { field: 'info', title: '提示' },
+                { field: 'get', title: '操作URL' },
+                { field: 'create_time', width: 180, title: '时间' },
+                { field: 'ip', width: 120, title: 'IP' },
+                { field: 'status', width: 80, title: '状态',align: "center", templet: '<div>{{#  if(d.status){ }} <button class="layui-btn layui-btn layui-btn-xs">成功</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">失败</button> {{#  } }} </div>' },
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{/block}

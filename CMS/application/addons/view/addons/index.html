@@ -1,0 +1,73 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">插件管理</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+    <a class="layui-btn layui-btn-sm" id="local-install">本地安装</a>
+  </div>
+</script>
+<script type="text/html" id="titleTpl">
+    {{#  if(d.uninstall == "" || d.uninstall == null || d.uninstall == undefined){ }}
+    {{#  if(d.configl == "" || d.configl == null || d.configl == undefined){ }}
+    <a class="layui-btn layui-btn-xs" href='{:url("config")}?id={{d.id}}'>设置</a>
+    {{#  } }}
+    {{#  if(d.status == 0){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal ajax-get" data-href='{:url("enable")}?id={{d.id}}'>启用</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-xs layui-btn-warm ajax-get" data-href='{:url("disable")}?id={{d.id}}'>禁用</a>
+    {{#  } }}
+    <a class="layui-btn layui-btn-xs layui-btn-danger ajax-get confirm" data-href='{:url("uninstall")}?id={{d.id}}'>卸载</a>
+{{#  } else { }}
+    <a class="layui-btn layui-btn-xs ajax-get confirm" data-href='{:url("install")}?addon_name={{d.name}}'>安装</a>
+{{#  } }}
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use(['table', 'upload'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        upload = layui.upload;
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'title', width: 150, title: '名称' },
+                { field: 'name', width: 150, title: '标识' },
+                { field: 'description', title: '描述' },
+                { field: 'status_text', width: 80, title: '状态', templet: '<div>{{#  if(d.status_text){ }} {{d.status_text}} {{#  } else { }} 未安装 {{#  } }}</div>' },
+                { field: 'author', width: 90, title: '作者' },
+                { field: 'version', width: 90, title: '版本' },
+                { fixed: 'right', width: 180, title: '操作', templet: '#titleTpl' }
+            ]
+        ]
+    });
+
+    //执行实例
+    var uploadInst = upload.render({
+        elem: '#local-install',
+        url: '{:url("addons/addons/local")}',
+        accept: 'file',
+        exts: 'zip',
+        done: function(res) {
+            //上传完毕回调
+            layer.alert(res.msg, {}, function() {
+                if (res.code != 0) {
+                    location.reload();
+                }
+            });
+        },
+        error: function() {
+            //请求异常回调
+        }
+    });
+});
+</script>
+{/block}

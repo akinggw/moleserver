@@ -1,0 +1,25 @@
+<div class="content-left">
+    <h2 class="content-title">{:getCategory($top_parentid,'catname')}</h2>
+    <div class="menu-list">
+        {yzn module="cms" action="category" catid="$top_parentid" cache="3600" order="listorder ASC" num="10" return="data"}
+        {foreach $data as $key=>$vo }
+        <a href="{$vo.url}" class="transition {if $vo['id']==$catid}active{/if}">{$vo.catname}</a>
+        {/foreach}
+        {/yzn}
+    </div>
+    <!--S 联系我们 -->
+    <div class="content-contact">
+        <div class="h2bg">
+            <h2>联系我们</h2>
+        </div>
+        <div class="cc-info">
+            <!--此处变量可以后台配置设置调用-->
+            <p>手　机：158-88888888</p>
+            <p>传　真：0512-88888888</p>
+            <p>邮　箱：admin@admin.com</p>
+            <p>地　址：江苏省苏州市吴中区某某工业园一区</p>
+            <!--此处变量可以后台配置设置调用-->
+        </div>
+    </div>
+    <!--E 联系我们 -->
+</div>

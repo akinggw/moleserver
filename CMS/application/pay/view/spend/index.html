@@ -1,0 +1,79 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">消费记录</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="laydate" placeholder="搜索创建时间范围">
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" class="layui-input searchVal" placeholder="请输入消费流水号">
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload">搜索</a>
+                </div>
+            </form>
+        </blockquote>
+        <div class="layui-form">
+            <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a class="layui-btn layui-btn-sm layui-iframe" href='{:url("payment/modify_deposit")}' lay-data="{width:'520px',height:'500px',title:'在线充值'}">在线充值</a>
+      <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:url('payment/pay_list')}">入账记录</a>
+      <a class="layui-btn layui-btn-sm layui-btn-danger" href="{:url('payment/index')}">支付模块</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-danger layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use(['table', 'laydate'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form,
+        laydate = layui.laydate;
+    laydate.render({
+        elem: '#laydate',
+        range: true,
+    });
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'creat_at', title: '消费流水号' },
+                { field: 'username', width: 120, title: '用户名' },
+                { field: 'money', width: 120, title: '消费金额', templet: '<div>{{ d.money }} {{#  if(d.type==1){ }} 元 {{#  } else { }} 点 {{#  } }}</div>' },
+                { field: 'addtime', width: 200, title: '创建时间' },
+                { field: 'ip', width: 200, title: 'IP' },
+                { field: 'msg', width: 200, title: '备注说明' },
+                { fixed: 'right', width: 80,title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+    $(".search_btn").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                search_field: 'creat_at',
+                keyword: $(".searchVal").val(),
+                filter_time: 'addtime',
+                filter_time_range: $("#laydate").val()
+            }
+        })
+    });
+});
+</script>
+{/block}

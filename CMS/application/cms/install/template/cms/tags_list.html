@@ -1,0 +1,22 @@
+{include file="header" /}
+<style type="text/css">
+body {
+    background: #f6f6f6;
+}
+</style>
+<div class="headline-bg"></div>
+<div class="main" style="position: relative;">
+    <div class="w1200">
+        <div class="container-top">
+            <h2>标签列表<span>tags</span></h2>
+        </div>
+        <div class="content">
+            <div class="page_tags" deep="3">
+                {volist name="list" id="vo"}
+                <a href="{:url('cms/index/tags',['tag'=>$vo['tag']])}" title="{$vo.usetimes}个话题">{$vo.tag}({$vo.usetimes})</a>
+                {/volist}
+            </div>
+        </div>
+    </div>
+</div>
+{include file="footer" /}

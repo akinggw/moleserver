@@ -1,0 +1,46 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">{$auth_group['id']?'编辑':'新增'}权限组</div>
+    <div class="layui-card-body">
+        <form class="layui-form" action="{:url('writeGroup')}" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">父级</label>
+                <div class="layui-input-block w300">
+                    <select name="parentid">
+                        {$Groupdata|raw}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限组</label>
+                <div class="layui-input-block w300">
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="权限组" class="layui-input" value="{$auth_group.title}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block w300">
+                    <textarea name="description" placeholder="权限的相关描述" class="layui-textarea">{$auth_group.description}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="w300">
+                    <input type="radio" name="status" value="1" title="正常" {eq name="auth_group.status" value="1" }checked{/eq}>
+                    <input type="radio" name="status" value="0" title="禁用" {eq name="auth_group.status" value="0" }checked{/eq}>
+                </div>
+            </div>
+            {present name="auth_group.id"}
+            <input type="hidden" name="id" value="{$auth_group.id}" />
+            {/present}
+            <div class="layui-form-item">
+                <div class="layui-input-block w300">
+                    <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

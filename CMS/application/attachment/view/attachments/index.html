@@ -1,0 +1,78 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">附件管理</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="laydate" placeholder="搜索时间范围">
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" class="layui-input searchVal" placeholder="请输入附件名称">
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload">搜索</a>
+                </div>
+            </form>
+        </blockquote>
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm confirm layui-batch-all" data-href='{:url("delete")}'>批量删除</button>
+          </div>
+        </script>
+        <script type="text/html" id="barTool">
+            <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+        </script>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+layui.use(['table', 'laydate'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        laydate = layui.laydate;
+    laydate.render({
+        elem: '#laydate',
+        range: true,
+    });
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("attachment/attachments/index")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 80, title: 'ID', sort: true },
+                { field: 'aid', width: 80, title: '用户ID' },
+                { field: 'name', title: '名称' },
+                { field: 'path', width: 450,align:"center",title: '物理路径',templet:'<div><a class="layui-btn layui-btn layui-btn-xs" href="{{d.path}}" target="_blank">{{d.path}}</a></div>'},
+                { field: 'size',width: 100, title: '大小', sort: true },
+                { field: 'ext',width: 100, title: '类型'},
+                { field: 'mime',width: 120, title: 'Mime类型'},
+                { field: 'driver',width: 100, title: '存储引擎'},
+                { field: 'create_time', width: 180, title: '上传时间' },
+                { fixed: 'right', width: 70, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+    $(".search_btn").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                search_field: 'name',
+                keyword: $(".searchVal").val(),
+                filter_time: 'create_time',
+                filter_time_range: $("#laydate").val()
+            }
+        })
+    });
+});
+</script>
+{/block}

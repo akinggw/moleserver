@@ -1,0 +1,104 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑后台菜单</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">上级菜单</label>
+                <div class="layui-input-inline w300">
+                    <select name="parentid" lay-verify="required">
+                        <option value="0">作为一级菜单</option>
+                        {$select_categorys|raw}
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">如果选择上级分类，那么新增的分类则为被选择上级分类的子分类</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称 </label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" value="{$data.title}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图标</label>
+                <div class="layui-input-block">
+                    <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" value="{$data.icon}" name="icon">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">模块</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="app" lay-verify="required" autocomplete="off" placeholder="模块" class="layui-input" value="{$data.app}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">控制器</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="controller" lay-verify="required" autocomplete="off" placeholder="控制器" class="layui-input" value="{$data.controller}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">方法</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="action" lay-verify="required" autocomplete="off" placeholder="方法" class="layui-input" value="{$data.action}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">附加参数</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="parameter" autocomplete="off" placeholder="附加参数" class="layui-input" value="{$data.parameter}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否显示</label>
+                <div class="layui-input-inline w300">
+                    <input type="checkbox" name="status" lay-skin="switch" lay-text="是|否" value="{$data.status}" {eq name="data.status" value="1" }checked{/eq}>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$data.id}" />
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use(['iconPicker', 'form', 'layer'], function() {
+    var iconPicker = layui.iconPicker,
+        form = layui.form,
+        layer = layui.layer,
+        $ = layui.$;
+        iconPicker.render({
+            elem: '#iconPicker4',
+            type: 'fontClass'
+        });
+
+            iconPicker.render({
+                // 选择器，推荐使用input
+                elem: '#iconPicker',
+                // 数据类型：fontClass/unicode，推荐使用fontClass
+                type: 'fontClass',
+                // 是否开启搜索：true/false，默认true
+                search: true,
+                // 是否开启分页：true/false，默认true
+                page: true,
+                // 每页显示数量，默认12
+                limit: 12,
+                // 点击回调
+                click: function (data) {
+                    console.log(data);
+                },
+                // 渲染成功后的回调
+                success: function(d) {
+                    console.log(d);
+                }
+            });
+});
+</script>
+{/block}

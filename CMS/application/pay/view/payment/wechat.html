@@ -1,0 +1,60 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">微信支付配置</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="">公众号APPID</label>
+                <div class="layui-form-field-label">
+                    <input type="text" name="config[app_id]" placeholder="请输入公众号APPID" class="layui-input" value="{$info.config.app_id}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="">AppSecret</label>
+                <div class="layui-form-field-label">
+                    <input type="text" name="config[app_secret]" placeholder="请输入AppSecret" class="layui-input" value="{$info.config.app_secret}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="">商户ID(MCHID)</label>
+                <div class="layui-form-field-label">
+                    <input type="text" name="config[mch_id]" placeholder="请输入商户ID(MCHID)"  class="layui-input" value="{$info.config.mch_id}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="">商户秘钥(KEY)</label>
+                <div class="layui-form-field-label">
+                    <textarea name="config[key]" placeholder="请输入商户秘钥(KEY)" class="layui-textarea">{$info.config.key}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>沙箱模式</label>
+                <div class="layui-form-field-label">
+                    <input type="radio" name="config[mode]" value="1" title="启用" {if $info.config.mode==1}checked{/if}>
+                    <input type="radio" name="config[mode]" value="0" title="禁用" {if $info.config.mode==0}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>日志</label>
+                <div class="layui-form-field-label">
+                    <input type="radio" name="config[log]" value="1" title="启用" {if $info.config.log==1}checked{/if}>
+                    <input type="radio" name="config[log]" value="0" title="禁用" {if $info.config.log==0}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>状态</label>
+                <div class="layui-form-field-label">
+                    <input type="radio" name="status" value="1" title="启用" {if $info.status==1}checked{/if}>
+                    <input type="radio" name="status" value="0" title="禁用" {if $info.status==0}checked{/if}>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$info.id}">
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

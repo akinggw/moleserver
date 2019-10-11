@@ -1,0 +1,46 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">群发短消息管理</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete_group")}'>批量删除</a>
+      <a class="layui-btn layui-btn-sm layui-iframe" href="{:url('message_send')}" lay-data="{width:'400px',height:'350px',title:'群发短消息'}">群发短消息</a>
+      <a class="layui-btn layui-btn-sm layui-btn-danger" href="{:url('index')}">切换单发消息<span class="layui-badge-dot layui-bg-orange"></span></a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("delete_group")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("group")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 70, title: 'ID' },
+                { field: 'subject',width: 200, title: '标题' },
+                { field: 'content',  title: '内容' },
+                { field: 'groupname',width: 120, title: '会员组别'},
+                { field: 'create_time',width: 200,align:"center", title: '发送时间'},
+                { fixed: 'right', width: 80, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+    });
+});
+</script>
+{/block}

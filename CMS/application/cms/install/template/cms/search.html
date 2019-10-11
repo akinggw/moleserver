@@ -1,0 +1,50 @@
+{include file="header" /}
+<div class="main">
+    <div class="search-top-box">
+        <div class="w1200">
+            <div class="search_box">
+                <div class="search radius6">
+                    <form method="get" name="search" action="{:url('cms/index/search')}">
+                        <div class="select_box">
+                            <div class="select_showbox" style="cursor: pointer;">搜索全部</div>
+                            <ul class="select_option" style="display: none;">
+                                <li class="selected"><a href="javascript:set_option(0);">搜索全部</a></li>
+                                {volist name="modellist" id="vo"}
+                                <li class=""><a href="javascript:set_option({$vo.id});">{$vo.name}</a></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                        <input id="modelid" name="modelid" value="0" type="hidden">
+                        <input class="inp_srh" name="keyword" placeholder="请输入搜索关键词">
+                        <input class="btn_srh" type="submit" value="搜索">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $(".select_showbox").click(function() {
+        $(".select_option").show();
+        $(this).addClass("active");
+    });
+
+    $(".select_option li").click(function() {
+        $(".select_showbox").html($(this).html());
+        $(".select_option").hide();
+        $(".select_showbox").removeClass("active");
+    });
+
+    $(".select_option li").hover(function() {
+        $(this).addClass("selected");
+    }, function() {
+        $(this).removeClass("selected");
+    });
+});
+
+function set_option(id) {
+    $("#modelid").val(id);
+}
+</script>
+{include file="footer" /}

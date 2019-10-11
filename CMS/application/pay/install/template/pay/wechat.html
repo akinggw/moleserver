@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <title>微信支付</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <link rel="stylesheet" href="__STATIC__/modules/pay/css/wechat-pay.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-title w990">
+            <div class="alipay-logo"></div>
+            <span class="logo-title">我的收银台</span>
+        </div>
+    </div>
+    <div class="content w990">
+        <div class="order clearfix">
+            <div class="orderDetail-base">
+                <span class="order-pay"> {$data.body}-微信充值 </span>
+                <span class="pay-price">
+                    <strong>{:number_format($data['total_fee']/100,2)}</strong>
+                    元
+                </span>
+            </div>
+            <a class="order-ext-trigger">订单详情</a>
+            <div class="order-detail-container hide">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="sub-th">订单号：</td>
+                            <td>{$data.out_trade_no}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-th">交易金额：</td>
+                            <td>{:number_format($data['total_fee']/100,2)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="scan-pay">
+            <div class="qrcode-area">
+                <div class="qrcode-header">
+                    <p>扫一扫付款（元）</p>
+                    <p class="qrcode-header-money">{:number_format($data['total_fee']/100,2)}</p>
+                </div>
+                <div class="qrcode-img-wrapper">
+                    <div class="qrcode-img-area">
+                        <img src="{:url('pay/api/qrcode')}?text={$data.code_url}" alt="扫码支付">
+                        <div class="logo hidden-xs logo-wechat"></div>
+                        <div class="paid none"></div>
+                        <div class="expired none"></div>
+                    </div>
+                    <div class="qrcode-img-explain clearfix">
+                        <img src="__STATIC__/modules/pay/images/wechat-scan.png" alt="扫一扫标识">
+                        <div>
+                            打开手机微信
+                            <br>扫一扫继续付款
+                        </div>
+                    </div>
+                </div>
+                <div class="qrcode-foot">
+                    <a href="javascript:;" class="qrcode-downloadApp" target="_blank">首次使用请下载手机微信</a>
+                </div>
+            </div>
+            <div class="qrguide-area">
+                <img src="__STATIC__/modules/pay/images/wechat-scan1.jpg" class="qrguide-area-img active">
+                <img src="__STATIC__/modules/pay/images/wechat-scan2.jpg" class="qrguide-area-img background">
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/libs/jquery/jquery.min.js"></script>
+    <script type="text/javascript">
+    $().ready(function() {
+        $(".qrguide-area").on("click", "img", function() {
+            $(this).removeClass("active").addClass("background").siblings("img").removeClass("background").addClass("active");
+        });
+
+        $('.order-ext-trigger').click(function() {
+            if ($(this).hasClass('fn-more')) {
+                $(this).removeClass('fn-more');
+                $('.order-detail-container').addClass('hide');
+            } else {
+                $(this).addClass('fn-more');
+                $(".order-detail-container").removeClass('hide');
+            }
+        });
+
+        var queryParams = {$data|raw|json_encode};
+        //定时查询订单状态
+        var qi, xhr;
+        if (typeof queryParams != 'undefined') {
+            var checkOrderStatus = function() {
+                xhr && xhr.abort();
+                xhr = $.ajax({
+                    url: "",
+                    type: "post",
+                    data: queryParams,
+                    dataType: 'json',
+                    success: function(ret) {
+                        if (ret.code == 1) {
+                            var data = ret.data;
+                            console.log(data);
+                            if (typeof data.trade_state != 'undefined') {
+                                if (data.trade_state == 'SUCCESS') {
+                                    $(".qrcode-img-area .paid").removeClass("none");
+                                    setTimeout(function() {
+                                        location.href = ret.url;
+                                    }, 3000);
+                                    clearInterval(qi);
+                                } else if (data.trade_state == 'expired') {
+                                    $(".qrcode-img-area .expired").removeClass("none");
+                                } else {
+                                    qi = setTimeout(function() {
+                                        checkOrderStatus();
+                                    }, 3000);
+                                }
+                            }
+                        } else {
+                            qi = setTimeout(function() {
+                                checkOrderStatus();
+                            }, 3000);
+                        }
+                    },
+                    error: function() {
+                        qi = setTimeout(function() {
+                            checkOrderStatus();
+                        }, 3000);
+                    }
+                });
+            };
+            checkOrderStatus();
+        }
+
+    });
+    </script>
+</body>
+
+</html>

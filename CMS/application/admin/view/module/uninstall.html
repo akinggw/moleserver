@@ -1,0 +1,54 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">模块卸载</div>
+    <div class="layui-card-body">
+        <form class="layui-form form-horizontal" method="post">
+            <input type="hidden" name="module" value="{$config.module}">
+            <div class="layui-form-item">
+                <h4><b>是否清除模块数据</b></h4>
+                <div>
+                    <input type="radio" name="clear" value="0" title="否" checked>
+                    <input type="radio" name="clear" value="1" title="是">
+                </div>
+                <div class="layui-form-mid layui-word-aux">选择“是”，将删除数据库中模块数据表</div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn ajax-post" id="uninstall" lay-submit="" lay-filter="*" target-form="form-horizontal">确认卸载</button>
+                <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="layui"}{/block}
+{block name="script"}
+<script>
+layui.use(['layer', 'form'], function() {
+    $('#uninstall').click(function() {
+        var target;
+        target = $('.form-horizontal').attr("action");
+        $.post(target, $('.form-horizontal').serialize()).success(function(data) {
+            if (data.code == 1) {
+                if (data.url) {
+                    layer.alert(data.msg, { icon: 1 }, function(index) {
+                        layer.close(index);
+                        if (data.url) {
+                            location.href = data.url;
+                        } else {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    layer.alert(data.msg);
+                }
+            } else {
+                layer.alert(data.msg);
+            }
+
+        });
+        return false;
+    });
+});
+</script>
+{/block}

@@ -1,0 +1,47 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">短消息管理</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}'>批量删除</a>
+      <a class="layui-btn layui-btn-sm layui-iframe" href="{:url('send_one')}" lay-data="{width:'400px',height:'350px',title:'发送短消息'}">发送短消息</a>
+      <a class="layui-btn layui-btn-sm layui-btn-danger" href="{:url('group')}">切换群发消息<span class="layui-badge-dot layui-bg-orange"></span></a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 70, title: 'ID' },
+                { field: 'subject',width: 200, title: '标题' },
+                { field: 'content',  title: '内容' },
+                { field: 'send_from',width: 120, title: '发件人'},
+                { field: 'send_to',width: 120, title: '收件人' },
+                { field: 'create_time',width: 200,align:"center", title: '发送时间'},
+                { fixed: 'right', width: 80, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+    });
+});
+</script>
+{/block}

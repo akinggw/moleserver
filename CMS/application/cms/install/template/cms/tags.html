@@ -1,0 +1,40 @@
+{include file="header" /}
+<style type="text/css">
+body {
+    background: #f6f6f6;
+}
+
+</style>
+<div class="headline-bg"></div>
+<div class="main" style="position: relative;">
+    <div class="w1200">
+        <div class="container-top">
+            <h2>标签<span>tags</span></h2>
+        </div>
+        <div class="content newsPage">
+            <!--S 右侧内容 -->
+            <div class="tag_list">
+                <!--S 文章列表-->
+                <ul class="list">
+                {yzn module="cms" action="tags" tag="$tag" order="listorder ASC" num="10"  return="data"}
+                {volist name="data" id="vo"}
+                    <li class="item clearfix">
+                        <a href="{$vo.url}" title="{$vo.title}"><img class="fl" src="https://via.placeholder.com/168x126" alt="{$vo.title}">
+                            <div class="time fr"><span class="day">{$vo.updatetime|date="m-d"}</span><span class="year">{$vo.updatetime|date="Y"}</span></div>
+                            <h3>{$vo.title}</h3>
+                            <div class="txt">{$vo.description|str_cut=###,60}</div>
+                        </a>
+                    </li>
+                {/volist}
+                {/yzn}
+                </ul>
+                <!--E 文章列表-->
+                <!--S 分页-->
+                {$pages|raw}
+                <!--E 分页-->
+            </div>
+            <!--E 右侧内容 -->
+        </div>
+    </div>
+</div>
+{include file="footer" /}

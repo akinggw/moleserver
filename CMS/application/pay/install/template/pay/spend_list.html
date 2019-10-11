@@ -1,0 +1,35 @@
+{template file="member/header.html"/}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">消费记录</li>
+    </ul>
+    <div class="layui-tab-content" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+        	<table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+{template file="member/layui.html"/}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("spend_list")}',
+        cols: [
+            [
+                { field: 'creat_at', title: '消费流水号' },
+                { field: 'msg', width: 200, title: '备注说明' },
+                { field: 'money', width: 100, title: '消费金额', templet: '<div>{{ d.money }} {{#  if(d.type==1){ }} 元 {{#  } else { }} 点 {{#  } }}</div>' },
+                { field: 'addtime', width: 160, title: '创建时间' },
+                { field: 'ip', width: 150, title: 'IP' },
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{template file="member/footer.html"/}

@@ -1,0 +1,46 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">信息列表</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm" type="button" href="{:url('formguide/index')}"><i class="iconfont icon-undo"></i>&nbsp;返回</a>
+      <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete",["formid"=>$formid])}'>批量删除</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    {{#  if(!d.iffixed){ }}
+    <a href='{:url("public_view",["formid"=>$formid])}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" lay-data="{width:'500px',height:'450px',title:'查看信息'}">查看</a>
+    <a href='{:url("delete",["formid"=>$formid])}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {{#  } }}
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index",["formid"=>$formid])}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 60, title: 'ID' },
+                {$formStr|raw}
+                { field: 'ip',width:150,title: 'IP' },
+                { field: 'inputtime',width:180,title: '创建时间' },
+                { fixed: 'right',width: 120,title: '操作', templet: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{/block}

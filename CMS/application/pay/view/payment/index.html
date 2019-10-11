@@ -1,0 +1,49 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<style type="text/css">
+.childrenBody {
+    background: #fff;
+}
+</style>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm" type="button" href="{:url('pay_list')}"><i class="iconfont icon-undo"></i>&nbsp;返回</a>
+    </div>
+</script>
+<div class="layui-form">
+    <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+</div>
+<script type="text/html" id="barTool">
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">配置</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use(['table', 'laydate'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form,
+        laydate = layui.laydate;
+    laydate.render({
+        elem: '#laydate',
+        range: true,
+    });
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("index")}',
+        cols: [
+            [
+                { field: 'title',  width: 150,title: '支付方式'},
+                { field: 'name',  width: 100,title: '名称'},
+                { field: 'icon',  align: "center",width: 80,title: '图标',templet: '<div><i class="iconfont {{ d.icon }}"></i></div>'},
+                { field: 'pay_desc', title: '简介' },
+                { field: 'status', width: 80, align: "center", title: '状态', templet: '<div>{{#  if(d.status){ }} <button class="layui-btn layui-btn layui-btn-xs">启用</button> {{#  } else { }} <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">禁用</button> {{#  } }} </div>'},
+                { fixed: 'right', width: 100, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+});
+</script>
+{/block}

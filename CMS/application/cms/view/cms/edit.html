@@ -1,0 +1,41 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<form class="layui-form form-horizontal" method="post">
+    {include file="admin@inputItem" /}
+    {if count($fieldList)}
+    <div class="layui-form-item">
+        <div>
+            <button class="layui-btn ajax-post" lay-submit lay-filter="*" target-form="form-horizontal">立即提交</button>
+            <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+        </div>
+    </div>
+    {/if}
+</form>
+{/block}
+{block name="layui"}{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use(['form','layer'], function() {
+    $('.ajax-post').on('click', function(e) {
+        var form = layui.form,
+        layer = layui.layer,target,
+        target_form = $(this).attr('target-form');
+        target = $('.form-horizontal').attr("action");
+        $.post(target, $('.form-horizontal').serialize()).success(function(data) {
+            if (data.code == 1) {
+                layer.confirm(data.msg, {
+                    btn: ['继续添加', '返回列表'] //按钮
+                }, function() {
+                    location.href = '{:url("add",["catid"=>$catid])}';
+                }, function() {
+                    location.href = '{:url("classlist",["catid"=>$catid])}';
+                });
+            } else {
+                layer.msg(data.msg);
+            }
+        });
+        return false;
+    });
+})
+</script>
+{/block}

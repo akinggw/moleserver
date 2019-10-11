@@ -1,0 +1,61 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑会员</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="用户名" class="layui-input" value="{$data.username}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="nickname" lay-verify="required" autocomplete="off" placeholder="昵称" class="layui-input" value="{$data.nickname}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" lay-verify="email|required" autocomplete="off" placeholder="邮箱" class="layui-input" value="{$data.email}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password"  autocomplete="off" placeholder="密码" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">不修改留空即可</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password_confirm" autocomplete="off" placeholder="确认密码" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item web_list">
+                <label class="layui-form-label">会员组</label>
+                    <div class="layui-input-inline">
+                        {php} echo \util\Form::select($groupCache,$data['groupid'], 'name="groupid"', '') {/php}
+                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">积分点数</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="point" lay-verify="required" autocomplete="off" placeholder="积分点数" class="layui-input" value="{$data.point}">
+                </div>
+                <div class="layui-form-mid layui-word-aux"> 请输入积分点数，积分点数将影响会员用户组</div>
+            </div>
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

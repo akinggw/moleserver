@@ -1,0 +1,28 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">钩子管理</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="table" lay-filter="table"></table>
+    </div>
+</div>
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$;
+    table.render({
+        elem: '#table',
+        url: '{:url("hooks")}',
+        cols: [
+            [
+                { field: 'id', width: 80, title: 'ID' },
+                { field: 'name', width: 150, title: '名称' },
+                { field: 'description', title: '描述' },
+                { field: 'type_text', width: 90, title: '类型' }
+            ]
+        ]
+    });
+
+});
+</script>
+{/block}

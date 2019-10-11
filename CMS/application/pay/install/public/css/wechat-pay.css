@@ -1,0 +1,68 @@
+@charset "utf-8"; 
+* { box-sizing: content-box;}
+body { background: #eff0f1; color: #666; margin: 0 auto; width: auto; min-width: 990px; min-height: 620px; font-family: "Microsoft Yahei", "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 12px;}
+html, body { margin: 0; padding: 0;}
+body, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset { margin: 0; padding: 0;}
+ul, ol, li { list-style-image: none; list-style-type: none; }
+a { color: #666; text-decoration: none;  blr: expression(this.onFocus=this.blur()); outline: none;}
+a:active { star: expression_r(this.onFocus=this.blur());} 
+a:hover { color: #E31939; text-decoration: none; cursor: pointer}
+a:focus, input[type=button] ,input[type=submit] { outline: none; } 
+input, button, select, textarea { outline: none}
+.w990 { width: 990px; margin: 0px auto}
+.clear { clear: both; height: 0; overflow: hidden;}
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden;}
+.none {display: none !important;}
+
+/*头部*/
+.header { height: 60px; background-color: #fff; border-bottom: 1px solid #d9d9d9;}
+.header .header-title { height: 60px;}
+.header .header-title .alipay-logo { display: block; width: 115px; position: relative; left: 0; top: 10px; float: left; height: 40px; background-position: 0 0; background-repeat: no-repeat; background-image: url(../images/wechat-pay.png);}
+.header .header-title .logo-title { font-size: 16px; font-weight: normal;	border-left: 1px solid #676d70; color: #676d70; height: 20px; float: left; margin: 18px 10px 10px; padding: 0px 10px;}
+
+/*内容*/
+.order{ position: relative; border-bottom: 3px solid #b3b3b3; background: #eff0f1; }
+.order .orderDetail-base{ padding: 16px 23px; min-height: 55px; overflow: hidden;  color: #000;}
+.order .order-ext-trigger{font: 12px/1.5 tahoma,arial,宋体; cursor: pointer; display: block; position: absolute; right: 20px; bottom: -3px; height: 22px; padding: 2px 8px 1px; font-weight: 700; border-top: 0; background: #b3b3b3; z-index: 100; color: #fff;}
+.order .order-ext-trigger.fn-more{bottom: -26px;}
+.order .order-detail-container{width: 685px;position: relative; z-index: 1; color: #000; font: 12px/1.5 tahoma,arial,宋体;padding-bottom: 20px; padding-left: 23px;}
+.order .order-detail-container.hide{ display: none;}
+.order .order-detail-container table .sub-th{white-space: nowrap; width: 66px; text-align: left;}
+.order .order-detail-container table td{word-wrap: break-word;}
+.order .order-pay { height: 30px; overflow: hidden; padding-top: 15px; color: #000; font-size: 18px; float: left; display: inline-block;}
+.order .pay-price{ height: 30px; overflow: hidden; padding-top: 8px; float: right; display: inline-block;}
+.order .pay-price strong{ font-size: 22px; line-height: 22px; color: #f60;}
+
+/* 新版扫码页面样式 */
+.scan-pay { overflow: hidden; position: relative; z-index: 1; width: 990px; min-height: 460px; background-color: #fff; border-bottom: 3px solid #b3b3b3; text-align: center;}
+
+.qrcode-area .qrcode-header { display: block; width: auto; padding: 0; margin: 75px auto 15px; font-size: 14px;}
+.qrcode-area .qrcode-header .qrcode-header-money { font-size: 26px; font-weight: 700; color: #f60; margin-top: 10px;}
+.qrcode-area .qrcode-img-wrapper { position: relative; width: 170px; height: auto; min-height: 170px; margin: 0 auto; padding: 6px; border: 1px solid #d3d3d3; -webkit-box-shadow: 1px 1px 1px #ccc; box-shadow: 1px 1px 1px #ccc;}
+.qrcode-area .qrcode-img-area { width: 170px; height: 170px; text-align: center;position: relative;}
+.qrcode-area .qrcode-img-area .logo {position: absolute; top: 50%; left: 50%; height: 30px; width: 30px; margin-left: -15px; margin-top: -15px; background: #fff url(../images/logo-wechat.png) no-repeat center center; background-size: cover; border-radius: 3px; }
+.qrcode-area .qrcode-img-area .paid {position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: .95; background: #fff url(../images/paid.png) center center no-repeat; }
+.qrcode-area .qrcode-img-area .expired {position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: .95; background: #fff url(../images/expired.png) center center no-repeat; }
+.qrcode-area .qrcode-img-area img{ width:168px; height:168px;}
+.qrcode-area .qrcode-img-explain { padding: 10px 0 6px;}
+.qrcode-area .qrcode-img-explain img { margin-left: 20px; margin-top: 5px; float: left;}
+.qrcode-area .qrcode-img-explain div { margin-left: 10px; text-align: left; float: left;}
+.qrcode-foot { height: 65px; padding: 10px 0; text-align: center;}
+.qrcode-downloadApp,.qrcode-downloadApp:hover,.qrcode-downloadApp:active,.qrcode-explain a.qrcode-downloadApp:hover { font-size: 12px; color: #a6a6a6; text-decoration: underline;}
+
+.qrguide-area { position: absolute; top: 62px; left: 50%; width: 204px; height: 183px; margin-left: 95px; cursor: pointer;}
+.qrguide-area .qrguide-area-img { display: block; position: absolute; bottom: 0; left: 0; z-index: -1;}
+.qrguide-area .qrguide-area-img.active { z-index: 10;}
+.qrguide-area .qrguide-area-img.background { z-index: 9;}
+
+/*银联支付*/
+.pay-list ul { display: flex; justify-content: center; }
+.pay-list li { position: absolute; margin-right: 20px; padding: 10px 30px; border-radius: 3px; opacity: 0;}
+.pay-list li:first-child { left: 0; top: 222px; }
+.pay-list li:nth-child(2) { right: 0;top: 265px; }
+.pay-list li:last-child { right: 0; top: 154px; }
+.pay-list li img { width: 60px; }
+.qrcode-area-box { padding-bottom: 50px; }
+.header .header-title .union-logo { display: block; width: 115px; position: relative; left: 0; top: 10px; float: left; height: 40px; background-position: 0 0; background-repeat: no-repeat; background-image: url(../images/union-pay.png);}
+.qrcode-area .qrcode-header-union { margin: 55px auto 15px; }
+.qrcode-img-box .qrcode-img-explain img { margin-left: 5px; margin-top: 2px; }

@@ -1,0 +1,174 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">模块安装检测</div>
+    <div class="layui-card-body">
+        <form class="layui-form form-horizontal" method="post">
+            <input type="hidden" name="module" value="{$config.module}">
+            <div class="layui-form-item">
+                <table class="layui-table" lay-even style="max-width: 280px;">
+                    <colgroup>
+                        <col width="180">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>是否适配系统版本</td>
+                            <td class="text-center">{$version_check|raw}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            {notempty name="need_module"}
+            <div class="layui-form-item">
+                <h4><b>模块依赖检查</b></h4>
+                <table class="layui-table" lay-even style="max-width: 400px;">
+                    <colgroup>
+                        <col width="180">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>模块</th>
+                            <th>当前版本</th>
+                            <th>所需版本</th>
+                            <th class="text-center">检查结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {volist name="need_module" id="vo"}
+                        <tr>
+                            <td>{$vo.module}</td>
+                            <td width="100">{$vo.version}</td>
+                            <td width="100">{$vo.version_need}</td>
+                            <td class="text-center" width="100">{$vo.result|raw}</td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+            {/notempty}
+            {notempty name="need_plugin"}
+            <div class="layui-form-item">
+                <h4><b>插件依赖检查</b></h4>
+                <table class="layui-table" lay-even style="max-width: 400px;">
+                    <colgroup>
+                        <col width="180">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>插件</th>
+                            <th>当前版本</th>
+                            <th>所需版本</th>
+                            <th class="text-center">检查结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {volist name="need_plugin" id="vo"}
+                        <tr>
+                            <td>{$vo.plugin}</td>
+                            <td width="100">{$vo.version}</td>
+                            <td width="100">{$vo.version_need}</td>
+                            <td class="text-center" width="100">{$vo.result|raw}</td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+            {/notempty}
+            {notempty name="table_check"}
+            <div class="layui-form-item">
+                <h4><b>数据表检查</b></h4>
+                <table class="layui-table" lay-even style="max-width: 280px;">
+                    <colgroup>
+                        <col width="180">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>数据表</th>
+                            <th class="text-center">检查结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {volist name="table_check" id="vo"}
+                        <tr>
+                            <td>{$vo.table}</td>
+                            <td class="text-center">{$vo.result|raw}</td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+            {/notempty}
+            <div class="layui-form-item">
+                <h4><b>是否清除旧数据</b></h4>
+                <div>
+                    <input type="radio" name="clear" value="0" title="否" checked>
+                    <input type="radio" name="clear" value="1" title="是">
+                </div>
+                <div class="layui-form-mid layui-word-aux">选择“是”，将删除数据库中已存在的相同数据表</div>
+            </div>
+            <div class="layui-form-item">
+                <div>
+            	<input type="checkbox" name="demo" title="安装演示数据" value="1" lay-skin="primary" checked>
+                </div>
+                <div class="layui-form-mid layui-word-aux">含有旧数据时,请勿勾选,以免数据冲突</div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" id="install" lay-submit="" lay-filter="*" target-form="form-horizontal">确认安装</button>
+                <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="layui"}{/block}
+{block name="script"}
+<script>
+layui.use(['layer', 'form'], function() {
+    $('#install').click(function() {
+        var table_exists = false;
+        var target;
+        if ($('.layui-form i.text-danger').length) {
+            layer.msg('系统版本过低或缺少依赖模块或插件')
+            return false;
+        }
+        if ($('.layui-form span.text-danger').length) {
+            table_exists = true;
+        }
+        if (table_exists && $('.layui-form input[name=clear]:checked').val() == 0) {
+            layer.msg('数据库表存在冲突，如果需要覆盖原有数据，请选择“清除旧数据”')
+            return false;
+        }
+        //$('.layui-form').submit();
+        target = $('.form-horizontal').attr("action");
+        $.post(target, $('.form-horizontal').serialize()).success(function(data) {
+            if (data.code == 1) {
+                if (data.url) {
+                    layer.alert(data.msg, { icon: 1 }, function(index) {
+                        layer.close(index);
+                        if (data.url) {
+                            location.href = data.url;
+                        } else {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    layer.alert(data.msg);
+                }
+            } else {
+                layer.alert(data.msg);
+            }
+
+        });
+        return false;
+    });
+});
+</script>
+{/block}

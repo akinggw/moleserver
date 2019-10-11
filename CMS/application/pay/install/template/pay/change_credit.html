@@ -1,0 +1,50 @@
+{template file="member/header.html"/}
+<div class="layui-tab layui-tab-brief" lay-filter="user">
+    <ul class="layui-tab-title">
+        <li lay-id="" class="layui-this">积分兑换</li>
+    </ul>
+    <div class="layui-tab-content" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form layui-form-pane" method="post">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">剩余金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" autocomplete="off" class="layui-input" value="{$userinfo.amount}" disabled>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">剩余积分</label>
+                    <div class="layui-input-inline">
+                        <input type="text" autocomplete="off" class="layui-input" value="{$userinfo.point}" disabled>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">兑换金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="money" id="money" lay-verify="required" placeholder="请输入兑换金额" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">可兑换积分数：<font id="point" style="color:#F00; font-size:18px; font-weight:700">0</font>点 <font id="alert" style="color:#F00; font-size:18px;font-weight:700"></font></div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" lay-submit>立即提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{template file="member/layui.html"/}
+<script language="JavaScript">
+$(document).ready(function() {
+    $("#point").html($("#money").val() * {if isset($Member_config['rmb_point_rate'])}{$Member_config['rmb_point_rate']}{else}10{/if});
+    $("#money").keyup(function() {
+        $(this).val($(this).val().replace(/[^\d]/g, ''));
+        $("#point").html($("#money").val() * {if isset($Member_config['rmb_point_rate'])}{$Member_config['rmb_point_rate']}{else}10{/if});
+        if ({$userinfo.amount} < $(this).val()) {
+            $("#alert").html('您的余额不足');
+        } else {
+            $("#alert").html('');
+        }
+    });
+});
+</script>
+{template file="member/footer.html"/}

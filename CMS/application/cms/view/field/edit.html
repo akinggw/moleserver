@@ -1,0 +1,177 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑字段</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote"><p>默认以下字段名称已存在，请不要建立同名的字段：<br>id、catid、title、keywords、description、flag、listsorder、uid、hits、inputtime、updatetime、status、did、content</p></blockquote>
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" lay-verify="required" placeholder="字段名称" class="layui-input" value="{$data.name}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">字母、数字组成，并且仅能字母开头</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段标题</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" lay-verify="required" placeholder="字段标题" class="layui-input" value="{$data.title}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段描述</label>
+                <div class="layui-input-inline w300">
+                    <textarea name="remark" placeholder="字段的相关描述" class="layui-textarea">{$data.remark}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段类型</label>
+                <div class="layui-input-inline">
+                    <select name="type" lay-filter="fieldtype" lay-verify="required">
+                        <option></option>
+                        {volist name="fieldType" id="vo"}
+                        <option value="{$vo.name}" {if $data.type==$vo.name}selected{/if} data-define="{$vo.default_define}" data-ifoption="{$vo.ifoption}" data-ifstring="{$vo.ifstring}">{$vo.title}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段定义</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="setting[define]" lay-verify="required" autocomplete="off" placeholder="字段定义" class="layui-input" id="define" value="{$data.setting.define}">
+                </div>
+                <div class="layui-input-inline">
+                    <select lay-filter="fasttype">
+                        <option data-define="">快速选择</option>
+                        <option data-define="varchar(255) NOT NULL DEFAULT ''">255个字符串以内</option>
+                        <option data-define="int(7) NOT NULL DEFAULT '0'">10位以内纯数字</option>
+                        <option data-define="tinyint(2) NOT NULL DEFAULT '0'">2位以内纯数字</option>
+                        <option data-define="text NOT NULL">常用文本文档</option>
+                        <option data-define="decimal(10,2) unsigned NOT NULL">价格</option>
+                        <option data-define="mediumtext NOT NULL">巨型文本文档</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">数据校验</label>
+                <div class="layui-input-inline w300">
+                    <input type="text" name="pattern" autocomplete="off" placeholder="正则校验数据合法性，留空不校验" class="layui-input" value="{$data.pattern}" id="pattern">
+                </div>
+                <div class="layui-input-inline">
+                    <select lay-filter="pattern">
+                        <option data-define="">常用正则</option>
+                        <option data-define="/^[0-9.-]+$/">数字</option>
+                        <option data-define="/^[0-9-]+$/">整数</option>
+                        <option data-define="/^[a-z]+$/i">字母</option>
+                        <option data-define="/^[0-9a-z]+$/i">数字+字母</option>
+                        <option data-define="/^[\x{4e00}-\x{9fa5}]+$/u">中文</option>
+                        <option data-define="/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/">E-mail</option>
+                        <option data-define="/^[0-9]{5,20}$/">QQ</option>
+                        <option data-define="/^http:\/\//">超级链接</option>
+                        <option data-define="/^(1)[0-9]{10}$/">手机号码</option>
+                        <option data-define="/^[0-9-]{6,13}$/">电话号码</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">提示信息</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="errortips" placeholder="数据校验未通过的提示信息" class="layui-input" value="{$data.errortips}">
+                </div>
+            </div>
+            <div id="options" {if !$fieldType[$data['type']]['ifoption']}style="display:none"{/if}>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选项</label>
+                    <div class="layui-input-inline w300">
+                        <textarea name="setting[options]" placeholder="值:描述
+值:描述
+值:描述
+....." class="layui-textarea">{$data.setting.options}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">筛选字段</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="setting[filtertype]" value="1" title="是" {if $data.setting.filtertype==1}checked{/if}>
+                        <input type="radio" name="setting[filtertype]" value="0" title="否" {if $data.setting.filtertype==0}checked{/if}>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段默认值</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="setting[value]" lay-verify="value" autocomplete="off" placeholder="默认插入字段的值" class="layui-input" value="{$data.setting.value}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否必填</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="ifrequire" value="1" title="是" {if $data.ifrequire==1}checked{/if}>
+                    <input type="radio" name="ifrequire" value="0" title="否" {if $data.ifrequire==0}checked{/if}>
+                </div>
+            </div>
+            {if $data['ifsystem']}
+            <div class="layui-form-item" id="ifsearch" {if !in_array($data['type'],['text', 'textarea', 'tags', 'Ueditor'])}style="display:none"{/if}>
+                <label class="layui-form-label">是否可搜索</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="ifsearch" value="1" title="是" {if $data.ifsearch==1}checked{/if}>
+                    <input type="radio" name="ifsearch" value="0" title="否" {if $data.ifsearch==0}checked{/if}>
+                </div>
+            </div>
+            {/if}
+            <div class="layui-form-item">
+                <label class="layui-form-label">投稿显示</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="isadd" value="1" title="是" {if $data.isadd==1}checked{/if}>
+                    <input type="radio" name="isadd" value="0" title="否" {if $data.isadd==0}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="1" title="启用" {if $data.status==1}checked{/if}>
+                    <input type="radio" name="status" value="0" title="禁用" {if $data.status==0}checked{/if}>
+                </div>
+            </div>
+            <input type="hidden" name="ifsystem"  value="{$data.ifsystem}">
+            <input name="fieldid" type="hidden" value="{$fieldid}" />
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+layui.use(['layer', 'form'], function() {
+    var layer = layui.layer,
+        form = layui.form;
+    form.on('select(fieldtype)', function(data) {
+        $('#define').val($(data.elem).find("option:selected").attr("data-define"));
+        var ifoption = $(data.elem).find("option:selected").attr("data-ifoption");
+        var ifstring = $(data.elem).find("option:selected").attr("data-ifstring");
+        //搜索隐显
+        if (ifstring == '1') {
+            $('#ifsearch').show();
+        } else {
+            $('#ifsearch').hide();
+        }
+        if (ifoption == '1') {
+            $('#options').show();
+        } else {
+            $('#options').hide();
+        }
+    });
+    form.on('select(fasttype)', function(data) {
+        $('#define').val($(data.elem).find("option:selected").attr("data-define"));
+    });
+    form.on('select(pattern)', function(data) {
+        $('#pattern').val($(data.elem).find("option:selected").attr("data-define"));
+    });
+});
+</script>
+{/block}
