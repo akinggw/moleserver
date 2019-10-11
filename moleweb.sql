@@ -113,7 +113,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,0,0,'2019-10-10 14:32:30',0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,0,0,'2019-10-11 10:00:29',0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +199,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,1000,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -501,4 +501,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-10 14:32:41
+-- Dump completed on 2019-10-11 10:04:04
