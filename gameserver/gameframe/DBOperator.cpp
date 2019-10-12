@@ -255,8 +255,9 @@ bool DBOperator::GetGameRoomInfo(uint32 pRoomId,tagGameRoom *ptagGameRoom)
 	ptagGameRoom->tablecount = atoi(pRecord(0)(0,4).c_str());
 	ptagGameRoom->tableplayercount = atoi(pRecord(0)(0,5).c_str());
 	ptagGameRoom->state = atoi(pRecord(0)(0,14).c_str());
+	ptagGameRoom->QueueGaming = atoi(pRecord(0)(0,15).c_str());
 
-	strncpy(ptagGameRoom->processname , pRecord(0)(0,15).c_str(),CountArray(ptagGameRoom->processname));
+	strncpy(ptagGameRoom->processname , pRecord(0)(0,16).c_str(),CountArray(ptagGameRoom->processname));
 	strncpy(ptagGameRoom->serverip , pRecord(0)(0,6).c_str(),CountArray(ptagGameRoom->serverip));
 	strncpy(ptagGameRoom->servername , pRecord(0)(0,2).c_str(),CountArray(ptagGameRoom->servername));
 

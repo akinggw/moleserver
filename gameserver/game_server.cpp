@@ -119,6 +119,7 @@ int main(int argc,char *argv[])
 
             ServerPlayerManager.OnEventTimer(0,0);
             ServerRoomManager.OnEventTimer(0,0);
+            ServerGameFrameManager.UpdateQueueList();
 
             if(m_updateonlineplayercount >= 30)
             {

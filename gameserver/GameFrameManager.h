@@ -43,7 +43,19 @@ private:
     /// 用于处理用户离开消息
     void OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes);
     /// 用于处理用户加入房间
-    bool JoinPlayerToGameRoom(CPlayer *pPlayer,int pRoomIndex,int pChairIndex,bool isQueue);
+    bool JoinPlayerToGameRoom(CPlayer *pPlayer,int pRoomIndex=-1,int pChairIndex=-1,bool isQueue=true);
+
+public:
+	/// 加入一个玩家到排队列表中
+	void AddQueueList(CPlayer *connId);
+	/// 删除一个玩家从排队列表中
+	void DelQueueList(uint32 connId);
+	/// 更新排队玩家列表
+	void UpdateQueueList(void);
+	/// 更新机器人
+	void UpdateRobot(void);
+	/// 清空排队列表
+	void ClearQueueList(void);
 
 private:
     /// 发送指定玩家登陆成功的消息
@@ -54,6 +66,19 @@ private:
     void UpdatePlayerMoney(Player *pPlayer);
     /// 用于处理用户进入房间
     bool AddPlayerInServer(CPlayer *pPlayer,int pRoomIndex,int pChairIndex,bool isQueue,bool isGaming);
+
+	/// 发送当前排队人数
+	void SendQueuingCount(void);
+	/// 得到当前排队人数
+    int GetCurrentQueuePlayerCount(void);
+	/// 得到当前排队人数
+	int GetQueueRealPlayerCount(void);
+	/// 得到当前排队机器人数
+	int GetQueueRobotPlayerCount(void);
+
+private:
+	std::map<uint32,CPlayer*> m_PlayerQueueList;                 /**< 玩家排队列表 */
+	Mutex m_PlayerQueueListLock;                                 /**< 玩家排队列表锁 */
 };
 
 #define ServerGameFrameManager GameFrameManager::getSingleton()

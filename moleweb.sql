@@ -102,6 +102,7 @@ CREATE TABLE `mol_gameroom` (
   `currobotplayercount` int(6) NOT NULL DEFAULT '0',
   `createtime` datetime NOT NULL,
   `state` int(1) DEFAULT '0',
+  `QueueGaming` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `gameid` (`gameid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -113,7 +114,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,0,0,'2019-10-11 10:00:29',0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,1,0,'2019-10-11 21:35:32',0,1);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +160,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','d0970714757783e6cf17b26fb8e2298f','test@126.com',1,'test','','23423434','','127.0.0.1',1570688921,NULL,1,0,'','',0,0,NULL,1);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','d0970714757783e6cf17b26fb8e2298f','test@126.com',1,'test','','23423434','','127.0.0.1',1570688921,1570800877,1,0,'','html5',0,0,NULL,1);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -501,4 +502,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-11 10:04:04
+-- Dump completed on 2019-10-12  9:54:50

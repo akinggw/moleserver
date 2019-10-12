@@ -42,6 +42,7 @@ bool LoadGameParamConfig(std::string curPath)
     m_ServerSet.lastMoney = ptagGameRoom.lastmoney;
     m_ServerSet.m_RoomRevenue = ptagGameRoom.roomrevenue;
     m_ServerSet.m_Pielement = ptagGameRoom.pielement;
+    m_ServerSet.m_QueueGaming = ptagGameRoom.QueueGaming > 0 ? true : false;
 
     pCurConfigfile += "/games/";
     pCurConfigfile += m_ServerSet.ClientMudleName;

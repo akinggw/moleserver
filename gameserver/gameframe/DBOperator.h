@@ -59,6 +59,7 @@ struct tagGameRoom
     int64 lastmoney;
     int64 pielement;
     uint32 roomrevenue;
+    int QueueGaming;
     int state;                     // 0-Õý³££»
 };
 

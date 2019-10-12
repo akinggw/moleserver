@@ -89,6 +89,7 @@ void GameFrameManager::OnProcessConnectedNetMes(uint32 connId)
  */
 void GameFrameManager::OnProcessDisconnectNetMes(uint32 connId)
 {
+    DelQueueList(connId);
 	ServerRoomManager.OnProcessDisconnectNetMes(connId);
 }
 
@@ -437,7 +438,10 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 				return;
 			}
 
-			JoinPlayerToGameRoom(pPlayer,pRoomIndex,pChairIndex,m_ServerSet.m_QueueGaming);
+			if(m_ServerSet.m_QueueGaming)
+				AddQueueList(pPlayer);                // 排队进入
+			else
+                JoinPlayerToGameRoom(pPlayer,pRoomIndex,pChairIndex,m_ServerSet.m_QueueGaming);
 		}
 		break;
 	case IDD_MESSAGE_CHANGER_ROOM:                  // 交换游戏房间
@@ -510,7 +514,10 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 				return;
 			}
 
-			JoinPlayerToGameRoom(pPlayer,-1,-1,m_ServerSet.m_QueueGaming);
+			if(m_ServerSet.m_QueueGaming)
+				AddQueueList(pPlayer);                // 排队进入
+			else
+                JoinPlayerToGameRoom(pPlayer,-1,-1,m_ServerSet.m_QueueGaming);
 		}
 		break;
 	case IDD_MESSAGE_USER_CHAT:                     // 用户聊天
@@ -550,6 +557,8 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 		{
 			// 处理用户离开房间
 			OnProcessGameLeaveRoomMes(connId,mes);
+
+			DelQueueList(connId);
 		}
 		break;
 	case IDD_MESSAGE_GET_ONLINE_PLAYERS:             // 得到在线玩家
@@ -969,3 +978,235 @@ void GameFrameManager::UpdateGameRoomInfo(void)
                                                      ServerPlayerManager.GetRobotCount());
 }
 
+/// 得到当前排队人数
+int GameFrameManager::GetQueueRealPlayerCount(void)
+{
+    int count = 0;
+
+    m_PlayerQueueListLock.Acquire();
+    std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+    for(;iter != m_PlayerQueueList.end();++iter)
+    {
+        if((*iter).second != NULL && (*iter).second->GetType() == PLAYERTYPE_NORMAL) count+=1;
+    }
+    m_PlayerQueueListLock.Release();
+
+    return count;
+}
+/// 得到当前排队机器人数
+int GameFrameManager::GetQueueRobotPlayerCount(void)
+{
+    int count = 0;
+
+    m_PlayerQueueListLock.Acquire();
+    std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+    for(;iter != m_PlayerQueueList.end();++iter)
+    {
+        if((*iter).second != NULL && (*iter).second->GetType() == PLAYERTYPE_ROBOT) count+=1;
+    }
+    m_PlayerQueueListLock.Release();
+
+    return count;
+}
+/// 清空排队列表
+void GameFrameManager::ClearQueueList(void)
+{
+    m_PlayerQueueListLock.Acquire();
+    std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+    for(;iter != m_PlayerQueueList.end();++iter)
+    {
+        if((*iter).second == NULL) continue;
+
+        (*iter).second->SetState(PLAYERSTATE_NORAML);
+    }
+    m_PlayerQueueList.clear();
+    m_PlayerQueueListLock.Release();
+}
+
+/// 得到当前排队人数
+int GameFrameManager::GetCurrentQueuePlayerCount(void)
+{
+	int pWaitingCount = 0;
+
+	m_PlayerQueueListLock.Acquire();
+	pWaitingCount = (int)m_PlayerQueueList.size();
+	m_PlayerQueueListLock.Release();
+
+	return pWaitingCount;
+}
+
+/// 发送当前排队人数
+void GameFrameManager::SendQueuingCount(void)
+{
+	// 先向所有在线玩家发送排队信息
+	if(!m_ServerSet.m_QueueGaming/* || m_PlayerQueueList.empty()*/)
+		return;
+
+	int pWaitingCount = 0;
+
+	m_PlayerQueueListLock.Acquire();
+	pWaitingCount = (int)m_PlayerQueueList.size();
+	m_PlayerQueueListLock.Release();
+
+	//// 如果人数相同，就不更新了
+	//if(m_oldWaitingCount == pWaitingCount)
+	//	return;
+
+    Json::Value root;
+    root["MsgId"] = IDD_MESSAGE_FRAME;
+    root["MsgSubId"] = IDD_MESSAGE_FRAME_MATCH;
+    root["MsgSubId2"] = IDD_MESSAGE_FRAME_MATCH_WAITINGCOUNT;
+    root["WaitingCount"] = pWaitingCount;
+
+	ServerPlayerManager.SendMsgToEveryone(root);
+
+	//m_oldWaitingCount = pWaitingCount;
+}
+
+/// 加入一个玩家到排队列表中
+void GameFrameManager::AddQueueList(CPlayer *connId)
+{
+	if(connId == NULL) return;
+
+	m_PlayerQueueListLock.Acquire();
+
+	std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.find(connId->GetID());
+	if(iter == m_PlayerQueueList.end())
+	{
+		connId->SetState(PLAYERSTATE_QUEUE);
+
+		m_PlayerQueueList.insert(std::pair<uint32,CPlayer*>(connId->GetID(),connId));
+	}
+
+	m_PlayerQueueListLock.Release();
+	//CString tmpStr;
+	//tmpStr.Format("进来排队人数:%d\n",(int)m_PlayerQueueList.size());
+	//::OutputDebugString(tmpStr);
+
+	// 先更新在线排队人数
+	SendQueuingCount();
+
+	// 如果排队人数满足比赛要求，就立刻开始比赛
+	UpdateQueueList();
+}
+
+/// 删除一个玩家从排队列表中
+void GameFrameManager::DelQueueList(uint32 connId)
+{
+	m_PlayerQueueListLock.Acquire();
+	std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+	for(;iter != m_PlayerQueueList.end();)
+	{
+		if((*iter).second->GetConnectID() == connId)
+		{
+			// 只有在用户处于排队状态时，才有权改变它的状态
+			if((*iter).second->GetState() == PLAYERSTATE_QUEUE)
+			{
+				(*iter).second->SetState(PLAYERSTATE_NORAML);
+			}
+
+			iter = m_PlayerQueueList.erase(iter);
+
+			break;
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	m_PlayerQueueListLock.Release();
+
+	//CString tmpStr;
+	//tmpStr.Format("离开排队人数:%d\n",(int)m_PlayerQueueList.size());
+	//::OutputDebugString(tmpStr);
+
+	// 先更新在线排队人数
+	SendQueuingCount();
+}
+
+/// 更新排队玩家列表
+void GameFrameManager::UpdateQueueList(void)
+{
+	if((int)m_PlayerQueueList.size() < m_ServerSet.PlayerCount)
+	{
+		if(m_PlayerQueueList.empty()) return;
+
+		if(!m_PlayerQueueList.empty())
+		{
+			m_PlayerQueueListLock.Acquire();
+			std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+			for(;iter != m_PlayerQueueList.end();)
+			{
+				(*iter).second->SetState(PLAYERSTATE_NORAML);
+				if(JoinPlayerToGameRoom((*iter).second) == false)
+				{
+					(*iter).second->SetState(PLAYERSTATE_QUEUE);
+					break;
+				}
+
+				iter = m_PlayerQueueList.erase(iter);
+			}
+			m_PlayerQueueListLock.Release();
+		}
+
+		return;
+	}
+
+	CRoom *pRoom = ServerRoomManager.GetEmptyRoom();
+	if(pRoom == NULL) return;
+
+	m_PlayerQueueListLock.Acquire();
+	int realCount = (int)m_PlayerQueueList.size();
+	std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+	for(int index=0;iter != m_PlayerQueueList.end();index++)
+	{
+		if(index >= (realCount/m_ServerSet.PlayerCount) * m_ServerSet.PlayerCount)
+			break;
+
+		if(pRoom->IsFull())
+			pRoom = ServerRoomManager.GetEmptyRoom();
+
+		if(pRoom == NULL || pRoom->GetRoomState() == ROOMSTATE_GAMING) break;
+
+		(*iter).second->SetRoomId(pRoom->GetID());
+		(*iter).second->SetState(PLAYERSTATE_NORAML);
+
+		int playerIndex = pRoom->AddPlayer((*iter).second);
+
+		(*iter).second->SetChairIndex(playerIndex);
+
+		// 先向服务器中所有的在线玩家通告玩家进入游戏房间的消息
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_FRAME;
+        root["MsgSubId"] = IDD_MESSAGE_ENTER_ROOM;
+        root["MsgSubId2"] = IDD_MESSAGE_ENTER_ROOM_SUCC;
+        root["ID"] = (*iter).second->GetID();
+        root["RoomId"] = (*iter).second->GetRoomId();
+        root["ChairIndex"] = (*iter).second->GetChairIndex();
+
+		ServerPlayerManager.SendMsgToEveryone(root);
+
+		if(pRoom) pRoom->OnProcessEnterRoomMsg((*iter).second->GetChairIndex());
+
+		iter = m_PlayerQueueList.erase(iter);
+	}
+	m_PlayerQueueListLock.Release();
+
+	if(!m_PlayerQueueList.empty())
+	{
+		m_PlayerQueueListLock.Acquire();
+		std::map<uint32,CPlayer*>::iterator iter = m_PlayerQueueList.begin();
+		for(;iter != m_PlayerQueueList.end();)
+		{
+			(*iter).second->SetState(PLAYERSTATE_NORAML);
+			if(JoinPlayerToGameRoom((*iter).second) == false)
+			{
+				(*iter).second->SetState(PLAYERSTATE_QUEUE);
+				break;
+			}
+
+			iter = m_PlayerQueueList.erase(iter);
+		}
+		m_PlayerQueueListLock.Release();
+	}
+}
