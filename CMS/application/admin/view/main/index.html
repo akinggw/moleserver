@@ -8,39 +8,6 @@
         </blockquote>
         <div class="layui-row layui-col-space10 panel_box">
             <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
-                <a href="http://bbs.yzncms.com" target="_blank">
-                    <div class="panel_icon layui-bg-black">
-                        <i class="icon iconfont icon-interactive layui-anim"></i>
-                    </div>
-                    <div class="panel_word">
-                        <span>论坛</span>
-                        <cite>交流社区</cite>
-                    </div>
-                </a>
-            </div>
-            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
-                <a href="https://www.kancloud.cn/ken678/yzncms/352683" target="_blank">
-                    <div class="panel_icon layui-bg-red">
-                        <i class="icon iconfont icon-bangzhushouce layui-anim"></i>
-                    </div>
-                    <div class="panel_word">
-                        <span>文档</span>
-                        <cite>使用手册</cite>
-                    </div>
-                </a>
-            </div>
-            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
-                <a href="https://gitee.com/ken678/YZNCMS" target="_blank">
-                    <div class="panel_icon layui-bg-green">
-                        <i class="icon iconfont icon-oschina layui-anim"></i>
-                    </div>
-                    <div class="panel_word">
-                        <span>码云</span>
-                        <cite>模版下载链接</cite>
-                    </div>
-                </a>
-            </div>
-            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
                 <a href="javascript:;">
                     <div class="panel_icon layui-bg-blue">
                         <i class="icon iconfont icon-time layui-anim"></i>
@@ -123,7 +90,7 @@ function getLangDate() {
     var second = dateObj.getSeconds(); //当前系统时间的秒钟值
     var timeValue = "" + ((hour >= 12) ? (hour >= 18) ? "晚上" : "下午" : "上午"); //当前时间属于上午、晚上还是下午
     newDate = dateFilter(year) + "年" + dateFilter(month) + "月" + dateFilter(date) + "日 " + " " + dateFilter(hour) + ":" + dateFilter(minute) + ":" + dateFilter(second);
-    document.getElementById("nowTime").innerHTML = "亲爱的{$userInfo.username}，" + timeValue + "好！ 欢迎使用YznCMS v{$Think.config.version.yzncms_version},当前时间为： " + newDate + "　" + week;
+    document.getElementById("nowTime").innerHTML = "亲爱的{$userInfo.username}，" + timeValue + "好！ ,当前时间为： " + newDate + "　" + week;
     setTimeout("getLangDate()", 1000);
 }
 

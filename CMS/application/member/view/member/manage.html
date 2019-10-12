@@ -9,7 +9,6 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}'>批量删除</a>
-        <a class="layui-btn layui-btn-sm" href="{:url('add')}">添加会员</a>
     </div>
 </script>
 <script type="text/html" id="barTool">
@@ -30,15 +29,19 @@ layui.use('table', function() {
         cols: [
             [
                 { type: 'checkbox', fixed: 'left' },
-                { field: 'id', width: 80, title: '用户ID' },
+                { field: 'uid', width: 80, title: '用户ID' },
+                { field: 'gtype', width: 80, title: '用户类型' },
                 { field: 'username', width: 150, title: '用户名' },
-                { field: 'nickname', width: 150, title: '昵称' },
+                { field: 'useravatar', width: 150, title: '用户头像' },
                 { field: 'email',  title: '邮箱' },
-                { field: 'reg_ip', title: '注册IP' },
-                { field: 'last_login_time', title: '最后登录' },
-                { field: 'amount', width: 120, title: '金钱总数' },
-                { field: 'point', width: 120, title: '积分总数' },
-                { field: 'login', width: 100, title: '登录次数' },
+                { field: 'sex',  title: '性别' },
+                { field: 'realname', width: 150, title: '昵称' },
+                { field: 'telephone', title: '手机号码' },
+                { field: 'ipaddress', width: 120, title: 'IP地址' },
+                { field: 'createtime', width: 120, title: '注册时间' },
+                { field: 'lastlogintime', width: 120, title: '登录时间' },
+                { field: 'genable', width: 100, title: '是否封号' },
+                { field: 'curgamingstate', width: 100, title: '当前状态' },
                 { fixed: 'right', width: 120, title: '操作', templet: '#barTool' }
             ]
         ]

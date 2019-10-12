@@ -36,50 +36,21 @@ class Member extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = $this->Member_Model->where('status', 1)->page($page, $limit)->select()->withAttr('reg_ip', function ($value, $data) {
-                return long2ip($value);
-            })->withAttr('last_login_time', function ($value, $data) {
-                return time_format($value);
-            });
+            $_list = Db::connect("dbconfig_moleweb")->name("member as mb")->page($page, $limit)->
+                join('userdata ud','ud.userid = mb.uid','left')->
+                field('mb.*,ud.curgamingstate')->
+                withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
+                withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
+                withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
+                withAttr('createtime', function ($value, $data) {return time_format($value);})->
+                withAttr('lastlogintime', function ($value, $data) {return time_format($value);})->
+                select();
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);
             return json($result);
 
         }
         return $this->fetch();
-    }
-
-    /**
-     * 会员增加
-     */
-    public function add()
-    {
-        if ($this->request->isPost()) {
-            $data = $this->request->post();
-            $result = $this->validate($data, 'member');
-            if (true !== $result) {
-                return $this->error($result);
-            }
-            $userid = $this->Member_Model->userRegister($data['username'], $data['password'], $data['email']);
-            if ($userid > 0) {
-                unset($data['username'], $data['password'], $data['email']);
-                if (false !== $this->Member_Model->save($data, ['id' => $userid])) {
-                    $this->success("添加会员成功！", url("member/manage"));
-                } else {
-                    //service("Passport")->userDelete($memberinfo['userid']);
-                    $this->error("添加会员失败！");
-                }
-            }
-        } else {
-            foreach ($this->groupCache as $g) {
-                if (in_array($g['id'], array(8, 1, 7))) {
-                    continue;
-                }
-                $groupCache[$g['id']] = $g['name'];
-            }
-            $this->assign('groupCache', $groupCache);
-            return $this->fetch();
-        }
     }
 
     /**
@@ -152,44 +123,4 @@ class Member extends Adminbase
         $this->success("删除成功！");
 
     }
-
-    /**
-     * 审核会员
-     */
-    public function userverify()
-    {
-        if ($this->request->isAjax()) {
-            $limit = $this->request->param('limit/d', 10);
-            $page = $this->request->param('page/d', 10);
-            $_list = $this->Member_Model->where('status', '<>', 1)->page($page, $limit)->select()->withAttr('reg_ip', function ($value, $data) {
-                return long2ip($value);
-            })->withAttr('last_login_time', function ($value, $data) {
-                return time_format($value);
-            });
-            $total = count($_list);
-            $result = array("code" => 0, "count" => $total, "data" => $_list);
-            return json($result);
-
-        }
-        return $this->fetch();
-    }
-
-    /**
-     * 审核会员
-     */
-    public function pass()
-    {
-        $ids = $this->request->param('ids/a', null);
-        if (empty($ids)) {
-            $this->error('请选择需要审核的会员！');
-        }
-        if (!is_array($ids)) {
-            $ids = array(0 => $ids);
-        }
-        foreach ($ids as $uid) {
-            $info = Member_Model::where('id', $uid)->update(['status' => 1]);
-        }
-        $this->success("审核成功！");
-    }
-
 }

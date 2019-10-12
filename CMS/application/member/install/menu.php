@@ -10,7 +10,7 @@ return [
         //状态，1是显示，0不显示（需要参数的，建议不显示，例如编辑,删除等操作）
         "status" => 1,
         //名称
-        "name" => "会员",
+        "name" => "玩家",
         //图标
         "icon" => "icon-people",
         //备注
@@ -23,49 +23,18 @@ return [
                 "route" => "member/member/index",
                 "type" => 1,
                 "status" => 1,
-                "name" => "会员管理",
+                "name" => "玩家管理",
                 "icon" => "icon-people",
                 "child" => [
-                    [
-                        "route" => "member/setting/setting",
-                        "type" => 1,
-                        "status" => 1,
-                        "name" => "会员设置",
-                        "icon" => "icon-setup",
-                    ],
                     [
                         "route" => "member/member/manage",
                         "type" => 1,
                         "status" => 1,
-                        "name" => "会员管理",
+                        "name" => "玩家列表",
                         "icon" => "icon-huiyuan",
                     ],
-                    [
-                        "route" => "member/member/userverify",
-                        "type" => 1,
-                        "status" => 1,
-                        "name" => "审核会员",
-                        "icon" => "icon-shenhe",
-                    ],
                 ],
             ],
-            [
-                "route" => "member/group/index1",
-                "type" => 1,
-                "status" => 1,
-                "name" => "会员组",
-                "icon" => "icon-huiyuan2",
-                "child" => [
-                    [
-                        "route" => "member/group/index",
-                        "type" => 1,
-                        "status" => 1,
-                        "name" => "会员组管理",
-                        "icon" => "icon-huiyuan2",
-                    ],
-                ],
-            ],
-
         ],
     ],
 ];

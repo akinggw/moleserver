@@ -19,7 +19,7 @@ return [
     // 用户名
     'username' => 'root',
     // 密码
-    'password' => 'root',
+    'password' => '123456',
     // 端口
     'hostport' => '',
     // 连接dsn
@@ -52,4 +52,22 @@ return [
     'sql_explain' => false,
     // Query类
     'query' => '\\think\\db\\Query',
+
+    'dbconfig_moleweb' => [
+        'type'        => 'mysql',
+        'dsn'         => '',
+        'hostname'    => '127.0.0.1',
+        'database'    => 'moleweb',
+        'username'    => 'root',
+        'password'    => '123456',
+        'hostport'    => '3306',
+        'params'      => [],
+        'charset'     => 'utf8',
+        'prefix'      => 'mol_',
+        'debug'       => false,
+        'deploy'      => 0,
+        'rw_separate' => false,
+        'master_num'  => 1,
+        'slave_no'    => '',
+    ],
 ];

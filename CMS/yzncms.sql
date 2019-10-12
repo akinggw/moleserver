@@ -56,7 +56,6 @@ CREATE TABLE `yzn_admin` (
 -- Records of yzn_admin
 -- ----------------------------
 INSERT INTO `yzn_admin` VALUES ('1', 'admin', '9724b5e6c56b95f5723009ef81961bfe', '1', 'Wo0bAa', '御宅男', '1546940765', '2130706433', '530765310@qq.com', '1');
-INSERT INTO `yzn_admin` VALUES ('2', 'ken678', '932e31f030b850a87702a86c0e16db16', '2', 'Sxq6dR', '御宅男', '1542781151', '2130706433', '530765310@qq.com', '1');
 
 -- ----------------------------
 -- Table structure for `yzn_adminlog`
@@ -119,7 +118,6 @@ CREATE TABLE `yzn_auth_group` (
 -- Records of yzn_auth_group
 -- ----------------------------
 INSERT INTO `yzn_auth_group` VALUES ('1', '0', 'admin', '1', '超级管理员', '拥有所有权限', '', '1');
-INSERT INTO `yzn_auth_group` VALUES ('2', '1', 'admin', '1', '编辑', '编辑', '', '1');
 
 -- ----------------------------
 -- Table structure for `yzn_auth_rule`

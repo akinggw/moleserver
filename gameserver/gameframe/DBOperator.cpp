@@ -76,7 +76,7 @@ bool DBOperator::SetPlayerGameState(CPlayer *pPlayer)
 		<< "," << pPlayer->getCurChairIndex()
 		<< "," << pPlayer->getCurGameID()
 		<< "," << pPlayer->getCurServerId()
-		<< "," << (int)pPlayer->getCurGamingState()
+		<< "," << (int)pPlayer->GetState()
 		<< ");";
 
 	m_DataProvider->execSql(sqlstr.str());
