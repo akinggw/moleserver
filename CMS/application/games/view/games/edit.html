@@ -1,0 +1,62 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">游戏编辑</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="游戏名称" class="layui-input" value="{$data.name}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏类型</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="type" lay-verify="required" autocomplete="off" placeholder="游戏类型" class="layui-input" value="{$data.type}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">版本号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="maxversion" lay-verify="required" autocomplete="off" placeholder="版本号" class="layui-input" value="{$data.maxversion}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏逻辑包</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="processname" lay-verify="required" autocomplete="off" placeholder="游戏逻辑包" class="layui-input" value="{$data.processname}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏logo</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="gamelogo" lay-verify="required" autocomplete="off" placeholder="游戏logo" class="layui-input" value="{$data.gamelogo}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏简介</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="content" lay-verify="required" autocomplete="off" placeholder="游戏简介" class="layui-input" value="{$data.content}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否可用</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="state">
+                        <option value="0" {eq name="$data.state" value="0" }selected{/eq} >正常</option>
+                        <option value="1" {eq name="$data.state" value="1" }selected{/eq} >被封</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
