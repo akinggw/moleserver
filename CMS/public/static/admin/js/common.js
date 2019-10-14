@@ -153,6 +153,7 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
             query = '',
             code = function(that) {
                 var href = that.attr('href') ? that.attr('href') : that.attr('data-href');
+                var isMember = that.attr('isMember') ? 1 : 0;
                 var tableObj = that.attr('data-table') ? that.attr('data-table') : 'dataTable';
                 if (!href) {
                     notice.info('请设置data-href参数');
@@ -169,7 +170,11 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                         if (i > 0) {
                             query += '&';
                         }
-                        query += 'ids[]=' + checkStatus.data[i].id;
+
+                        if (isMember == 0)
+                            query += 'ids[]=' + checkStatus.data[i].id;
+                        else if(isMember == 1)
+                            query += 'ids[]=' + checkStatus.data[i].uid;
                     }
                 } else {
                     if (that.parents('form')[0]) {
@@ -196,7 +201,6 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
         }
         return false;
     });
-
 
     /**
      * 通用状态设置开关

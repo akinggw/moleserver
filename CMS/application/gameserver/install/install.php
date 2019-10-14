@@ -10,22 +10,31 @@
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
-// | 游戏服务器模型
+// | 安装脚本
 // +----------------------------------------------------------------------
-namespace app\member\model;
+namespace app\gameserver\install;
 
-use \think\Model;
-use think\facade\Config;
+use think\Db;
+use \sys\InstallBase;
 
-/**
- * 模型
- */
-class Member extends Model
+class install extends InstallBase
 {
-    //protected  $connection = Config::get('app.app_debug');
-
-    public function __construct($data = []) {
-        $this->connection = Config::get('app.dbconfig_moleweb');
-        parent::__construct($data);
+    /**
+     * 安装完回调
+     * @return boolean
+     */
+    public function end()
+    {
+        //填充默认配置
+        $Setting = include APP_PATH . 'gameserver/install/setting.php';
+        if (!empty($Setting) && is_array($Setting)) {
+            Db::name("Module")->where('module', 'gameserver')->setField('setting', serialize($Setting));
+        }
+        //显示cms的投稿菜单
+        if (isModuleInstall('cms')) {
+            Db::name('menu')->where(['app' => 'cms', 'controller' => 'publish', 'action' => 'index'])->setField('status', 1);
+        }
+        return true;
     }
+
 }

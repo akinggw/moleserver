@@ -1,0 +1,22 @@
+{template file="member/header.html"/}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">稿件编辑</li>
+    </ul>
+    <div class="layui-tab-content" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form" method="post">
+                {include file="inputItem" /}
+                {if count($fieldList)}
+                <div class="layui-form-item">
+                    <div>
+                        <button class="layui-btn ajax-post" lay-submit lay-filter="*" target-form="form-horizontal">立即提交</button>
+                    </div>
+                </div>
+                {/if}
+            </form>
+        </div>
+    </div>
+</div>
+{template file="member/layui.html"/}
+{template file="member/footer.html"/}

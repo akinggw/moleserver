@@ -1,0 +1,55 @@
+{template file="member/header.html"/}
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">我的稿件</li>
+    </ul>
+    <div class="layui-tab-content" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+        	<table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barTool">
+    {{# if(d.status!=1){ }}
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("del")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {{#  } else{ }}
+    <a class="layui-btn layui-btn-xs layui-btn-danger layui-btn-disabled">不可操作</a>
+    {{#  } }}
+</script>
+<script type="text/html" id="status">
+    {{#  if(d.status==-1){ }}
+<button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">已退稿</button>
+    {{#  } else if(d.status==0){ }}
+<button class="layui-btn layui-btn-danger layui-btn layui-btn-xs">待审核</button>
+    {{#  } else if(d.status==1){ }}
+<button class="layui-btn layui-btn layui-btn-xs">已通过</button>
+    {{#  } }}
+</script>
+{template file="member/layui.html"/}
+<script>
+layui.use(['table'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("published")}',
+        cols: [
+            [
+                { field: 'id', width: 60, title: 'ID' },
+                { field: 'title', title: '标题'},
+                { field: 'catname',width: 120, title: '所属栏目'},
+                { field: 'create_time', width: 180, title: '发布时间' },
+                { field: 'url',width: 60,align:"center", title: 'URL',templet:'<div><a href="{{ d.url }}" target="_blank"><i class="iconfont icon-lianjie"></i></a></div>'},
+                { field: 'status', width: 80, title: '状态',align: "center", templet: '#status' },
+                { fixed: 'right', width: 120, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+});
+</script>
+{template file="member/footer.html"/}

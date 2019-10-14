@@ -16,6 +16,7 @@ namespace app\member\controller;
 
 use app\common\controller\Adminbase;
 use app\member\model\Member as Member_Model;
+use app\member\model\Userdata as Userdata_Model;
 use think\Db;
 
 class Member extends Adminbase
@@ -25,6 +26,7 @@ class Member extends Adminbase
     {
         parent::initialize();
         $this->Member_Model = new Member_Model;
+        $this->Userdata_Model = new Userdata_Model;
         $this->groupCache = cache("Member_Group"); //会员模型
     }
 
@@ -36,9 +38,9 @@ class Member extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = Db::connect("dbconfig_moleweb")->name("member as mb")->page($page, $limit)->
-                join('userdata ud','ud.userid = mb.uid','left')->
-                field('mb.*,ud.curgamingstate')->
+            $_list = $this->Member_Model->page($page, $limit)->
+                join('userdata ud','ud.userid = mol_member.uid','left')->
+                field('mol_member.*,ud.curgamingstate')->
                 withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
                 withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
                 withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
@@ -54,56 +56,78 @@ class Member extends Adminbase
     }
 
     /**
-     * 会员编辑
+     * 编辑
      */
     public function edit()
     {
         if ($this->request->isPost()) {
             $userid = $this->request->param('id/d', 0);
             $data = $this->request->post();
-            $result = $this->validate($data, 'member.edit');
-            if (true !== $result) {
-                return $this->error($result);
-            }
+
             //获取用户信息
-            $userinfo = Member_Model::get($userid);
+            $userinfo = $this->Member_Model->where(["uid" => $userid])->find();
             if (empty($userinfo)) {
                 $this->error('该会员不存在！');
             }
+
             //修改基本资料
-            if ($userinfo['username'] != $data['username'] || !empty($data['password']) || $userinfo['email'] != $data['email']) {
-                $res = $this->Member_Model->userEdit($userinfo['username'], '', $data['password'], $data['email'], 1);
-                if (!$res) {
-                    $this->error($this->Member_Model->getError());
-                }
-            }
-            unset($data['username'], $data['password'], $data['email']);
+            $data['password'] = md5($data['password']);
+            $data['bankpassword'] = md5($data['bankpassword']);
+
             //更新除基本资料外的其他信息
-            if (false === $this->Member_Model->allowField(true)->save($data, ['id' => $userid])) {
+            if (false === $this->Member_Model->allowField(true)->save($data, ['uid' => $userid])) {
                 $this->error('更新失败！');
             }
             $this->success("更新成功！", url("member/manage"));
 
         } else {
             $userid = $this->request->param('id/d', 0);
-            $data = $this->Member_Model->where(["id" => $userid])->find();
+            $data = $this->Member_Model->where(["uid" => $userid])->find();
             if (empty($data)) {
                 $this->error("该会员不存在！");
             }
-            foreach ($this->groupCache as $g) {
-                if (in_array($g['id'], array(8, 1, 7))) {
-                    continue;
-                }
-                $groupCache[$g['id']] = $g['name'];
-            }
-            $this->assign('groupCache', $groupCache);
+
             $this->assign("data", $data);
             return $this->fetch();
         }
     }
 
     /**
-     * 会员删除
+     * 编辑玩家游戏数据
+     */
+    public function gamedata()
+    {
+        if ($this->request->isPost()) {
+            $userid = $this->request->param('id/d', 0);
+            $data = $this->request->post();
+
+            //获取用户信息
+            $userinfo = $this->Userdata_Model->where(["userid" => $userid])->find();
+            if (empty($userinfo)) {
+                $this->error('该会员不存在！');
+            }
+
+            //更新除基本资料外的其他信息
+            if (false === $this->Userdata_Model->allowField(true)->save($data, ['userid' => $userid])) {
+                $this->error('更新失败！');
+            }
+            $this->success("更新成功！", url("member/manage"));
+
+        } else {
+            $userid = $this->request->param('id/d', 0);
+            $data = $this->Userdata_Model->where(["userid" => $userid])->
+                find();
+            if (empty($data)) {
+                $this->error("该会员不存在！");
+            }
+
+            $this->assign("data", $data);
+            return $this->fetch();
+        }
+    }
+
+    /**
+     * 删除
      */
     public function delete()
     {
@@ -117,7 +141,7 @@ class Member extends Adminbase
         foreach ($ids as $uid) {
             $info = $this->Member_Model->find($uid);
             if (!empty($info)) {
-                $this->Member_Model->userDelete($uid);
+                $this->Member_Model->where(['uid' => $uid])->delete($uid);
             }
         }
         $this->success("删除成功！");

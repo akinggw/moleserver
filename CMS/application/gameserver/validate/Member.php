@@ -10,22 +10,31 @@
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
-// | 游戏服务器模型
+// | 模型验证
 // +----------------------------------------------------------------------
-namespace app\member\model;
+namespace app\member\validate;
 
-use \think\Model;
-use think\facade\Config;
+use think\Validate;
 
-/**
- * 模型
- */
-class Member extends Model
+class Member extends Validate
 {
-    //protected  $connection = Config::get('app.app_debug');
+    //定义验证规则
+    protected $rule = [
+        'username|用户名' => 'unique:member|require|alphaDash|length:3,20',
+        'nickname|昵称' => 'unique:member|chsDash|length:3,20',
+        'password|密码' => 'require|length:3,20|confirm',
+        'email|邮箱' => 'unique:member|require|email',
+        'groupid|会员组' => 'require|number',
+    ];
 
-    public function __construct($data = []) {
-        $this->connection = Config::get('app.dbconfig_moleweb');
-        parent::__construct($data);
+    public function sceneEdit()
+    {
+        return $this->remove('password', 'require');
     }
+
+    public function sceneRegister()
+    {
+        return $this->remove('groupid', 'require');
+    }
+
 }

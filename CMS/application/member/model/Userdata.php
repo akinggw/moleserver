@@ -20,7 +20,7 @@ use think\facade\Config;
 /**
  * 模型
  */
-class Member extends Model
+class Userdata extends Model
 {
     //protected  $connection = Config::get('app.app_debug');
 

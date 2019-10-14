@@ -10,22 +10,6 @@
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
-// | 游戏服务器模型
+// | member函数文件
 // +----------------------------------------------------------------------
-namespace app\member\model;
 
-use \think\Model;
-use think\facade\Config;
-
-/**
- * 模型
- */
-class Member extends Model
-{
-    //protected  $connection = Config::get('app.app_debug');
-
-    public function __construct($data = []) {
-        $this->connection = Config::get('app.dbconfig_moleweb');
-        parent::__construct($data);
-    }
-}

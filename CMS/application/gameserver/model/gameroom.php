@@ -10,9 +10,9 @@
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
-// | 游戏服务器模型
+// | 会员模型
 // +----------------------------------------------------------------------
-namespace app\member\model;
+namespace app\gameserver\model;
 
 use \think\Model;
 use think\facade\Config;
@@ -20,7 +20,7 @@ use think\facade\Config;
 /**
  * 模型
  */
-class Member extends Model
+class gameroom extends Model
 {
     //protected  $connection = Config::get('app.app_debug');
 

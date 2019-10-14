@@ -10,22 +10,29 @@
 // +----------------------------------------------------------------------
 
 // +----------------------------------------------------------------------
-// | 游戏服务器模型
+// | 前台会员管理
 // +----------------------------------------------------------------------
-namespace app\member\model;
+namespace app\gameserver\controller;
 
-use \think\Model;
+use app\common\controller\Homebase;
 use think\facade\Config;
 
-/**
- * 模型
- */
-class Member extends Model
+class GameServerBase extends HomeBase
 {
-    //protected  $connection = Config::get('app.app_debug');
+    //初始化
+    protected function initialize()
+    {
+        parent::initialize();
+    }
 
-    public function __construct($data = []) {
-        $this->connection = Config::get('app.dbconfig_moleweb');
-        parent::__construct($data);
+    /**
+     * 检测用户是否已经登陆
+     */
+    final public function check_member()
+    {
+        if (substr($this->request->module(), 0, 7) == 'public_' || in_array(strtolower($this->request->action()), $this->noNeedLogin)) {
+            //所有以public_开头的方法都无需检测是否登陆
+            return true;
+        }
     }
 }

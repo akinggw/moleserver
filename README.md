@@ -32,8 +32,9 @@ port=3306
 7. 服务器的启动，./game_server 1 带参数，后面跟ID值，这个ID值就是mol_gameroom的ID,mol_gameroom表会实时更新这台游戏服务器的信息，以便于在网站上监控
 8. 然后用浏览器打开websocket_demo.html，可以通过修改IP和端口来连接登录服务器和游戏服务器进入相应的消息测试。
 9. 后端运行启动方式:nohup ./login_server &
+10. 编译代码直接在主目录直接执行make就可以了，如果要编译成debug版，只需要make debug=1就可以了，另外代码使用了codeblocks进行编辑和管理，但并没有使用codeblocks进行编译，而直接使用了makefile.
 
 #### 联系作者
-有问题加我微信啊:mole2d
+有问题加我微信:mole2d
 email:akinggw@126.com
 

@@ -1,0 +1,83 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑会员组</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label>会员组名称</label>
+                <div class="w300">
+                    <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="会员组名称" class="layui-input" value="{$data.name}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>积分小于</label>
+                <div class="w300">
+                    <input type="text" name="point" lay-verify="required" autocomplete="off" placeholder="积分小于" class="layui-input" value="{$data.point}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>星星数</label>
+                <div class="w300">
+                    <input type="text" name="starnum" lay-verify="required" autocomplete="off" placeholder="星星数" class="layui-input" value="{$data.starnum}">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label>用户权限</label>
+                <div>
+                    <input type="checkbox" name="allowpost" title="允许投稿" lay-skin="primary" value="1" {eq name="data.allowpost" value="1"}checked{/eq}>
+                    <input type="checkbox" name="allowpostverify" title="投稿不需审核" lay-skin="primary" value="1" {eq name="data.allowpostverify" value="1"}checked{/eq}>
+                    <input type="checkbox" name="allowupgrade" title="允许自助升级" lay-skin="primary" value="1" {eq name="data.allowupgrade" value="1"}checked{/eq}>
+                    <input type="checkbox" name="allowsendmessage" title="允许发短消息" lay-skin="primary" value="1" {eq name="data.allowsendmessage" value="1"}checked{/eq}>
+                    <input type="checkbox" name="allowattachment" title="允许上传附件" lay-skin="primary" value="1" {eq name="data.allowattachment" value="1"}checked{/eq}>
+                    <input type="checkbox" name="allowsearch" title="搜索权限" lay-skin="primary" value="1" {eq name="data.allowsearch" value="1"}checked{/eq}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>最大短消息数</label>
+                <div class="w300">
+                    <input type="text" name="allowmessage" lay-verify="required" autocomplete="off" placeholder="最大短消息数" class="layui-input" value="{$data.allowmessage}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label>日最大投稿数</label>
+                <div class="w300">
+                    <input type="text" name="allowpostnum" lay-verify="required" autocomplete="off" placeholder="日最大投稿数" class="layui-input" value="{$data.allowpostnum}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">0为不限制</div>
+            </div>
+            <div class="layui-form-item web_seo">
+                <label>用户组简介</label>
+                <div class="w300">
+                    <textarea name="description" placeholder="栏目简介" class="layui-textarea">{$data.description}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label>用户组图标</label>
+                <div class="layui-form-field-label">
+                    <div class="js-upload-image">
+                        {php}echo \util\Form::images('icon','',$data['icon']){/php}
+                    </div>
+                </div>
+            </div>
+            <input name="id" type="hidden" value="{$data.id}"/>
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/libs/viewer/viewer.min.js"></script>
+<link rel="stylesheet" href="__STATIC__/libs/viewer/viewer.min.css">
+<script type="text/javascript">
+$('.uploader-list').each(function () {
+    $(this).viewer();
+});
+</script>
+{/block}

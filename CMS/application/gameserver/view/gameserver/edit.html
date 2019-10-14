@@ -1,0 +1,90 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">服务器编辑</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务器名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="servername" lay-verify="required" autocomplete="off" placeholder="服务器名称" class="layui-input" value="{$data.servername}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属游戏</label>
+                <div class="layui-input-inline">
+                    <select name="gameid" lay-verify="required">
+                        {volist name="games" id="vo"}
+                        <option value="{$vo['id']}" {eq name="$data.gameid" value="$vo['id']" }selected{/eq}>{$vo['name']}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">端口</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="serverport" lay-verify="required" autocomplete="off" placeholder="端口" class="layui-input" value="{$data.serverport}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">IP地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="serverip" lay-verify="required" autocomplete="off" placeholder="IP地址" class="layui-input" value="{$data.serverip}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房间数量</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="tablecount" lay-verify="required" autocomplete="off" placeholder="房间数量" class="layui-input" value="{$data.tablecount}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房间人数</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="tableplayercount" lay-verify="required" autocomplete="off" placeholder="房间人数" class="layui-input" value="{$data.tableplayercount}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏类型</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="gamingtype" lay-verify="required" autocomplete="off" placeholder="游戏类型" class="layui-input" value="{$data.gamingtype}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房间限制</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="lastmoney" lay-verify="required" autocomplete="off" placeholder="房间限制" class="layui-input" value="{$data.lastmoney}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">pielement</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pielement" lay-verify="required" autocomplete="off" placeholder="pielement" class="layui-input" value="{$data.pielement}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">roomrevenue</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="roomrevenue" lay-verify="required" autocomplete="off" placeholder="roomrevenue" class="layui-input" value="{$data.roomrevenue}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否排队</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="QueueGaming">
+                        <option value="0" {eq name="$data.QueueGaming" value="0" }selected{/eq} >不排队</option>
+                        <option value="1" {eq name="$data.QueueGaming" value="1" }selected{/eq} >排队</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

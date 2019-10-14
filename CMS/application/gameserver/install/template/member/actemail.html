@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>用户中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="__STATIC__/libs/layui/layui.js"></script>
+    <link rel="stylesheet" href="__STATIC__/libs/layui/css/layui.css">
+</head>
+
+<body>
+    <form class="layui-form" action="" method="post" style="padding: 20px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input type="text" name="email" required="" lay-verify="required|email" id="email" autocomplete="off" value="{$userinfo.email}" class="layui-input" placeholder="新邮箱" disabled style="cursor: not-allowed !important;">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="captcha" required="" lay-verify="required" autocomplete="off" value="" class="layui-input"> </div>
+            <button class="layui-btn btn-captcha" type="button" data-event="actemail" data-type="email" data-url="{:url('api/ems/send')}">获取验证码</button>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" key="set-mine" lay-filter="formSubmit" lay-submit="" lay-data="{pop:true,refresh: true}">确认修改</button>
+        </div>
+    </form>
+    <style type="text/css">
+    .layui-form-label {
+        width: 60px;
+        padding-left: 0;
+    }
+
+    .layui-form-item .layui-input-inline {
+        float: left;
+        margin: 0;
+    }
+    </style>
+    {include file="layui" /}
+</body>
+
+</html>

@@ -12,6 +12,7 @@
 // +----------------------------------------------------------------------
 // | 应用设置
 // +----------------------------------------------------------------------
+
 error_reporting(E_ALL ^ E_NOTICE);
 return [
     // 应用名称
@@ -19,7 +20,7 @@ return [
     // 应用地址
     'app_host' => '',
     // 应用调试模式
-    'app_debug' => true,
+    'app_debug' => false,
     // 应用Trace
     'app_trace' => true,
     // 应用模式状态
@@ -144,4 +145,21 @@ return [
     /* 系统数据加密设置 */
     'data_auth_key' => 'Mhc(jk`[t.7?P_Ty=A%41o+S{J390DKpFmvW@E}8', //默认数据加密KEY
 
+    'dbconfig_moleweb' => [
+        'type'        => 'mysql',
+        'dsn'         => '',
+        'hostname'    => '127.0.0.1',
+        'database'    => 'moleweb',
+        'username'    => 'root',
+        'password'    => '123456',
+        'hostport'    => '3306',
+        'params'      => [],
+        'charset'     => 'utf8',
+        'prefix'      => 'mol_',
+        'debug'       => false,
+        'deploy'      => 0,
+        'rw_separate' => false,
+        'master_num'  => 1,
+        'slave_no'    => '',
+    ],
 ];
