@@ -98,8 +98,12 @@ public:
     uint32 IsExistUser(std::string name,std::string password);
     /// 得到游戏房间信息
     bool GetGameRoomInfo(uint32 pRoomId,tagGameRoom *ptagGameRoom);
+    /// 导入配置的机器人
+    bool GetRobotsOfGameServer(uint32 KindID,uint32 ServerID,std::vector<uint32>& pUserList);
     /// 更新游戏房间在线人数
     bool UpdateGameRoomOnlinePlayerCount(uint32 pRoomId,int currealplayercount,int currobotplayercount);
+    /// 得到机器人进入房间时间段
+    bool GetRobotEnterRoomTimes(void);
 
 private:
 	DataProvider *m_DataProvider;                               /**< 用于访问本地数据库 */

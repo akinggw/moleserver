@@ -93,6 +93,11 @@ void GameFrameManager::OnProcessDisconnectNetMes(uint32 connId)
 	ServerRoomManager.OnProcessDisconnectNetMes(connId);
 }
 
+CPlayer* GameFrameManager::CreateNewPlayer(void)
+{
+	return new CPlayer(PLAYERTYPE_ROBOT);
+}
+
 /// 更新玩家信息
 void GameFrameManager::UpdatePlayerInfo(Player *pPlayer)
 {

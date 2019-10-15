@@ -32,6 +32,14 @@ public:
 	void UpdatePlayerInfo(Player *pPlayer);
 	/// 更新房间信息
 	void UpdateGameRoomInfo(void);
+    /// 更新玩家信息
+    void OnProcessUserInfo(CPlayer *pPlayer);
+    /// 新建一个新的玩家
+    CPlayer* CreateNewPlayer(void);
+    /// 发送指定玩家登陆成功的消息
+    void SendPlayerLoginSuccess(CPlayer *pPlayer);
+    /// 用于处理用户加入房间
+    bool JoinPlayerToGameRoom(CPlayer *pPlayer,int pRoomIndex=-1,int pChairIndex=-1,bool isQueue=true);
 
 private:
 	/// 用于处理用户登录消息
@@ -42,8 +50,6 @@ private:
     void OnProcessGameReadyMes(uint32 connId,Json::Value &mes);
     /// 用于处理用户离开消息
     void OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes);
-    /// 用于处理用户加入房间
-    bool JoinPlayerToGameRoom(CPlayer *pPlayer,int pRoomIndex=-1,int pChairIndex=-1,bool isQueue=true);
 
 public:
 	/// 加入一个玩家到排队列表中
@@ -57,16 +63,7 @@ public:
 	/// 清空排队列表
 	void ClearQueueList(void);
 
-private:
-    /// 发送指定玩家登陆成功的消息
-    void SendPlayerLoginSuccess(CPlayer *pPlayer);
-    /// 更新玩家信息
-    void OnProcessUserInfo(CPlayer *pPlayer);
-    /// 更新玩家身上的钱
-    void UpdatePlayerMoney(Player *pPlayer);
-    /// 用于处理用户进入房间
-    bool AddPlayerInServer(CPlayer *pPlayer,int pRoomIndex,int pChairIndex,bool isQueue,bool isGaming);
-
+public:
 	/// 发送当前排队人数
 	void SendQueuingCount(void);
 	/// 得到当前排队人数
@@ -75,6 +72,12 @@ private:
 	int GetQueueRealPlayerCount(void);
 	/// 得到当前排队机器人数
 	int GetQueueRobotPlayerCount(void);
+
+private:
+    /// 更新玩家身上的钱
+    void UpdatePlayerMoney(Player *pPlayer);
+    /// 用于处理用户进入房间
+    bool AddPlayerInServer(CPlayer *pPlayer,int pRoomIndex,int pChairIndex,bool isQueue,bool isGaming);
 
 private:
 	std::map<uint32,CPlayer*> m_PlayerQueueList;                 /**< 玩家排队列表 */

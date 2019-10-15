@@ -2,6 +2,7 @@
 #include "gameserver_common.h"
 #include "gameframe/CRoom.h"
 #include "gameframe/RoomManager.h"
+#include "gameframe/CRobotManager.h"
 #include "gameframe/DBOperator.h"
 
 #include <dlfcn.h>
@@ -91,6 +92,9 @@ bool LoadGameParamConfig(std::string curPath)
 
 		ServerRoomManager.AddRoom(pRoom);
 	}
+
+	// 导入机器人
+	RobotManager.UpdateRobot();
 
 	return true;
 }

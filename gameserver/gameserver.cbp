@@ -41,6 +41,8 @@
 		<Unit filename="gameframe/CDieOutMatchingMode.cpp" />
 		<Unit filename="gameframe/CPlayer.cpp" />
 		<Unit filename="gameframe/CPlayer.h" />
+		<Unit filename="gameframe/CRobotManager.cpp" />
+		<Unit filename="gameframe/CRobotManager.h" />
 		<Unit filename="gameframe/CRoom.cpp" />
 		<Unit filename="gameframe/CRoom.h" />
 		<Unit filename="gameframe/DBOperator.cpp" />

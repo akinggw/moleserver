@@ -9,6 +9,7 @@
 #include "GameFrameManager.h"
 #include "gameframe/PlayerManager.h"
 #include "gameframe/RoomManager.h"
+#include "gameframe/CRobotManager.h"
 
 ServerSet m_ServerSet;
 ServerServiceManager         *m_g_ServerServiceManager = NULL;        //游戏逻辑接口
@@ -36,6 +37,7 @@ int main(int argc,char *argv[])
 	new DBOperator();
 	new PlayerManager();
 	new RoomManager();
+	new CRobotManager();
 
     if(!LoadServerConfig(m_curProgress_Path))
     {
@@ -120,12 +122,14 @@ int main(int argc,char *argv[])
             ServerPlayerManager.OnEventTimer(0,0);
             ServerRoomManager.OnEventTimer(0,0);
             ServerGameFrameManager.UpdateQueueList();
+            RobotManager.UpdateRobot();
 
             if(m_updateonlineplayercount >= 30)
             {
                 m_updateonlineplayercount = 0;
 
                 ServerGameFrameManager.UpdateGameRoomInfo();
+                RobotManager.RobotsEnterGameRoom();
             }
         }
 
@@ -140,6 +144,7 @@ int main(int argc,char *argv[])
 	delete GameFrameManager::getSingletonPtr();
 	delete PlayerManager::getSingletonPtr();
 	delete RoomManager::getSingletonPtr();
+	delete CRobotManager::getSingletonPtr();
 
     return 0;
 }

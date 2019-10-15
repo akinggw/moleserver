@@ -63,6 +63,26 @@ void DBOperator::Update(void)
 	m_DataProvider->Update();
 }
 
+bool DBOperator::GetRobotsOfGameServer(uint32 KindID,uint32 ServerID,std::vector<uint32>& pUserList)
+{
+	if(m_DataProvider == NULL || ServerID <= 0 || KindID <= 0) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "select userid from mol_androiduserinfo where kindid=" << KindID << " and serverid=" << ServerID << " and nullity=0;";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	for(int i=0;i<(int)pRecord(0).rows();i++)
+	{
+		uint32 pUserID = atoi(pRecord(0)(i,0).c_str());
+
+		pUserList.push_back(pUserID);
+	}
+
+	return true;
+}
+
 /// 设置当前玩家游戏状态
 bool DBOperator::SetPlayerGameState(CPlayer *pPlayer)
 {
@@ -279,5 +299,19 @@ bool DBOperator::UpdateGameRoomOnlinePlayerCount(uint32 pRoomId,int currealplaye
 	m_DataProvider->execSql(sqlstr.str());
 
 	return true;
+}
+
+/// 得到机器人进入房间时间段
+bool DBOperator::GetRobotEnterRoomTimes(void)
+{
+	if(m_DataProvider == NULL) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "call isrobotincontroltimes();";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	return atoi(pRecord(0)(0,0).c_str()) > 0 ? true : false;
 }
 

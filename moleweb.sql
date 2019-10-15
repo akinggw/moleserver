@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `mol_androiduserinfo`
+--
+
+DROP TABLE IF EXISTS `mol_androiduserinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_androiduserinfo` (
+  `userid` int(6) NOT NULL,
+  `nullity` int(1) NOT NULL DEFAULT '0',
+  `kindid` int(6) NOT NULL DEFAULT '0',
+  `serverid` int(6) NOT NULL,
+  `createdate` datetime NOT NULL,
+  PRIMARY KEY (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_androiduserinfo`
+--
+
+LOCK TABLES `mol_androiduserinfo` WRITE;
+/*!40000 ALTER TABLE `mol_androiduserinfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mol_androiduserinfo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mol_game`
 --
 
@@ -41,7 +67,7 @@ CREATE TABLE `mol_game` (
 
 LOCK TABLES `mol_game` WRITE;
 /*!40000 ALTER TABLE `mol_game` DISABLE KEYS */;
-INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777217,'libgame_ddz.so','hlddzlog.png','',0);
+INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0);
 /*!40000 ALTER TABLE `mol_game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +140,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,1,0,'2019-10-12 10:21:08',0,0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,1,0,'2019-10-15 10:17:21',0,0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,8 +184,34 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','d0970714757783e6cf17b26fb8e2298f','test@126.com',1,'test','','23423434','','127.0.0.1',1570688921,1570800877,1,0,'','html5',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1570800877,1,0,'','html5',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mol_robotcontroltimes`
+--
+
+DROP TABLE IF EXISTS `mol_robotcontroltimes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_robotcontroltimes` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `startcollectdate` time NOT NULL,
+  `endcollectdate` time NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_robotcontroltimes`
+--
+
+LOCK TABLES `mol_robotcontroltimes` WRITE;
+/*!40000 ALTER TABLE `mol_robotcontroltimes` DISABLE KEYS */;
+INSERT INTO `mol_robotcontroltimes` VALUES (1,'08:00:00','18:00:00');
+/*!40000 ALTER TABLE `mol_robotcontroltimes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -198,7 +250,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,1000,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,1000,100,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,6 +390,52 @@ isexistuserproce:begin
 	end if;
 	select(lastuserid);
 
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `isrobotincontroltimes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `isrobotincontroltimes`()
+isrobotincontroltimesproc:begin
+    declare done int;
+    declare pstartcollectdate time;
+    declare pendcollectdate time;
+    declare pcurtime time;
+
+    declare getrobotcontroltimes CURSOR for   
+		select startcollectdate as pstartcollectdate,endcollectdate as pendcollectdate from mol_robotcontroltimes; 
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=1; 
+    
+    select date_format(now(), '%H:%i:%s') into pcurtime;
+    
+    OPEN getrobotcontroltimes; 
+		posLoop:LOOP
+			IF done=1 THEN 
+				LEAVE posLoop;
+			END IF; 
+			
+            FETCH  getrobotcontroltimes into pstartcollectdate,pendcollectdate;  
+            
+            if pcurtime >= pstartcollectdate  and pcurtime < pendcollectdate then
+				select(1);
+				leave isrobotincontroltimesproc;
+            end if;
+            
+		END LOOP posLoop; 
+    CLOSE getrobotcontroltimes;    
+    
+    select(pendcollectdate);
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -500,4 +598,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-12 14:22:03
+-- Dump completed on 2019-10-15 11:04:52

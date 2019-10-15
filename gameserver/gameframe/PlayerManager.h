@@ -12,18 +12,21 @@ public:
 	PlayerManager();
 	~PlayerManager();
 
-	/// 清除所有的玩家
-	void ClearAllPlayers(void);
-	/// 添加一个玩家到系统中
-	bool AddPlayer(CPlayer *pPlayer);
 	/// 添加一个机器人到系统中
 	bool AddRobot(CPlayer *pPlayer);
-	/// 根据玩家的连接ID设置玩家
-	void Reset(CPlayer *pPlayer);
 	/// 得到空闲的机器人
 	CPlayer* GetFreeRobot(void);
 	/// 得到空闲机器人个数
 	int GetFreeRobotCount(void);
+	/// 得到机器人总的输赢
+	int64 GetRobotTotalResult(void);
+
+	/// 清除所有的玩家
+	void ClearAllPlayers(void);
+	/// 添加一个玩家到系统中
+	bool AddPlayer(CPlayer *pPlayer);
+	/// 根据玩家的连接ID设置玩家
+	void Reset(CPlayer *pPlayer);
 	/// 从系统中删除指定的玩家
 	void ClearPlayer(CPlayer *pPlayer);
 	/// 从系统中摘除指定的玩家
@@ -38,8 +41,6 @@ public:
 	CPlayer* GetPlayerById(uint32 id);
 	/// 得到玩家总的输赢
 	int64 GetPlayerTotalResult(void);
-	/// 得到机器人总的输赢
-	int64 GetRobotTotalResult(void);
 	/// 得到当前系统玩家个数
 	inline int GetPlayerCount(void) { return (int)m_PlayerList.size(); }
 	/// 得到当前系统机器人个数

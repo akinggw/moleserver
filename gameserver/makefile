@@ -16,6 +16,7 @@ OBJS_GF = $(OBJDIR)/DBOperator.o \
 	   $(OBJDIR)/PlayerManager.o \
 	   $(OBJDIR)/CRoom.o \
 	   $(OBJDIR)/RoomManager.o \
+	   $(OBJDIR)/CRobotManager.o \
 
 OBJS = $(OBJDIR)/GameFrameManager.o \
 	   $(OBJDIR)/gameparamconfig.o \
