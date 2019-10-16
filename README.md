@@ -42,7 +42,7 @@ port=3306
 email:akinggw@126.com
 
 [截图预览]  
-![输入图片说明](https://gitee.com/akinggw/moleserver/blob/master/screen/net1.png "后台管理截图1.png")
-![输入图片说明](https://gitee.com/akinggw/moleserver/blob/master/screen/net2.png "后台管理截图2.png")
-![输入图片说明](https://gitee.com/akinggw/moleserver/blob/master/screen/net3.png "后台管理截图3.png")
+![输入图片说明](https://gitee.com/akinggw/moleserver/blob/master/screen/net1.png)
+![输入图片说明](https://gitee.com/akinggw/moleserver/blob/master/screen/net2.png")
+![输入图片说明](https://gitee.com/akinggw/moleserver/blob/master/screen/net3.png")
 
