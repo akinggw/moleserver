@@ -1,0 +1,48 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">机器人列表</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}' isMember="2">批量删除</a>
+        <a class="layui-btn layui-btn-sm" href='{:url("add")}'>添加机器人</a>
+        <a class="layui-btn layui-btn-sm" href='{:url("updateandroidmoney")}'>加钱</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("edit")}?id={{ d.userid }}' class="layui-btn layui-btn-xs">注册数据</a>
+    <a href='{:url("gamedata")}?id={{ d.userid }}' class="layui-btn layui-btn-xs">游戏数据</a>
+    <a href='{:url("delete")}?ids={{ d.userid }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("manage")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'userid', width: 80, title: '用户ID' },
+                { field: 'username', width: 250, title: '用户名' },
+                { field: 'nullity', width: 100, title: '状态' },
+                { field: 'name',  title: '所属游戏' },
+                { field: 'servername',  title: '所属房间' },
+                { field: 'money',  title: '金币' },
+                { field: 'bankmoney',  title: '保险箱金币' },
+                { fixed: 'right', width: 220, title: '操作', templet: '#barTool' }
+            ]
+        ]
+    });
+});
+</script>
+{/block}

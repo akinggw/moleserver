@@ -153,7 +153,7 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
             query = '',
             code = function(that) {
                 var href = that.attr('href') ? that.attr('href') : that.attr('data-href');
-                var isMember = that.attr('isMember') ? 1 : 0;
+                var isMember = that.attr('isMember');
                 var tableObj = that.attr('data-table') ? that.attr('data-table') : 'dataTable';
                 if (!href) {
                     notice.info('请设置data-href参数');
@@ -175,6 +175,8 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                             query += 'ids[]=' + checkStatus.data[i].id;
                         else if(isMember == 1)
                             query += 'ids[]=' + checkStatus.data[i].uid;
+                        else if(isMember == 2)
+                            query += 'ids[]=' + checkStatus.data[i].userid;
                     }
                 } else {
                     if (that.parents('form')[0]) {

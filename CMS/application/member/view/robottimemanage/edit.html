@@ -1,0 +1,48 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑时间段</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="startcollectdate" id="startcollectdate" lay-verify="required" autocomplete="off" placeholder="开始时间" class="layui-input" value="{$data.startcollectdate}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">结束时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="endcollectdate" id="endcollectdate" lay-verify="required" autocomplete="off" placeholder="结束时间" class="layui-input" value="{$data.endcollectdate}">
+                </div>
+            </div>
+            <input type="hidden" name="uid" value="{$data.id}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#startcollectdate'
+            ,type: 'time'
+        });
+
+        laydate.render({
+            elem: '#endcollectdate'
+            ,type: 'time'
+        });
+    });
+</script>
+{/block}

@@ -35,6 +35,29 @@ return [
                     ],
                 ],
             ],
+            [
+                "route" => "member/robotmanage/index",
+                "type" => 1,
+                "status" => 1,
+                "name" => "机器人管理",
+                "icon" => "icon-huiyuan2",
+                "child" => [
+                    [
+                        "route" => "member/robotmanage/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "机器人列表",
+                        "icon" => "icon-huiyuan",
+                    ],
+                    [
+                        "route" => "member/robottimemanage/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "机器人上岗时间",
+                        "icon" => "icon-huiyuan",
+                    ],
+                ],
+            ],
         ],
     ],
 ];

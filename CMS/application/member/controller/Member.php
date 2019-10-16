@@ -17,6 +17,7 @@ namespace app\member\controller;
 use app\common\controller\Adminbase;
 use app\member\model\Member as Member_Model;
 use app\member\model\Userdata as Userdata_Model;
+use app\member\model\androiduserinfo as AndroidUserInfo_Mode;
 use think\Db;
 
 class Member extends Adminbase
@@ -27,7 +28,17 @@ class Member extends Adminbase
         parent::initialize();
         $this->Member_Model = new Member_Model;
         $this->Userdata_Model = new Userdata_Model;
-        $this->groupCache = cache("Member_Group"); //会员模型
+        $this->AndroidUserInfo_Mode = new AndroidUserInfo_Mode;
+    }
+
+    /**
+     * 解锁玩家状态
+     */
+    public function resetstate()
+    {
+        $this->Member_Model->execute("call gameserver_unlockgameuser();");
+
+        $this->success("解锁玩家成功！", url("member/manage"));
     }
 
     /**
@@ -39,6 +50,7 @@ class Member extends Adminbase
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
             $_list = $this->Member_Model->page($page, $limit)->
+                where(['gtype' => 0])->
                 join('userdata ud','ud.userid = mol_member.uid','left')->
                 field('mol_member.*,ud.curgamingstate')->
                 withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
@@ -141,7 +153,7 @@ class Member extends Adminbase
         foreach ($ids as $uid) {
             $info = $this->Member_Model->find($uid);
             if (!empty($info)) {
-                $this->Member_Model->where(['uid' => $uid])->delete($uid);
+                $this->Member_Model->query("call deluser(".$uid.");");
             }
         }
         $this->success("删除成功！");

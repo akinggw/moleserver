@@ -38,6 +38,7 @@ CREATE TABLE `mol_androiduserinfo` (
 
 LOCK TABLES `mol_androiduserinfo` WRITE;
 /*!40000 ALTER TABLE `mol_androiduserinfo` DISABLE KEYS */;
+INSERT INTO `mol_androiduserinfo` VALUES (22,0,300001,1,'2019-10-16 14:37:28');
 /*!40000 ALTER TABLE `mol_androiduserinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +59,7 @@ CREATE TABLE `mol_game` (
   `content` text NOT NULL,
   `state` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=300002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=300004 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +176,7 @@ CREATE TABLE `mol_member` (
   `commissionratio` int(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +185,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1570800877,1,0,'','html5',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1570800877,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +202,7 @@ CREATE TABLE `mol_robotcontroltimes` (
   `endcollectdate` time NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +211,7 @@ CREATE TABLE `mol_robotcontroltimes` (
 
 LOCK TABLES `mol_robotcontroltimes` WRITE;
 /*!40000 ALTER TABLE `mol_robotcontroltimes` DISABLE KEYS */;
-INSERT INTO `mol_robotcontroltimes` VALUES (1,'08:00:00','18:00:00');
+INSERT INTO `mol_robotcontroltimes` VALUES (4,'03:00:00','04:00:00');
 /*!40000 ALTER TABLE `mol_robotcontroltimes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,13 +251,105 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,1000,100,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,1000,100,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(22,329,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'moleweb'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `delandroid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delandroid`(
+	in paid int(11),
+	in pkindid int(6),
+	in pserverid int(6),
+	in ptype int
+	)
+delandroidproc:begin
+	declare t_error int default 0;
+	
+	declare continue handler for sqlexception set t_error=1;
+	
+	start transaction;
+
+	if ptype=3 then
+		DELETE FROM `mol_member` WHERE uid in (SELECT userid FROM mol_androiduserinfo WHERE kindid=pkindid AND serverid=pserverid);
+		DELETE FROM `mol_userdata` WHERE userid in (SELECT userid FROM mol_androiduserinfo WHERE kindid=pkindid AND serverid=pserverid);
+		DELETE FROM `mol_androiduserinfo` WHERE kindid=pkindid AND serverid=pserverid;
+	
+	elseif ptype=2 then
+		DELETE FROM `mol_member` WHERE uid in (SELECT userid FROM mol_androiduserinfo WHERE kindid=pkindid);
+		DELETE FROM `mol_userdata` WHERE userid in (SELECT userid FROM mol_androiduserinfo WHERE kindid=pkindid);
+		DELETE FROM `mol_androiduserinfo` WHERE kindid=pkindid;
+	
+	elseif ptype=1 then
+		DELETE FROM `mol_member` WHERE uid=paid;
+		DELETE FROM `mol_userdata` WHERE userid=paid;
+		DELETE FROM `mol_androiduserinfo` WHERE userid=paid;
+	
+	else
+		set t_error = 1;
+	end if;
+	
+	if t_error=1 then
+		rollback;
+		select(0);
+	else
+		commit;  
+		select(1);
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `deluser` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deluser`(
+	in puid int(11)
+	)
+deluserproc:begin
+	declare oldgtype int default 0;
+	declare t_error int default 0;
+	
+	declare continue handler for sqlexception set t_error=1;
+	
+	start transaction;
+	
+	DELETE FROM `mol_member` WHERE uid=puid;
+	DELETE FROM `mol_userdata` WHERE userid=puid;
+	
+	if t_error=1 then
+		rollback;
+		select(0);
+	else
+		commit;  
+		select(1);
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `gameserver_getuserdata` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -336,6 +429,26 @@ insertgamerecordproc:begin
 		commit; 
 		select(2);
 	end if;		
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `gameserver_unlockgameuser` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `gameserver_unlockgameuser`(
+	)
+begin
+	update mol_userdata set curtableindex=-1,curchairindex=-1,curgametype=0,curserverport=0,curgamingstate=0;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -442,6 +555,82 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `registerandroid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registerandroid`(
+	in pname varchar(20) CHARSET utf8,
+	in ppassword varchar(50) CHARSET utf8,
+	in pemail varchar(50) CHARSET utf8,
+	in psex int(1),
+	in prealname varchar(100) CHARSET utf8,
+	in ptelephone varchar(100) CHARSET utf8,
+	in puseravatar varchar(100) CHARSET utf8,
+	in pipaddress varchar(25) CHARSET utf8,
+	in pid varchar(20) CHARSET utf8,
+	in pmoney bigint(15),
+	in pnullity int(1),
+	in pkindid int(6),
+	in pserverid int(6)
+	)
+registerandroidproc:begin
+	declare lastuserid int;
+	declare t_error int default 0;
+
+	declare continue handler for sqlexception set t_error=1;
+	
+	set lastuserid = 0;
+	
+	if pname ='' then
+		select(0);
+		leave registerandroidproc;
+	end if;
+	
+	select uid into lastuserid from mol_member where username=pname;
+	
+	if lastuserid > 0 then
+		select(0);
+		leave registerandroidproc;
+	end if;
+	
+	set lastuserid = 0;
+	
+	start transaction;
+
+	insert into mol_member (gtype,username,password,useravatar,bankpassword,email,sex,realname,telephone,ipaddress,createtime,ruid,identitycard) values(
+		1,pname,ppassword,puseravatar,ppassword,pemail,psex,prealname,ptelephone,pipaddress,unix_timestamp(NOW()),lastuserid,pid);
+	
+	select LAST_INSERT_ID() into lastuserid; 
+	
+	if lastuserid > 0 then
+		insert into mol_userdata (userid,money) values(lastuserid,pmoney);
+		insert into mol_androiduserinfo (userid,nullity,kindid,serverid,createdate) VALUES (lastuserid,pnullity,pkindid,pserverid,NOW());
+			
+		if t_error=1 then
+        		rollback;
+		        select(0);
+		else
+		        commit; 
+		        select(lastuserid);
+		end if;
+		
+		leave registerandroidproc;
+	end if;
+	rollback;
+	select(0);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `registergameuser` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -500,6 +689,69 @@ registergameuserproc:begin
 	else
 		rollback;
 		select(0);
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `updateandroidmoney` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateandroidmoney`(in pname varchar(20),
+	in psmoney int(11),
+	in pfmoney int(11),
+	in pgameid int(11),
+	in pserverid int(11))
+begin
+  declare t_error int default 0;
+  declare uuid int default 0;
+  declare duid int default 0;
+  declare buid int default 0;
+  declare pstate int default 0;
+  
+  declare continue handler for sqlexception set t_error=1;
+  
+  start transaction;
+  if pname !='' then
+	  select uid into uuid from mol_member where username = pname;
+		if uuid>0 then 
+				select count(userid) into buid from mol_androiduserinfo where userid = uuid;
+				if buid >0 then
+					update mol_userdata set `money` = FLOOR(psmoney + (RAND() * (pfmoney-psmoney+1))) where userid = uuid AND curtableindex ='-1' AND curchairindex ='-1' AND curgametype = 0 AND curserverport =0 AND curgamingstate =0;
+				  select row_count() into pstate; 
+				end if;
+		end if;
+  else
+    if pgameid !='' AND pserverid !='' then
+		select count(userid) into buid from mol_androiduserinfo where kindid = pgameid AND serverid = pserverid;
+		if buid >0 then
+			update mol_userdata set `money` = FLOOR(psmoney + (RAND() * (pfmoney-psmoney+1))) where userid in(select userid from mol_androiduserinfo where kindid = pgameid AND serverid = pserverid) AND curtableindex ='-1' AND curchairindex ='-1' AND curgametype = 0 AND curserverport =0 AND curgamingstate =0;
+		  select row_count() into pstate;
+    end if;
+	elseif pgameid >0 then
+		select count(userid) into buid from mol_androiduserinfo where kindid = pgameid;
+		if buid >0 then
+			update mol_userdata set `money` = FLOOR(psmoney + (RAND() * (pfmoney-psmoney+1))) where userid in(select userid from mol_androiduserinfo where kindid = pgameid) AND curtableindex ='-1' AND curchairindex ='-1' AND curgametype = 0 AND curserverport =0 AND curgamingstate =0;
+		  select row_count() into pstate;
+    end if;
+	end if;	
+  end if;
+ 
+  if t_error=1 then
+		rollback;
+		select(-1);
+	else
+		commit;  
+		select(pstate);
 	end if;
 end ;;
 DELIMITER ;
@@ -598,4 +850,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-15 11:04:52
+-- Dump completed on 2019-10-16 16:00:29

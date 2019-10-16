@@ -1,0 +1,83 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑玩家数据</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户金币</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="money" lay-verify="required" autocomplete="off" placeholder="用户金币" class="layui-input" value="{$data.money}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">保险箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="bankmoney" lay-verify="required" autocomplete="off" placeholder="用户金币" class="layui-input" value="{$data.bankmoney}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">总输赢</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="totalresult" lay-verify="required" autocomplete="off" placeholder="总输赢" class="layui-input" value="{$data.totalresult}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">等级</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="level" lay-verify="required" autocomplete="off" placeholder="等级" class="layui-input" value="{$data.level}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">经验</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="experience" lay-verify="required" autocomplete="off" placeholder="经验" class="layui-input" value="{$data.experience}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所在房间号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="curtableindex" lay-verify="required" autocomplete="off" placeholder="所在房间号" class="layui-input" value="{$data.curtableindex}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所在椅子号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="curchairindex" lay-verify="required" autocomplete="off" placeholder="所在椅子号" class="layui-input" value="{$data.curchairindex}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏类型</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="curgametype" lay-verify="required" autocomplete="off" placeholder="服务器ID" class="layui-input" value="{$data.curgametype}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务器端口</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="curserverport" lay-verify="required" autocomplete="off" placeholder="服务器端口" class="layui-input" value="{$data.curserverport}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">游戏状态</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="curgamingstate" disabled="disabled">
+                        <option value="0" {eq name="$data.curgamingstate" value="0" }selected{/eq} >正常</option>
+                        <option value="1" {eq name="$data.curgamingstate" value="1" }selected{/eq} >准备</option>
+                        <option value="2" {eq name="$data.curgamingstate" value="2" }selected{/eq} >游戏中</option>
+                        <option value="3" {eq name="$data.curgamingstate" value="3" }selected{/eq} >掉线</option>
+                        <option value="4" {eq name="$data.curgamingstate" value="4" }selected{/eq} >排队</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="uid" value="{$data.userid}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

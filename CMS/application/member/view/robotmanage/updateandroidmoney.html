@@ -1,0 +1,82 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">给机器人加钱</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">最低金币</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="minimummoney" lay-verify="required" autocomplete="off" placeholder="最低金币" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">最高金币</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="highestmoney" lay-verify="required" autocomplete="off" placeholder="最高金币" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属游戏</label>
+                <div class="layui-input-inline">
+                    <select name="gameid" lay-verify="required" lay-filter="gameid">
+                        {volist name="games" id="vo"}
+                        <option value="{$vo['id']}">{$vo['name']}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属房间</label>
+                <div class="layui-input-inline">
+                    <select name="roomid" id="roomid" lay-verify="required">
+                        {volist name="servers" id="servervo"}
+                        <option value="{$servervo['id']}">{$servervo['servername']}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+    layui.use('form', function() {
+        var form = layui.form;
+        form.on('select(gameid)', function(data) {
+            $.post(
+                '{:url("robotmanage/getgamerooms")}',
+                {
+                    game_id:data.value
+                },
+                function(d){
+                    var server = document.getElementById("roomid");
+                    var selectOptions = server.options;
+                    var optionLength = selectOptions.length;
+                    for(var i=0;i <optionLength;i++)
+                    {
+                        server.removeChild(selectOptions[0]);
+                    }
+
+                    var xqo = eval('(' + d + ')');
+                    for(var i in xqo){
+                        var option = document.createElement("option");  // 创建添加option属性
+                        option.setAttribute("value",xqo[i].id); // 给option的value添加值
+                        option.innerText=xqo[i].servername;     // 打印option对应的纯文本
+                        server.appendChild(option);           //给select添加option子标签
+                    }
+
+                    form.render("select");            // 刷性select，显示出数据
+                }
+            );
+        });
+    });
+</script>
+{/block}
