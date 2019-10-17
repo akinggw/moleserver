@@ -1,0 +1,17 @@
+{
+    "debugMode" : 0,
+    "noCache": false,
+    "showFPS" : false,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"../",
+
+    "modules"       : ["cocos2d", "extensions", "external"],
+
+    "jsList" : [
+        "src/md5.js",
+        "src/wxhh_resource.js",
+        "src/wxhh_mainframe.js"
+    ]
+}

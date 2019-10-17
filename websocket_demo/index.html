@@ -1,136 +1,29 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>单挑王online</title>
+    <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
+    <meta name="viewport" content="width=321,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="yes"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
     <style>
-        .kuang{text-align: center;margin-top:200px;}
-        #mess{text-align: center}
-        .value{width: 200px;height:200px;border:1px solid;text-align: center;line-height: 200px;display: inline-block;}
-    </style>
-</head>
-<body>
-    <div id="mess">正在连接...</div>
-    <div class="kuang">
-        <div class="value" id="value1" onclick="operator(1)">注册</div>
-        <div class="value" id="value2" onclick="operator(2)">登录</div>
-        <div class="value" id="value3" onclick="operator(3)">得到服务器列表</div>
-    </div>
-    <div class="kuang">
-        <div class="value" id="value1" onclick="operator(4)">游戏服务器登录</div>
-        <div class="value" id="value2" onclick="operator(5)">得到在线玩家列表</div>
-        <div class="value" id="value3" onclick="operator(6)">得到游戏房间列表</div>
-		<div class="value" id="value3" onclick="operator(7)">进入房间</div>
-    </div>	
-<script src="https://cdn.jsdelivr.net/gh/emn178/js-md5/build/md5.min.js"></script>
-    <script>
-        var mess = document.getElementById("mess");
-		var keepalivetimer;
-		var ws;
-		
-        if(window.WebSocket){
-            ws = new WebSocket('ws://127.0.0.1:3335');
-
-            ws.onopen = function(e){
-                console.log("连接服务器成功");
-                mess.innerHTML = "连接成功"	;	
-				
-				keepalivetimer = setInterval( function(){keepalive(ws)},5000);
-            }
-            ws.onclose = function(e){
-                console.log("服务器关闭");
-				mess.innerHTML = "服务器关闭";
-				clearInterval(keepalivetimer);
-            }
-            ws.onerror = function(){
-                console.log("连接出错");
-				mess.innerHTML = "连接出错";
-				clearInterval(keepalivetimer);
-            }
-
-            ws.onmessage = function(e){
-				alert(e.data);
-            }
+        body, canvas, div {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
-		
-		function operator(id){
-			if(id == 2)
-			{
-				var senddata = {};
-				senddata.MsgId = 400;
-				senddata.username = "test";
-				senddata.userpwd = md5("112233");
-				senddata.machinecode = 'html5';
-
-				ws.send(JSON.stringify(senddata));
-			}
-			else if(id == 4)
-			{
-				var senddata = {};
-				senddata.MsgId = 500;
-				senddata.UserName = "test";
-				senddata.UserPW = md5("112233");
-				senddata.DeviceType = 1;
-
-				ws.send(JSON.stringify(senddata));	
-			}
-			else if(id == 1)
-			{
-				var senddata = {};
-				senddata.MsgId =700;
-				senddata.UserName = "test";
-				senddata.UserPW = md5("112233");
-				senddata.Email = 'test@126.com';
-				senddata.Sex=1;
-				senddata.RealName="test";
-				senddata.Telephone="23423434";
-				senddata.AvatorIndex="/asdf/sadfsa.png";
-				senddata.pReferrer="test2";
-				senddata.pcardnumber="3432423";
-
-				ws.send(JSON.stringify(senddata));
-			}
-			else if(id == 3)
-			{
-				var senddata = {};
-				senddata.MsgId =800;
-
-				ws.send(JSON.stringify(senddata));
-			}
-			else if(id == 6)
-			{
-				var senddata = {};
-				senddata.MsgId =900;
-				senddata.MsgSubId =906;
-
-				ws.send(JSON.stringify(senddata));
-			}		
-			else if(id == 5)
-			{
-				var senddata = {};
-				senddata.MsgId =900;
-				senddata.MsgSubId =908;
-
-				ws.send(JSON.stringify(senddata));
-			}	
-			else if(id == 7)
-			{
-				var senddata = {};
-				senddata.MsgId =900;
-				senddata.MsgSubId =901;
-				senddata.RoomIndex=-1;
-				senddata.ChairIndex=-1;
-				senddata.EnterPWd="";
-				senddata.Enterfirst=0;
-				senddata.Entersecond=0;
-
-				ws.send(JSON.stringify(senddata));
-			}							
-		}		
-		
-function keepalive(ws) {
-      ws.send('100');
-};		
-    </script>
+    </style>
+    <script src="cocos2d-js-v3.6-min.js"></script>
+    <script src="main.js"></script>
+</head>
+<body style="padding:0; margin: 0; background: #000;">
+<script src="res/loading.js"></script>
+<canvas id="gameCanvas" width="320" height="480"></canvas>
 </body>
 </html>

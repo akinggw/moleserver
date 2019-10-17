@@ -59,7 +59,7 @@ CREATE TABLE `mol_game` (
   `content` text NOT NULL,
   `state` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=300004 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=300002 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,6 +146,39 @@ INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mol_goldoperaterecords`
+--
+
+DROP TABLE IF EXISTS `mol_goldoperaterecords`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_goldoperaterecords` (
+  `suid` int(11) NOT NULL,
+  `duid` int(11) NOT NULL DEFAULT '0',
+  `money` bigint(15) NOT NULL,
+  `type` enum('1','2','3') DEFAULT NULL,
+  `operatedate` datetime NOT NULL,
+  `amoney` bigint(15) DEFAULT '0',
+  `bmoney` bigint(15) DEFAULT '0',
+  `aftermoney` bigint(15) DEFAULT '0',
+  `afterbankmoney` bigint(15) DEFAULT '0',
+  KEY `suid` (`suid`),
+  KEY `duid` (`duid`),
+  KEY `sduid` (`suid`,`duid`),
+  KEY `stuid` (`suid`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_goldoperaterecords`
+--
+
+LOCK TABLES `mol_goldoperaterecords` WRITE;
+/*!40000 ALTER TABLE `mol_goldoperaterecords` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mol_goldoperaterecords` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mol_member`
 --
 
@@ -176,7 +209,7 @@ CREATE TABLE `mol_member` (
   `commissionratio` int(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -696,6 +729,98 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `transferaccounts` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `transferaccounts`(
+	in psenduserid int(11),
+	in preceiveruser varchar(20) CHARSET utf8,
+	in pmoney bigint(15)
+	)
+transferaccountsproc:begin
+	declare pcurgamingstate int;
+	declare o_time int;
+	declare plastreceiveruserid int;
+	declare pusermoney bigint(15);
+	declare puserbankmoney bigint(15);
+	declare busermoney bigint(15);
+	declare buserbankmoney bigint(15);	
+	declare t_error int default 0;
+
+	declare continue handler for sqlexception set t_error=1;
+	
+	set plastreceiveruserid = 0;
+	set o_time = 3;
+	set busermoney = 0;
+	set buserbankmoney = 0;	
+	
+	select uid into plastreceiveruserid from mol_member where username=preceiveruser;
+	
+	if plastreceiveruserid <= 0 or plastreceiveruserid = psenduserid then
+		select(0);
+		leave transferaccountsproc;	
+	end if;
+	
+	if pmoney < 0 then
+		select(0);
+		leave transferaccountsproc;
+	end if;
+
+	set pcurgamingstate = 0;	
+
+	select curgamingstate into pcurgamingstate from mol_userdata where userid=psenduserid;
+	
+	if pcurgamingstate > 0 then
+		select(0);
+		leave transferaccountsproc;
+	end if;
+
+	select money,bankmoney into pusermoney,puserbankmoney from mol_userdata where userid=psenduserid;
+	
+	if pmoney > pusermoney then
+		select(0);
+		leave transferaccountsproc;	
+	end if;
+	
+	start transaction;
+
+	update mol_userdata set money=money-pmoney where userid=psenduserid;
+	
+	/*set pcurgamingstate = 0;	
+
+	select curgamingstate into pcurgamingstate from mol_userdata where userid=plastreceiveruserid;
+	
+	if pcurgamingstate > 0 then
+		update mol_userdata set bankmoney=bankmoney+pmoney where userid=plastreceiveruserid;	
+	else
+		update mol_userdata set money=money+pmoney where userid=plastreceiveruserid;
+	end if;	*/	
+	update mol_userdata set bankmoney=bankmoney+pmoney where userid=plastreceiveruserid;	
+	
+	select money,bankmoney into busermoney,buserbankmoney from mol_userdata where userid=psenduserid;
+	
+	insert into mol_goldoperaterecords values (psenduserid,plastreceiveruserid,pmoney,3,NOW(),pusermoney,puserbankmoney,busermoney,buserbankmoney);
+
+	if t_error=1 then
+		rollback;
+		select(0);
+	else
+		commit; 
+		select(plastreceiveruserid);
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `updateandroidmoney` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -850,4 +975,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-16 16:00:29
+-- Dump completed on 2019-10-17 10:45:34
