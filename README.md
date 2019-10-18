@@ -38,7 +38,7 @@ port=3306
 11. 网站后台管理采用YznCMS,YznCMS基于thinkphp写成，二次开发简单快捷，具体安装方法在CMS目录下的readme文件中，后台初始用户名和密码都为admin。因此在使用本框架之前最好先安装好LAMP环境。
 
 #### 联系作者
-有问题加我微信:mole2d
+欢迎加QQ群交流:131296225
 email:akinggw@126.com
 
 [截图预览]  
