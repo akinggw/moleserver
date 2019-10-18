@@ -80,6 +80,7 @@ DROP TABLE IF EXISTS `mol_gamerecords`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mol_gamerecords` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `userid` int(6) NOT NULL,
   `score` int(10) NOT NULL DEFAULT '0',
   `revenue` int(10) NOT NULL DEFAULT '0',
@@ -93,7 +94,7 @@ CREATE TABLE `mol_gamerecords` (
   `gametip` text,
   `agentmoney` bigint(15) NOT NULL DEFAULT '0',
   `curjetton` bigint(15) NOT NULL DEFAULT '0',
-  KEY `userid` (`userid`)
+  KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -153,6 +154,7 @@ DROP TABLE IF EXISTS `mol_goldoperaterecords`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mol_goldoperaterecords` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `suid` int(11) NOT NULL,
   `duid` int(11) NOT NULL DEFAULT '0',
   `money` bigint(15) NOT NULL,
@@ -162,6 +164,7 @@ CREATE TABLE `mol_goldoperaterecords` (
   `bmoney` bigint(15) DEFAULT '0',
   `aftermoney` bigint(15) DEFAULT '0',
   `afterbankmoney` bigint(15) DEFAULT '0',
+  PRIMARY KEY (`id`),
   KEY `suid` (`suid`),
   KEY `duid` (`duid`),
   KEY `sduid` (`suid`,`duid`),
@@ -975,4 +978,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-17 10:45:34
+-- Dump completed on 2019-10-18 10:54:05

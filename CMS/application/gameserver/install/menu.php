@@ -35,6 +35,29 @@ return [
                     ],
                 ],
             ],
+            [
+                "route" => "gameserver/recordmanage/index",
+                "type" => 1,
+                "status" => 1,
+                "name" => "游戏记录管理",
+                "icon" => "icon-huiyuan2",
+                "child" => [
+                    [
+                        "route" => "gameserver/gamerecord/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "游戏记录",
+                        "icon" => "icon-huiyuan",
+                    ],
+                    [
+                        "route" => "gameserver/transferrecord/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "转账记录",
+                        "icon" => "icon-huiyuan",
+                    ],
+                ],
+            ],
         ],
     ],
 ];

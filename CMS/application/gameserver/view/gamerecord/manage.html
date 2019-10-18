@@ -1,0 +1,50 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">游戏记录</div>
+    <div class="layui-card-body">
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}' isMember="1">批量删除</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("manage")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 80, title: 'ID' },
+                { field: 'username', width: 80, title: '玩家名' },
+                { field: 'name', width: 80,title: '游戏名称' },
+                { field: 'roomname', width: 150, title: '所在房间' },
+                { field: 'tableindex', width: 80, title: '桌子号' },
+                { field: 'chairindex',  title: '椅子号' },
+                { field: 'score',  title: '金币' },
+                { field: 'revenue', width: 80, title: '税收' },
+                { field: 'lastmoney', width: 80,title: '最近金币' },
+                { field: 'agentmoney', width: 80, title: '佣金' },
+                { field: 'curjetton', width: 80, title: '当前下注' },
+                { field: 'gametip', width: 80, title: '注释' },
+                { field: 'collectdate', width: 100, title: '时间' },
+                { fixed: 'right', width: 120, title: '操作', templet: '#barTool' }
+            ]
+        ]
+    });
+});
+</script>
+{/block}
