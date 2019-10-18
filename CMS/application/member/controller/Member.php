@@ -151,7 +151,7 @@ class Member extends Adminbase
             $ids = array(0 => $ids);
         }
         foreach ($ids as $uid) {
-            $info = $this->Member_Model->find($uid);
+            $info = $this->Member_Model->where(["uid" => $uid])->find();
             if (!empty($info)) {
                 $this->Member_Model->query("call deluser(".$uid.");");
             }
