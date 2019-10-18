@@ -6,7 +6,7 @@ var health_timeout=6000;
 //var game_jv_count=65;
 var keepalivetimer;
 //var host = "ws://116.255.152.74:1111";
-var host = "ws://127.0.0.1:3234";
+var host = "ws://127.0.0.1:3333";
 var isLoginSuccuss=false;
 var gamestate = 0;
 var gamepielement = 0;
@@ -32,6 +32,7 @@ var m_timejiesuan = 3;
 var m_isClearConntineData = false;
 var m_isCurrentJetton = false;
 var m_tempcolorjettons = [];
+var m_gameserverlist = [];
 var WebSocket = WebSocket || window.WebSocket || window.MozWebSocket;
 var m_isplaymusic=true;
 var m_registerLayer = null;
@@ -261,8 +262,8 @@ var CRegisterLayer = cc.LayerColor.extend({
 
                 var row1 = {};
                 row1.MsgId = 700;
-                row1.username = this._boxusername.getString();
-                row1.userpwd = hex_md5(this._boxuserpassword.getString());
+                row1.UserName = this._boxusername.getString();
+                row1.UserPW = hex_md5(this._boxuserpassword.getString());
 
                 socket.send(JSON.stringify(row1));
             },this);
@@ -347,7 +348,6 @@ var CLoginLayer = cc.LayerColor.extend({
                 row1.username = this._boxusername.getString();
                 row1.userpwd = hex_md5(this._boxuserpassword.getString());
                 row1.machinecode = 'html5';
-                row1.logintype = 1;
 
                 socket.send(JSON.stringify(row1));
             },this);
@@ -514,10 +514,10 @@ var CZhuanZhangLayer = cc.LayerColor.extend({
 				
                 var row1 = {};
                 row1.MsgId = 404;
-				row1.opretype = 416;
-                row1.userid = myselfUserId;
-                row1.zzmoney = Number(this._boxzhuanzhangmoney.getString());
-				row1.receiver = this._boxshoukuanren.getString();
+				row1.MsgSubId = 416;
+                row1.UserID = myselfUserId;
+                row1.Money = Number(this._boxzhuanzhangmoney.getString());
+				row1.Receiver = this._boxshoukuanren.getString();
 
                 socket.send(JSON.stringify(row1));
 				
@@ -1386,7 +1386,7 @@ var CMainFrameLayer = cc.Layer.extend({
 								break;
 							case 416:
 							{
-                                var pusermoney = obj.usermoney;
+                                var pusermoney = obj.UserMoney;
 								
 								if(pusermoney < m_myselfusermoney)
 								{	
@@ -1440,8 +1440,8 @@ var CMainFrameLayer = cc.Layer.extend({
                             {
                                 isLoginSuccuss = true;
 
-                                myselfUserId = obj.Id;
-                                m_myselfusermoney = obj.Money;
+                                myselfUserId = obj.UserId;
+                                m_myselfusermoney = obj.money;
                                 m_myselftempusermoney = m_myselfusermoney;
 
                                 self.MyUserName.setString(MyMainLoginlayer._boxusername.getString());
@@ -1451,6 +1451,11 @@ var CMainFrameLayer = cc.Layer.extend({
 
                                 self.MyUserName.setVisible(true);
                                 self.MyUserMoney.setVisible(true);
+
+                                //获取服务器列表
+                                var row1 = {};
+                                row1.MsgId = 800;
+                                socket.send(JSON.stringify(row1));
 
                                // if(m_isplaymusic) {
                                //     cc.audioEngine.playMusic(soud_01, true);
@@ -1487,6 +1492,27 @@ var CMainFrameLayer = cc.Layer.extend({
                                 break;
                         }
                     }
+                        break;
+                    case 800:
+                        {
+                            var MsgSubId = obj.MsgSubId;
+
+                            if(MsgSubId == 803)
+                            {
+                                var loginlayer = new MyMessageBoxLayer();
+                                self.addChild(loginlayer,8);
+                                loginlayer.init("获取服务器失败，请稍后再试！");
+                            }
+                            else
+                            {
+                                var RoomCount = obj.RoomCount;
+
+                                for(i=0;i<RoomCount;i++)
+                                {
+                                    m_gameserverlist['room'.i] = obj.room.i;
+                                }
+                            }
+                        }
                         break;
                     case 1000:
                     {

@@ -99,6 +99,10 @@ public:
 		int sex,std::string realname,std::string telephone,std::string AvatorIndex,std::string Referrer,std::string ipaddress,std::string cardnumber);
     /// 得到当前在线的所有服务器
     bool GetOnlineGameRooms(std::vector<tagGameRoom> &pgamerooms);
+    /// 玩家之间转钱
+    int32 TransferAccounts(uint32 UserID,std::string receiverUser,int64 money);
+    /// 得到玩家的金币
+    bool GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney);
 
 	/// 用于维护当前数据库连接
 	void Update(void);

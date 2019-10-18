@@ -52,6 +52,11 @@ void GameFrameManager::OnProcessNetMes(uint32 connId,CMolMessageIn *mes)
 			OnProcessUserInfoUpdateMes(connId,json_object);
 		}
 		break;
+	case IDD_MESSAGE_CENTER_BANK:                      // 钱包操作
+		{
+			OnProcessUserBankMes(connId,json_object);
+		}
+		break;
 	case IDD_MESSAGE_USER_REGISTER:                    // 用户注册消息
 		{
 			OnProcessUserRegisterMes(connId,json_object);
@@ -90,6 +95,60 @@ void GameFrameManager::OnProcessDisconnectNetMes(uint32 connId)
 {
 
 }
+
+/// 处理钱包消息
+void GameFrameManager::OnProcessUserBankMes(uint32 connId,Json::Value &mes)
+{
+	switch(mes["MsgSubId"].asInt())
+	{
+	case IDD_MESSAGE_CENTER_BANK_TRANSFERACCOUNT:              // ¸玩家之间转账
+		{
+			uint32 pUserID = mes["UserID"].asInt();
+			int64 pMoney = mes["Money"].asInt();
+			std::string pReceiver = mes["Receiver"].asString();
+
+			int32 pReceiverID = ServerDBOperator.TransferAccounts(pUserID,pReceiver,pMoney);
+			if(pReceiverID <= 0)
+			{
+                Json::Value root;
+                root["MsgId"] = IDD_MESSAGE_CENTER_BANK;
+                root["MsgSubId"] = IDD_MESSAGE_CENTER_BANK_FAIL;
+
+				if(pReceiverID == -1)
+					root["MsgSubId2"] = IDD_MESSAGE_CENTER_BANK_FAIL_LASTMONEY;
+
+				Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+				return;
+			}
+
+			int64 pUserMoney,pUserBankMoney;
+			pUserMoney = pUserBankMoney = 0;
+
+			if(!ServerDBOperator.GetUserMoney(pUserID,&pUserMoney,&pUserBankMoney))
+			{
+                Json::Value root;
+                root["MsgId"] = IDD_MESSAGE_CENTER_BANK;
+                root["MsgSubId"] = IDD_MESSAGE_CENTER_BANK_FAIL;
+
+                Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+                return;
+			}
+
+            Json::Value root;
+            root["MsgId"] = IDD_MESSAGE_CENTER_BANK;
+            root["MsgSubId"] = IDD_MESSAGE_CENTER_BANK_TRANSFERACCOUNT;
+            root["ReceiverID"] = pReceiverID;
+            root["UserMoney"] = (uint32)pUserMoney;
+            root["UserBankMoney"] = (uint32)pUserBankMoney;
+
+            Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+		}
+		break;
+    default:
+        break;
+	}
+}
+
 
 /**
  * 处理用户注册消息
@@ -292,6 +351,11 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
     root["telephone"] = pUserData.telephone;
     root["QQ"] = pUserData.QQ;
     root["ipaddress"] = pUserData.ipaddress;
+
+    root["money"] = (uint32)pUserData.money;
+    root["bankmoney"] = (uint32)pUserData.bankmoney;
+    root["experience"] = pUserData.experience;
+    root["level"] = pUserData.level;
 
 	Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
 

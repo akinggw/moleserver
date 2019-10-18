@@ -1,0 +1,28 @@
+[12:49][2019-10-18 12:49:57] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:49] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:49] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:49] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[12:55][2019-10-18 12:55:51] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:55] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:55] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:55] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[12:59][2019-10-18 12:59:27] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[12:59] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:59] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:59] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:01][2019-10-18 13:01:44] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:01] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:01] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:01] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:18][2019-10-18 13:18:12] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:18] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:18] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:18] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:29][2019-10-18 13:29:20] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:29] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:29] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:29] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...
+[13:56][2019-10-18 13:56:37] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server-normal.log'
+[13:56] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[13:56] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[13:56] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...

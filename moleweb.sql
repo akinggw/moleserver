@@ -169,7 +169,7 @@ CREATE TABLE `mol_goldoperaterecords` (
   KEY `duid` (`duid`),
   KEY `sduid` (`suid`,`duid`),
   KEY `stuid` (`suid`,`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +212,7 @@ CREATE TABLE `mol_member` (
   `commissionratio` int(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1570800877,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1571378924,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(23,0,'test3','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1571374432,NULL,1,0,'','',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +287,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,1000,100,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(22,329,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,500,100,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(22,329,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(23,0,500,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -505,7 +505,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getuserdata`(
 	in puserid int(11)
 	)
 begin
-	select * from mol_member where uid=puserid;
+	select mb.*,ud.money,ud.bankmoney,ud.level,ud.experience from mol_member as mb left join mol_userdata as ud on ud.userid=puserid where mb.uid=puserid;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -767,12 +767,12 @@ transferaccountsproc:begin
 	select uid into plastreceiveruserid from mol_member where username=preceiveruser;
 	
 	if plastreceiveruserid <= 0 or plastreceiveruserid = psenduserid then
-		select(0);
+		select(-1);
 		leave transferaccountsproc;	
 	end if;
 	
 	if pmoney < 0 then
-		select(0);
+		select(1);
 		leave transferaccountsproc;
 	end if;
 
@@ -781,14 +781,14 @@ transferaccountsproc:begin
 	select curgamingstate into pcurgamingstate from mol_userdata where userid=psenduserid;
 	
 	if pcurgamingstate > 0 then
-		select(0);
+		select(-2);
 		leave transferaccountsproc;
 	end if;
 
 	select money,bankmoney into pusermoney,puserbankmoney from mol_userdata where userid=psenduserid;
 	
 	if pmoney > pusermoney then
-		select(0);
+		select(-3);
 		leave transferaccountsproc;	
 	end if;
 	
@@ -809,11 +809,12 @@ transferaccountsproc:begin
 	
 	select money,bankmoney into busermoney,buserbankmoney from mol_userdata where userid=psenduserid;
 	
-	insert into mol_goldoperaterecords values (psenduserid,plastreceiveruserid,pmoney,3,NOW(),pusermoney,puserbankmoney,busermoney,buserbankmoney);
+	insert into mol_goldoperaterecords (suid,duid,money,type,operatedate,amoney,bmoney,aftermoney,afterbankmoney) 
+		values (psenduserid,plastreceiveruserid,pmoney,3,NOW(),pusermoney,puserbankmoney,busermoney,buserbankmoney);
 
 	if t_error=1 then
 		rollback;
-		select(0);
+		select(-4);
 	else
 		commit; 
 		select(plastreceiveruserid);
@@ -978,4 +979,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-18 10:54:05
+-- Dump completed on 2019-10-18 14:20:27

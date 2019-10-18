@@ -286,9 +286,14 @@ bool DBOperator::GetUserData(uint32 UserId,MemberDataStru &UserData)
 	strncpy(UserData.ipaddress , pRecord(0)(0,12).c_str(),CountArray(UserData.ipaddress));
 	UserData.createtime = atol(pRecord(0)(0,13).c_str());
 	UserData.lastlogintime = atol(pRecord(0)(0,14).c_str());
-	UserData.state = atoi(pRecord(0)(0,22).c_str());
+	UserData.state = atoi(pRecord(0)(0,15).c_str());
 	strncpy(UserData.machinecode , pRecord(0)(0,18).c_str(),CountArray(UserData.machinecode));
 	UserData.glockmachine = atoi(pRecord(0)(0,19).c_str());
+
+	UserData.money = atol(pRecord(0)(0,21).c_str());
+	UserData.bankmoney = atol(pRecord(0)(0,22).c_str());
+	UserData.level = atoi(pRecord(0)(0,23).c_str());
+	UserData.experience = atoi(pRecord(0)(0,24).c_str());
 
 	return true;
 }
@@ -322,6 +327,40 @@ bool DBOperator::GetOnlineGameRooms(std::vector<tagGameRoom> &pgamerooms)
 
         pgamerooms.push_back(ptagGameRoom);
     }
+
+	return true;
+}
+
+/// 玩家之间转钱
+int32 DBOperator::TransferAccounts(uint32 UserID,std::string receiverUser,int64 money)
+{
+	if(m_DataProvider == NULL || UserID <= 0 || money <= 0 || receiverUser.empty()) return 0;
+
+	std::ostringstream sqlstr;
+	sqlstr << "call transferaccounts("
+		<< UserID << ",'"
+		<< receiverUser << "',"
+		<< money << ");";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return 0;
+
+	return atoi(pRecord(0)(0,0).c_str());
+}
+
+/// 得到玩家的金币
+bool DBOperator::GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney)
+{
+	if(m_DataProvider == NULL || UserId <= 0) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "select money,bankmoney from mol_userdata where userid=" << UserId << ";";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	*money = _atoi64(pRecord(0)(0,0).c_str());
+	*bankmoney = _atoi64(pRecord(0)(0,1).c_str());
 
 	return true;
 }

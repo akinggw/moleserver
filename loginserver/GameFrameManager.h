@@ -35,6 +35,10 @@ private:
 	void OnProcessUserRegisterMes(uint32 connId,Json::Value &mes);
 	/// 处理得到当前在线服务器列表
 	void OnProcessUserGetOnlineRoomMes(uint32 connId);
+	/// 处理钱包消息
+	void OnProcessUserBankMes(uint32 connId,Json::Value &mes);
+	/// 得到玩家的金币
+	bool GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney);
 };
 
 #define ServerGameFrameManager GameFrameManager::getSingleton()
