@@ -15,6 +15,8 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 8. 机器人功能，在数据库配置好机器人后，机器人就可以使用了 
 
 #### 安装和编译
+首先我们要搭建好编译环境，推荐使用ubuntu server,然后安装好lamp环境，gcc,g++,makefile等等都要安装好，外部库主要使用了libmysql和libjson,如果编译时缺其它库就安装相应的库，另外代码是在codeblocks下编辑的，编译直接用makefile。
+
 1. 首先下载下代码
 git clone https://gitee.com/akinggw/moleserver.git
 2. 在服务器上安装最新版本的mysql，建立新的数据库moleweb，然后导入moleweb.sql
