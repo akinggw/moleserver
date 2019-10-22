@@ -58,6 +58,10 @@ public:
 	virtual void SetGameType(int type) = 0;
 	/// 得到房间所属游戏类型
 	virtual int GetGameType(void) = 0;
+	/// 设置房间所属游戏
+	virtual void SetGameId(int gameid) = 0;
+	/// 得到房间所属游戏
+	virtual int GetGameId(void) = 0;
 	/// 设置房间标识
 	virtual void SetRoomMarking(int marking) = 0;
 	/// 得到房间标识

@@ -11,18 +11,28 @@ CServerLogicFrame::CServerLogicFrame():m_g_GameRoom(NULL)
 	m_GameState = GAMESTATE_KONGXIAN;
 	m_gamejvcount = 0;
 
-	m_jettonTrad[0] = 3.8f;
-	m_jettonTrad[1] = 3.8f;
-	m_jettonTrad[2] = 4.0f;
-	m_jettonTrad[3] = 4.0f;
-	m_jettonTrad[4] = 20.0f;
-
 	for(int i=0;i<5;i++) m_colorrecordcount[i] = 0;
 
-	m_fangkuai = m_meihua = m_heitao = m_hongtao = m_wang = 0.0f;
-	m_timegamestart = m_timexiazhu = m_timekaipai = m_timejiesuan = 0;
-	m_unitmoney = 0;
+	m_fangkuai = 3.8f;
+	m_meihua = 3.8f;
+	m_heitao = 4.0f;
+	m_hongtao = 4.0f;
+	m_wang = 20.0f;
+
+	m_timegamestart = 3;
+	m_timexiazhu = 50;
+	m_timekaipai = 5;
+	m_timejiesuan = 5;
+	m_unitmoney = 10;
 	m_choushui = 0.0f;
+
+	m_jettonTrad[0] = m_fangkuai;
+	m_jettonTrad[1] = m_meihua;
+	m_jettonTrad[2] = m_heitao;
+	m_jettonTrad[3] = m_hongtao;
+	m_jettonTrad[4] = m_wang;
+
+	m_GamePielement = m_unitmoney;
 }
 
 /// 析构函数
@@ -146,6 +156,10 @@ void CServerLogicFrame::OnProcessEnterRoomMsg(int playerId)
 	assert(m_g_GameRoom != NULL);
 	if(m_g_GameRoom == NULL) return;
 
+    std::stringstream ss;
+    ss << "玩家" << playerId << "进入房间了.";
+	m_g_GameRoom->Room_Log(BASIC,ss.str());
+
 	if(m_gamisrunning == false)
 	{
 		m_cardrecord.push_back(m_CGameLogic.GetCardByColor(rand()%5));
@@ -248,6 +262,8 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,root);
 
+		m_g_GameRoom->Room_Log(BASIC,"游戏开始.");
+
 		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_XIAZHU, m_timexiazhu);
 	}
 	else if(timerId == IDD_TIMER_GAME_XIAZHU && curTimer <= 0)
@@ -266,6 +282,8 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 		root["resultcard"] = m_resultCard;
 
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,root);
+
+		m_g_GameRoom->Room_Log(BASIC,"下注中.");
 
 		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_KAIPAI, m_timekaipai);
 	}
@@ -286,6 +304,8 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 			std::map<uint8,int>::iterator iter = m_colorrecordcount.begin();
 			for(;iter != m_colorrecordcount.end();++iter) (*iter).second = 0;
 		}
+
+		m_g_GameRoom->Room_Log(BASIC,"结算中.");
 
 		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_STARTING, m_timejiesuan);
 	}

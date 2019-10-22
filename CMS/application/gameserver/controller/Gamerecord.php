@@ -44,7 +44,6 @@ class Gamerecord extends Adminbase
             join('game ge','ge.id = mol_gamerecords.gameid','left')->
             join('member mb','mb.uid = mol_gamerecords.userid','left')->
             field('mol_gamerecords.*,ge.name,mb.username')->
-            withAttr('collectdate', function ($value, $data) {return time_format($value);})->
             select();
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);

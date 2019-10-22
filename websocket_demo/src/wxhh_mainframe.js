@@ -1,10 +1,13 @@
 var socket;
+var gameserversocket;
 var myselfUserId = 0;
 var m_oldJvHao = 1;
 var last_health;
+var last_health_game;
 var health_timeout=6000;
 //var game_jv_count=65;
 var keepalivetimer;
+var keepalivetimer_game;
 //var host = "ws://116.255.152.74:1111";
 var host = "ws://127.0.0.1:3333";
 var isLoginSuccuss=false;
@@ -39,18 +42,31 @@ var m_registerLayer = null;
 var MyMainLoginlayer = null;
 var m_chongzhiLayer = null;
 var m_CZhuanZhangLayer = null;
+var m_isLoginSuccess = false;
+var m_userloginname = "";
+var m_userloginpassword = "";
+var m_gameserver = "";
 
-function keepalive(ws) {
+function keepalive(ws,type=0) {
     var time = new Date();
-    if(time.getTime() - last_health.getTime() > health_timeout)
+    var curtime = last_health.getTime();
+
+    if(type == 1)
+        curtime = last_health_game.getTime();
+
+    if(time.getTime() - curtime > health_timeout)
     {
-        clearInterval(keepalivetimer);
+        if(type == 0)
+            clearInterval(keepalivetimer);
+        else
+            clearInterval(keepalivetimer_game);
     }
     else
     {
         if (ws.bufferedAmount == 0) {
             ws.send('100');
             last_health = time;
+            last_health_game = time;
         }
     }
 };
@@ -343,10 +359,13 @@ var CLoginLayer = cc.LayerColor.extend({
                     return;
                 }
 
+                m_userloginname = this._boxusername.getString();
+                m_userloginpassword = hex_md5(this._boxuserpassword.getString());
+
                 var row1 = {};
                 row1.MsgId = 400;
-                row1.username = this._boxusername.getString();
-                row1.userpwd = hex_md5(this._boxuserpassword.getString());
+                row1.username = m_userloginname;
+                row1.userpwd = m_userloginpassword;
                 row1.machinecode = 'html5';
 
                 socket.send(JSON.stringify(row1));
@@ -931,7 +950,7 @@ var CMainFrameLayer = cc.Layer.extend({
                     row1.MsgSubId = 1005;
                     jetton[0] = gamepielement;
                     row1.jettonmoney = jetton;
-                    socket.send(JSON.stringify(row1));
+                    gameserversocket.send(JSON.stringify(row1));
 
                     m_myselfJettonTotal[0] += gamepielement;
                     m_AllJettonTotal[0] += gamepielement;
@@ -978,7 +997,7 @@ var CMainFrameLayer = cc.Layer.extend({
                     row1.MsgSubId = 1005;
                     jetton[1] = gamepielement;
                     row1.jettonmoney = jetton;
-                    socket.send(JSON.stringify(row1));
+                    gameserversocket.send(JSON.stringify(row1));
 
                     m_myselfJettonTotal[1] += gamepielement;
                     m_AllJettonTotal[1] += gamepielement;
@@ -1025,7 +1044,7 @@ var CMainFrameLayer = cc.Layer.extend({
                     row1.MsgSubId = 1005;
                     jetton[2] = gamepielement;
                     row1.jettonmoney = jetton;
-                    socket.send(JSON.stringify(row1));
+                    gameserversocket.send(JSON.stringify(row1));
 
                     m_myselfJettonTotal[2] += gamepielement;
                     m_AllJettonTotal[2] += gamepielement;
@@ -1072,7 +1091,7 @@ var CMainFrameLayer = cc.Layer.extend({
                     row1.MsgSubId = 1005;
                     jetton[3] = gamepielement;
                     row1.jettonmoney = jetton;
-                    socket.send(JSON.stringify(row1));
+                    gameserversocket.send(JSON.stringify(row1));
 
                     m_myselfJettonTotal[3] += gamepielement;
                     m_AllJettonTotal[3] += gamepielement;
@@ -1119,7 +1138,7 @@ var CMainFrameLayer = cc.Layer.extend({
                     row1.MsgSubId = 1005;
                     jetton[4] = gamepielement;
                     row1.jettonmoney = jetton;
-                    socket.send(JSON.stringify(row1));
+                    gameserversocket.send(JSON.stringify(row1));
 
                     m_myselfJettonTotal[4] += gamepielement;
                     m_AllJettonTotal[4] += gamepielement;
@@ -1166,7 +1185,7 @@ var CMainFrameLayer = cc.Layer.extend({
                 row1.MsgSubId = 1006;
                 jetton = m_tempcolorjettons;
                 row1.jettons = jetton;
-                socket.send(JSON.stringify(row1));
+                gameserversocket.send(JSON.stringify(row1));
 
                 var totalJettons = 0;
                 for(i=0;i<5;i++)
@@ -1235,7 +1254,7 @@ var CMainFrameLayer = cc.Layer.extend({
                     row1.MsgSubId = 1005;
                     jetton = m_tempcolorjettons;
                     row1.jettonmoney = jetton;
-                    socket.send(JSON.stringify(row1));
+                    gameserversocket.send(JSON.stringify(row1));
 
                     for (i = 0; i < 5; i++) {
                         m_myselfJettonTotal[i] += m_tempcolorjettons[i];
@@ -1319,28 +1338,41 @@ var CMainFrameLayer = cc.Layer.extend({
                 socket.send('100');
 
                 last_health = new Date();
+                clearInterval(keepalivetimer);
                 keepalivetimer = setInterval( function(){keepalive(socket)},5000);
 
-                self.ConnectServerLabel.removeFromParentAndCleanup(true);
+                if(m_isLoginSuccess == true)
+                {
+                    var row1 = {};
+                    row1.MsgId = 500;
+                    row1.UserName = m_userloginname;
+                    row1.UserPW = m_userloginpassword;
+                    row1.DeviceType=1;
+                    socket.send(JSON.stringify(row1));
+                }
+                else
+                {
+                    self.ConnectServerLabel.removeFromParentAndCleanup(true);
 
-                MyMainLoginlayer = new CLoginLayer();
-                self.addChild(MyMainLoginlayer,5);
-                MyMainLoginlayer.init();
+                    MyMainLoginlayer = new CLoginLayer();
+                    self.addChild(MyMainLoginlayer,5);
+                    MyMainLoginlayer.init();
 
-                m_registerLayer = new CRegisterLayer();
-                self.addChild(m_registerLayer,7);
-                m_registerLayer.init();
-                m_registerLayer.setVisible(false);
-				
-                m_chongzhiLayer = new CChongZhiLayer();
-                self.addChild(m_chongzhiLayer,6);
-                m_chongzhiLayer.init();
-                m_chongzhiLayer.setVisible(false);	
+                    m_registerLayer = new CRegisterLayer();
+                    self.addChild(m_registerLayer,7);
+                    m_registerLayer.init();
+                    m_registerLayer.setVisible(false);
 
-                m_CZhuanZhangLayer = new CZhuanZhangLayer();
-                self.addChild(m_CZhuanZhangLayer,8);
-                m_CZhuanZhangLayer.init();
-                m_CZhuanZhangLayer.setVisible(false);					
+                    m_chongzhiLayer = new CChongZhiLayer();
+                    self.addChild(m_chongzhiLayer,6);
+                    m_chongzhiLayer.init();
+                    m_chongzhiLayer.setVisible(false);
+
+                    m_CZhuanZhangLayer = new CZhuanZhangLayer();
+                    self.addChild(m_CZhuanZhangLayer,8);
+                    m_CZhuanZhangLayer.init();
+                    m_CZhuanZhangLayer.setVisible(false);
+                }
             }
 
             socket.onmessage = function(msg){
@@ -1444,7 +1476,7 @@ var CMainFrameLayer = cc.Layer.extend({
                                 m_myselfusermoney = obj.money;
                                 m_myselftempusermoney = m_myselfusermoney;
 
-                                self.MyUserName.setString(MyMainLoginlayer._boxusername.getString());
+                                self.MyUserName.setString(m_userloginname);
                                 self.MyUserMoney.setString(m_myselfusermoney);
                                 //MyMainLoginlayer.removeAllChildrenWithCleanup(true);
                                 MyMainLoginlayer.removeFromParent();
@@ -1507,410 +1539,483 @@ var CMainFrameLayer = cc.Layer.extend({
                             {
                                 var RoomCount = obj.RoomCount;
 
-                                for(i=0;i<RoomCount;i++)
-                                {
-                                    m_gameserverlist['room'.i] = obj.room.i;
+                                m_isLoginSuccess = true;
+
+                                m_gameserver = "ws://"+obj.room0.serverip+":"+obj.room0.serverport;
+
+                                //socket.onclose();
+
+                                gameserversocket = new WebSocket(m_gameserver);
+
+                                gameserversocket.onopen = function(){
+                                    gameserversocket.send('100');
+
+                                    last_health_game = new Date();
+                                    clearInterval(keepalivetimer_game);
+                                    keepalivetimer_game = setInterval( function(){keepalive(gameserversocket,1)},5000);
+
+                                    var row1 = {};
+                                    row1.MsgId = 500;
+                                    row1.UserName = m_userloginname;
+                                    row1.UserPW = m_userloginpassword;
+                                    row1.DeviceType=1;
+                                    gameserversocket.send(JSON.stringify(row1));
+                                }
+
+                                gameserversocket.onmessage = function(msg) {
+                                    var str = "";
+                                    str = msg.data;
+
+                                    var objgame = eval('(' + str + ')');
+
+                                    switch(objgame.MsgId)
+                                    {
+                                        case 500:
+                                        {
+                                            switch(objgame.MsgSubId)
+                                            {
+                                                case 502:
+                                                {
+                                                    var loginlayer = new MyMessageBoxLayer();
+                                                    self.addChild(loginlayer,8);
+                                                    loginlayer.init("游戏服务器登录失败，请联系客服人员！");
+                                                }
+                                                    break;
+                                                case 505:
+                                                {
+                                                    var loginlayer = new MyMessageBoxLayer();
+                                                    self.addChild(loginlayer,8);
+                                                    loginlayer.init("游戏服务器满员，请联系客服人员！");
+                                                }
+                                                    break;
+                                                case 501:
+                                                {
+                                                    var row1 = {};
+                                                    row1.MsgId = 900;
+                                                    row1.MsgSubId=901;
+                                                    row1.RoomIndex = -1;
+                                                    row1.ChairIndex = -1;
+                                                    row1.EnterPWd = "";
+                                                    row1.Enterfirst=0;
+                                                    row1.Entersecond=0;
+                                                    gameserversocket.send(JSON.stringify(row1));
+                                                }
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
+                                            break;
+                                        case 1000:
+                                        {
+                                            switch(objgame.MsgSubId)
+                                            {
+                                                case 1001:
+                                                {
+                                                    gamestate = objgame.gamestate;
+                                                    gamepielement = objgame.gamepielement;
+                                                    m_GameItemBeiLv = objgame.GamePielement;
+                                                    var pjvhao = objgame.jvindex + 1;
+                                                    m_colorrecordcount = objgame.colorrecordcount;
+                                                    m_cardrecourdcount = objgame.cardrecourdcount;
+                                                    m_timexiazhu = objgame.timexiazhu;
+                                                    m_timekaipai = objgame.timekaipai;
+                                                    m_timejiesuan = objgame.timejiesuan;
+                                                    m_myselfgamegonggaostr = objgame.gamegonggao;
+
+                                                    m_oldJvHao = pjvhao;
+
+                                                    /*self.MyFangKuiPeiLv.setString(m_GameItemBeiLv[0]/10);
+                                                    self.MyMeiHuaPeiLv.setString(m_GameItemBeiLv[1]/10);
+                                                    self.MyHongTaoPeiLv.setString(m_GameItemBeiLv[2]/10);
+                                                    self.MyHeiTaoPeiLv.setString(m_GameItemBeiLv[3]/10);
+                                                    self.MyWangPeiLv.setString(m_GameItemBeiLv[4]/10);*/
+
+                                                    var tmpJvCount = m_cardrecourdcount.length + 1;
+                                                    var tmpJvString = "第 "+tmpJvCount+" 局";
+                                                    self.CurrentGameJvCount.setString(tmpJvString);
+                                                    tmpJvString = "第 "+pjvhao+" 轮";
+                                                    self.CurrentGameLunCount.setString(tmpJvString);
+
+                                                    self.MyFangKuiPeiLv.setVisible(true);
+                                                    self.MyMeiHuaPeiLv.setVisible(true);
+                                                    self.MyHongTaoPeiLv.setVisible(true);
+                                                    self.MyHeiTaoPeiLv.setVisible(true);
+                                                    self.MyWangPeiLv.setVisible(true);
+
+                                                    self.MyColorCountFangkuai.setString(m_colorrecordcount[3]);
+                                                    self.MyColorCountMeiHua.setString(m_colorrecordcount[2]);
+                                                    self.MyColorCountHongTao.setString(m_colorrecordcount[1]);
+                                                    self.MyColorCountHeiTao.setString(m_colorrecordcount[0]);
+                                                    self.MyColorCountWang.setString(m_colorrecordcount[4]);
+
+                                                    var index = 0;
+                                                    for(i=0;i<m_cardrecourdcount.length;i++){
+                                                        if(m_cardrecourdcount[i] == 78)
+                                                        {
+                                                            m_gamerecordsprites[index].setTextureRect(cc.rect(0,4*22,94,22));
+                                                        }
+                                                        else if(m_cardrecourdcount[i] == 79)
+                                                        {
+                                                            m_gamerecordsprites[index].setTextureRect(cc.rect(94,4*22,94,22));
+                                                        }
+                                                        else {
+                                                            var resultcard = m_cardrecourdcount[i].toString(16);
+
+                                                            var cardcolor = 3;
+                                                            var cardnum = parseInt("0x"+resultcard[0])-1;
+
+                                                            if(resultcard.length > 1) {
+                                                                cardcolor = 3 - Number(resultcard[0]);
+                                                                cardnum = parseInt("0x" + resultcard[1]) - 1;
+                                                            }
+
+                                                            m_gamerecordsprites[index].setTextureRect(cc.rect(cardnum * 94, cardcolor * 22, 94, 22));
+                                                        }
+                                                        m_gamerecordsprites[index].setVisible(true);
+                                                        index += 1;
+                                                    }
+
+                                                    if(gamestate == 2) {
+                                                        self.MyTimerStateSprite.setTextureRect(cc.rect(111*2,0,111,31));
+                                                        self.MyTimerStateSprite.setVisible(true);
+                                                        m_curTime = m_timekaipai;
+                                                    }else if(gamestate == 1) {
+                                                        self.MyTimerStateSprite.setTextureRect(cc.rect(111,0,111,31));
+                                                        self.MyTimerStateSprite.setVisible(true);
+                                                        m_curTime = m_timexiazhu;
+                                                    }else {
+                                                        m_curTime = m_timejiesuan;
+                                                        self.MyTimerStateSprite.setTextureRect(cc.rect(0,0,111,31));
+                                                        self.MyTimerStateSprite.setVisible(true);
+                                                    }
+
+                                                    clearInterval(m_curTimerId);
+                                                    Timeralive(false);
+                                                    m_curTimerId = setInterval( function(){Timeralive(true)},1000);
+
+                                                    if(m_myselfgamegonggaostr.length > 0) {
+                                                        var gamegonggaolayer = new MyMessageBoxLayer();
+                                                        self.addChild(gamegonggaolayer, 8000);
+                                                        gamegonggaolayer.init(m_myselfgamegonggaostr);
+                                                    }
+                                                }
+                                                    break;
+                                                case 1002:
+                                                {
+                                                    gamestate = objgame.gamestate;
+                                                    var pjvhao = objgame.jvindex + 1;
+
+                                                    for(i=0;i<5;i++)
+                                                    {
+                                                        m_myselfJettonTotal[i] = 0;
+                                                        m_AllJettonTotal[i] = 0;
+                                                    }
+
+                                                    if(m_oldJvHao != pjvhao)
+                                                    {
+                                                        m_oldJvHao=pjvhao;
+                                                        m_cardrecourdcount=[];
+
+                                                        for(i=0;i<65;i++)
+                                                        {
+                                                            m_gamerecordsprites[i].setVisible(false);
+                                                        }
+                                                    }
+
+                                                    self.MyFangKuiSelfJettonTotal.setString("0");
+                                                    self.MyFangKuaiAllJettonTotal.setString("0");
+                                                    self.MyMeiHuaSelfJettonTotal.setString("0");
+                                                    self.MyMeiHuaAllJettonTotal.setString("0");
+                                                    self.MyHongTaoSelfJettonTotal.setString("0");
+                                                    self.MyHongTaoAlljettonTotal.setString("0");
+                                                    self.MyHeiTaoSelfJettonTotal.setString("0");
+                                                    self.MyHeiTaoAllJettonTotal.setString("0");
+                                                    self.MyWangSelfJettonTotal.setString("0");
+                                                    self.MyWangAllJettonTotal.setString("0");
+
+                                                    var tmpJvCount = m_cardrecourdcount.length + 1;
+                                                    var tmpJvString = "第 "+tmpJvCount+" 局";
+                                                    self.CurrentGameJvCount.setString(tmpJvString);
+                                                    tmpJvString = "第 "+pjvhao+" 轮";
+                                                    self.CurrentGameLunCount.setString(tmpJvString);
+
+                                                    if(isLoginSuccuss &&
+                                                        gamepielement > 0 && m_myselfusermoney >= gamepielement)
+                                                    {
+                                                        self.MyFangKuiBtnItem.setEnabled(true);
+                                                        self.MyMeiHuaBtnItem.setEnabled(true);
+                                                        self.MyHongTaoBtnItem.setEnabled(true);
+                                                        self.MyHeiTaoBtnItem.setEnabled(true);
+                                                        self.MyWangBtnItem.setEnabled(true);
+                                                    }
+
+                                                    m_isClearConntineData=false;
+                                                    m_isCurrentJetton = false;
+
+                                                    if(m_tempcolorjettons[0] > 0 ||
+                                                        m_tempcolorjettons[1] > 0 ||
+                                                        m_tempcolorjettons[2] > 0 ||
+                                                        m_tempcolorjettons[3] > 0 ||
+                                                        m_tempcolorjettons[4] > 0) {
+                                                        self.MyBtnContinueJetton.setEnabled(true);
+                                                    }
+
+                                                    self.MyTimerStateSprite.setTextureRect(cc.rect(111,0,111,31));
+                                                    self.MyTimerStateSprite.setVisible(true);
+                                                    m_curTime = m_timexiazhu;
+                                                    clearInterval(m_curTimerId);
+                                                    Timeralive(false);
+                                                    m_curTimerId = setInterval( function(){Timeralive(true)},1000);
+
+                                                    if(m_isplaymusic) {
+                                                        //  cc.audioEngine.playEffect(sound_GameAnteBegin, false);
+                                                    }
+                                                }
+                                                    break;
+                                                case 1003:
+                                                {
+                                                    gamestate = objgame.gamestate;
+                                                    var resultcardnum = objgame.resultcard;
+
+                                                    self.MyFangKuiBtnItem.setEnabled(false);
+                                                    self.MyMeiHuaBtnItem.setEnabled(false);
+                                                    self.MyHongTaoBtnItem.setEnabled(false);
+                                                    self.MyHeiTaoBtnItem.setEnabled(false);
+                                                    self.MyWangBtnItem.setEnabled(false);
+                                                    self.MyBtnContinueJetton.setEnabled(false);
+                                                    self.MyBtnClearJetton.setEnabled(false);
+
+                                                    self.MyTimerStateSprite.setTextureRect(cc.rect(111*2,0,111,31));
+                                                    self.MyTimerStateSprite.setVisible(true);
+                                                    m_curTime = m_timekaipai;
+                                                    clearInterval(m_curTimerId);
+                                                    Timeralive(false);
+                                                    m_curTimerId = setInterval( function(){Timeralive(true)},1000);
+
+                                                    if(m_isCurrentJetton == false)
+                                                    {
+                                                        for(i=0;i<5;i++) {
+                                                            m_tempcolorjettons[i] = 0;
+                                                        }
+                                                    }
+
+                                                    if(resultcardnum == 78)
+                                                    {
+                                                        self.MyCardImage.setTexture(s_dxwang);
+                                                        self.MyCardImage.setTextureRect(cc.rect(0,0,264,369));
+
+                                                        m_colorrecordcount[4] += 1;
+
+                                                        //if(m_isplaymusic) {
+                                                        //     cc.audioEngine.playEffect(sound_Joker1, false);
+                                                        //}
+                                                    }
+                                                    else if(resultcardnum == 79)
+                                                    {
+                                                        self.MyCardImage.setTexture(s_dxwang);
+                                                        self.MyCardImage.setTextureRect(cc.rect(264,0,264,369));
+
+                                                        m_colorrecordcount[4] += 1;
+
+                                                        //if(m_isplaymusic) {
+                                                        //     cc.audioEngine.playEffect(sound_Joker2, false);
+                                                        // }
+                                                    }
+                                                    else {
+                                                        var resultcard = resultcardnum.toString(16);
+
+                                                        var cardcolor = 3;
+                                                        var cardnum = parseInt("0x"+resultcard[0])-1;
+
+                                                        if(resultcard.length > 1) {
+                                                            cardcolor = 3 - Number(resultcard[0]);
+                                                            cardnum = parseInt("0x" + resultcard[1]) - 1;
+
+                                                            m_colorrecordcount[Number(resultcard[0])] += 1;
+                                                        }
+                                                        else {
+                                                            m_colorrecordcount[0] += 1;
+                                                        }
+
+                                                        var psoundstr = "";
+                                                        var psoundIndex = cardnum+1;
+
+                                                        if(cardcolor == 3){
+                                                            psoundstr = "sounds/Diamond"+psoundIndex+".ogg";
+                                                        }
+                                                        else if(cardcolor == 2){
+                                                            psoundstr = "sounds/Club"+psoundIndex+".ogg";
+                                                        }
+                                                        else if(cardcolor == 1){
+                                                            psoundstr = "sounds/Heart"+psoundIndex+".ogg";
+                                                        }
+                                                        else if(cardcolor == 0){
+                                                            psoundstr = "sounds/Spade"+psoundIndex+".ogg";
+                                                        }
+
+                                                        self.MyCardImage.setTexture(s_puke);
+                                                        self.MyCardImage.setTextureRect(cc.rect(cardnum * 264, cardcolor * 369, 264, 369));
+
+                                                        // if(m_isplaymusic) {
+                                                        //     cc.audioEngine.playEffect(psoundstr, false);
+                                                        // }
+                                                    }
+
+                                                    self.MyColorCountFangkuai.setString(m_colorrecordcount[3]);
+                                                    self.MyColorCountMeiHua.setString(m_colorrecordcount[2]);
+                                                    self.MyColorCountHongTao.setString(m_colorrecordcount[1]);
+                                                    self.MyColorCountHeiTao.setString(m_colorrecordcount[0]);
+                                                    self.MyColorCountWang.setString(m_colorrecordcount[4]);
+
+                                                    m_cardrecourdcount.push(resultcardnum);
+
+                                                    var index = 0;
+                                                    for(i=0;i<m_cardrecourdcount.length;i++){
+                                                        if(m_cardrecourdcount[i] == 78)
+                                                        {
+                                                            m_gamerecordsprites[index].setTextureRect(cc.rect(0,4*22,94,22));
+                                                        }
+                                                        else if(m_cardrecourdcount[i] == 79)
+                                                        {
+                                                            m_gamerecordsprites[index].setTextureRect(cc.rect(94,4*22,94,22));
+                                                        }
+                                                        else {
+                                                            var resultcard = m_cardrecourdcount[i].toString(16);
+
+                                                            var cardcolor = 3;
+                                                            var cardnum = parseInt("0x"+resultcard[0])-1;
+
+                                                            if(resultcard.length > 1) {
+                                                                cardcolor = 3 - Number(resultcard[0]);
+                                                                cardnum = parseInt("0x" + resultcard[1]) - 1;
+                                                            }
+
+                                                            m_gamerecordsprites[index].setTextureRect(cc.rect(cardnum * 94, cardcolor * 22, 94, 22));
+                                                        }
+                                                        m_gamerecordsprites[index].setVisible(true);
+                                                        index += 1;
+                                                    }
+                                                }
+                                                    break;
+                                                case 1004:
+                                                {
+                                                    gamestate = objgame.gamestate;
+                                                    var lastresult = objgame.resultnum;
+                                                    var pusermoney = objgame.usermoney;
+
+                                                    var pSpriteIndex = Math.floor(Math.random()*10);
+                                                    self.MyCardImage.setTexture(s_01);
+                                                    self.MyCardImage.setTextureRect(cc.rect(pSpriteIndex*264,0,264,369));
+
+                                                    m_myselfusermoney = pusermoney;
+                                                    m_myselftotalresult += lastresult;
+                                                    self.MySelfResultTotalLable.setString(m_myselftotalresult);
+                                                    m_myselftempusermoney = m_myselfusermoney;
+                                                    self.MyUserMoney.setString(m_myselfusermoney);
+
+                                                    self.MyTimerStateSprite.setTextureRect(cc.rect(0,0,111,31));
+                                                    self.MyTimerStateSprite.setVisible(true);
+                                                    m_curTime = m_timejiesuan;
+                                                    clearInterval(m_curTimerId);
+                                                    Timeralive(false);
+                                                    m_curTimerId = setInterval( function(){Timeralive(true)},1000);
+
+                                                    if(m_isplaymusic) {
+                                                        if (lastresult > 0) {
+                                                            //   cc.audioEngine.playEffect(sound_GameVt, false);
+                                                        }
+                                                        else if (lastresult < 0) {
+                                                            //   cc.audioEngine.playEffect(sound_GameShfit, false);
+                                                        }
+                                                        else {
+                                                            //  cc.audioEngine.playEffect(sound_GameRecycle, false);
+                                                        }
+                                                    }
+                                                }
+                                                    break;
+                                                case 1006:
+                                                {
+                                                    var jettonstate = objgame.gamestate;
+                                                    var jettonUserId = objgame.userid;
+                                                    var jettonmoney = objgame.jettonmoney;
+
+                                                    if(jettonUserId != myselfUserId) {
+                                                        for (i = 0; i < 5; i++) {
+                                                            m_AllJettonTotal[i] -= jettonmoney[i];
+                                                        }
+
+                                                        self.MyFangKuaiAllJettonTotal.setString(m_AllJettonTotal[0]);
+                                                        self.MyMeiHuaAllJettonTotal.setString(m_AllJettonTotal[1]);
+                                                        self.MyHongTaoAlljettonTotal.setString(m_AllJettonTotal[2]);
+                                                        self.MyHeiTaoAllJettonTotal.setString(m_AllJettonTotal[3]);
+                                                        self.MyWangAllJettonTotal.setString(m_AllJettonTotal[4]);
+                                                    }
+                                                }
+                                                    break;
+                                                case 1005:
+                                                {
+                                                    var jettonstate = objgame.gamestate;
+                                                    var jettonUserId = objgame.userid;
+                                                    var jettonmoney = objgame.jettonmoney;
+
+                                                    if(jettonUserId == myselfUserId)
+                                                    {
+                                                        if(jettonstate == 0)
+                                                        {
+                                                            for(i=0;i<5;i++)
+                                                            {
+                                                                m_myselfJettonTotal[i] -= jettonmoney[i];
+                                                                m_AllJettonTotal[i] -= jettonmoney[i];
+                                                            }
+
+                                                            self.MyFangKuiSelfJettonTotal.setString(m_myselfJettonTotal[0]);
+                                                            self.MyFangKuaiAllJettonTotal.setString(m_AllJettonTotal[0]);
+                                                            self.MyMeiHuaSelfJettonTotal.setString(m_myselfJettonTotal[1]);
+                                                            self.MyMeiHuaAllJettonTotal.setString(m_AllJettonTotal[1]);
+                                                            self.MyHongTaoSelfJettonTotal.setString(m_myselfJettonTotal[2]);
+                                                            self.MyHongTaoAlljettonTotal.setString(m_AllJettonTotal[2]);
+                                                            self.MyHeiTaoSelfJettonTotal.setString(m_myselfJettonTotal[3]);
+                                                            self.MyHeiTaoAllJettonTotal.setString(m_AllJettonTotal[3]);
+                                                            self.MyWangSelfJettonTotal.setString(m_myselfJettonTotal[4]);
+                                                            self.MyWangAllJettonTotal.setString(m_AllJettonTotal[4]);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if(jettonstate == 1)
+                                                        {
+                                                            for(i=0;i<5;i++)
+                                                            {
+                                                                m_AllJettonTotal[i] += jettonmoney[i];
+                                                            }
+
+                                                            self.MyFangKuaiAllJettonTotal.setString(m_AllJettonTotal[0]);
+                                                            self.MyMeiHuaAllJettonTotal.setString(m_AllJettonTotal[1]);
+                                                            self.MyHongTaoAlljettonTotal.setString(m_AllJettonTotal[2]);
+                                                            self.MyHeiTaoAllJettonTotal.setString(m_AllJettonTotal[3]);
+                                                            self.MyWangAllJettonTotal.setString(m_AllJettonTotal[4]);
+                                                        }
+                                                    }
+                                                }
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+
+                                gameserversocket.onclose = function(){
+                                    var loginlayer = new MyMessageBoxLayer();
+                                    self.addChild(loginlayer,8);
+                                    loginlayer.init("游戏服务器连接失败，请稍后再试！");
                                 }
                             }
                         }
-                        break;
-                    case 1000:
-                    {
-                        switch(obj.MsgSubId)
-                        {
-                            case 1001:
-                            {
-                                gamestate = obj.gamestate;
-                                gamepielement = obj.gamepielement;
-                                m_GameItemBeiLv = obj.GamePielement;
-								var pjvhao = obj.jvindex + 1;	
-                                m_colorrecordcount = obj.colorrecordcount;
-                                m_cardrecourdcount = obj.cardrecourdcount;
-								m_timexiazhu = obj.timexiazhu;
-								m_timekaipai = obj.timekaipai;
-								m_timejiesuan = obj.timejiesuan;
-                                m_myselfgamegonggaostr = obj.gamegonggao;
-							
-								m_oldJvHao = pjvhao;
-
-                                /*self.MyFangKuiPeiLv.setString(m_GameItemBeiLv[0]/10);
-                                self.MyMeiHuaPeiLv.setString(m_GameItemBeiLv[1]/10);
-                                self.MyHongTaoPeiLv.setString(m_GameItemBeiLv[2]/10);
-                                self.MyHeiTaoPeiLv.setString(m_GameItemBeiLv[3]/10);
-                                self.MyWangPeiLv.setString(m_GameItemBeiLv[4]/10);*/
-								
-								var tmpJvCount = m_cardrecourdcount.length + 1;
-								var tmpJvString = "第 "+tmpJvCount+" 局";
-								self.CurrentGameJvCount.setString(tmpJvString);
-								tmpJvString = "第 "+pjvhao+" 轮";
-								self.CurrentGameLunCount.setString(tmpJvString);
-
-                                self.MyFangKuiPeiLv.setVisible(true);
-                                self.MyMeiHuaPeiLv.setVisible(true);
-                                self.MyHongTaoPeiLv.setVisible(true);
-                                self.MyHeiTaoPeiLv.setVisible(true);
-                                self.MyWangPeiLv.setVisible(true);
-
-                                self.MyColorCountFangkuai.setString(m_colorrecordcount[3]);
-                                self.MyColorCountMeiHua.setString(m_colorrecordcount[2]);
-                                self.MyColorCountHongTao.setString(m_colorrecordcount[1]);
-                                self.MyColorCountHeiTao.setString(m_colorrecordcount[0]);
-                                self.MyColorCountWang.setString(m_colorrecordcount[4]);
-
-                                var index = 0;
-                                for(i=0;i<m_cardrecourdcount.length;i++){
-                                    if(m_cardrecourdcount[i] == 78)
-                                    {
-                                        m_gamerecordsprites[index].setTextureRect(cc.rect(0,4*22,94,22));
-                                    }
-                                    else if(m_cardrecourdcount[i] == 79)
-                                    {
-                                        m_gamerecordsprites[index].setTextureRect(cc.rect(94,4*22,94,22));
-                                    }
-                                    else {
-                                        var resultcard = m_cardrecourdcount[i].toString(16);
-
-                                        var cardcolor = 3;
-                                        var cardnum = parseInt("0x"+resultcard[0])-1;
-
-                                        if(resultcard.length > 1) {
-                                            cardcolor = 3 - Number(resultcard[0]);
-                                            cardnum = parseInt("0x" + resultcard[1]) - 1;
-                                        }
-
-                                        m_gamerecordsprites[index].setTextureRect(cc.rect(cardnum * 94, cardcolor * 22, 94, 22));
-                                    }
-                                    m_gamerecordsprites[index].setVisible(true);
-                                    index += 1;
-                                }
-
-                                if(gamestate == 2) {
-                                    self.MyTimerStateSprite.setTextureRect(cc.rect(111*2,0,111,31));
-                                    self.MyTimerStateSprite.setVisible(true);
-                                    m_curTime = m_timekaipai;
-                                }else if(gamestate == 1) {
-                                    self.MyTimerStateSprite.setTextureRect(cc.rect(111,0,111,31));
-                                    self.MyTimerStateSprite.setVisible(true);
-                                    m_curTime = m_timexiazhu;
-                                }else {
-                                    m_curTime = m_timejiesuan;
-                                    self.MyTimerStateSprite.setTextureRect(cc.rect(0,0,111,31));
-                                    self.MyTimerStateSprite.setVisible(true);
-                                }
-
-                                clearInterval(m_curTimerId);
-                                Timeralive(false);
-                                m_curTimerId = setInterval( function(){Timeralive(true)},1000);
-
-                                if(m_myselfgamegonggaostr.length > 0) {
-                                    var gamegonggaolayer = new MyMessageBoxLayer();
-                                    self.addChild(gamegonggaolayer, 8000);
-                                    gamegonggaolayer.init(m_myselfgamegonggaostr);
-                               }
-                            }
-                                break;
-                            case 1002:
-                            {
-                                gamestate = obj.gamestate;
-								var pjvhao = obj.jvindex + 1;								
-
-                                for(i=0;i<5;i++)
-                                {
-                                    m_myselfJettonTotal[i] = 0;
-                                    m_AllJettonTotal[i] = 0;
-                                }								
-							
-                                if(m_oldJvHao != pjvhao)
-								{
-									m_oldJvHao=pjvhao;
-                                    m_cardrecourdcount=[];
-									
-                                    for(i=0;i<65;i++)
-									{
-                                        m_gamerecordsprites[i].setVisible(false);
-                                    }
-                                }
-
-                                self.MyFangKuiSelfJettonTotal.setString("0");
-                                self.MyFangKuaiAllJettonTotal.setString("0");
-                                self.MyMeiHuaSelfJettonTotal.setString("0");
-                                self.MyMeiHuaAllJettonTotal.setString("0");
-                                self.MyHongTaoSelfJettonTotal.setString("0");
-                                self.MyHongTaoAlljettonTotal.setString("0");
-                                self.MyHeiTaoSelfJettonTotal.setString("0");
-                                self.MyHeiTaoAllJettonTotal.setString("0");
-                                self.MyWangSelfJettonTotal.setString("0");
-                                self.MyWangAllJettonTotal.setString("0");
-								
-								var tmpJvCount = m_cardrecourdcount.length + 1;
-								var tmpJvString = "第 "+tmpJvCount+" 局";
-								self.CurrentGameJvCount.setString(tmpJvString);
-								tmpJvString = "第 "+pjvhao+" 轮";
-								self.CurrentGameLunCount.setString(tmpJvString);
-
-                                if(isLoginSuccuss &&
-                                    gamepielement > 0 && m_myselfusermoney >= gamepielement)
-                                {
-                                    self.MyFangKuiBtnItem.setEnabled(true);
-                                    self.MyMeiHuaBtnItem.setEnabled(true);
-                                    self.MyHongTaoBtnItem.setEnabled(true);
-                                    self.MyHeiTaoBtnItem.setEnabled(true);
-                                    self.MyWangBtnItem.setEnabled(true);
-                                }
-
-                                m_isClearConntineData=false;
-                                m_isCurrentJetton = false;
-
-                                if(m_tempcolorjettons[0] > 0 ||
-                                    m_tempcolorjettons[1] > 0 ||
-                                    m_tempcolorjettons[2] > 0 ||
-                                    m_tempcolorjettons[3] > 0 ||
-                                    m_tempcolorjettons[4] > 0) {
-                                    self.MyBtnContinueJetton.setEnabled(true);
-                                }
-
-                                self.MyTimerStateSprite.setTextureRect(cc.rect(111,0,111,31));
-                                self.MyTimerStateSprite.setVisible(true);
-                                m_curTime = m_timexiazhu;
-                                clearInterval(m_curTimerId);
-                                Timeralive(false);
-                                m_curTimerId = setInterval( function(){Timeralive(true)},1000);
-
-                                if(m_isplaymusic) {
-                                  //  cc.audioEngine.playEffect(sound_GameAnteBegin, false);
-                                }
-                            }
-                                break;
-                            case 1003:
-                            {
-                                gamestate = obj.gamestate;
-                                var resultcardnum = obj.resultcard;
-
-                                self.MyFangKuiBtnItem.setEnabled(false);
-                                self.MyMeiHuaBtnItem.setEnabled(false);
-                                self.MyHongTaoBtnItem.setEnabled(false);
-                                self.MyHeiTaoBtnItem.setEnabled(false);
-                                self.MyWangBtnItem.setEnabled(false);
-                                self.MyBtnContinueJetton.setEnabled(false);
-                                self.MyBtnClearJetton.setEnabled(false);
-
-                                self.MyTimerStateSprite.setTextureRect(cc.rect(111*2,0,111,31));
-                                self.MyTimerStateSprite.setVisible(true);
-                                m_curTime = m_timekaipai;
-                                clearInterval(m_curTimerId);
-                                Timeralive(false);
-                                m_curTimerId = setInterval( function(){Timeralive(true)},1000);
-
-                                if(m_isCurrentJetton == false)
-                                {
-                                    for(i=0;i<5;i++) {
-                                        m_tempcolorjettons[i] = 0;
-                                    }
-                                }
-
-                                if(resultcardnum == 78)
-                                {
-                                    self.MyCardImage.setTexture(s_dxwang);
-                                    self.MyCardImage.setTextureRect(cc.rect(0,0,264,369));
-
-                                    m_colorrecordcount[4] += 1;
-
-                                    //if(m_isplaymusic) {
-                                   //     cc.audioEngine.playEffect(sound_Joker1, false);
-                                    //}
-                                }
-                                else if(resultcardnum == 79)
-                                {
-                                    self.MyCardImage.setTexture(s_dxwang);
-                                    self.MyCardImage.setTextureRect(cc.rect(264,0,264,369));
-
-                                    m_colorrecordcount[4] += 1;
-
-                                    //if(m_isplaymusic) {
-                                   //     cc.audioEngine.playEffect(sound_Joker2, false);
-                                   // }
-                                }
-                                else {
-                                    var resultcard = resultcardnum.toString(16);
-
-                                    var cardcolor = 3;
-                                    var cardnum = parseInt("0x"+resultcard[0])-1;
-
-                                    if(resultcard.length > 1) {
-                                        cardcolor = 3 - Number(resultcard[0]);
-                                        cardnum = parseInt("0x" + resultcard[1]) - 1;
-
-                                        m_colorrecordcount[Number(resultcard[0])] += 1;
-                                    }
-                                    else {
-                                        m_colorrecordcount[0] += 1;
-                                    }
-
-                                    var psoundstr = "";
-                                    var psoundIndex = cardnum+1;
-
-                                    if(cardcolor == 3){
-                                        psoundstr = "sounds/Diamond"+psoundIndex+".ogg";
-                                    }
-                                    else if(cardcolor == 2){
-                                        psoundstr = "sounds/Club"+psoundIndex+".ogg";
-                                    }
-                                    else if(cardcolor == 1){
-                                        psoundstr = "sounds/Heart"+psoundIndex+".ogg";
-                                    }
-                                    else if(cardcolor == 0){
-                                        psoundstr = "sounds/Spade"+psoundIndex+".ogg";
-                                    }
-
-                                    self.MyCardImage.setTexture(s_puke);
-                                    self.MyCardImage.setTextureRect(cc.rect(cardnum * 264, cardcolor * 369, 264, 369));
-
-                                   // if(m_isplaymusic) {
-                                   //     cc.audioEngine.playEffect(psoundstr, false);
-                                   // }
-                                }
-
-                                self.MyColorCountFangkuai.setString(m_colorrecordcount[3]);
-                                self.MyColorCountMeiHua.setString(m_colorrecordcount[2]);
-                                self.MyColorCountHongTao.setString(m_colorrecordcount[1]);
-                                self.MyColorCountHeiTao.setString(m_colorrecordcount[0]);
-                                self.MyColorCountWang.setString(m_colorrecordcount[4]);
-
-                                m_cardrecourdcount.push(resultcardnum);
-
-                                var index = 0;
-                                for(i=0;i<m_cardrecourdcount.length;i++){
-                                    if(m_cardrecourdcount[i] == 78)
-                                    {
-                                        m_gamerecordsprites[index].setTextureRect(cc.rect(0,4*22,94,22));
-                                    }
-                                    else if(m_cardrecourdcount[i] == 79)
-                                    {
-                                        m_gamerecordsprites[index].setTextureRect(cc.rect(94,4*22,94,22));
-                                    }
-                                    else {
-                                        var resultcard = m_cardrecourdcount[i].toString(16);
-
-                                        var cardcolor = 3;
-                                        var cardnum = parseInt("0x"+resultcard[0])-1;
-
-                                        if(resultcard.length > 1) {
-                                            cardcolor = 3 - Number(resultcard[0]);
-                                            cardnum = parseInt("0x" + resultcard[1]) - 1;
-                                        }
-
-                                        m_gamerecordsprites[index].setTextureRect(cc.rect(cardnum * 94, cardcolor * 22, 94, 22));
-                                    }
-                                    m_gamerecordsprites[index].setVisible(true);
-                                    index += 1;
-                                }
-                            }
-                                break;
-                            case 1004:
-                            {
-                                gamestate = obj.gamestate;
-                                var lastresult = obj.resultnum;
-								var pusermoney = obj.usermoney;
-
-                                var pSpriteIndex = Math.floor(Math.random()*10);
-                                self.MyCardImage.setTexture(s_01);
-                                self.MyCardImage.setTextureRect(cc.rect(pSpriteIndex*264,0,264,369));
-
-                                m_myselfusermoney = pusermoney;
-                                m_myselftotalresult += lastresult;
-                                self.MySelfResultTotalLable.setString(m_myselftotalresult);
-                                m_myselftempusermoney = m_myselfusermoney;
-                                self.MyUserMoney.setString(m_myselfusermoney);
-
-                                self.MyTimerStateSprite.setTextureRect(cc.rect(0,0,111,31));
-                                self.MyTimerStateSprite.setVisible(true);
-                                m_curTime = m_timejiesuan;
-                                clearInterval(m_curTimerId);
-                                Timeralive(false);
-                                m_curTimerId = setInterval( function(){Timeralive(true)},1000);
-
-                                if(m_isplaymusic) {
-                                    if (lastresult > 0) {
-                                     //   cc.audioEngine.playEffect(sound_GameVt, false);
-                                    }
-                                    else if (lastresult < 0) {
-                                     //   cc.audioEngine.playEffect(sound_GameShfit, false);
-                                    }
-                                    else {
-                                      //  cc.audioEngine.playEffect(sound_GameRecycle, false);
-                                    }
-                                }
-                            }
-                                break;
-                            case 1006:
-                            {
-                                var jettonstate = obj.gamestate;
-                                var jettonUserId = obj.userid;
-                                var jettonmoney = obj.jettonmoney;
-
-                                if(jettonUserId != myselfUserId) {
-                                    for (i = 0; i < 5; i++) {
-                                        m_AllJettonTotal[i] -= jettonmoney[i];
-                                    }
-
-                                    self.MyFangKuaiAllJettonTotal.setString(m_AllJettonTotal[0]);
-                                    self.MyMeiHuaAllJettonTotal.setString(m_AllJettonTotal[1]);
-                                    self.MyHongTaoAlljettonTotal.setString(m_AllJettonTotal[2]);
-                                    self.MyHeiTaoAllJettonTotal.setString(m_AllJettonTotal[3]);
-                                    self.MyWangAllJettonTotal.setString(m_AllJettonTotal[4]);
-                                }
-                            }
-                                break;
-                            case 1005:
-                            {
-                                var jettonstate = obj.gamestate;
-                                var jettonUserId = obj.userid;
-                                var jettonmoney = obj.jettonmoney;
-
-                                if(jettonUserId == myselfUserId)
-                                {
-                                    if(jettonstate == 0)
-                                    {
-                                        for(i=0;i<5;i++)
-                                        {
-                                            m_myselfJettonTotal[i] -= jettonmoney[i];
-                                            m_AllJettonTotal[i] -= jettonmoney[i];
-                                        }
-
-                                        self.MyFangKuiSelfJettonTotal.setString(m_myselfJettonTotal[0]);
-                                        self.MyFangKuaiAllJettonTotal.setString(m_AllJettonTotal[0]);
-                                        self.MyMeiHuaSelfJettonTotal.setString(m_myselfJettonTotal[1]);
-                                        self.MyMeiHuaAllJettonTotal.setString(m_AllJettonTotal[1]);
-                                        self.MyHongTaoSelfJettonTotal.setString(m_myselfJettonTotal[2]);
-                                        self.MyHongTaoAlljettonTotal.setString(m_AllJettonTotal[2]);
-                                        self.MyHeiTaoSelfJettonTotal.setString(m_myselfJettonTotal[3]);
-                                        self.MyHeiTaoAllJettonTotal.setString(m_AllJettonTotal[3]);
-                                        self.MyWangSelfJettonTotal.setString(m_myselfJettonTotal[4]);
-                                        self.MyWangAllJettonTotal.setString(m_AllJettonTotal[4]);
-                                    }
-                                }
-                                else
-                                {
-                                    if(jettonstate == 1)
-                                    {
-                                        for(i=0;i<5;i++)
-                                        {
-                                            m_AllJettonTotal[i] += jettonmoney[i];
-                                        }
-
-                                        self.MyFangKuaiAllJettonTotal.setString(m_AllJettonTotal[0]);
-                                        self.MyMeiHuaAllJettonTotal.setString(m_AllJettonTotal[1]);
-                                        self.MyHongTaoAlljettonTotal.setString(m_AllJettonTotal[2]);
-                                        self.MyHeiTaoAllJettonTotal.setString(m_AllJettonTotal[3]);
-                                        self.MyWangAllJettonTotal.setString(m_AllJettonTotal[4]);
-                                    }
-                                }
-                            }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
                         break;
                     default:
                         break;
@@ -1919,12 +2024,11 @@ var CMainFrameLayer = cc.Layer.extend({
 
             socket.onclose = function(){
                 self.ConnectServerLabel.removeFromParentAndCleanup(true);
+                clearInterval(keepalivetimer);
 
                 var loginlayer = new MyMessageBoxLayer();
                 self.addChild(loginlayer,8);
-                loginlayer.init("服务器连接失败，请稍后再试！");
-
-                clearInterval(keepalivetimer);
+                loginlayer.init("验证服务器连接失败，请稍后再试！");
             }
 
         } catch(exception){

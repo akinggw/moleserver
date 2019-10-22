@@ -45,7 +45,7 @@ CRoom::CRoom(RoomType type)
 	: m_Id(0),m_MaxCount(0),m_RoomType(type),m_RoomState(ROOMSTATE_WAITING),
 	  m_masterId(-1),m_curPlayerId(-1),m_RoomRevenue(0),m_RoomLastMoney(0),
 	  m_RoomGameType(enStartMode_AllReady),m_ServerLogicFrame(NULL),m_Pielement(0),
-	  m_GameType(0),m_RoomMarking(0),m_roomentermoneyfirst(0),m_roomentermoneysecond(0)
+	  m_GameType(0),m_RoomMarking(0),m_roomentermoneyfirst(0),m_roomentermoneysecond(0),m_gameid(0)
 {
 	for(int i=0;i<ROOM_MAX_PLAYERS;i++)
 	{
@@ -1358,7 +1358,7 @@ bool CRoom::WriteUserScore(int wChairID, int64 lScore, int64 lRevenue, enScoreKi
 	ServerDBOperator.InsertPlayerGameRecord(pPlayer->GetID(),
 											lScore,
 											lRevenue,
-											GetGameType(),
+											GetGameId(),
 											GetRoomMarking(),
 											m_ServerSet.GameName,
 											pPlayer->GetRoomId(),

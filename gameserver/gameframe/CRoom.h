@@ -26,6 +26,10 @@ public:
 	virtual void SetGameType(int type) { m_GameType = type; }
 	/// 得到房间所属游戏类型
 	virtual int GetGameType(void) { return m_GameType; }
+	/// 设置房间所属游戏
+	virtual void SetGameId(int gameid) { m_gameid = gameid; }
+	/// 得到房间所属游戏
+	virtual int GetGameId(void) { return m_gameid; }
 	/// 设置房间标识
 	virtual void SetRoomMarking(int marking) { m_RoomMarking = marking; }
 	/// 得到房间标识
@@ -210,6 +214,7 @@ protected:
 private:
 	int m_Id;                   /**< 房间ID */
 	int m_GameType;             /**< 房间所属的游戏类型 */
+	int m_gameid;               /**< 房间所属游戏 */
 	int m_RoomMarking;          /**< 房间标识，一般用它的端口号表示 */
 	std::string m_Name;         /**< 房间名称 */
 	int m_MaxCount;             /**< 房间中最大玩家个数 */

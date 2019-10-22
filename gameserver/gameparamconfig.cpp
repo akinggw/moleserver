@@ -85,6 +85,7 @@ bool LoadGameParamConfig(std::string curPath)
 		pRoom->SetGamePielement(m_ServerSet.m_Pielement);
 		pRoom->SetChouShui(m_ServerSet.m_RoomRevenue / 100.0f);
 		pRoom->SetGameType(m_ServerSet.m_GameType);
+		pRoom->SetGameId(ptagGameRoom.gameid);
 		pRoom->SetRoomMarking(m_ServerSet.m_iServerPort);
 		pRoom->SetRoomGameType(m_ServerSet.m_GameStartMode);
 
