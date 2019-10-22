@@ -1588,6 +1588,13 @@ var CMainFrameLayer = cc.Layer.extend({
                                                     loginlayer.init("游戏服务器满员，请联系客服人员！");
                                                 }
                                                     break;
+                                                case 504:
+                                                {
+                                                    var loginlayer = new MyMessageBoxLayer();
+                                                    self.addChild(loginlayer,8);
+                                                    loginlayer.init("您已经在游戏中，请稍后再试！");
+                                                }
+                                                    break;
                                                 case 501:
                                                 {
                                                     var row1 = {};
