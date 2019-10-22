@@ -39,6 +39,8 @@ private:
 	void OnProcessUserBankMes(uint32 connId,Json::Value &mes);
 	/// 得到玩家的金币
 	bool GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney);
+	/// 得到所有的游戏信息
+	void OnProcessGetGamesMes(uint32 connId,Json::Value &mes);
 };
 
 #define ServerGameFrameManager GameFrameManager::getSingleton()

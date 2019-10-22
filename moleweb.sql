@@ -58,6 +58,7 @@ CREATE TABLE `mol_game` (
   `gamelogo` varchar(32) NOT NULL,
   `content` text NOT NULL,
   `state` int(1) NOT NULL DEFAULT '0',
+  `showindex` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=300002 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -68,7 +69,7 @@ CREATE TABLE `mol_game` (
 
 LOCK TABLES `mol_game` WRITE;
 /*!40000 ALTER TABLE `mol_game` DISABLE KEYS */;
-INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0);
+INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0,0);
 /*!40000 ALTER TABLE `mol_game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +143,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,1,0,'2019-10-15 10:17:21',0,0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,10,3,'127.0.0.1',0,10,1,1,0,0,'2019-10-19 17:35:34',0,0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +170,7 @@ CREATE TABLE `mol_goldoperaterecords` (
   KEY `duid` (`duid`),
   KEY `sduid` (`suid`,`duid`),
   KEY `stuid` (`suid`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +213,7 @@ CREATE TABLE `mol_member` (
   `commissionratio` int(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +222,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1571378924,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(23,0,'test3','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1571374432,NULL,1,0,'','',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1571477638,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +288,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,500,100,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(22,329,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(23,0,500,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,5000,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -979,4 +980,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-18 14:20:27
+-- Dump completed on 2019-10-22  9:20:58

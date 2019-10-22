@@ -365,3 +365,33 @@ bool DBOperator::GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney)
 	return true;
 }
 
+/// 得到所有的游戏信息
+bool DBOperator::GetGameInfos(std::vector<GameDataInfo> &pGameDataInfos)
+{
+	if(m_DataProvider == NULL) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "select * from mol_game;";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	for(int i=0;i<pRecord.Count();i++)
+    {
+        GameDataInfo pGameDataInfo;
+        pGameDataInfo.GameID = atoi(pRecord(i)(0,0).c_str());
+        pGameDataInfo.GameType = atoi(pRecord(i)(0,2).c_str());
+        pGameDataInfo.MaxVersion = atoi(pRecord(i)(0,3).c_str());
+        pGameDataInfo.GameState = atol(pRecord(i)(0,7).c_str());
+        pGameDataInfo.showindex = atol(pRecord(i)(0,8).c_str());
+
+        strncpy(pGameDataInfo.GameName , pRecord(i)(0,1).c_str(),CountArray(pGameDataInfo.GameName));
+        strncpy(pGameDataInfo.ProcessName , pRecord(i)(0,4).c_str(),CountArray(pGameDataInfo.ProcessName));
+        strncpy(pGameDataInfo.GameLogo , pRecord(i)(0,5).c_str(),CountArray(pGameDataInfo.GameLogo));
+
+        pGameDataInfos.push_back(pGameDataInfo);
+    }
+
+	return true;
+}
+

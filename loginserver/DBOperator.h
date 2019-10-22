@@ -57,6 +57,35 @@ struct tagGameRoom
 };
 
 /**
+ * 游戏信息结构
+ */
+struct GameDataInfo
+{
+	GameDataInfo():GameID(0),GameType(0),MaxVersion(0),GameState(0),showindex(0)
+	{
+		memset(GameName,0,sizeof(GameName));
+		memset(ProcessName,0,sizeof(ProcessName));
+		memset(GameLogo,0,sizeof(GameLogo));
+	}
+	GameDataInfo(int gid,const char *gn,int gt,int mv,char *pn,char *gl,int ps,int si)
+		: GameID(gid),GameType(gt),MaxVersion(mv),GameState(ps),showindex(si)
+	{
+		if(gn) strncpy(GameName,gn,sizeof(GameName));
+		if(pn) strncpy(ProcessName,pn,sizeof(ProcessName));
+		if(gl) strncpy(GameLogo,gl,sizeof(GameLogo));
+	}
+
+	int GameID;                   // 游戏ID
+	char GameName[128];           // 游戏名称
+	int GameType;                 // 游戏类型
+	int MaxVersion;               // 版本号
+	char ProcessName[128];        // 游戏进程名称
+	char GameLogo[128];           // 游戏logo
+	int GameState;                // 游戏状态：0-正常；1-维护；2-新；3-热,4-赛
+	int showindex;                // 显示顺序
+};
+
+/**
  * 这个类用于游戏中所有的数据库操作
  */
 class DBOperator : public Singleton<DBOperator>
@@ -99,6 +128,8 @@ public:
 		int sex,std::string realname,std::string telephone,std::string AvatorIndex,std::string Referrer,std::string ipaddress,std::string cardnumber);
     /// 得到当前在线的所有服务器
     bool GetOnlineGameRooms(std::vector<tagGameRoom> &pgamerooms);
+    /// 得到所有的游戏信息
+    bool GetGameInfos(std::vector<GameDataInfo> &pGameDataInfos);
     /// 玩家之间转钱
     int32 TransferAccounts(uint32 UserID,std::string receiverUser,int64 money);
     /// 得到玩家的金币

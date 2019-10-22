@@ -5,6 +5,8 @@
 #include <map>
 #include <sstream>
 
+bool cmpList(const GameDataInfo& x,const GameDataInfo& y) { return x.showindex > y.showindex; }
+
 initialiseSingleton(GameFrameManager);
 
 /**
@@ -67,6 +69,11 @@ void GameFrameManager::OnProcessNetMes(uint32 connId,CMolMessageIn *mes)
             OnProcessUserGetOnlineRoomMes(connId);
         }
         break;
+	case IDD_MESSAGE_GET_GAMEINFO:                     // 得到所有的游戏信息
+		{
+			OnProcessGetGamesMes(connId,json_object);
+		}
+		break;
 	default:
 		break;
 	}
@@ -404,6 +411,55 @@ void GameFrameManager::OnProcessUserGetOnlineRoomMes(uint32 connId)
         ss << "room" << i;
         root[ss.str()] = root2;
     }
+
+	Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+}
+
+/// 得到所有的游戏信息
+void GameFrameManager::OnProcessGetGamesMes(uint32 connId,Json::Value &mes)
+{
+	std::vector<GameDataInfo> pGameDataList;
+	ServerDBOperator.GetGameInfos(pGameDataList);
+	if(pGameDataList.empty())
+	{
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_GET_GAMEINFO;
+        root["MsgSubId"] = IDD_MESSAGE_GET_GAMEINFO_FAIL;
+        Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+
+		return;
+	}
+
+	std::vector<GameDataInfo> pTempPlayerList;
+
+	for(int i=0;i < (int)pGameDataList.size();i++)
+	{
+		pTempPlayerList.push_back(pGameDataList[i]);
+	}
+
+	std::sort(pTempPlayerList.begin(),pTempPlayerList.end(),cmpList);
+
+    Json::Value root;
+    root["MsgId"] = IDD_MESSAGE_GET_GAMEINFO;
+    root["MsgSubId"] = IDD_MESSAGE_GET_GAMEINFO_SUCCESS;
+    root["GameCount"] = (int)pGameDataList.size();
+
+	std::vector<GameDataInfo>::iterator iterTwo = pTempPlayerList.begin();
+	for(int i=0;iterTwo!=pTempPlayerList.end();++iterTwo,i++)
+	{
+        Json::Value root2;
+        root2["GameID"] = (*iterTwo).GameID;
+        root2["GameName"] = (*iterTwo).GameName;
+        root2["GameType"] = (*iterTwo).GameType;
+        root2["MaxVersion"] = (*iterTwo).MaxVersion;
+        root2["ProcessName"] = (*iterTwo).ProcessName;
+        root2["GameLogo"] = (*iterTwo).GameLogo;
+        root2["GameState"] = (*iterTwo).GameState;
+
+        std::stringstream ss;
+        ss << "Game" << i;
+        root[ss.str()] = root2;
+	}
 
 	Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
 }
