@@ -4,9 +4,9 @@ VPATH = ./
 RM = rm -f
 
 ifeq ($(debug),1)
-	CFLAGS = -I ../include/molnet -O0 -g -Wall -ldl -lstdc++ -lpthread -L ../libs -lmolnet -lmysqlclient -ljsoncpp
+	CFLAGS = -I ../include/molnet -O0 -g -Wall -ldl -lstdc++ -lpthread -L ../libs -lmolnet -lmysqlclient  -ljsoncpp
 else
-	CFLAGS = -I ../include/molnet -O2 -ldl -lstdc++ -lpthread -L ../libs -lmolnet -lmysqlclient -ljsoncpp
+	CFLAGS = -I ../include/molnet -O2 -ldl -lstdc++ -lpthread -L ../libs -lmolnet -lmysqlclient  -ljsoncpp
 endif
 
 OBJDIR = objs

@@ -77,6 +77,7 @@ class ListenSocket : public ListenSocketBase
 			if(ret != 0)
 			{
 				sLog.outError("Bind unsuccessful on port %u.", (unsigned int)Port);
+				perror("bind");
 				return false;
 			}
 
