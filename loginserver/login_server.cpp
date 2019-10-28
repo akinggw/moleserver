@@ -15,8 +15,8 @@ int main()
     char strTmp[1024];
 	char m_curProgress_Path[256];
    	NetMessage myMes;
-	
-	getcwd(m_curProgress_Path,256);	
+
+	getcwd(m_curProgress_Path,256);
 
 	new GameFrameManager();
 	new DBOperator();
@@ -25,18 +25,18 @@ int main()
 
 	std::string loginserver_config_file = m_curProgress_Path;
 	loginserver_config_file += LOGINSERVER_CONFIG;
-	
+
 	std::string serverip = GetIniSectionItem(loginserver_config_file.c_str(),"LoginServer","ipaddress");
 	int serverport = atoi(GetIniSectionItem(loginserver_config_file.c_str(),"LoginServer","port").c_str());
 	std::string dbip = GetIniSectionItem(loginserver_config_file.c_str(),"database","ipaddress");
 	int dbport = atoi(GetIniSectionItem(loginserver_config_file.c_str(),"database","port").c_str());
 	std::string username = GetIniSectionItem(loginserver_config_file.c_str(),"database","username");
 	std::string userpwd = GetIniSectionItem(loginserver_config_file.c_str(),"database","userpwd");
-	std::string dbname = GetIniSectionItem(loginserver_config_file.c_str(),"database","dbname");	
+	std::string dbname = GetIniSectionItem(loginserver_config_file.c_str(),"database","dbname");
 
 	serverip[serverip.length()-2] = '\0';
 
-	if(!StartMolNet(serverip.c_str(),
+	if(!StartMolNet("0.0.0.0"/*serverip.c_str()*/,
                     serverport))
 	{
 	    sprintf(strTmp,"【系统】 服务器启动失败,IP地址:%s,端口:%d。",serverip.c_str(),serverport);

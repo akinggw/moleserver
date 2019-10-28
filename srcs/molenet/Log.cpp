@@ -47,31 +47,31 @@ std::string FormatOutputString(const char* Prefix, const char* Description, bool
 	return std::string(p);
 }
 
-int CreateDir(const char *sPathName)  
-{  
-  char DirName[256];  
-  strcpy(DirName, sPathName);  
+int CreateDir(const char *sPathName)
+{
+  char DirName[256];
+  strcpy(DirName, sPathName);
   int i,len = strlen(DirName);
-  for(i=1; i<len; i++)  
-  {  
-	  if(DirName[i]=='/')  
-	  {  
-		  DirName[i] = 0; 
-		  if(access(DirName, NULL)!=0)  
-		  {  
-			  if(mkdir(DirName, 0755)==-1)  
-			  {   
-				  printf("mkdir   error\n");   
-				  return -1;   
-			  }  
-		  }  
-		  DirName[i] = '/';  
+  for(i=1; i<len; i++)
+  {
+	  if(DirName[i]=='/')
+	  {
+		  DirName[i] = 0;
+		  if(access(DirName, NULL)!=0)
+		  {
+			  if(mkdir(DirName, 0755)==-1)
+			  {
+				  printf("mkdir   error\n");
+				  return -1;
+			  }
+		  }
+		  DirName[i] = '/';
 
-	  }  
-  }  
+	  }
+  }
 
-  return 0;  
-} 
+  return 0;
+}
 
 createFileSingleton(oLog);
 
@@ -96,9 +96,9 @@ void oLog::outFile(FILE* file, char* msg, const char* source)
 		fprintf(file, "%s%s\n", time_buffer, msg);
 		printf("%s%s\n", time_buffer, msg);
 	}
-	
+
 	fflush(file);
-	
+
 	m_logLock.Release();
 }
 
@@ -390,11 +390,11 @@ void oLog::Init(int32 fileLogLevel, LogType logType,const char *logfile)
 
 	std::string logNormalFilename, logErrorFilename;
 	char str[1024];
-	
+
 	char *dir = (char *)get_current_dir_name();
 	sprintf(str,"%s/logs/",dir);
-	CreateDir(str);	
-	
+	CreateDir(str);
+
 	switch(logType)
 	{
 		case LOGON_LOG:
@@ -410,25 +410,25 @@ void oLog::Init(int32 fileLogLevel, LogType logType,const char *logfile)
 				break;
 			}
 	}
-	
+
 	if(logfile != 0)
 	{
 		logNormalFilename = str;
 		logErrorFilename = str;
-	
-		sprintf(str,"%s-normal.log",logfile);
+
+		sprintf(str,"%s_normal.log",logfile);
 		logNormalFilename += str;
-		sprintf(str,"%s-error.log",logfile);
-		logErrorFilename += str;		
+		sprintf(str,"%s_error.log",logfile);
+		logErrorFilename += str;
 	}
-	
+
 	m_normalFile = fopen(logNormalFilename.c_str(), "a");
 	if(m_normalFile == NULL)
 		fprintf(stderr, "%s: Error opening '%s': %s\n", __FUNCTION__, logNormalFilename.c_str(), strerror(errno));
 	else
 	{
 		setbuf(m_normalFile,NULL);
-		
+
 		time_t nSeconds;
 		time(&nSeconds);
 		tm* aTm = localtime(&nSeconds);
@@ -441,9 +441,9 @@ void oLog::Init(int32 fileLogLevel, LogType logType,const char *logfile)
 	else
 	{
 		setbuf(m_errorFile,NULL);
-		
+
 		time_t nSeconds;
-		time(&nSeconds);	
+		time(&nSeconds);
 		tm* aTm = localtime(&nSeconds);
 		outError("[%-4d-%02d-%02d %02d:%02d:%02d] opening '%s'", aTm->tm_year + 1900, aTm->tm_mon + 1, aTm->tm_mday, aTm->tm_hour, aTm->tm_min, aTm->tm_sec,logErrorFilename.c_str());
 	}

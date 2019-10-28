@@ -67,7 +67,7 @@ int main(int argc,char *argv[])
         return 0;
     }
 
-	if(!StartMolNet(m_ServerSet.m_sServerIPAddr,
+	if(!StartMolNet("0.0.0.0"/*m_ServerSet.m_sServerIPAddr*/,
                     m_ServerSet.m_iServerPort))
 	{
 	    sprintf(strTmp,"【系统】 服务器启动失败,IP地址:%s,端口:%d。",m_ServerSet.m_sServerIPAddr,m_ServerSet.m_iServerPort);
