@@ -1613,6 +1613,32 @@ var CMainFrameLayer = cc.Layer.extend({
                                             }
                                         }
                                             break;
+                                        case 900:
+                                        {
+                                            if(objgame.MsgSubId == 901) {
+                                                switch(objgame.MsgSubId2) {
+                                                    case 920: {
+                                                        var loginlayer = new MyMessageBoxLayer();
+                                                        self.addChild(loginlayer,8);
+                                                        loginlayer.init("您已经在游戏中，请稍后再试！");
+                                                    }
+                                                    break;
+                                                    case 912: {
+                                                        var loginlayer = new MyMessageBoxLayer();
+                                                        self.addChild(loginlayer,8);
+                                                        loginlayer.init("进入房间失败，请稍后再试！");
+                                                    }
+                                                        break;
+                                                    case 914: {
+                                                        var loginlayer = new MyMessageBoxLayer();
+                                                        self.addChild(loginlayer,8);
+                                                        loginlayer.init("金币不够，请先充值！");
+                                                    }
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                            break;
                                         case 1000:
                                         {
                                             switch(objgame.MsgSubId)
