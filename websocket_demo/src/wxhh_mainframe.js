@@ -23,7 +23,7 @@ var m_cardrecourdcount = [];
 var m_gamerecordsprites = [];
 var m_myselftotaljettons = 0;
 var m_myselftotalresult = 0;
-var m_myselfgamegonggaostr="";
+//var m_myselfgamegonggaostr="";
 var m_spritetimerbg = null;
 var m_spriteTimer1 = null;
 var m_spriteTimer2 = null;
@@ -1545,6 +1545,8 @@ var CMainFrameLayer = cc.Layer.extend({
 
                                 //socket.onclose();
 
+                                console.info("start.");
+
                                 gameserversocket = new WebSocket(m_gameserver);
 
                                 gameserversocket.onopen = function(){
@@ -1554,22 +1556,32 @@ var CMainFrameLayer = cc.Layer.extend({
                                     clearInterval(keepalivetimer_game);
                                     keepalivetimer_game = setInterval( function(){keepalive(gameserversocket,1)},5000);
 
-                                    var row1 = {};
-                                    row1.MsgId = 500;
-                                    row1.UserName = m_userloginname;
-                                    row1.UserPW = m_userloginpassword;
-                                    row1.DeviceType=1;
-                                    gameserversocket.send(JSON.stringify(row1));
+                                    console.info("connned.");
                                 }
 
                                 gameserversocket.onmessage = function(msg) {
                                     var str = "";
                                     str = msg.data;
 
+                                    //console.info(str);
+
                                     var objgame = eval('(' + str + ')');
 
                                     switch(objgame.MsgId)
                                     {
+                                        case 300:
+                                        {
+                                            if(objgame.MsgSubId == 301)
+                                            {
+                                                var row1 = {};
+                                                row1.MsgId = 500;
+                                                row1.UserName = m_userloginname;
+                                                row1.UserPW = m_userloginpassword;
+                                                row1.DeviceType=1;
+                                                gameserversocket.send(JSON.stringify(row1));
+                                            }
+                                        }
+                                        break;
                                         case 500:
                                         {
                                             switch(objgame.MsgSubId)
@@ -1615,6 +1627,8 @@ var CMainFrameLayer = cc.Layer.extend({
                                             break;
                                         case 900:
                                         {
+                                            console.info(objgame.MsgSubId2);
+
                                             if(objgame.MsgSubId == 901) {
                                                 switch(objgame.MsgSubId2) {
                                                     case 920: {
@@ -1641,6 +1655,8 @@ var CMainFrameLayer = cc.Layer.extend({
                                             break;
                                         case 1000:
                                         {
+                                            console.info(objgame.MsgSubId);
+
                                             switch(objgame.MsgSubId)
                                             {
                                                 case 1001:
@@ -1654,7 +1670,7 @@ var CMainFrameLayer = cc.Layer.extend({
                                                     m_timexiazhu = objgame.timexiazhu;
                                                     m_timekaipai = objgame.timekaipai;
                                                     m_timejiesuan = objgame.timejiesuan;
-                                                    m_myselfgamegonggaostr = objgame.gamegonggao;
+                                                   // m_myselfgamegonggaostr = objgame.gamegonggao;
 
                                                     m_oldJvHao = pjvhao;
 
@@ -1727,11 +1743,11 @@ var CMainFrameLayer = cc.Layer.extend({
                                                     Timeralive(false);
                                                     m_curTimerId = setInterval( function(){Timeralive(true)},1000);
 
-                                                    if(m_myselfgamegonggaostr.length > 0) {
+                                                    /*if(m_myselfgamegonggaostr.length > 0) {
                                                         var gamegonggaolayer = new MyMessageBoxLayer();
                                                         self.addChild(gamegonggaolayer, 8000);
                                                         gamegonggaolayer.init(m_myselfgamegonggaostr);
-                                                    }
+                                                    }*/
                                                 }
                                                     break;
                                                 case 1002:
