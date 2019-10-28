@@ -25,7 +25,7 @@ PHP版本：php >= 5.6 (推荐php7.0+)
 ```
 第一步：修改数据库配置 根目录/config/database.php  
 第二步：将根目录的yzncms.sql文件导入数据库即可  
-第三步：后台入口 http://您的域名/admin 默认账号密码 （超级管理员：admin admin)
+第三步：后台入口 http://您的域名/admin 默认账号密码 （超级管理员：admin admin)，如果你不想使用域名，直接使用IP地址的话，路径如下:http://182.61.5.226/index.php/admin/index/login.html
 第四步：网站后台的数据库和平台的数据是分开的，是两个数据库，网站在管理游戏数据时是打开另一个数据库，具体配置文件在 根目录/config/app.php  
 ```
 [常见问题]
