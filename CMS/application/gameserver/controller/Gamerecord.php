@@ -26,8 +26,8 @@ class Gamerecord extends Adminbase
     protected function initialize()
     {
         parent::initialize();
-     //   $this->gameroom_Model = new gameroom_Model;
-     //   $this->game_Model = new game_Model;
+        $this->gameroom_Model = new gameroom_Model;
+        $this->game_Model = new game_Model;
         $this->gamerecords_Model = new gamerecords_Model;
         $this->goldoperaterecords_Model = new goldoperaterecords_Model;
     }
@@ -40,17 +40,56 @@ class Gamerecord extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = $this->gamerecords_Model->page($page, $limit)->
-            join('game ge','ge.id = mol_gamerecords.gameid','left')->
-            join('member mb','mb.uid = mol_gamerecords.userid','left')->
-            field('mol_gamerecords.*,ge.name,mb.username')->
-            select();
+
+            $username = $this->request->param('username');
+            $roomid = $this->request->param('roomid');
+            $gameid = $this->request->param('gameid');
+
+            if($roomid and $gameid) {
+                $_list = $this->gamerecords_Model->page($page, $limit)->
+                join('game ge','ge.id = mol_gamerecords.gameid','left')->
+                join('member mb','mb.uid = mol_gamerecords.userid','left')->
+                where('mb.username like "%'.$username.'%" and mol_gamerecords.gameid='.$gameid.' and mol_gamerecords.serverid='.$roomid)->
+                field('mol_gamerecords.*,ge.name,mb.username')->
+                select();
+            }
+            else
+            {
+                $_list = $this->gamerecords_Model->page($page, $limit)->
+                join('game ge','ge.id = mol_gamerecords.gameid','left')->
+                join('member mb','mb.uid = mol_gamerecords.userid','left')->
+                where('mb.username like "%'.$username.'%"')->
+                field('mol_gamerecords.*,ge.name,mb.username')->
+                select();
+            }
+
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);
             return json($result);
 
         }
+
+        $games = $this->game_Model->select();
+        $server = $this->gameroom_Model->where(['gameid' => $games[0]['id']])->select();
+        $this->assign("games", $games);
+        $this->assign("servers", $server);
         return $this->fetch();
+    }
+
+    /**
+     * 根据游戏ID得到所有的房间
+     */
+    public function getgamerooms()
+    {
+        if ($this->request->isPost()) {
+            $data = $this->request->post();
+
+            $rooms = $this->gameroom_Model->where(["gameid" => $data['game_id']])->
+            field('id,servername')->
+            select();
+
+            return json_encode($rooms, JSON_FORCE_OBJECT);;
+        }
     }
 
     /**

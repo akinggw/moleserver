@@ -124,7 +124,7 @@ int main(int argc,char *argv[])
             ServerGameFrameManager.UpdateQueueList();
             RobotManager.UpdateRobot();
 
-            if(m_updateonlineplayercount >= 30)
+            if(m_updateonlineplayercount >= 20)
             {
                 m_updateonlineplayercount = 0;
 

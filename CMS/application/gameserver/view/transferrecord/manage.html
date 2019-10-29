@@ -3,6 +3,22 @@
 <div class="layui-card">
     <div class="layui-card-header">转账记录</div>
     <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="username" placeholder="搜索玩家名称">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <select name="transfertype" id="transfertype" lay-verify="required" lay-filter="transfertype">
+                        <option value="0" selected>转账玩家</option>
+                        <option value="1">收款玩家</option>
+                    </select>
+                </div>
+                <a class="layui-btn search_btn" data-type="reload" id="search_name">搜索</a>
+            </form>
+        </blockquote>
         <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
     </div>
 </div>
@@ -42,6 +58,18 @@ layui.use('table', function() {
             ]
         ],
         page: {}
+    });
+
+    $("#search_name").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                username: $("#username").val(),
+                transfertype: $("#transfertype").val()
+            }
+        })
     });
 });
 </script>

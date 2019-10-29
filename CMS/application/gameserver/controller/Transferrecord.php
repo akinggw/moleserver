@@ -40,12 +40,43 @@ class Transferrecord extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = $this->goldoperaterecords_Model->page($page, $limit)->
-            join('member mb2','mb2.uid = mol_goldoperaterecords.suid','left')->
-            join('member mb','mb.uid = mol_goldoperaterecords.duid','left')->
-            field('mol_goldoperaterecords.*,mb.username as dusername,mb2.username as susername')->
-            //withAttr('operatedate', function ($value, $data) {return time_format($value);})->
-            select();
+
+            $username = $this->request->param('username');
+            $transfertype = $this->request->param('transfertype');
+
+            if($username != null and $transfertype != null)
+            {
+                if($transfertype == 0)
+                {
+                    $_list = $this->goldoperaterecords_Model->page($page, $limit)->
+                    join('member mb2','mb2.uid = mol_goldoperaterecords.suid','left')->
+                    join('member mb','mb.uid = mol_goldoperaterecords.duid','left')->
+                    where('mb2.username like "%'.$username.'%"')->
+                    field('mol_goldoperaterecords.*,mb.username as dusername,mb2.username as susername')->
+                    //withAttr('operatedate', function ($value, $data) {return time_format($value);})->
+                    select();
+                }
+                else
+                {
+                    $_list = $this->goldoperaterecords_Model->page($page, $limit)->
+                    join('member mb2','mb2.uid = mol_goldoperaterecords.suid','left')->
+                    join('member mb','mb.uid = mol_goldoperaterecords.duid','left')->
+                    where('mb.username like "%'.$username.'%"')->
+                    field('mol_goldoperaterecords.*,mb.username as dusername,mb2.username as susername')->
+                    //withAttr('operatedate', function ($value, $data) {return time_format($value);})->
+                    select();
+                }
+            }
+            else
+            {
+                $_list = $this->goldoperaterecords_Model->page($page, $limit)->
+                join('member mb2','mb2.uid = mol_goldoperaterecords.suid','left')->
+                join('member mb','mb.uid = mol_goldoperaterecords.duid','left')->
+                field('mol_goldoperaterecords.*,mb.username as dusername,mb2.username as susername')->
+                //withAttr('operatedate', function ($value, $data) {return time_format($value);})->
+                select();
+            }
+
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);
             return json($result);
