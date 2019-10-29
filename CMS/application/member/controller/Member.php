@@ -18,6 +18,8 @@ use app\common\controller\Adminbase;
 use app\member\model\Member as Member_Model;
 use app\member\model\Userdata as Userdata_Model;
 use app\member\model\androiduserinfo as AndroidUserInfo_Mode;
+use app\gameserver\model\gameroom as gameroom_Model;
+use app\gameserver\model\game as game_Model;
 use think\Db;
 
 class Member extends Adminbase
@@ -29,6 +31,8 @@ class Member extends Adminbase
         $this->Member_Model = new Member_Model;
         $this->Userdata_Model = new Userdata_Model;
         $this->AndroidUserInfo_Mode = new AndroidUserInfo_Mode;
+        $this->gameroom_Model = new gameroom_Model;
+        $this->game_Model = new game_Model;
     }
 
     /**
@@ -49,9 +53,15 @@ class Member extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = $this->Member_Model->page($page, $limit)->
-                where(['gtype' => 0])->
+            $curgamingstate = $this->request->param('curgamingstate');
+            $roomid = $this->request->param('roomid');
+            $gameid = $this->request->param('gameid');
+
+            if($curgamingstate)
+            {
+                $_list = $this->Member_Model->page($page, $limit)->
                 join('userdata ud','ud.userid = mol_member.uid','left')->
+                where('username like "%'.$this->request->param('username').'%" and gtype != 1 and ud.curgamingstate='.$curgamingstate)->
                 field('mol_member.*,ud.curgamingstate')->
                 withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
                 withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
@@ -59,11 +69,43 @@ class Member extends Adminbase
                 withAttr('createtime', function ($value, $data) {return time_format($value);})->
                 withAttr('lastlogintime', function ($value, $data) {return time_format($value);})->
                 select();
+            }
+            else if($roomid and $gameid)
+            {
+                $_list = $this->Member_Model->page($page, $limit)->
+                join('userdata ud','ud.userid = mol_member.uid','left')->
+                where('username like "%'.$this->request->param('username').'%" and gtype != 1 and ud.curgametype='.$gameid.' and ud.curserverport='.$roomid)->
+                field('mol_member.*,ud.curgamingstate')->
+                withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
+                withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
+                withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
+                withAttr('createtime', function ($value, $data) {return time_format($value);})->
+                withAttr('lastlogintime', function ($value, $data) {return time_format($value);})->
+                select();
+            }
+            else
+            {
+                $_list = $this->Member_Model->page($page, $limit)->
+                join('userdata ud','ud.userid = mol_member.uid','left')->
+                where('username like "%'.$this->request->param('username').'%" and gtype != 1')->
+                field('mol_member.*,ud.curgamingstate')->
+                withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
+                withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
+                withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
+                withAttr('createtime', function ($value, $data) {return time_format($value);})->
+                withAttr('lastlogintime', function ($value, $data) {return time_format($value);})->
+                select();
+            }
+
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);
             return json($result);
-
         }
+
+        $games = $this->game_Model->select();
+        $server = $this->gameroom_Model->where(['gameid' => $games[0]['id']])->select();
+        $this->assign("games", $games);
+        $this->assign("servers", $server);
         return $this->fetch();
     }
 
@@ -94,13 +136,32 @@ class Member extends Adminbase
 
         } else {
             $userid = $this->request->param('id/d', 0);
-            $data = $this->Member_Model->where(["uid" => $userid])->find();
+            $data = $this->Member_Model->
+                where(["uid" => $userid])->
+                find();
+
             if (empty($data)) {
                 $this->error("该会员不存在！");
             }
 
             $this->assign("data", $data);
             return $this->fetch();
+        }
+    }
+
+    /**
+     * 根据游戏ID得到所有的房间
+     */
+    public function getgamerooms()
+    {
+        if ($this->request->isPost()) {
+            $data = $this->request->post();
+
+            $rooms = $this->gameroom_Model->where(["gameid" => $data['game_id']])->
+            field('id,servername')->
+            select();
+
+            return json_encode($rooms, JSON_FORCE_OBJECT);;
         }
     }
 
@@ -127,8 +188,13 @@ class Member extends Adminbase
 
         } else {
             $userid = $this->request->param('id/d', 0);
-            $data = $this->Userdata_Model->where(["userid" => $userid])->
+            $data = $this->Userdata_Model->
+                join('mol_game mg','mg.id = mol_userdata.curgametype','left')->
+                join('mol_gameroom mgr','mgr.id = mol_userdata.curserverport','left')->
+                where(["userid" => $userid])->
+                field('mol_userdata.*,mg.name as gamename,mgr.servername')->
                 find();
+
             if (empty($data)) {
                 $this->error("该会员不存在！");
             }

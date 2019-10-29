@@ -3,6 +3,35 @@
 <div class="layui-card">
     <div class="layui-card-header">会员列表</div>
     <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="servername" placeholder="搜索服务器名称">
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload" id="search_servername">搜索</a>
+                </div>
+               <!-- <div class="layui-inline">
+                    <select name="usergamingstate" lay-verify="required" lay-filter="usergamingstate">
+                        <option value="0" selected>正常</option>
+                        <option value="1">准备</option>
+                        <option value="2">游戏中</option>
+                        <option value="3">掉线</option>
+                        <option value="4">排队</option>
+                    </select>
+                </div> -->
+                <div class = "layui-inline">
+                    <label class="layui-form-label">所属游戏</label>
+                    <div class="layui-input-inline">
+                        <select name="gameid" id="gameid" lay-verify="required" lay-filter="gameid">
+                            {volist name="games" id="vo"}
+                            <option value="{$vo['id']}">{$vo['name']}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </blockquote>
         <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
     </div>
 </div>
@@ -30,25 +59,48 @@ layui.use('table', function() {
         cols: [
             [
                 { type: 'checkbox', fixed: 'left' },
-                { field: 'id', width: 80, title: 'ID' },
-                { field: 'name', width: 80, title: '所属游戏' },
-                { field: 'servername', width: 150, title: '名称' },
-                { field: 'serverport', width: 80, title: '端口' },
-                { field: 'serverip',  title: 'IP地址' },
-                { field: 'tablecount',  title: '房间数量' },
-                { field: 'tableplayercount', width: 80, title: '房间人数' },
-                { field: 'gamingtype', width: 80,title: '游戏类型' },
-                { field: 'lastmoney', width: 80, title: '房间限制' },
-                { field: 'pielement', width: 80, title: 'pielement' },
-                { field: 'roomrevenue', width: 80, title: 'roomrevenue' },
-                { field: 'currealplayercount', width: 80, title: '在线人数' },
-                { field: 'currobotplayercount', width: 80, title: '机器人数' },
-                { field: 'state', width: 80, title: '房间状态' },
-                { field: 'QueueGaming', width: 80, title: '是否排队' },
-                { field: 'createtime', width: 100, title: '更新时间' },
+                { field: 'id', width: 50, title: 'ID' },
+                { field: 'name', width: 100, title: '所属游戏' },
+                { field: 'servername', width: 100, title: '名称' },
+                { field: 'serverport', width: 50, title: '端口' },
+                { field: 'serverip',  width: 110,title: 'IP地址' },
+                { field: 'tablecount',  width: 90,title: '房间数量' },
+                { field: 'tableplayercount', width: 60, title: '人数' },
+                { field: 'gamingtype', width: 60,title: '类型' },
+                { field: 'lastmoney', width: 60, title: '限制' },
+                { field: 'pielement', width: 100, title: 'pielement' },
+                { field: 'roomrevenue', width: 100, title: 'roomrevenue' },
+                { field: 'currealplayercount', width: 100, title: '在线人数' },
+                { field: 'currobotplayercount', width: 100, title: '机器人数' },
+                { field: 'state', width: 100, title: '房间状态' },
+                { field: 'QueueGaming', width: 100, title: '是否排队' },
+                { field: 'createtime', width: 120, title: '更新时间' },
                 { fixed: 'right', width: 120, title: '操作', templet: '#barTool' }
             ]
-        ]
+        ],
+        page: {}
+    });
+
+    $("#search_servername").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                username: $("#servername").val()
+            }
+        })
+    });
+
+    form.on('select(gameid)', function(data) {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                gameid: data.value
+            }
+        })
     });
 });
 </script>

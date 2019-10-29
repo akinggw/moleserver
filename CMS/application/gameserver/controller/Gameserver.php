@@ -37,15 +37,35 @@ class Gameserver extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = $this->gameroom_Model->page($page, $limit)->
+
+            $servername = $this->request->param('servername');
+            $gameid = $this->request->param('gameid');
+
+            if($gameid)
+            {
+                $_list = $this->gameroom_Model->page($page, $limit)->
                 join('game ge','ge.id = mol_gameroom.gameid','left')->
+                where('mol_gameroom.servername like "%'.$servername.'%" and ge.id='.$gameid)->
                 field('mol_gameroom.*,ge.name')->
                 select();
+            }
+            else
+            {
+                $_list = $this->gameroom_Model->page($page, $limit)->
+                join('game ge','ge.id = mol_gameroom.gameid','left')->
+                where('mol_gameroom.servername like "%'.$servername.'%"')->
+                field('mol_gameroom.*,ge.name')->
+                select();
+            }
+
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);
             return json($result);
 
         }
+
+        $games = $this->game_Model->select();
+        $this->assign("games", $games);
         return $this->fetch();
     }
 

@@ -3,6 +3,46 @@
 <div class="layui-card">
     <div class="layui-card-header">会员列表</div>
     <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="username" placeholder="搜索玩家名称">
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload" id="search_name">搜索</a>
+                </div>
+                <div class="layui-inline">
+                    <select name="usergamingstate" lay-verify="required" lay-filter="usergamingstate">
+                        <option value="0" selected>正常</option>
+                        <option value="1">准备</option>
+                        <option value="2">游戏中</option>
+                        <option value="3">掉线</option>
+                        <option value="4">排队</option>
+                    </select>
+                </div>
+                <div class = "layui-inline">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属游戏</label>
+                        <div class="layui-input-inline">
+                            <select name="gameid" id="gameid" lay-verify="required" lay-filter="gameid">
+                                {volist name="games" id="vo"}
+                                <option value="{$vo['id']}">{$vo['name']}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                        <label class="layui-form-label">所属房间</label>
+                        <div class="layui-input-inline">
+                            <select name="roomid" id="roomid" lay-verify="required">
+                                {volist name="servers" id="servervo"}
+                                <option value="{$servervo['id']}">{$servervo['servername']}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                        <a class="layui-btn search_btn" data-type="reload" id="search_room">搜索</a>
+                    </div>
+                </div>
+            </form>
+        </blockquote>
         <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
     </div>
 </div>
@@ -35,18 +75,81 @@ layui.use('table', function() {
                 { field: 'gtype', width: 80, title: '用户类型' },
                 { field: 'username', width: 100, title: '用户名' },
                 { field: 'useravatar', width: 100, title: '用户头像' },
-                { field: 'email',  title: '邮箱' },
-                { field: 'sex',  title: '性别' },
+                { field: 'email', width: 100, title: '邮箱' },
+                { field: 'sex',  width: 100,title: '性别' },
                 { field: 'realname', width: 100, title: '昵称' },
                 { field: 'telephone', title: '手机号码' },
-                { field: 'ipaddress', width: 120, title: 'IP地址' },
-                { field: 'createtime', width: 120, title: '注册时间' },
-                { field: 'lastlogintime', width: 120, title: '登录时间' },
-                { field: 'genable', width: 60, title: '是否封号' },
-                { field: 'curgamingstate', width: 60, title: '当前状态' },
-                { fixed: 'right', width: 180, title: '操作', templet: '#barTool' }
+                { field: 'ipaddress', width: 140, title: 'IP地址' },
+                { field: 'createtime', width: 130, title: '注册时间' },
+                { field: 'lastlogintime', width: 130, title: '登录时间' },
+                { field: 'genable', width: 90, title: '是否封号' },
+                { field: 'curgamingstate', width: 90, title: '当前状态' },
+                { fixed: 'right', width: 220, title: '操作', templet: '#barTool' }
             ]
-        ]
+        ],
+        page: {}
+    });
+
+    $("#search_name").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                username: $("#username").val()
+            }
+        })
+    });
+
+    $("#search_room").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                gameid: $("#gameid").val(),
+                roomid: $("#roomid").val()
+            }
+        })
+    });
+
+    form.on('select(usergamingstate)', function(data) {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                curgamingstate: data.value
+            }
+        })
+    });
+
+    form.on('select(gameid)', function(data) {
+        $.post(
+            '{:url("member/getgamerooms")}',
+            {
+                game_id:data.value
+            },
+            function(d){
+                var server = document.getElementById("roomid");
+                var selectOptions = server.options;
+                var optionLength = selectOptions.length;
+                for(var i=0;i <optionLength;i++)
+                {
+                    server.removeChild(selectOptions[0]);
+                }
+
+                var xqo = eval('(' + d + ')');
+                for(var i in xqo){
+                    var option = document.createElement("option");  // 创建添加option属性
+                    option.setAttribute("value",xqo[i].id); // 给option的value添加值
+                    option.innerText=xqo[i].servername;     // 打印option对应的纯文本
+                    server.appendChild(option);           //给select添加option子标签
+                }
+
+                form.render("select");            // 刷性select，显示出数据
+            }
+        );
     });
 });
 </script>

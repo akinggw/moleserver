@@ -262,8 +262,6 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,root);
 
-		m_g_GameRoom->Room_Log(BASIC,"游戏开始.");
-
 		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_XIAZHU, m_timexiazhu);
 	}
 	else if(timerId == IDD_TIMER_GAME_XIAZHU && curTimer <= 0)
@@ -282,8 +280,6 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 		root["resultcard"] = m_resultCard;
 
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,root);
-
-		m_g_GameRoom->Room_Log(BASIC,"下注中.");
 
 		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_KAIPAI, m_timekaipai);
 	}
@@ -305,9 +301,7 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 			for(;iter != m_colorrecordcount.end();++iter) (*iter).second = 0;
 		}
 
-		m_g_GameRoom->Room_Log(BASIC,"结算中.");
-
-		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_STARTING, m_timejiesuan);
+        m_g_GameRoom->StartTimer(IDD_TIMER_GAME_STARTING, m_timejiesuan);
 	}
 }
 

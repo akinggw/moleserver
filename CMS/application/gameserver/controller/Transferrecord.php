@@ -44,7 +44,7 @@ class Transferrecord extends Adminbase
             join('member mb2','mb2.uid = mol_goldoperaterecords.suid','left')->
             join('member mb','mb.uid = mol_goldoperaterecords.duid','left')->
             field('mol_goldoperaterecords.*,mb.username as dusername,mb2.username as susername')->
-            withAttr('operatedate', function ($value, $data) {return time_format($value);})->
+            //withAttr('operatedate', function ($value, $data) {return time_format($value);})->
             select();
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);

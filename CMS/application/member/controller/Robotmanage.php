@@ -74,20 +74,62 @@ class Robotmanage extends Adminbase
         if ($this->request->isAjax()) {
             $limit = $this->request->param('limit/d', 10);
             $page = $this->request->param('page/d', 10);
-            $_list = $this->AndroidUserInfo_Mode->page($page, $limit)->
-            join('member mb','mb.uid = mol_androiduserinfo.userid','left')->
-            join('gameroom gr','gr.id = mol_androiduserinfo.serverid','left')->
-            join('game g','g.id = mol_androiduserinfo.kindid','left')->
-            join('userdata ud','ud.userid = mol_androiduserinfo.userid','left')->
-            field('mol_androiduserinfo.*,mb.username,gr.servername,g.name,ud.money,ud.bankmoney')->
-            withAttr('nullity', function ($value, $data) { if($value == 0) return '正常'; else return '禁用';})->
-            withAttr('createdate', function ($value, $data) {return time_format($value);})->
-            select();
+
+            $username = $this->request->param('username');
+            $curgamingstate = $this->request->param('curgamingstate');
+            $roomid = $this->request->param('roomid');
+            $gameid = $this->request->param('gameid');
+
+            if($curgamingstate)
+            {
+                $_list = $this->AndroidUserInfo_Mode->page($page, $limit)->
+                join('member mb','mb.uid = mol_androiduserinfo.userid','left')->
+                join('gameroom gr','gr.id = mol_androiduserinfo.serverid','left')->
+                join('game g','g.id = mol_androiduserinfo.kindid','left')->
+                join('userdata ud','ud.userid = mol_androiduserinfo.userid','left')->
+                where('mb.username like "%'.$username.'%" and ud.curgamingstate='.$curgamingstate)->
+                field('mol_androiduserinfo.*,mb.username,gr.servername,g.name,ud.money,ud.bankmoney')->
+                withAttr('nullity', function ($value, $data) { if($value == 0) return '正常'; else return '禁用';})->
+                withAttr('createdate', function ($value, $data) {return time_format($value);})->
+                select();
+            }
+            else if($roomid and $gameid)
+            {
+                $_list = $this->AndroidUserInfo_Mode->page($page, $limit)->
+                join('member mb','mb.uid = mol_androiduserinfo.userid','left')->
+                join('gameroom gr','gr.id = mol_androiduserinfo.serverid','left')->
+                join('game g','g.id = mol_androiduserinfo.kindid','left')->
+                join('userdata ud','ud.userid = mol_androiduserinfo.userid','left')->
+                where('mb.username like "%'.$username.'%" and mol_androiduserinfo.kindid='.$gameid.' and mol_androiduserinfo.serverid='.$roomid)->
+                field('mol_androiduserinfo.*,mb.username,gr.servername,g.name,ud.money,ud.bankmoney')->
+                withAttr('nullity', function ($value, $data) { if($value == 0) return '正常'; else return '禁用';})->
+                withAttr('createdate', function ($value, $data) {return time_format($value);})->
+                select();
+            }
+            else
+            {
+                $_list = $this->AndroidUserInfo_Mode->page($page, $limit)->
+                join('member mb','mb.uid = mol_androiduserinfo.userid','left')->
+                join('gameroom gr','gr.id = mol_androiduserinfo.serverid','left')->
+                join('game g','g.id = mol_androiduserinfo.kindid','left')->
+                join('userdata ud','ud.userid = mol_androiduserinfo.userid','left')->
+                where('mb.username like "%'.$username.'%"')->
+                field('mol_androiduserinfo.*,mb.username,gr.servername,g.name,ud.money,ud.bankmoney')->
+                withAttr('nullity', function ($value, $data) { if($value == 0) return '正常'; else return '禁用';})->
+                withAttr('createdate', function ($value, $data) {return time_format($value);})->
+                select();
+            }
+
             $total = count($_list);
             $result = array("code" => 0, "count" => $total, "data" => $_list);
             return json($result);
 
         }
+
+        $games = $this->game_Model->select();
+        $server = $this->gameroom_Model->where(['gameid' => $games[0]['id']])->select();
+        $this->assign("games", $games);
+        $this->assign("servers", $server);
         return $this->fetch();
     }
 

@@ -29,18 +29,19 @@ layui.use('table', function() {
             [
                 { type: 'checkbox', fixed: 'left' },
                 { field: 'id', width: 80, title: 'ID' },
-                { field: 'susername', width: 80, title: '转账玩家' },
-                { field: 'dusername', width: 80,title: '收款玩家' },
+                { field: 'susername', width: 150, title: '转账玩家' },
+                { field: 'dusername', width: 150,title: '收款玩家' },
                 { field: 'money', width: 150, title: '金额' },
-                { field: 'type', width: 80, title: '转账类型' },
+                { field: 'type', width: 150, title: '转账类型' },
                 { field: 'amoney',  title: '转前金币' },
                 { field: 'bmoney',  title: '转前钱包金币' },
-                { field: 'aftermoney', width: 80, title: '转后金币' },
-                { field: 'afterbankmoney', width: 80,title: '转后钱包金币' },
-                { field: 'operatedate', width: 100, title: '时间' },
+                { field: 'aftermoney', width: 150, title: '转后金币' },
+                { field: 'afterbankmoney', width: 150,title: '转后钱包金币' },
+                { field: 'operatedate', width: 150, title: '时间' },
                 { fixed: 'right', width: 120, title: '操作', templet: '#barTool' }
             ]
-        ]
+        ],
+        page: {}
     });
 });
 </script>
