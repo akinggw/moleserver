@@ -41,6 +41,35 @@ CServerLogicFrame::~CServerLogicFrame()
 
 }
 
+/// 加载游戏配置
+void CServerLogicFrame::LoadGameConfig(void)
+{
+    std::string paramstr = m_g_GameRoom->GetRoomParameters();
+    if(paramstr.empty()) return;
+
+    Json::Reader reader;
+    Json::Value json_object;
+
+    if (!reader.parse(paramstr.c_str(), json_object))
+    {
+     std::stringstream ss;
+        ss << "数据解析失败:" << paramstr;
+        m_g_GameRoom->Room_Log(BASIC,ss.str());
+        return;
+    }
+
+	m_fangkuai = json_object["方块"].asFloat();
+	m_meihua = json_object["梅花"].asFloat();
+	m_heitao = json_object["黑桃"].asFloat();
+	m_hongtao = json_object["红桃"].asFloat();
+	m_wang = json_object["王"].asFloat();
+
+	m_timegamestart = json_object["开始时间"].asInt();
+	m_timexiazhu = json_object["下注时间"].asInt();
+	m_timekaipai = json_object["开牌时间"].asInt();
+	m_timejiesuan = json_object["结算时间"].asInt();
+}
+
 /// 用于处理用户开始游戏开始消息
 void CServerLogicFrame::OnProcessPlayerGameStartMes()
 {
@@ -162,6 +191,7 @@ void CServerLogicFrame::OnProcessEnterRoomMsg(int playerId)
 
 	if(m_gamisrunning == false)
 	{
+	    LoadGameConfig();
 		m_cardrecord.push_back(m_CGameLogic.GetCardByColor(rand()%5));
 
 		m_g_GameRoom->StartTimer(IDD_TIMER_GAME_STARTING,3);

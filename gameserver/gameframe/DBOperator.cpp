@@ -63,6 +63,20 @@ void DBOperator::Update(void)
 	m_DataProvider->Update();
 }
 
+/// 得到房间配置参数
+std::string DBOperator::GetRoomParamaters(uint32 KindID,uint32 ServerID)
+{
+	if(m_DataProvider == NULL || ServerID <= 0 || KindID <= 0) return "";
+
+	std::ostringstream sqlstr;
+	sqlstr << "select serverparameter from mol_gameroom where gameid=" << KindID << " and id=" << ServerID << ";";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return "";
+
+	return pRecord(0)(0,0);
+}
+
 bool DBOperator::GetRobotsOfGameServer(uint32 KindID,uint32 ServerID,std::vector<uint32>& pUserList)
 {
 	if(m_DataProvider == NULL || ServerID <= 0 || KindID <= 0) return false;
@@ -277,7 +291,7 @@ bool DBOperator::GetGameRoomInfo(uint32 pRoomId,tagGameRoom *ptagGameRoom)
 	ptagGameRoom->state = atoi(pRecord(0)(0,14).c_str());
 	ptagGameRoom->QueueGaming = atoi(pRecord(0)(0,15).c_str());
 
-	strncpy(ptagGameRoom->processname , pRecord(0)(0,16).c_str(),CountArray(ptagGameRoom->processname));
+	strncpy(ptagGameRoom->processname , pRecord(0)(0,17).c_str(),CountArray(ptagGameRoom->processname));
 	strncpy(ptagGameRoom->serverip , pRecord(0)(0,6).c_str(),CountArray(ptagGameRoom->serverip));
 	strncpy(ptagGameRoom->servername , pRecord(0)(0,2).c_str(),CountArray(ptagGameRoom->servername));
 

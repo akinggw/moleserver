@@ -104,6 +104,8 @@ public:
     bool UpdateGameRoomOnlinePlayerCount(uint32 pRoomId,int currealplayercount,int currobotplayercount);
     /// 得到机器人进入房间时间段
     bool GetRobotEnterRoomTimes(void);
+    /// 得到房间配置参数
+    std::string GetRoomParamaters(uint32 KindID,uint32 ServerID);
 
 private:
 	DataProvider *m_DataProvider;                               /**< 用于访问本地数据库 */

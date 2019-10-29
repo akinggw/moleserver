@@ -86,7 +86,7 @@ bool LoadGameParamConfig(std::string curPath)
 		pRoom->SetChouShui(m_ServerSet.m_RoomRevenue / 100.0f);
 		pRoom->SetGameType(m_ServerSet.m_GameType);
 		pRoom->SetGameId(ptagGameRoom.gameid);
-		pRoom->SetRoomMarking(m_ServerSet.m_iServerPort);
+		pRoom->SetRoomMarking(m_ServerSet.RoomId);
 		pRoom->SetRoomGameType(m_ServerSet.m_GameStartMode);
 
 		pRoom->SetServerLogicFrame((ServerLogicFrame*)m_g_ServerServiceManager->CreateTableFrameSink());

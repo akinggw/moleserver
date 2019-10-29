@@ -48,6 +48,8 @@ private:
 	void TradGame(void);
 	/// 清空所有人下注记录
 	void ClearJettonRecord(void);
+	/// 加载游戏配置
+	void LoadGameConfig(void);
 
 private:
 	Room *m_g_GameRoom;                                  /**< 游戏房间 */

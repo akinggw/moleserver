@@ -1683,4 +1683,11 @@ void CRoom::Room_Log(enLogLevel loglevel,std::string log)
     }
 }
 
+/// 得到房间配置参数
+std::string CRoom::GetRoomParameters(void)
+{
+	return ServerDBOperator.GetRoomParamaters(GetGameId(),
+											  GetRoomMarking());
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

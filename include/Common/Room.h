@@ -175,6 +175,8 @@ public:
 
 	/// 打印日志
 	virtual void Room_Log(enLogLevel loglevel,std::string log) = 0;
+	/// 得到房间配置参数
+	virtual std::string GetRoomParameters(void) = 0;
 };
 
 #endif

@@ -167,6 +167,8 @@ public:
 
 	/// 打印日志
 	virtual void Room_Log(enLogLevel loglevel,std::string log);
+	/// 得到房间配置参数
+	virtual std::string GetRoomParameters(void);
 
 	///时间事件
 	bool OnEventTimer(DWORD dwTimerID, DWORD wBindParam);
