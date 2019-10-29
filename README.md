@@ -17,7 +17,7 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 #### 安装和编译
 首先我们要搭建好编译环境，推荐使用ubuntu server,然后安装好lamp环境，gcc,g++,makefile等等都要安装好，外部库主要使用了libmysql和libjson,如果编译时缺其它库就安装相应的库，另外代码是在codeblocks下编辑的，编译直接用makefile。
 后台测试地址：http://182.61.5.226/index.php/admin/index/login.html 账户密码admin admin
-游戏测试地址: http://akinggw.gitee.io/moleserver
+游戏测试地址: http://akinggw.gitee.io_moleserver
 
 1. 首先下载下代码
 git clone https://gitee.com/akinggw/moleserver.git
