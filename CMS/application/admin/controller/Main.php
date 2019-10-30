@@ -78,7 +78,7 @@ class Main extends Adminbase
     }
 
     /**
-     * 最新注册用户
+     * 最新登录用户
      */
     public function manageuser()
     {
@@ -90,12 +90,36 @@ class Main extends Adminbase
             join('userdata ud','ud.userid = mol_member.uid','left')->
             where('username like "%'.$this->request->param('username').'%" and gtype != 1')->
             field('mol_member.*,ud.curgamingstate')->
-            order(array('mol_member.createtime' => 'DESC'))->
+            order(array('mol_member.lastlogintime' => 'DESC'))->
             withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
             withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
             withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
             withAttr('createtime', function ($value, $data) {return time_format($value);})->
             withAttr('lastlogintime', function ($value, $data) {return time_format($value);})->
+            select();
+
+            $total = count($_list);
+            $result = array("code" => 0, "count" => $total, "data" => $_list);
+            return json($result);
+
+        }
+
+        return $this->fetch();
+    }
+
+    /**
+     * 最新服务器状态
+     */
+    public function manageserver()
+    {
+        if ($this->request->isAjax()) {
+            $limit = $this->request->param('limit/d', 15);
+            $page = $this->request->param('page/d', 1);
+
+            $_list = $this->gameroom_Model->page($page, $limit)->
+            join('game ge','ge.id = mol_gameroom.gameid','left')->
+            field('mol_gameroom.*,ge.name')->
+            order(array('mol_gameroom.createtime' => 'DESC'))->
             select();
 
             $total = count($_list);

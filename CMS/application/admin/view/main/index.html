@@ -9,7 +9,7 @@
     }
 
     .custom-panel{
-        width: 30%;
+        width: 13%;
         height: 120px;
     }
 
@@ -68,7 +68,7 @@
                     <div class="all-panel">
                         <div class="panel-success custom-panel">
                             <div class="panel-header">
-                                <p>今日登录用户数</p>
+                                <p>上线玩家</p>
                                 <p class="ng-binding">{$admincount}</p>
                             </div>
                         </div>
@@ -114,10 +114,17 @@
             </section>
         </div>
         <blockquote class="layui-elem-quote main_btn">
-            最新注册玩家
+            最新登录玩家
         </blockquote>
         <div class="layui-row layui-col-space10">
             <table class="layui-hide" id="dataTableUser" lay-filter="dataTableUser"></table>
+        </div>
+
+        <blockquote class="layui-elem-quote main_btn">
+            最新服务器状态
+        </blockquote>
+        <div class="layui-row layui-col-space10">
+            <table class="layui-hide" id="dataTableserver" lay-filter="dataTableserver"></table>
         </div>
 
         <blockquote class="layui-elem-quote main_btn">
@@ -265,5 +272,36 @@ layui.use('table', function() {
         ]
     });
 });
+
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTableserver',
+        url: '{:url("main/manageserver")}',
+        cols: [
+            [
+                { field: 'id', width: 50, title: 'ID' },
+                { field: 'name', width: 100, title: '所属游戏' },
+                { field: 'servername', width: 150, title: '名称' },
+                { field: 'serverport', width: 90, title: '端口' },
+                { field: 'serverip',  width: 110,title: 'IP地址' },
+                { field: 'tablecount',  width: 90,title: '房间数量' },
+                { field: 'tableplayercount', width: 90, title: '房间人数' },
+                { field: 'gamingtype', width: 100,title: '房间类型' },
+                { field: 'lastmoney', width: 100, title: '房间限制' },
+                { field: 'pielement', width: 100, title: '基础金币' },
+                { field: 'roomrevenue', width: 100, title: '房间税收' },
+                { field: 'currealplayercount', width: 90, title: '在线人数' },
+                { field: 'currobotplayercount', width: 90, title: '机器人数' },
+                { field: 'state', width: 100, title: '房间状态' },
+                { field: 'QueueGaming', width: 90, title: '是否排队' },
+                { field: 'createtime', width: 180, title: '更新时间' },
+            ]
+        ]
+    });
+});
+
 </script>
 {/block}
