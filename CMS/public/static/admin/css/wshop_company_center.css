@@ -1,0 +1,23 @@
+.all-panel > div{
+    display: inline;
+    float: left;
+    margin-left: 20px;
+}
+
+.custom-panel{
+    width: 30%;
+    height: 200px;
+}
+
+.custom-panel .panel-header{
+    text-align: center;
+    line-height: 50px;
+}
+
+.custom-panel .panel-header p:nth-child(1){
+    font-size: x-large;
+}
+
+.custom-panel .panel-header p:nth-child(2){
+    font-size: large;
+}

@@ -16,14 +16,94 @@ namespace app\admin\controller;
 
 use app\common\controller\Adminbase;
 use think\Db;
+use app\member\model\Member as Member_Model;
+use app\member\model\androiduserinfo as AndroidUserInfo_Mode;
+use app\games\model\gameroom as gameroom_Model;
+use app\games\model\game as game_Model;
+use app\gameserver\model\gamerecords as gamerecords_Model;
+use app\gameserver\model\goldoperaterecords as goldoperaterecords_Model;
 
 class Main extends Adminbase
 {
+    //初始化
+    protected function initialize()
+    {
+        parent::initialize();
+        $this->Member_Model = new Member_Model;
+        $this->AndroidUserInfo_Mode = new AndroidUserInfo_Mode;
+        $this->gameroom_Model = new gameroom_Model;
+        $this->game_Model = new game_Model;
+        $this->gamerecords_Model = new gamerecords_Model;
+        $this->goldoperaterecords_Model = new goldoperaterecords_Model;
+    }
+
     //欢迎首页
     public function index()
     {
         $this->assign('userInfo', $this->_userinfo);
         $this->assign('sys_info', $this->get_sys_info());
+        $this->assign('admincount', $this->Member_Model->where('to_days(from_unixtime(lastlogintime, "%Y-%m-%d %H:%i:%s")) = to_days(NOW())')->count());
+        $this->assign('usercount', $this->Member_Model->count());
+        $this->assign('machinecount', $this->game_Model->count());
+        $this->assign('ordercount', $this->gameroom_Model->count());
+        $this->assign('ordersum', $this->AndroidUserInfo_Mode->count());
+        $this->assign('cardcount', $this->gamerecords_Model->count());
+        $this->assign('cardsum', $this->goldoperaterecords_Model->count());
+        return $this->fetch();
+    }
+
+    /**
+     * 游戏记录
+     */
+    public function manage()
+    {
+        if ($this->request->isAjax()) {
+            $limit = $this->request->param('limit/d', 15);
+            $page = $this->request->param('page/d', 1);
+
+            $_list = $this->gamerecords_Model->page($page, $limit)->
+            join('game ge','ge.id = mol_gamerecords.gameid','left')->
+            join('member mb','mb.uid = mol_gamerecords.userid','left')->
+            field('mol_gamerecords.*,ge.name,mb.username')->
+            order(array('mol_gamerecords.collectdate' => 'DESC'))->
+            select();
+
+            $total = count($_list);
+            $result = array("code" => 0, "count" => $total, "data" => $_list);
+            return json($result);
+
+        }
+
+        return $this->fetch();
+    }
+
+    /**
+     * 最新注册用户
+     */
+    public function manageuser()
+    {
+        if ($this->request->isAjax()) {
+            $limit = $this->request->param('limit/d', 15);
+            $page = $this->request->param('page/d', 1);
+
+            $_list = $this->Member_Model->page($page, $limit)->
+            join('userdata ud','ud.userid = mol_member.uid','left')->
+            where('username like "%'.$this->request->param('username').'%" and gtype != 1')->
+            field('mol_member.*,ud.curgamingstate')->
+            order(array('mol_member.createtime' => 'DESC'))->
+            withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
+            withAttr('genable', function ($value, $data) { if($value == 0) return '封号'; else return '正常';})->
+            withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
+            withAttr('createtime', function ($value, $data) {return time_format($value);})->
+            withAttr('lastlogintime', function ($value, $data) {return time_format($value);})->
+            select();
+
+            $total = count($_list);
+            $result = array("code" => 0, "count" => $total, "data" => $_list);
+            return json($result);
+
+        }
+
         return $this->fetch();
     }
 

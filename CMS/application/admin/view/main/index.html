@@ -1,27 +1,132 @@
 {extend name="index_layout"/}
+
 {block name="main"}
+<style type="text/css">
+    .all-panel > div{
+        display: inline;
+        float: left;
+        margin-left: 20px;
+    }
+
+    .custom-panel{
+        width: 30%;
+        height: 120px;
+    }
+
+    .custom-panel .panel-header{
+        text-align: center;
+        line-height: 50px;
+    }
+
+    .custom-panel .panel-header p:nth-child(1){
+        font-size: x-large;
+    }
+
+    .custom-panel .panel-header p:nth-child(2){
+        font-size: large;
+    }
+
+    .panel-success{border-color:#5eb95e}
+    .panel-success > .panel-header{ border-color:#5eb95e; background-color:#5eb95e; color:#fff}
+
+    /*默认面板*/
+    .panel-default{border-color:#ddd}
+    .panel-default > .panel-header{ border-color:#ddd; background-color:#f5f5f5; color:#444}
+
+    /*主要面板*/
+    .panel-primary{border-color:#5a98de}
+    .panel-primary > .panel-header{ border-color:#5a98de; background-color:#5a98de; color:#fff}
+
+    /*次要面板*/
+    .panel-secondary{border-color:#3bb4f2}
+    .panel-secondary > .panel-header{ border-color:#3bb4f2; background-color:#3bb4f2; color:#fff}
+</style>
 <div class="layui-card">
-    <div class="layui-card-header">控制台</div>
     <div class="layui-card-body">
         <blockquote class="layui-elem-quote layui-bg-green">
             <div id="nowTime"></div>
         </blockquote>
-        <div class="layui-row layui-col-space10 panel_box">
-            <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
-                <a href="javascript:;">
-                    <div class="panel_icon layui-bg-blue">
-                        <i class="icon iconfont icon-time layui-anim"></i>
-                    </div>
-                    <div class="panel_word">
-                        <span class="loginTime"><?php if($userInfo['last_login_time'] > 0) { echo $userInfo['last_login_time'];} else { echo '--';}?></span>
-                        <cite>上次登录时间</cite>
-                    </div>
+        <!-- <div class="layui-row layui-col-space10 panel_box">
+             <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+                 <a href="javascript:;">
+                     <div class="panel_icon layui-bg-blue">
+                         <i class="icon iconfont icon-time layui-anim"></i>
+                     </div>
+              <!--   <div class="panel_word">
+                         <span class="loginTime"><?php if($userInfo['last_login_time'] > 0) { echo $userInfo['last_login_time'];} else { echo '--';}?></span>
+                         <cite>上次登录时间</cite>
+                     </div>
                 </a>
             </div>
+        </div>-->
+        <blockquote class="layui-elem-quote main_btn">
+            平台统计
+        </blockquote>
+        <div class="layui-row layui-col-space10">
+            <section class="Hui-article-box">
+                <div class="page-container ng-scope" ng-app="myApp" ng-controller="myCtrl">
+                    <div class="all-panel">
+                        <div class="panel-success custom-panel">
+                            <div class="panel-header">
+                                <p>今日登录用户数</p>
+                                <p class="ng-binding">{$admincount}</p>
+                            </div>
+                        </div>
+                        <div class="panel-success custom-panel">
+                            <div class="panel-header">
+                                <p>总玩家数</p>
+                                <p class="ng-binding">{$usercount}</p>
+                            </div>
+                        </div>
+                        <div class="panel-primary custom-panel">
+                            <div class="panel-header">
+                                <p>总游戏数</p>
+                                <p class="ng-binding">{$machinecount}</p>
+                            </div>
+                        </div>
+                        <div class="panel-secondary custom-panel">
+                            <div class="panel-header">
+                                <p>总服务器数</p>
+                                <p class="ng-binding">{$ordercount}</p>
+                            </div>
+                        </div>
+
+                        <div class="panel-secondary custom-panel">
+                            <div class="panel-header">
+                                <p>机器人数</p>
+                                <p class="ng-binding">{$ordersum}</p>
+                            </div>
+                        </div>
+                        <div class="panel-secondary custom-panel">
+                            <div class="panel-header">
+                                <p>游戏记录数</p>
+                                <p class="ng-binding">{$cardcount}</p>
+                            </div>
+                        </div>
+                        <div class="panel-success custom-panel">
+                            <div class="panel-header">
+                                <p>转账记录数</p>
+                                <p class="ng-binding">{$cardsum}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
         <blockquote class="layui-elem-quote main_btn">
-            备注
+            最新注册玩家
         </blockquote>
+        <div class="layui-row layui-col-space10">
+            <table class="layui-hide" id="dataTableUser" lay-filter="dataTableUser"></table>
+        </div>
+
+        <blockquote class="layui-elem-quote main_btn">
+            最新游戏记录
+        </blockquote>
+        <div class="layui-row layui-col-space10">
+            <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+        </div>
+
         <div class="layui-row layui-col-space10">
             <div class="layui-col-lg6 layui-col-md12">
                 <blockquote class="layui-elem-quote title">系统基本参数</blockquote>
@@ -105,6 +210,60 @@ layui.use(['jquery'], function() {
     $(".panel a").click(function() {
         parent.addTab($(this));
     })
-})
+});
+
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        url: '{:url("main/manage")}',
+        cols: [
+            [
+                {field: 'id', width: 80, title: 'ID'},
+                {field: 'username', width: 120, title: '玩家名'},
+                {field: 'name', width: 150, title: '游戏名称'},
+                {field: 'roomname', width: 150, title: '所在房间'},
+                {field: 'tableindex', width: 110, title: '桌子号'},
+                {field: 'chairindex', width: 110, title: '椅子号'},
+                {field: 'score', width: 110, title: '金币'},
+                {field: 'revenue', width: 110, title: '税收'},
+                {field: 'lastmoney', width: 110, title: '最近金币'},
+                {field: 'agentmoney', width: 110, title: '佣金'},
+                {field: 'curjetton', width: 110, title: '当前下注'},
+                {field: 'gametip', width: 160, title: '注释'},
+                {field: 'collectdate', width: 200, title: '时间'},
+            ]
+        ]
+    });
+});
+
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTableUser',
+        url: '{:url("main/manageuser")}',
+        cols: [
+            [
+                { field: 'uid', width: 80, title: '用户ID' },
+                { field: 'gtype', width: 120, title: '用户类型' },
+                { field: 'username', width: 120, title: '用户名' },
+                { field: 'useravatar', width: 120, title: '用户头像' },
+                { field: 'email', width: 120, title: '邮箱' },
+                { field: 'sex',  width: 120,title: '性别' },
+                { field: 'realname', width: 120, title: '昵称' },
+                { field: 'telephone',width: 140, title: '手机号码' },
+                { field: 'ipaddress', width: 140, title: 'IP地址' },
+                { field: 'genable', width: 105, title: '是否封号' },
+                { field: 'curgamingstate', width: 105, title: '当前状态' },
+                { field: 'createtime', width: 170, title: '注册时间' },
+                { field: 'lastlogintime', width: 170, title: '登录时间' },
+            ]
+        ]
+    });
+});
 </script>
 {/block}
