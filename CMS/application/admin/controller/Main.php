@@ -17,6 +17,7 @@ namespace app\admin\controller;
 use app\common\controller\Adminbase;
 use think\Db;
 use app\member\model\Member as Member_Model;
+use app\member\model\Userdata as Userdata_Model;
 use app\member\model\androiduserinfo as AndroidUserInfo_Mode;
 use app\games\model\gameroom as gameroom_Model;
 use app\games\model\game as game_Model;
@@ -30,6 +31,7 @@ class Main extends Adminbase
     {
         parent::initialize();
         $this->Member_Model = new Member_Model;
+        $this->Userdata_Model = new Userdata_Model;
         $this->AndroidUserInfo_Mode = new AndroidUserInfo_Mode;
         $this->gameroom_Model = new gameroom_Model;
         $this->game_Model = new game_Model;
@@ -40,9 +42,14 @@ class Main extends Adminbase
     //欢迎首页
     public function index()
     {
+        $onlineusercount = $this->Member_Model->
+            join('userdata ud','ud.userid = mol_member.uid','left')->
+            where('to_days(from_unixtime(lastlogintime, "%Y-%m-%d %H:%i:%s")) = to_days(NOW()) and ud.curgamingstate > 0')->
+            count();
+
         $this->assign('userInfo', $this->_userinfo);
         $this->assign('sys_info', $this->get_sys_info());
-        $this->assign('admincount', $this->Member_Model->where('to_days(from_unixtime(lastlogintime, "%Y-%m-%d %H:%i:%s")) = to_days(NOW())')->count());
+        $this->assign('admincount', $onlineusercount);
         $this->assign('usercount', $this->Member_Model->count());
         $this->assign('machinecount', $this->game_Model->count());
         $this->assign('ordercount', $this->gameroom_Model->count());
@@ -78,7 +85,7 @@ class Main extends Adminbase
     }
 
     /**
-     * 最新登录用户
+     * 最新在线用户
      */
     public function manageuser()
     {
@@ -88,7 +95,7 @@ class Main extends Adminbase
 
             $_list = $this->Member_Model->page($page, $limit)->
             join('userdata ud','ud.userid = mol_member.uid','left')->
-            where('username like "%'.$this->request->param('username').'%" and gtype != 1')->
+            where('to_days(from_unixtime(lastlogintime, "%Y-%m-%d %H:%i:%s")) = to_days(NOW()) and ud.curgamingstate > 0 and gtype != 1')->
             field('mol_member.*,ud.curgamingstate')->
             order(array('mol_member.lastlogintime' => 'DESC'))->
             withAttr('sex', function ($value, $data) { if($value == 0) return '男'; else return '女';})->
