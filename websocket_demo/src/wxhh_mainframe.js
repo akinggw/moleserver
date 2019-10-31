@@ -1541,7 +1541,7 @@ var CMainFrameLayer = cc.Layer.extend({
 
                                 m_isLoginSuccess = true;
 
-                                m_gameserver = "ws://"+obj.room0.serverip+":"+obj.room0.serverport;
+                                m_gameserver = "ws://"+obj.Room[0].serverip+":"+obj.Room[0].serverport;
 
                                 //socket.onclose();
 
