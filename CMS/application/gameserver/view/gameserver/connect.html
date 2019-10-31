@@ -1,0 +1,169 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+           <!-- <textarea class="layui-textarea" lay-verify="content" id="chatshow" style="width: 100%; height: 500px;"> -->
+            <div class="layui-inline" style="width: 100%; height: 500px;">
+                <div id="chatshow" class="panel-body"></div>
+            </div>
+            <div class="layui-inline" style="width: 100%"></div>
+            <div class="layui-inline" style="width: 100%">
+                <div class="layui-input-inline" style="width: 95.8%">
+                    <input type="text" class="layui-input" id="chatinfo" placeholder="请输入发送内容">
+                </div>
+                <a class="layui-btn search_btn" data-type="reload" id="chatinfo_send">发送</a>
+            </div>
+            <input type="hidden" name="username" id="username" value="{$userinfo.username}">
+            <input type="hidden" name="password" id="password" value="{$userinfo.password}">
+            <input type="hidden" name="serverip" id="serverip" value="{$serverinfo.serverip}">
+            <input type="hidden" name="serverport" id="serverport" value="{$serverinfo.serverport}">
+            <input type="hidden" name="userIID" id="userIID" value="{$userIID}">
+        </blockquote>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+var gameserversocket = null;
+var keepalivetimer_game = 0;
+var last_health_game = 0;
+var health_timeout=6000;
+
+function keepalive(ws) {
+    var time = new Date();
+    var curtime = last_health_game.getTime();
+
+    if(time.getTime() - curtime > health_timeout)
+    {
+       clearInterval(keepalivetimer_game);
+    }
+    else
+    {
+        if (ws.bufferedAmount == 0) {
+            ws.send('100');
+            last_health_game = time;
+        }
+    }
+};
+
+window.onload = function () {
+    var layerload = 0;
+
+    var m_gameserver = "ws://"+$("#serverip").val()+":"+$("#serverport").val();
+    gameserversocket = new WebSocket(m_gameserver);
+
+    layerload = layer.msg('正在连接服务器...', {
+        icon: 16,
+        shade: 0.5,
+        time: 0
+    });
+
+    gameserversocket.onopen = function(){
+        gameserversocket.send('100');
+
+        last_health_game = new Date();
+        clearInterval(keepalivetimer_game);
+        keepalivetimer_game = setInterval( function(){keepalive(gameserversocket)},5000);
+    }
+
+    gameserversocket.onmessage = function(msg) {
+        var str = "";
+        str = msg.data;
+
+        //console.info(str);
+
+        var objgame = eval('(' + str + ')');
+
+        switch(objgame.MsgId) {
+            case 300: {
+                layer.close(layerload);
+
+                if (objgame.MsgSubId == 301) {
+                    var row1 = {};
+                    row1.MsgId = 500;
+                    row1.UserName = $("#username").val();
+                    row1.UserPW = $("#password").val();
+                    row1.DeviceType = 1;
+                    gameserversocket.send(JSON.stringify(row1));
+
+                    layerload = layer.msg('正在验证玩家账户...', {
+                        icon: 16,
+                        shade: 0.5,
+                        time: 0
+                    });
+                }
+            }
+                break;
+            case 500: {
+                layer.close(layerload);
+
+                switch (objgame.MsgSubId) {
+                    case 502: {
+                        layer.alert("游戏服务器登录失败，请联系客服人员！");
+                    }
+                        break;
+                    case 505: {
+                        layer.alert("游戏服务器满员，请联系客服人员！");
+                    }
+                        break;
+                    case 504: {
+                        layer.alert("您已经在游戏中，请稍后再试！");
+                    }
+                        break;
+                    case 501: {
+                        //layer.alert("登录成功！");
+                    }
+                        break;
+                    default:
+                        break;
+                }
+            }
+                break;
+            case 900: {
+                switch (objgame.MsgSubId) {
+                    case 919:{
+                        var senduserID = objgame.senduserID;
+                        var ChatMsg =objgame.ChatMsg;
+
+                        var chatcontent = "<div class='username'>玩家["+senduserID+"] 说:</div>";
+                        chatcontent += "<div class='content'>"+ChatMsg+"</div>";
+                        $("#chatshow").html(chatcontent);
+                    }
+                        break;
+                    default:
+                        break;
+                }
+            }
+                break;
+            default:
+                break;
+        }
+    }
+
+    gameserversocket.onclose = function(){
+        layer.close(layerload);
+        layer.alert('服务器连接失败,请稍后再试！');
+    }
+}
+
+$("#chatinfo_send").on("click", function() {
+    var charmsg = $("#chatinfo").val();
+
+    if(charmsg == '') {
+        layer.alert('聊天内容不能为空！');
+        return;
+    }
+
+    var row1 = {};
+    row1.MsgId = 900;
+    row1.MsgSubId=919
+    row1.senduserID = parseInt($("#userIID").val());
+    row1.receiverID = -1;
+    row1.ChatMsg=charmsg;
+    gameserversocket.send(JSON.stringify(row1));
+});
+
+</script>
+{/block}

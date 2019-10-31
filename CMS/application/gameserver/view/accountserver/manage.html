@@ -1,0 +1,67 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">账号服务器列表</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="servername" placeholder="搜索服务器名称">
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload" id="search_servername">搜索</a>
+                </div>
+            </form>
+        </blockquote>
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}' isMember="0">批量删除</a>
+        <a class="layui-btn layui-btn-sm" href='{:url("add")}'>添加服务器</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("accountserver/manage")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 50, title: 'ID' },
+                { field: 'servername', width: 180, title: '名称' },
+                { field: 'serverport', width: 100, title: '端口' },
+                { field: 'serverip',  width: 150,title: 'IP地址' },
+                { field: 'curplayercount', width: 100, title: '在线人数' },
+                { field: 'serverstate', width: 120, title: '状态' },
+                { fixed: 'right', width: 220, title: '操作', templet: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+    $("#search_servername").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                servername: $("#servername").val()
+            }
+        })
+    });
+});
+</script>
+{/block}

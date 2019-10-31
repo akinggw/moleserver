@@ -37,13 +37,14 @@
 </div>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}'>批量删除</a>
+        <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}' isMember="0">批量删除</a>
         <a class="layui-btn layui-btn-sm" href='{:url("add")}'>添加服务器</a>
     </div>
 </script>
 <script type="text/html" id="barTool">
     <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
     <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    <a href='{:url("connect")}?ids={{ d.id }}' class="layui-btn layui-btn-xs">连接服务器</a>
 </script>
 {/block}
 {block name="script"}
@@ -68,14 +69,14 @@ layui.use('table', function() {
                 { field: 'tableplayercount', width: 60, title: '人数' },
                 { field: 'gamingtype', width: 60,title: '类型' },
                 { field: 'lastmoney', width: 60, title: '限制' },
-                { field: 'pielement', width: 100, title: 'pielement' },
-                { field: 'roomrevenue', width: 100, title: 'roomrevenue' },
-                { field: 'currealplayercount', width: 100, title: '在线人数' },
-                { field: 'currobotplayercount', width: 100, title: '机器人数' },
+                { field: 'pielement', width: 90, title: '基础金币' },
+                { field: 'roomrevenue', width: 90, title: '房间税收' },
+                { field: 'currealplayercount', width: 90, title: '在线人数' },
+                { field: 'currobotplayercount', width: 90, title: '机器人数' },
                 { field: 'state', width: 100, title: '房间状态' },
-                { field: 'QueueGaming', width: 100, title: '是否排队' },
+                { field: 'QueueGaming', width: 90, title: '是否排队' },
                 { field: 'createtime', width: 120, title: '更新时间' },
-                { fixed: 'right', width: 120, title: '操作', templet: '#barTool' }
+                { fixed: 'right', width: 220, title: '操作', templet: '#barTool' }
             ]
         ],
         page: {}
@@ -87,7 +88,7 @@ layui.use('table', function() {
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-                username: $("#servername").val()
+                servername: $("#servername").val()
             }
         })
     });

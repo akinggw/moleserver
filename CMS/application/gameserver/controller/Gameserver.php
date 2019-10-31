@@ -17,6 +17,7 @@ namespace app\gameserver\controller;
 use app\common\controller\Adminbase;
 use app\gameserver\model\gameroom as gameroom_Model;
 use app\gameserver\model\game as game_Model;
+use app\member\model\Member as Member_Model;
 use think\Db;
 
 class Gameserver extends Adminbase
@@ -27,6 +28,7 @@ class Gameserver extends Adminbase
         parent::initialize();
         $this->gameroom_Model = new gameroom_Model;
         $this->game_Model = new game_Model;
+        $this->Member_Model = new Member_Model;
     }
 
     /**
@@ -127,6 +129,32 @@ class Gameserver extends Adminbase
         $this->success("删除成功！");
     }
 
+    /**
+     * 连接服务器
+     */
+    public function connect()
+    {
+        $ids = $this->request->param('ids/a', null);
+        if (empty($ids)) {
+            $this->error('请选择需要连接的服务器！');
+        }
+
+        $userinfo = Db::name('admin')->where('id='.UID)->find();
+        $serverinfo = $this->gameroom_Model->where('id='.$ids[0])->find();
+
+        if(empty($userinfo)) {
+            $this->error('管理员信息获取失败,请重新登录试试！');
+        }
+
+        // 如果游戏数据库中没有这个账户,先注册这个账户
+        $userId = $this->Member_Model->query("call moleweb.registergameuser('".$userinfo['username']."', '".$userinfo['password']."', '".$userinfo['password']."', 0, '".$userinfo['email']."', '', '', '', '".$_SERVER["REMOTE_ADDR"]."', '');");
+        $userIID = $userId[0][0]['(lastuserid)'];
+
+        $this->assign("userinfo", $userinfo);
+        $this->assign("userIID", $userIID);
+        $this->assign("serverinfo", $serverinfo);
+        return $this->fetch();
+    }
 
     /**
      * 添加

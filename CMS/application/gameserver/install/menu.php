@@ -36,6 +36,22 @@ return [
                 ],
             ],
             [
+                "route" => "gameserver/accountserver/index",
+                "type" => 1,
+                "status" => 1,
+                "name" => "账号服务器管理",
+                "icon" => "icon-people",
+                "child" => [
+                    [
+                        "route" => "gameserver/accountserver/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "服务器列表",
+                        "icon" => "icon-huiyuan",
+                    ],
+                ],
+            ],
+            [
                 "route" => "gameserver/recordmanage/index",
                 "type" => 1,
                 "status" => 1,

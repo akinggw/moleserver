@@ -1,0 +1,43 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">添加服务器</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务器名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="servername" lay-verify="required" autocomplete="off" placeholder="服务器名称" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">端口</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="serverport" lay-verify="required" autocomplete="off" placeholder="端口" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">IP地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="serverip" lay-verify="required" autocomplete="off" placeholder="IP地址" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务器状态</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="serverstate">
+                        <option value="0" selected >开放</option>
+                        <option value="1" >封闭</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
