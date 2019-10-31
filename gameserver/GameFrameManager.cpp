@@ -662,9 +662,7 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
                     inaddr.s_addr=pPlayerList[i][k]->GetLoginIP();
                     root2["LoginIP"] = inet_ntoa(inaddr);
 
-                    std::stringstream ss;
-                    ss << "player" << i;
-                    root[ss.str()] = root2;
+                    root["player"].append(root2);
 				}
 
 				Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
@@ -726,14 +724,10 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 					root3["ID"] = pPlayer->GetID();
 					root3["ChairIndex"] = pPlayer->GetChairIndex();
 
-                    std::stringstream ss;
-                    ss << "player" << i;
-                    root2[ss.str()] = root3;
+                    root2["player"].append(root3);
 				}
 
-                std::stringstream ss;
-                ss << "room" << index;
-				root[ss.str()] = root2;
+				root["room"].append(root2);
 			}
 
 			Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());

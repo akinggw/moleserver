@@ -420,9 +420,7 @@ void GameFrameManager::OnProcessUserGetOnlineRoomMes(uint32 connId)
         root2["roomrevenue"] = pgamerooms[i].roomrevenue;
         root2["state"] = pgamerooms[i].state;
 
-        std::stringstream ss;
-        ss << "room" << i;
-        root[ss.str()] = root2;
+        root["Room"].append(root2);
     }
 
 	Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
@@ -469,9 +467,7 @@ void GameFrameManager::OnProcessGetGamesMes(uint32 connId,Json::Value &mes)
         root2["GameLogo"] = (*iterTwo).GameLogo;
         root2["GameState"] = (*iterTwo).GameState;
 
-        std::stringstream ss;
-        ss << "Game" << i;
-        root[ss.str()] = root2;
+        root["Game"].append(root2);
 	}
 
 	Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());

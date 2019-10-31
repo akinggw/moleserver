@@ -1,26 +1,65 @@
 {extend name="admin@index_layout"/}
 {block name="main"}
+<style>
+    .usernamestyleme {
+        padding: 5px;
+        color: #ff1c21;
+    }
+    .contentstyleme {
+        padding: 5px;
+        display:inline-block;
+        color: rgba(2, 2, 2, 0.78);
+        border-radius:10px;
+        margin:0 auto;
+        background: rgba(140, 255, 181, 0.5);
+    }
+    .userchatme {
+        padding: 2px;
+        text-align:right;
+        margin:0px auto 0px auto;
+        display: block;
+    }
+
+    .usernamestyle {
+        padding: 5px;
+        color: #0cff29;
+    }
+    .contentstyle {
+        padding: 5px;
+        display:inline-block;
+        color: rgba(226, 226, 226, 0.84);
+        border-radius:10px;
+        margin:0 auto;
+        background: rgba(140, 255, 181, 0.5);
+    }
+    .userchat {
+        padding: 2px;
+        display: block;
+    }
+</style>
+
 <div class="layui-card">
-    <div class="layui-card-body">
-        <blockquote class="layui-elem-quote quoteBox">
-           <!-- <textarea class="layui-textarea" lay-verify="content" id="chatshow" style="width: 100%; height: 500px;"> -->
-            <div class="layui-inline" style="width: 100%; height: 500px;">
-                <div id="chatshow" class="panel-body"></div>
-            </div>
-            <div class="layui-inline" style="width: 100%"></div>
-            <div class="layui-inline" style="width: 100%">
-                <div class="layui-input-inline" style="width: 95.8%">
-                    <input type="text" class="layui-input" id="chatinfo" placeholder="请输入发送内容">
-                </div>
-                <a class="layui-btn search_btn" data-type="reload" id="chatinfo_send">发送</a>
-            </div>
-            <input type="hidden" name="username" id="username" value="{$userinfo.username}">
-            <input type="hidden" name="password" id="password" value="{$userinfo.password}">
-            <input type="hidden" name="serverip" id="serverip" value="{$serverinfo.serverip}">
-            <input type="hidden" name="serverport" id="serverport" value="{$serverinfo.serverport}">
-            <input type="hidden" name="userIID" id="userIID" value="{$userIID}">
-        </blockquote>
+<div class="layui-card-body">
+   <!-- <textarea class="layui-textarea" lay-verify="content" id="chatshow" style="width: 100%; height: 500px;"> -->
+    <div class="layui-inline" id="chatshowframe" style="width: 100%; height: 560px; overflow: auto;">
+        <div id="chatshow" class="panel-body"></div>
     </div>
+    <div class="layui-inline" style="width: 100%"></div>
+    <div class="layui-inline" style="width: 100%">
+        <select name="gameusers" lay-verify="required" lay-filter="gameusers" id="gameusers">
+            <option value="-1">所有人</option>
+        </select>
+        <div class="layui-input-inline" style="width: 85.8%">
+            <input type="text" class="layui-input" id="chatinfo" placeholder="请输入发送内容">
+        </div>
+        <a class="layui-btn search_btn" data-type="reload" id="chatinfo_send">发送</a>
+    </div>
+    <input type="hidden" name="username" id="username" value="{$userinfo.username}">
+    <input type="hidden" name="password" id="password" value="{$userinfo.password}">
+    <input type="hidden" name="serverip" id="serverip" value="{$serverinfo.serverip}">
+    <input type="hidden" name="serverport" id="serverport" value="{$serverinfo.serverport}">
+    <input type="hidden" name="userIID" id="userIID" value="{$userIID}">
+</div>
 </div>
 {/block}
 
@@ -30,6 +69,7 @@ var gameserversocket = null;
 var keepalivetimer_game = 0;
 var last_health_game = 0;
 var health_timeout=6000;
+var gameuserdata={};
 
 function keepalive(ws) {
     var time = new Date();
@@ -47,6 +87,21 @@ function keepalive(ws) {
         }
     }
 };
+
+function addchatuser(userid,username) {
+    var gameusers = document.getElementById("gameusers");
+   // var selectOptions = server.options;
+ //   var optionLength = selectOptions.length;
+  //  for(var i=0;i <optionLength;i++)
+  //  {
+  //      server.removeChild(selectOptions[0]);
+  //  }
+
+    var option = document.createElement("option");  // 创建添加option属性
+    option.setAttribute("value",userid); // 给option的value添加值
+    option.innerText=username;     // 打印option对应的纯文本
+    gameusers.appendChild(option);           //给select添加option子标签
+}
 
 window.onload = function () {
     var layerload = 0;
@@ -114,6 +169,22 @@ window.onload = function () {
                         break;
                     case 501: {
                         //layer.alert("登录成功！");
+
+                        gameuserdata[objgame.ID]=objgame.RealName;
+
+                        if(objgame.ID != parseInt($("#userIID").val()))
+                            addchatuser(objgame.ID,objgame.RealName);
+
+                        var row1 = {};
+                        row1.MsgId = 900;
+                        row1.MsgSubId = 908;
+                        gameserversocket.send(JSON.stringify(row1));
+
+                        layerload = layer.msg('正在获取玩家数据...', {
+                            icon: 16,
+                            shade: 0.5,
+                            time: 0
+                        });
                     }
                         break;
                     default:
@@ -122,16 +193,48 @@ window.onload = function () {
             }
                 break;
             case 900: {
+                layer.close(layerload);
+
                 switch (objgame.MsgSubId) {
                     case 919:{
                         var senduserID = objgame.senduserID;
                         var ChatMsg =objgame.ChatMsg;
+                        var chatcontent;
 
-                        var chatcontent = "<div class='username'>玩家["+senduserID+"] 说:</div>";
-                        chatcontent += "<div class='content'>"+ChatMsg+"</div>";
-                        $("#chatshow").html(chatcontent);
+                        if(parseInt($("#userIID").val()) == senduserID) {
+                            chatcontent = "<div class='userchatme'>";
+                            chatcontent += "<div class='usernamestyleme'>['"+gameuserdata[senduserID]+"'] 说:</div>";
+                            chatcontent += "<div class='contentstyleme'>"+ChatMsg+"</div>";
+                            chatcontent += "</div>";
+                        }
+                        else
+                        {
+                            chatcontent = "<div class='userchat'>";
+                            chatcontent += "<div class='usernamestyle'>['"+gameuserdata[senduserID]+"'] 说:</div>";
+                            chatcontent += "<div class='contentstyle'>"+ChatMsg+"</div>";
+                            chatcontent += "</div>";
+                        }
+
+                        $("#chatshow").append(chatcontent);
+                        $("#chatinfo").val('');
+
+                        var div = document.getElementById('chatshowframe');
+                        div.scrollTop = div.scrollHeight;
                     }
                         break;
+                    case 908:{
+                        var PlayerCount = objgame.PlayerCount;
+                        console.log(PlayerCount);
+
+                        for(var index in objgame.player){
+                            var playerinfo = objgame.player[index];
+                           // console.log(playerinfo.Name);
+                            gameuserdata[playerinfo.ID]=playerinfo.RealName;
+
+                            if(playerinfo.ID != parseInt($("#userIID").val()))
+                                addchatuser(playerinfo.ID,playerinfo.RealName);
+                        }
+                    }
                     default:
                         break;
                 }
@@ -160,7 +263,7 @@ $("#chatinfo_send").on("click", function() {
     row1.MsgId = 900;
     row1.MsgSubId=919
     row1.senduserID = parseInt($("#userIID").val());
-    row1.receiverID = -1;
+    row1.receiverID = parseInt($("#gameusers").val());
     row1.ChatMsg=charmsg;
     gameserversocket.send(JSON.stringify(row1));
 });

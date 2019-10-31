@@ -147,7 +147,7 @@ class Gameserver extends Adminbase
         }
 
         // 如果游戏数据库中没有这个账户,先注册这个账户
-        $userId = $this->Member_Model->query("call moleweb.registergameuser('".$userinfo['username']."', '".$userinfo['password']."', '".$userinfo['password']."', 0, '".$userinfo['email']."', '', '', '', '".$_SERVER["REMOTE_ADDR"]."', '');");
+        $userId = $this->Member_Model->query("call moleweb.registergameuser('".$userinfo['username']."', '".$userinfo['password']."', '".$userinfo['email']."', 0, '".$userinfo['nickname']."', '', '', '', '".$_SERVER["REMOTE_ADDR"]."', '');");
         $userIID = $userId[0][0]['(lastuserid)'];
 
         $this->assign("userinfo", $userinfo);
