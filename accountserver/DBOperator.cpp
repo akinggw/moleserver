@@ -395,3 +395,40 @@ bool DBOperator::GetGameInfos(std::vector<GameDataInfo> &pGameDataInfos)
 	return true;
 }
 
+///得到账号服务器的配置
+bool DBOperator::GetAccountServerConfig(uint32 serverid,tagServerSet &ptagServerSet)
+{
+	if(m_DataProvider == NULL) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "select * from mol_accountserver where id=" << serverid << ";";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	ptagServerSet.id = atoi(pRecord(0)(0,0).c_str());
+	strncpy(ptagServerSet.servername , pRecord(0)(0,1).c_str(),CountArray(ptagServerSet.servername));
+	ptagServerSet.serverport = atoi(pRecord(0)(0,2).c_str());
+	strncpy(ptagServerSet.serverip , pRecord(0)(0,3).c_str(),CountArray(ptagServerSet.serverip));
+	ptagServerSet.serverstate = atoi(pRecord(0)(0,5).c_str());
+	ptagServerSet.curplayercount = atoi(pRecord(0)(0,6).c_str());
+
+	return true;
+}
+
+///更新服务器在线人数
+bool DBOperator::UpdateAccountServerOnlinePlayerCount(uint32 serverid,int playercount)
+{
+	if(m_DataProvider == NULL || playercount == -1) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "update mol_accountserver set"
+		   << " curplayercount=" << playercount
+		   << ",createtime=NOW()"
+		   << " where id=" << serverid << ";";
+
+	m_DataProvider->execSql(sqlstr.str());
+
+	return true;
+}
+

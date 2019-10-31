@@ -72,6 +72,7 @@
 #define IDD_MESSAGE_CHAT_SHISHIGUANGGAO         447                   // 游戏实时广告
 #define IDD_MESSAGE_CHAT_SHISHIGUANGGAO_GET     448                   // 得到广告数据
 #define IDD_MESSAGE_CHAT_SHISHIGUANGGAO_SEND    449                   // 发送广告
+#define IDD_MESSAGE_CENTER_LOGIN_BANLOGIN       450                   // 服务器禁止登录
 
 /*********************************************************************************************/
 

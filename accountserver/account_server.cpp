@@ -6,47 +6,41 @@
 #include "DBOperator.h"
 #include "GameFrameManager.h"
 
-#define LOGINSERVER_CONFIG "/configs/server_config.ini"
+#define LOGINSERVER_CONFIG "/configs/database.ini"
+
+int m_accountserverid = 0;
 
 using namespace network;
 
-int main()
+int main(int argc,char *argv[])
 {
     char strTmp[1024];
 	char m_curProgress_Path[256];
    	NetMessage myMes;
 
+	if(argc < 2)
+    {
+        printf("使用方法:account_server 账号服务器配置ID\n");
+        return 0;
+    }
+
+    m_accountserverid = atoi(argv[1]);
 	getcwd(m_curProgress_Path,256);
 
 	new GameFrameManager();
 	new DBOperator();
 
-	InitMolNet("login_server");
+    sprintf(strTmp,"account%d_server",m_accountserverid);
+	InitMolNet(strTmp);
 
 	std::string loginserver_config_file = m_curProgress_Path;
 	loginserver_config_file += LOGINSERVER_CONFIG;
 
-	std::string serverip = GetIniSectionItem(loginserver_config_file.c_str(),"LoginServer","ipaddress");
-	int serverport = atoi(GetIniSectionItem(loginserver_config_file.c_str(),"LoginServer","port").c_str());
 	std::string dbip = GetIniSectionItem(loginserver_config_file.c_str(),"database","ipaddress");
 	int dbport = atoi(GetIniSectionItem(loginserver_config_file.c_str(),"database","port").c_str());
 	std::string username = GetIniSectionItem(loginserver_config_file.c_str(),"database","username");
 	std::string userpwd = GetIniSectionItem(loginserver_config_file.c_str(),"database","userpwd");
 	std::string dbname = GetIniSectionItem(loginserver_config_file.c_str(),"database","dbname");
-
-	serverip[serverip.length()-2] = '\0';
-
-	if(!StartMolNet("0.0.0.0"/*serverip.c_str()*/,
-                    serverport))
-	{
-	    sprintf(strTmp,"【系统】 服务器启动失败,IP地址:%s,端口:%d。",serverip.c_str(),serverport);
-		LOG_BASIC(strTmp);
-
-		CleanMolNet();
-		return 1;
-	}
-
-	LOG_BASIC("登陆服务器:%s,端口:%d 启动成功。",serverip.c_str(),serverport);
 
     // start connect database
     if(!ServerDBOperator.Initilize(dbip,
@@ -56,13 +50,33 @@ int main()
                                    dbport))
     {
 	    sprintf(strTmp,"【系统】 数据库:%s %s %s %s 连接失败。",dbip.c_str(),username.c_str(),userpwd.c_str(),dbname.c_str());
-		LOG_BASIC(strTmp);
+		LOG_ERROR(strTmp);
 
 		CleanMolNet();
 		return 1;
     }
 
     LOG_BASIC("数据库:%s %s %s %s 连接成功。",dbip.c_str(),username.c_str(),userpwd.c_str(),dbname.c_str());
+
+    //得到登录服务器配置
+    tagServerSet ptagServerSet;
+    if(!ServerDBOperator.GetAccountServerConfig(m_accountserverid,ptagServerSet))
+    {
+        LOG_ERROR("数据库配置导入失败，请重新配置。");
+        return 1;
+    }
+
+	if(!StartMolNet("0.0.0.0"/*serverip.c_str()*/,
+                    ptagServerSet.serverport))
+	{
+	    sprintf(strTmp,"【系统】 服务器启动失败,IP地址:%s,端口:%d。",ptagServerSet.serverip,ptagServerSet.serverport);
+		LOG_ERROR(strTmp);
+
+		CleanMolNet();
+		return 1;
+	}
+
+	LOG_BASIC("登陆服务器:%s,端口:%d 启动成功。",ptagServerSet.serverip,ptagServerSet.serverport);
 
     LOG_BASIC("服务器启动成功，开始处理...");
 
@@ -80,11 +94,19 @@ int main()
 			case MES_TYPE_ON_CONNECTED:
 				{
                     ServerGameFrameManager.OnProcessConnectedNetMes(mes->GetSocket());
+
+                    //更新服务器在线人数
+                    ptagServerSet.curplayercount+=1;
+                    ServerDBOperator.UpdateAccountServerOnlinePlayerCount(ptagServerSet.id,ptagServerSet.curplayercount);
 				}
 				break;
 			case MES_TYPE_ON_DISCONNECTED:
 				{
                     ServerGameFrameManager.OnProcessDisconnectNetMes(mes->GetSocket());
+
+                    //更新服务器在线人数
+                    ptagServerSet.curplayercount-=1;
+                    ServerDBOperator.UpdateAccountServerOnlinePlayerCount(ptagServerSet.id,ptagServerSet.curplayercount);
 				}
 				break;
 			case MES_TYPE_ON_READ:

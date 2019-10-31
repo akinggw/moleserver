@@ -25,7 +25,7 @@ int main(int argc,char *argv[])
 
 	if(argc < 2)
     {
-        printf("使用方法:game_server 1\n");
+        printf("使用方法:game_server 游戏服务器配置ID\n");
         return 0;
     }
 

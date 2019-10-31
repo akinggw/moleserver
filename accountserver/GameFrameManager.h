@@ -45,4 +45,6 @@ private:
 
 #define ServerGameFrameManager GameFrameManager::getSingleton()
 
+extern int m_accountserverid;
+
 #endif

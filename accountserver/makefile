@@ -11,12 +11,12 @@ endif
 
 OBJDIR = objs
 BIN = ../bin
-OBJS = $(OBJDIR)/login_server.o \
+OBJS = $(OBJDIR)/account_server.o \
        $(OBJDIR)/DBOperator.o \
 	   $(OBJDIR)/GameFrameManager.o \
 
 
-TARGET = $(BIN)/login_server
+TARGET = $(BIN)/account_server
 $(TARGET):$(OBJDIR) $(BIN) $(OBJS)
 	$(CPP) -o $@ $(OBJDIR)/*.o $(CFLAGS)
 

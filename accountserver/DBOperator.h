@@ -85,6 +85,19 @@ struct GameDataInfo
 	int showindex;                // 显示顺序
 };
 
+// 服务器配置
+struct tagServerSet
+{
+    tagServerSet():id(0),serverport(0),serverstate(0),curplayercount(0) {}
+
+    int id;
+    char servername[250];
+    int serverport;
+    char serverip[250];
+    int serverstate;
+    int curplayercount;
+};
+
 /**
  * 这个类用于游戏中所有的数据库操作
  */
@@ -134,6 +147,11 @@ public:
     int32 TransferAccounts(uint32 UserID,std::string receiverUser,int64 money);
     /// 得到玩家的金币
     bool GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney);
+
+    ///得到账号服务器的配置
+    bool GetAccountServerConfig(uint32 serverid,tagServerSet &ptagServerSet);
+    ///更新服务器在线人数
+    bool UpdateAccountServerOnlinePlayerCount(uint32 serverid,int playercount);
 
 	/// 用于维护当前数据库连接
 	void Update(void);

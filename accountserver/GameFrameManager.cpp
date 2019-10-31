@@ -316,6 +316,19 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
 	std::string pUserPW = mes["userpwd"].asString();
 	std::string pMachineCode = mes["machinecode"].asString();
 
+    //查看服务器是否禁止进入
+    tagServerSet ptagServerSet;
+    if(ServerDBOperator.GetAccountServerConfig(m_accountserverid,ptagServerSet) && ptagServerSet.serverstate == 1)
+    {
+		Json::Value root;
+		root["MsgId"] = IDD_MESSAGE_CENTER_LOGIN;
+		root["MsgSubId"] = IDD_MESSAGE_CENTER_LOGIN_BANLOGIN;
+
+		Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+
+        return;
+    }
+
 	uint32 pUserId = ServerDBOperator.IsExistUser(pUserName.c_str(),pUserPW.c_str());
 
 	// 得到用户数据

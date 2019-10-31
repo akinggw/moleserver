@@ -1,4 +1,0 @@
-[16:35][2019-10-29 16:35:40] opening '/media/ou/DATA/Linux/moleserver/bin/logs/login_server_normal.log'
-[16:35] [BSC] login_server.cpp:49 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
-[16:35] [BSC] login_server.cpp:65 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
-[16:35] [BSC] login_server.cpp:67 main 服务器启动成功，开始处理...

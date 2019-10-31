@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="loginserver" />
+		<Option title="account_server" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -39,7 +39,7 @@
 		<Unit filename="DBOperator.h" />
 		<Unit filename="GameFrameManager.cpp" />
 		<Unit filename="GameFrameManager.h" />
-		<Unit filename="login_server.cpp" />
+		<Unit filename="account_server.cpp" />
 		<Unit filename="makefile" />
 		<Extensions>
 			<code_completion />

@@ -15,7 +15,7 @@ using namespace network;
 #define IDD_ROBOT_SOCKET_START           700000                 // 机器人socket的开始位置
 #define IDD_LOSTONLINE_SOCKET_START      800000                 // 掉线玩家socket的开始位置
 
-#define LOGINSERVER_CONFIG "/configs/server_config.ini"
+#define LOGINSERVER_CONFIG "/configs/database.ini"
 
 /**
  * 服务器配置结构
