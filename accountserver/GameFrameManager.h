@@ -41,6 +41,9 @@ private:
 	bool GetUserMoney(uint32 UserId,int64 *money,int64 *bankmoney);
 	/// 得到所有的游戏信息
 	void OnProcessGetGamesMes(uint32 connId,Json::Value &mes);
+
+private:
+    std::map<uint32,uint32>  m_onlineuserlist;
 };
 
 #define ServerGameFrameManager GameFrameManager::getSingleton()

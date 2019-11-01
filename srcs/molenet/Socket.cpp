@@ -46,6 +46,7 @@ Socket::Socket(SOCKET fd, uint32 sendbuffersize, uint32 recvbuffersize) : m_fd(f
 	m_BytesSent = 0;
 	m_BytesRecieved = 0;
 	m_html5connected.SetVal(false);
+	m_htmlMsgProcessed.SetVal(false);
 
 	// IOCP Member Variables
 #ifdef CONFIG_USE_IOCP
@@ -65,6 +66,11 @@ Socket::Socket(SOCKET fd, uint32 sendbuffersize, uint32 recvbuffersize) : m_fd(f
 	m_readTimer.SetVal(0);
 	m_readMsgCount.SetVal(0);
 	m_readMsgBool.SetVal(true);
+
+	m_buffer_pos = 0;
+    nMinExpectedSize = 6;
+    masksOffset = 0;
+    payloadSize = 0;
 
 	remaining=0;
 	compress=0;
@@ -342,15 +348,17 @@ void NetClient::OnRead(uint32 size)
 {
 	m_heartJitter = time(NULL);
 
-	char buffer[MOL_REV_BUFFER_SIZE_TWO];                /**< ÓÃÓÚ´æ´¢ÊÕµ½µÄÊý¾Ý */
-	memset(buffer,0,MOL_REV_BUFFER_SIZE_TWO);
-
 	if(m_html5connected.GetVal() == false)
 	{
+	    char buffer[MOL_REV_BUFFER_SIZE_TWO];
+
 		// È¡µÃÊµ¼ÊÊý¾Ý°ü
 		GetReadBuffer().Read((uint8*)buffer,size);
 
-		WebsocketHandshakeMessage request(buffer,size);		
+		memcpy(m_buffer+m_buffer_pos,buffer,size);
+		m_buffer_pos += size;
+
+		WebsocketHandshakeMessage request(m_buffer,m_buffer_pos);
 
 		if(request.Parse())
 		{
@@ -383,6 +391,7 @@ void NetClient::OnRead(uint32 size)
 			std::string responsestr = response.Serialize();
 			Send((const uint8*)responsestr.c_str(),responsestr.length());
 
+			m_buffer_pos=0;
 			m_html5connected.SetVal(true);
 			sSocketMgr.PushMessage(MessageStru(MES_TYPE_ON_CONNECTED,(uint32)GetFd()));
 		}
@@ -390,54 +399,65 @@ void NetClient::OnRead(uint32 size)
 		return;
 	}
 
-	int nMinExpectedSize = 6;
-    if (GetReadBuffer().GetSize() < nMinExpectedSize)
-        return;
+    char buffer[MOL_REV_BUFFER_SIZE_TWO];
 
-	// È¡µÃÊµ¼ÊÊý¾Ý°ü
-	GetReadBuffer().Read((uint8*)buffer,size);
-
-    uint8 payloadFlags = buffer[0];
-    if (payloadFlags != 129)
-        return;
-
-    uint8 basicSize = buffer[1] & 0x7F;
-    int64 payloadSize;
-    int masksOffset;
-
-    if (basicSize <= 125)
+    if(m_htmlMsgProcessed.GetVal() == false)
     {
-        payloadSize = basicSize;
-        masksOffset = 2;
-    }
-    else if (basicSize == 126)
-    {
-        nMinExpectedSize += 2;
-        if (size < nMinExpectedSize)
+        if (GetReadBuffer().GetSize() < nMinExpectedSize)
             return;
-        payloadSize = ntohs( *(u_short*) (buffer + 2) );
-        masksOffset = 4;
-    }
-    else if (basicSize == 127)
-    {
-        nMinExpectedSize += 8;
-        if (size < nMinExpectedSize)
+
+        // È¡µÃÊµ¼ÊÊý¾Ý°ü
+        GetReadBuffer().Read((uint8*)buffer,nMinExpectedSize);
+
+        memcpy(m_buffer+m_buffer_pos,buffer,nMinExpectedSize);
+        m_buffer_pos += nMinExpectedSize;
+
+        uint8 payloadFlags = buffer[0];
+        if (payloadFlags != 129)
             return;
-        payloadSize = ntohl( *(u_long*) (buffer + 2) );
-        masksOffset = 10;
+
+        uint8 basicSize = buffer[1] & 0x7F;
+
+        if (basicSize <= 125)
+        {
+            payloadSize = basicSize;
+            masksOffset = 2;
+        }
+        else if (basicSize == 126)
+        {
+            nMinExpectedSize += 2;
+            if (size < nMinExpectedSize)
+                return;
+            payloadSize = ntohs( *(u_short*) (buffer + 2) );
+            masksOffset = 4;
+        }
+        else if (basicSize == 127)
+        {
+            nMinExpectedSize += 8;
+            if (size < nMinExpectedSize)
+                return;
+            payloadSize = ntohl( *(u_long*) (buffer + 2) );
+            masksOffset = 10;
+        }
+        else
+            return;
+
+        nMinExpectedSize += payloadSize;
+        m_htmlMsgProcessed.SetVal(true);
     }
-    else
+
+    if (GetReadBuffer().GetSize() < nMinExpectedSize-6)
         return;
 
-    nMinExpectedSize += payloadSize;
-    if (size < nMinExpectedSize)
-        return;
+    GetReadBuffer().Read((uint8*)buffer,nMinExpectedSize-6);
+
+    memcpy(m_buffer+m_buffer_pos,buffer,nMinExpectedSize-6);
 
     uint8 masks[4];
-    memcpy(masks, buffer + masksOffset, 4);
+    memcpy(masks, m_buffer + masksOffset, 4);
 
     char* payload = (char*)allocBytes((payloadSize + 1) * sizeof(char));
-    memcpy(payload, buffer + masksOffset + 4, payloadSize);
+    memcpy(payload, m_buffer + masksOffset + 4, payloadSize);
     for (int64 i = 0; i < payloadSize; i++) {
         payload[i] = (payload[i] ^ masks[i%4]);
     }
@@ -449,12 +469,12 @@ void NetClient::OnRead(uint32 size)
 		if(m_readTimer.GetVal() == 0)
 		{
 			m_readTimer.SetVal((ulong)time(NULL));
-		}				
+		}
 
 		ulong tmpTime = (ulong)time(NULL) - m_readTimer.GetVal();
 
 		if(tmpTime > 1)
-		{	
+		{
 			if(m_readMsgCount.GetVal() > IDD_SECOND_MSG_MAX_COUNT)
 			{
 				m_readMsgBool.SetVal(false);
@@ -463,9 +483,9 @@ void NetClient::OnRead(uint32 size)
 			{
 				m_readTimer.SetVal(0);
 				m_readMsgCount.SetVal(0);
-			}	
+			}
 		}
-				
+
 		if(tmpTime > 60)
 		{
 			m_readTimer.SetVal(0);
@@ -514,9 +534,14 @@ void NetClient::OnRead(uint32 size)
 		}
 	}
 
+    nMinExpectedSize = 6;
+    masksOffset = 0;
+    payloadSize = 0;
+    m_buffer_pos = 0;
+	m_htmlMsgProcessed.SetVal(false);
 	deallocBytes(payload);
 	payload = NULL;
-	
+
 	//m_readMutex.Acquire();
 /*	while(true)
 	{
@@ -558,7 +583,7 @@ void NetClient::OnRead(uint32 size)
 				return;
 			}
 
-			char buffer[MOL_REV_BUFFER_SIZE_TWO];                /**< 用于存储收到的数据 
+			char buffer[MOL_REV_BUFFER_SIZE_TWO];                /**< 用于存储收到的数据
 			memset(buffer,0,MOL_REV_BUFFER_SIZE_TWO);
 
 			// 取得实际数据包

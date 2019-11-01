@@ -206,7 +206,7 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
             root["MsgId"] = IDD_MESSAGE_GAME_LOGIN;
             root["MsgSubId"] = IDD_MESSAGE_GAME_LOGIN_EXIST;
             root["ServerPort"] = m_ServerSet.m_iServerPort;
-            root["GameType"] = m_ServerSet.m_GameType;
+            root["GameType"] = m_ServerSet.m_GameId;
             root["GameState"] = 1;
             Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
 			return;
@@ -272,8 +272,8 @@ void GameFrameManager::SendPlayerLoginSuccess(CPlayer *pPlayer)
 {
 	if(pPlayer == NULL) return;
 
-	pPlayer->setCurGameID(m_ServerSet.m_GameType);
-	pPlayer->setCurServerId(m_ServerSet.m_iServerPort);
+	pPlayer->setCurGameID(m_ServerSet.m_GameId);
+	pPlayer->setCurServerId(m_ServerSet.RoomId);
 	ServerDBOperator.SetPlayerGameState(pPlayer);
 
 	// 向玩家发送成功登录服务器消息
@@ -333,7 +333,7 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 			int32 proomid,pchairid;
 			pserverid=proomid=pchairid=pgametype=0;
 			if(ServerDBOperator.IsExistUserGaming(pPlayer->GetID(),&pserverid,&proomid,&pchairid,&pgametype) &&
-				(m_ServerSet.m_iServerPort != pserverid || m_ServerSet.m_GameType != pgametype))
+				(m_ServerSet.RoomId != pserverid || m_ServerSet.m_GameId != pgametype))
 			{
 				Json::Value root;
                 root["MsgId"] = IDD_MESSAGE_FRAME;
@@ -394,7 +394,7 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
                 root["MsgSubId"] = IDD_MESSAGE_ENTER_ROOM;
                 root["MsgSubId2"] = IDD_MESSAGE_ENTER_ROOM_EXIST;
                 root["serverid"] = 0;
-                root["GameType"] = m_ServerSet.m_GameType;
+                root["GameType"] = m_ServerSet.m_GameId;
                 Sendhtml5(pPlayer->GetConnectID(),(const char*)root.toStyledString().c_str(),root.toStyledString().length());
 				return;
 			}
@@ -416,7 +416,7 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 			int32 proomid,pchairid;
 			pserverid=proomid=pchairid=pgametype=0;
 			if(ServerDBOperator.IsExistUserGaming(pPlayer->GetID(),&pserverid,&proomid,&pchairid,&pgametype) &&
-				(m_ServerSet.m_iServerPort != pserverid || m_ServerSet.m_GameType != pgametype))
+				(m_ServerSet.RoomId != pserverid || m_ServerSet.m_GameId != pgametype))
 			{
                 Json::Value root;
                 root["MsgId"] = IDD_MESSAGE_FRAME;
@@ -492,7 +492,7 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 
 			pserverid=proomid=pchairid=pgametype=0;
 			if(ServerDBOperator.IsExistUserGaming(pPlayer->GetID(),&pserverid,&proomid,&pchairid,&pgametype) &&
-				(m_ServerSet.m_iServerPort != pserverid || m_ServerSet.m_GameType != pgametype))
+				(m_ServerSet.RoomId != pserverid || m_ServerSet.m_GameId != pgametype))
 			{
                 Json::Value root;
                 root["MsgId"] = IDD_MESSAGE_FRAME;

@@ -8,8 +8,8 @@ var health_timeout=6000;
 //var game_jv_count=65;
 var keepalivetimer;
 var keepalivetimer_game;
-var host = "ws://182.61.5.226:6789";
-//var host = "ws://127.0.0.1:3333";
+//var host = "ws://182.61.5.226:6789";
+var host = "ws://127.0.0.1:3333";
 var isLoginSuccuss=false;
 var gamestate = 0;
 var gamepielement = 0;
@@ -1379,10 +1379,20 @@ var CMainFrameLayer = cc.Layer.extend({
                 var str = "";
                 str = msg.data;
 
+                console.info(str);
+
                 var obj = eval('(' + str + ')');
 
                 switch(obj.MsgId)
                 {
+                    case 300:
+                    {
+                        if(obj.MsgSubId == 301)
+                        {
+
+                        }
+                    }
+                        break;
 					case 404:
 					{
                         switch(obj.MsgSubId)
@@ -1539,6 +1549,8 @@ var CMainFrameLayer = cc.Layer.extend({
                             {
                                 var RoomCount = obj.RoomCount;
 
+                                console.info("start."+RoomCount);
+
                                 m_isLoginSuccess = true;
 
                                 m_gameserver = "ws://"+obj.Room[0].serverip+":"+obj.Room[0].serverport;
@@ -1604,20 +1616,22 @@ var CMainFrameLayer = cc.Layer.extend({
                                                 {
                                                     var loginlayer = new MyMessageBoxLayer();
                                                     self.addChild(loginlayer,8);
-                                                    loginlayer.init("您已经在游戏中，请稍后再试！");
+                                                    loginlayer.init("您已经在游戏中2，请稍后再试！"+objgame.GameState);
                                                 }
                                                     break;
                                                 case 501:
                                                 {
-                                                    var row1 = {};
-                                                    row1.MsgId = 900;
-                                                    row1.MsgSubId=901;
-                                                    row1.RoomIndex = -1;
-                                                    row1.ChairIndex = -1;
-                                                    row1.EnterPWd = "";
-                                                    row1.Enterfirst=0;
-                                                    row1.Entersecond=0;
-                                                    gameserversocket.send(JSON.stringify(row1));
+                                                    if(objgame.ID == myselfUserId){
+                                                        var row1 = {};
+                                                        row1.MsgId = 900;
+                                                        row1.MsgSubId=901;
+                                                        row1.RoomIndex = -1;
+                                                        row1.ChairIndex = -1;
+                                                        row1.EnterPWd = "";
+                                                        row1.Enterfirst=0;
+                                                        row1.Entersecond=0;
+                                                        gameserversocket.send(JSON.stringify(row1));
+                                                    }
                                                 }
                                                     break;
                                                 default:
@@ -1634,7 +1648,7 @@ var CMainFrameLayer = cc.Layer.extend({
                                                     case 920: {
                                                         var loginlayer = new MyMessageBoxLayer();
                                                         self.addChild(loginlayer,8);
-                                                        loginlayer.init("您已经在游戏中，请稍后再试！");
+                                                        loginlayer.init("您已经在游戏中3，请稍后再试！");
                                                     }
                                                     break;
                                                     case 912: {

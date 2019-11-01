@@ -43,6 +43,7 @@ bool LoadGameParamConfig(std::string curPath)
     m_ServerSet.lastMoney = ptagGameRoom.lastmoney;
     m_ServerSet.m_RoomRevenue = ptagGameRoom.roomrevenue;
     m_ServerSet.m_Pielement = ptagGameRoom.pielement;
+    m_ServerSet.m_GameId = ptagGameRoom.gameid;
     m_ServerSet.m_QueueGaming = ptagGameRoom.QueueGaming > 0 ? true : false;
 
     pCurConfigfile += "/games/";
@@ -84,7 +85,7 @@ bool LoadGameParamConfig(std::string curPath)
 		pRoom->SetLastMoney(m_ServerSet.lastMoney);
 		pRoom->SetGamePielement(m_ServerSet.m_Pielement);
 		pRoom->SetChouShui(m_ServerSet.m_RoomRevenue / 100.0f);
-		pRoom->SetGameType(m_ServerSet.m_GameType);
+		pRoom->SetGameType(m_ServerSet.m_GameId);
 		pRoom->SetGameId(ptagGameRoom.gameid);
 		pRoom->SetRoomMarking(m_ServerSet.RoomId);
 		pRoom->SetRoomGameType(m_ServerSet.m_GameStartMode);

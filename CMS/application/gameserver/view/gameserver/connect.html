@@ -103,6 +103,18 @@ function addchatuser(userid,username) {
     gameusers.appendChild(option);           //给select添加option子标签
 }
 
+function delchatuser(userid) {
+    var gameusers = document.getElementById("gameusers");
+    var selectOptions = gameusers.options;
+    var optionLength = selectOptions.length;
+    for(var i=0;i <optionLength;i++)
+    {
+        if(selectOptions[i].getAttribute('value') == userid){
+            gameusers.removeChild(selectOptions[i]);
+        }
+    }
+}
+
 window.onload = function () {
     var layerload = 0;
 
@@ -234,7 +246,15 @@ window.onload = function () {
                             if(playerinfo.ID != parseInt($("#userIID").val()))
                                 addchatuser(playerinfo.ID,playerinfo.RealName);
                         }
+
                     }
+                        break;
+                    case 909:{
+                        var playerid = objgame.UserID;
+
+                        delchatuser(playerid);
+                    }
+                        break;
                     default:
                         break;
                 }

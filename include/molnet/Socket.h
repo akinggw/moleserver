@@ -49,9 +49,9 @@ class Socket : public NedAllocatedObject
 		bool Send(const uint8* Bytes, uint32 Size);
 
 		bool Send(CMolMessageOut &out);
-		
+
 	    /// 发送html5数据
-    	bool SendHtml5(const uint8 * Bytes,uint32 Size);		
+    	bool SendHtml5(const uint8 * Bytes,uint32 Size);
 
 		// Burst system - Locks the sending mutex.
 		inline void BurstBegin() { m_writeMutex.Acquire(); }
@@ -96,6 +96,7 @@ class Socket : public NedAllocatedObject
             m_deleted.SetVal(false);
 			m_html5connected.SetVal(false);
             m_writeLock.SetVal(false);
+            m_htmlMsgProcessed.SetVal(false);
             m_eventCount.SetVal(0);
 
            	m_readTimer.SetVal(0);
@@ -103,6 +104,12 @@ class Socket : public NedAllocatedObject
             m_readMsgCount.SetVal(0);
             m_readMsgBool.SetVal(true);
             isRealRemovedFromSet.SetVal(false);
+
+            m_htmlMsgProcessed.SetVal(false);
+            m_buffer_pos = 0;
+            nMinExpectedSize = 6;
+            masksOffset = 0;
+            payloadSize = 0;
 
             readBuffer.Remove(readBuffer.GetSize());
             writeBuffer.Remove(writeBuffer.GetSize());
@@ -156,9 +163,16 @@ class Socket : public NedAllocatedObject
 
 		// We are deleted? Stop us from posting events.
 		AtomicBoolean m_deleted;
-		
+
 	    // html5端是否真正连接成功
-	    AtomicBoolean m_html5connected;		
+	    AtomicBoolean m_html5connected;
+
+	    char m_buffer[MOL_REV_BUFFER_SIZE_TWO];                /**< ÓÃÓÚ´æ´¢ÊÕµ½µÄÊý¾Ý */
+	    unsigned long m_buffer_pos;
+	    AtomicBoolean m_htmlMsgProcessed;
+        int nMinExpectedSize;
+        int masksOffset;
+        int64 payloadSize;
 
 		sockaddr_in m_client;
 

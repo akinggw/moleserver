@@ -100,7 +100,12 @@ void GameFrameManager::OnProcessConnectedNetMes(uint32 connId)
  */
 void GameFrameManager::OnProcessDisconnectNetMes(uint32 connId)
 {
+    std::map<uint32,uint32>::iterator iter = m_onlineuserlist.find(connId);
+    if(iter != m_onlineuserlist.end())
+        m_onlineuserlist.erase(iter);
 
+	//更新在线人数
+	ServerDBOperator.UpdateAccountServerOnlinePlayerCount(m_accountserverid,(int)m_onlineuserlist.size());
 }
 
 /// 处理钱包消息
@@ -382,6 +387,11 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
 	std::string ploginipaddress = GetIpAddress(connId);
 	// 更新用户登陆日期
 	ServerDBOperator.UpdatePlayerLastLogin(pUserId,ploginipaddress,pMachineCode.c_str());
+
+	m_onlineuserlist[connId] = pUserId;
+
+	//更新在线人数
+	ServerDBOperator.UpdateAccountServerOnlinePlayerCount(m_accountserverid,(int)m_onlineuserlist.size());
 }
 
 /// 处理得到当前在线服务器列表

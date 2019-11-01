@@ -24,7 +24,7 @@ struct ServerSet
 {
 	ServerSet()
 		: GameType(0),TableCount(0),PlayerCount(0),lastMoney(0),m_RoomRevenue(0),m_Pielement(0),
-		  m_GameType(0),m_iDBPort(0),m_iServerPort(0),m_GameStartMode(enStartMode_FullReady),
+		  m_GameId(0),m_iDBPort(0),m_iServerPort(0),m_GameStartMode(enStartMode_FullReady),
 		  m_QueueGaming(false),RoomId(0)
 	{
 	}
@@ -42,7 +42,7 @@ struct ServerSet
 	int m_Pielement;					// 房间单元积分 *
 
 	char MainGameName[128];             // 游戏真正的名称
-	int m_GameType;                     // 游戏类型
+	int m_GameId;                     // 游戏类型
 
 	enStartMode                     m_GameStartMode;            //游戏开始模式
 	bool                            m_QueueGaming;              //是否排队进入游戏

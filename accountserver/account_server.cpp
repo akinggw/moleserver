@@ -94,19 +94,11 @@ int main(int argc,char *argv[])
 			case MES_TYPE_ON_CONNECTED:
 				{
                     ServerGameFrameManager.OnProcessConnectedNetMes(mes->GetSocket());
-
-                    //更新服务器在线人数
-                    ptagServerSet.curplayercount+=1;
-                    ServerDBOperator.UpdateAccountServerOnlinePlayerCount(ptagServerSet.id,ptagServerSet.curplayercount);
 				}
 				break;
 			case MES_TYPE_ON_DISCONNECTED:
 				{
                     ServerGameFrameManager.OnProcessDisconnectNetMes(mes->GetSocket());
-
-                    //更新服务器在线人数
-                    ptagServerSet.curplayercount-=1;
-                    ServerDBOperator.UpdateAccountServerOnlinePlayerCount(ptagServerSet.id,ptagServerSet.curplayercount);
 				}
 				break;
 			case MES_TYPE_ON_READ:
