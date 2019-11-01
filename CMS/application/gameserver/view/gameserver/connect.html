@@ -36,6 +36,21 @@
         padding: 2px;
         display: block;
     }
+
+    .userchatstate {
+        padding: 2px;
+        text-align:center;
+        margin:0px auto;
+        display: block;
+    }
+    .userstatestyle {
+        padding: 3px;
+        display:inline-block;
+        color: rgba(2, 2, 2, 0.84);
+        border-radius:10px;
+        margin:0 auto;
+        background: rgba(255, 28, 33, 0.5);
+    }
 </style>
 
 <div class="layui-card">
@@ -184,19 +199,27 @@ window.onload = function () {
 
                         gameuserdata[objgame.ID]=objgame.RealName;
 
-                        if(objgame.ID != parseInt($("#userIID").val()))
+                        if(objgame.ID != parseInt($("#userIID").val())) {
                             addchatuser(objgame.ID,objgame.RealName);
+                        }
+                        else {
+                            var row1 = {};
+                            row1.MsgId = 900;
+                            row1.MsgSubId = 908;
+                            gameserversocket.send(JSON.stringify(row1));
 
-                        var row1 = {};
-                        row1.MsgId = 900;
-                        row1.MsgSubId = 908;
-                        gameserversocket.send(JSON.stringify(row1));
+                            layerload = layer.msg('正在获取玩家数据...', {
+                                icon: 16,
+                                shade: 0.5,
+                                time: 0
+                            });
+                        }
 
-                        layerload = layer.msg('正在获取玩家数据...', {
-                            icon: 16,
-                            shade: 0.5,
-                            time: 0
-                        });
+                        var chatcontent;
+                        chatcontent = "<div class='userchatstate'>";
+                        chatcontent += "<div class='userstatestyle'>"+objgame.RealName+" 进入游戏,大家欢迎!</div>";
+                        chatcontent += "</div>";
+                        $("#chatshow").append(chatcontent);
                     }
                         break;
                     default:
@@ -251,6 +274,12 @@ window.onload = function () {
                         break;
                     case 909:{
                         var playerid = objgame.UserID;
+
+                        var chatcontent;
+                        chatcontent = "<div class='userchatstate'>";
+                        chatcontent += "<div class='userstatestyle'>"+gameuserdata[playerid]+" 离开游戏,大家欢送!</div>";
+                        chatcontent += "</div>";
+                        $("#chatshow").append(chatcontent);
 
                         delchatuser(playerid);
                     }
