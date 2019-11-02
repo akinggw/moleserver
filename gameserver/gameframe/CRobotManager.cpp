@@ -128,7 +128,7 @@ void CRobotManager::AddLeaveRobot(uint32 connId)
 void CRobotManager::LoadGameRobot(void)
 {
 	//导入机器人配置
-	ServerDBOperator.GetRobotsOfGameServer(m_ServerSet.GameType,m_ServerSet.m_iServerPort,m_RobotUserList);
+	ServerDBOperator.GetRobotsOfGameServer(m_ServerSet.m_GameId,m_ServerSet.RoomId,m_RobotUserList);
 }
 
 // 机器人进入房间

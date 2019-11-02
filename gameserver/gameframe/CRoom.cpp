@@ -1503,6 +1503,14 @@ void CRoom::GameEnd(bool isupdateuserdata)
 			ClearPlayer(m_PlayerList[index]);
 
 			uint32 pConnID = pPlayer->GetConnectID();
+
+            // 向房间所有玩家广播玩家离开服务器消息
+            Json::Value root2;
+            root2["MsgId"] = IDD_MESSAGE_FRAME;
+            root2["MsgSubId"] = IDD_MESSAGE_LEAVE_SERVER;
+            root2["UserID"] = pPlayer->GetID();
+            ServerPlayerManager.SendMsgToEveryone(root2);
+
 			ServerPlayerManager.ClearPlayer(pPlayer);
 			Disconnect(pConnID);
 

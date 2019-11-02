@@ -96,7 +96,7 @@ bool LoadGameParamConfig(std::string curPath)
 	}
 
 	// 导入机器人
-	RobotManager.UpdateRobot();
+	RobotManager.LoadGameRobot();
 
 	return true;
 }
