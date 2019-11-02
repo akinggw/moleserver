@@ -25,7 +25,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">等级</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="level" lay-verify="required" autocomplete="off" placeholder="等级" class="layui-input" value="{$data.level}" readonly="readonly">
+                    <input type="text" name="level" lay-verify="required" autocomplete="off" placeholder="等级" class="layui-input" value="{$data.level}" readonly="readonly" readonly="readonly">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -37,13 +37,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">所在房间号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="curtableindex" lay-verify="required" autocomplete="off" placeholder="所在房间号" class="layui-input" value="{$data.curtableindex}">
+                    <input type="text" name="curtableindex" lay-verify="required" autocomplete="off" placeholder="所在房间号" class="layui-input" value="{$data.curtableindex}" readonly="readonly">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">所在椅子号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="curchairindex" lay-verify="required" autocomplete="off" placeholder="所在椅子号" class="layui-input" value="{$data.curchairindex}">
+                    <input type="text" name="curchairindex" lay-verify="required" autocomplete="off" placeholder="所在椅子号" class="layui-input" value="{$data.curchairindex}" readonly="readonly">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -61,13 +61,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">游戏状态</label>
                 <div class="layui-input-inline">
-                    <select class="select" style="width: 150px; height: 31px;" name="curgamingstate" disabled="disabled">
-                        <option value="0" {eq name="$data.curgamingstate" value="0" }selected{/eq} >正常</option>
-                        <option value="1" {eq name="$data.curgamingstate" value="1" }selected{/eq} >准备</option>
-                        <option value="2" {eq name="$data.curgamingstate" value="2" }selected{/eq} >游戏中</option>
-                        <option value="3" {eq name="$data.curgamingstate" value="3" }selected{/eq} >掉线</option>
-                        <option value="4" {eq name="$data.curgamingstate" value="4" }selected{/eq} >排队</option>
-                    </select>
+                    <input type="text" name="curgamingstate" autocomplete="off" placeholder="游戏状态" class="layui-input" value="{$data.curgamingstate}" readonly="readonly">
                 </div>
             </div>
             <input type="hidden" name="uid" value="{$data.userid}">

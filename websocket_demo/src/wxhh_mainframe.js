@@ -1641,7 +1641,7 @@ var CMainFrameLayer = cc.Layer.extend({
                                             break;
                                         case 900:
                                         {
-                                            console.info(objgame.MsgSubId2);
+                                            console.info(objgame.MsgSubId);
 
                                             if(objgame.MsgSubId == 901) {
                                                 switch(objgame.MsgSubId2) {

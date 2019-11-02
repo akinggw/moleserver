@@ -180,8 +180,16 @@ class Member extends Adminbase
                 $this->error('该会员不存在！');
             }
 
+            //只有玩家在空闲状态才能更新
+            if($userinfo['curgamingstate'] != 0) {
+                $this->error('只有玩家在空闲状态才能更新游戏数据！');
+            }
+
+            $updatedata['money'] = $data['money'];
+            $updatedata['bankmoney'] = $data['bankmoney'];
+
             //更新除基本资料外的其他信息
-            if (false === $this->Userdata_Model->allowField(true)->save($data, ['userid' => $userid])) {
+            if (false === $this->Userdata_Model->allowField(true)->save($updatedata, ['userid' => $userid])) {
                 $this->error('更新失败！');
             }
             $this->success("更新成功！", url("member/manage"));
@@ -193,6 +201,7 @@ class Member extends Adminbase
                 join('mol_gameroom mgr','mgr.id = mol_userdata.curserverport','left')->
                 where(["userid" => $userid])->
                 field('mol_userdata.*,mg.name as gamename,mgr.servername')->
+                withAttr('curgamingstate', function ($value, $data) { if($value == 0) return '正常'; elseif($value == 1) return '准备'; elseif($value == 2) return '游戏中'; elseif($value == 3) return '掉线'; elseif($value == 4) return '排队';})->
                 find();
 
             if (empty($data)) {

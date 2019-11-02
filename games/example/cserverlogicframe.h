@@ -59,6 +59,8 @@ private:
 	uint8 m_resultCard;                                   /**< 结果牌 */
 	int64 m_GamePielement;                                    /**< 游戏基础分 */
 
+	bool m_gamisrunning;
+
 	std::map<uint8,float>     m_jettonTrad;                    /**< 花色倍率 */
 	std::map<uint8,int>       m_colorrecordcount;              /**< 花色出现次数 */
 	std::map<uint32,tagJettons> m_userjettonresult;              /**< 用户押注结果 */

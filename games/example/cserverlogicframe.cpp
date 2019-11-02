@@ -1,8 +1,6 @@
 #include "cserverlogicframe.h"
 #include <sstream>
 
-static bool m_gamisrunning = false;
-
 /// 构造函数
 CServerLogicFrame::CServerLogicFrame():m_g_GameRoom(NULL)
 {
@@ -10,6 +8,7 @@ CServerLogicFrame::CServerLogicFrame():m_g_GameRoom(NULL)
 	m_GamePielement = 100;
 	m_GameState = GAMESTATE_KONGXIAN;
 	m_gamejvcount = 0;
+	m_gamisrunning = false;
 
 	for(int i=0;i<5;i++) m_colorrecordcount[i] = 0;
 
@@ -186,7 +185,7 @@ void CServerLogicFrame::OnProcessEnterRoomMsg(int playerId)
 	if(m_g_GameRoom == NULL) return;
 
     std::stringstream ss;
-    ss << "玩家" << playerId << "进入房间了.";
+    ss << "玩家" << playerId << "进入房间" << m_g_GameRoom->GetID() << "了." << (int)m_cardrecord.size();
 	m_g_GameRoom->Room_Log(BASIC,ss.str());
 
 	if(m_gamisrunning == false)
@@ -363,6 +362,8 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 			m_gamejvcount+=1;
 			std::map<uint8,int>::iterator iter = m_colorrecordcount.begin();
 			for(;iter != m_colorrecordcount.end();++iter) (*iter).second = 0;
+
+			m_cardrecord.push_back(m_resultCard);
 		}
 
 		m_g_GameRoom->GameEnd();
