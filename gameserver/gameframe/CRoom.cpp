@@ -1523,6 +1523,10 @@ void CRoom::GameEnd(bool isupdateuserdata)
 		// 更新用户信息到客户端
 		UpdateUserScore(m_PlayerList[index]);
 
+		// 更新玩家游戏状态
+		pPlayer->setCurGamingState(false);
+		ServerDBOperator.SetPlayerGameState(pPlayer);
+
 		// 如果一局结束，用户是机器人，就离开房间
 		if(m_PlayerList[index]->GetType() == PLAYERTYPE_ROBOT)
 		{
@@ -1567,10 +1571,6 @@ void CRoom::GameEnd(bool isupdateuserdata)
 			pPlayer->SetChairIndex(-1);
 			continue;
 		}
-
-		// 更新玩家游戏状态
-		pPlayer->setCurGamingState(false);
-		ServerDBOperator.SetPlayerGameState(pPlayer);
 	}
 	m_playersLock.Release();
 
