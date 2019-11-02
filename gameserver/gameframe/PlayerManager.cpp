@@ -414,6 +414,13 @@ void PlayerManager::ClearPlayer(CPlayer *pPlayer)
 	pPlayer->SetState(PLAYERSTATE_NORAML);
 	ServerDBOperator.SetPlayerGameState(pPlayer);
 
+    // 向房间所有玩家广播玩家离开服务器消息
+    Json::Value root;
+    root["MsgId"] = IDD_MESSAGE_FRAME;
+    root["MsgSubId"] = IDD_MESSAGE_LEAVE_SERVER;
+    root["UserID"] = pPlayer->GetID();
+    ServerPlayerManager.SendMsgToEveryone(root);
+
 	m_PlayersLock.Acquire();
 
 	if(!m_LostPlayerList.empty())
