@@ -99,7 +99,7 @@ void SocketMgr::Update(void)
                 //sprintf(strTmp,"logger:Is running??%lld %lld %ld %d",s->GetHeartCount(),diff,s->m_eventCount.GetVal(),(int)_sockets.size());
                 //::OutputDebugString(strTmp);
 
-                if(diff > 12 && s->m_eventCount.GetVal() <= 0)		   // More than 2mins
+                if(diff > 4 && s->m_eventCount.GetVal() <= 0)		   // More than 2mins
                 {
                     s->Disconnect();
                     fds.erase(itr++);
@@ -319,7 +319,7 @@ bool SocketWorkerThread::run()
             ptr = sSocketMgr.GetSocket(events[i].data.fd);
 			//ptr = mgr->fds[events[i].data.fd];
 			mgr->UnlockSocketList();
-			
+
 			if(events[i].data.fd == m_ServerSocket->GetFd() || ptr == NULL)
 			{
 				if((ptr = ((Socket*)mgr->listenfds[events[i].data.fd])) != NULL)
@@ -329,7 +329,7 @@ bool SocketWorkerThread::run()
 
                 continue;
 			}
-			
+
 			if(events[i].events & EPOLLHUP || events[i].events & EPOLLERR)
 			{
 				ptr->Disconnect();

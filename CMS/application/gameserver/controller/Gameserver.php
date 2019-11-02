@@ -49,6 +49,7 @@ class Gameserver extends Adminbase
                 join('game ge','ge.id = mol_gameroom.gameid','left')->
                 where('mol_gameroom.servername like "%'.$servername.'%" and ge.id='.$gameid)->
                 field('mol_gameroom.*,ge.name')->
+                withAttr('gstate', function ($value, $data) { if($value == 0) return '正常'; else return '封服';})->
                 select();
             }
             else
@@ -57,6 +58,7 @@ class Gameserver extends Adminbase
                 join('game ge','ge.id = mol_gameroom.gameid','left')->
                 where('mol_gameroom.servername like "%'.$servername.'%"')->
                 field('mol_gameroom.*,ge.name')->
+                withAttr('gstate', function ($value, $data) { if($value == 0) return '正常'; else return '封服';})->
                 select();
             }
 

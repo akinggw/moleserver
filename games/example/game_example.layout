@@ -7,24 +7,24 @@
 			<Cursor1 position="180" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="GameLogic.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="856" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="crobotlogicframe.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="147" topLine="2" />
-		</Cursor>
-	</File>
-	<File name="crobotlogicframe.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="739" topLine="38" />
-		</Cursor>
-	</File>
 	<File name="CServerServiceManager.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2251" topLine="85" />
+		</Cursor>
+	</File>
+	<File name="GameLogic.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1093" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="cserverlogicframe.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1746" topLine="35" />
+		</Cursor>
+	</File>
+	<File name="GameLogic.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="856" topLine="8" />
 		</Cursor>
 	</File>
 	<File name="ServerLogicModule.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -34,17 +34,7 @@
 	</File>
 	<File name="cserverlogicframe.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4625" topLine="188" />
-		</Cursor>
-	</File>
-	<File name="cdefines.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="229" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="cserverlogicframe.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1746" topLine="35" />
+			<Cursor1 position="5251" topLine="197" />
 		</Cursor>
 	</File>
 	<File name="CServerServiceManager.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -52,14 +42,24 @@
 			<Cursor1 position="1197" topLine="15" />
 		</Cursor>
 	</File>
+	<File name="cdefines.h" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1854" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="crobotlogicframe.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="147" topLine="2" />
+		</Cursor>
+	</File>
 	<File name="makefile" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="637" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="GameLogic.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="crobotlogicframe.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1093" topLine="15" />
+			<Cursor1 position="739" topLine="38" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

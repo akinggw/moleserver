@@ -61,7 +61,7 @@
     </div>
     <div class="layui-inline" style="width: 100%"></div>
     <div class="layui-inline" style="width: 100%">
-        <select name="gameusers" lay-verify="required" lay-filter="gameusers" id="gameusers">
+        <select class="select" name="gameusers" lay-verify="required" lay-filter="gameusers" id="gameusers">
             <option value="-1">所有人</option>
         </select>
         <div class="layui-input-inline" style="width: 85.8%">
@@ -147,7 +147,7 @@ window.onload = function () {
 
         last_health_game = new Date();
         clearInterval(keepalivetimer_game);
-        keepalivetimer_game = setInterval( function(){keepalive(gameserversocket)},5000);
+        keepalivetimer_game = setInterval( function(){keepalive(gameserversocket)},1000);
     }
 
     gameserversocket.onmessage = function(msg) {

@@ -9,7 +9,7 @@
     }
 
     .custom-panel{
-        width: 13%;
+        width: 23%;
         height: 120px;
     }
 
@@ -69,7 +69,13 @@
                         <div class="panel-success custom-panel">
                             <div class="panel-header">
                                 <p>在线玩家</p>
-                                <p class="ng-binding">{$admincount}</p>
+                                <p class="ng-binding">{$admincount.pcurrealplayercount}</p>
+                            </div>
+                        </div>
+                        <div class="panel-success custom-panel">
+                            <div class="panel-header">
+                                <p>在线机器人</p>
+                                <p class="ng-binding">{$admincount.pcurrobotplayercount}</p>
                             </div>
                         </div>
                         <div class="panel-success custom-panel">

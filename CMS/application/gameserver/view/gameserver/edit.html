@@ -57,13 +57,13 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">pielement</label>
+                <label class="layui-form-label">基础金币</label>
                 <div class="layui-input-inline">
                     <input type="text" name="pielement" lay-verify="required" autocomplete="off" placeholder="pielement" class="layui-input" value="{$data.pielement}">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">roomrevenue</label>
+                <label class="layui-form-label">房间税收</label>
                 <div class="layui-input-inline">
                     <input type="text" name="roomrevenue" lay-verify="required" autocomplete="off" placeholder="roomrevenue" class="layui-input" value="{$data.roomrevenue}">
                 </div>
@@ -74,6 +74,15 @@
                     <select class="select" style="width: 150px; height: 31px;" name="QueueGaming">
                         <option value="0" {eq name="$data.QueueGaming" value="0" }selected{/eq} >不排队</option>
                         <option value="1" {eq name="$data.QueueGaming" value="1" }selected{/eq} >排队</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房间状态</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="gstate">
+                        <option value="0" {eq name="$data.gstate" value="0" }selected{/eq} >正常</option>
+                        <option value="1" {eq name="$data.gstate" value="1" }selected{/eq} >封服</option>
                     </select>
                 </div>
             </div>

@@ -140,6 +140,17 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
 	std::string pUserPW = mes["UserPW"].asString();
 	int pDeviceType = mes["DeviceType"].asInt();
 
+	// 如果服务器被封，就不能进入游戏了
+	tagGameRoom ptagGameRoom;
+    if(ServerDBOperator.GetGameRoomInfo(m_ServerSet.RoomId,&ptagGameRoom) && ptagGameRoom.gstate == 1)
+    {
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_GAME_LOGIN;
+        root["MsgSubId"] = IDD_MESSAGE_GAME_LOGIN_BANLOGIN;
+        Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+        return;
+    }
+
 	uint32 pUserId = ServerDBOperator.IsExistUser(pUserName.c_str(),pUserPW.c_str());
 
 	if(pUserId <= 0)
@@ -170,6 +181,16 @@ void GameFrameManager::OnProcessUserLoginMes(uint32 connId,Json::Value &mes)
         Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
 		return;
 	}
+
+	// 如果玩家账号被封也不能进入游戏
+	if(pUserData.genable != 1)
+    {
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_GAME_LOGIN;
+        root["MsgSubId"] = IDD_MESSAGE_GAME_LOGIN_USERBANLOGIN;
+        Sendhtml5(connId,(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+        return;
+    }
 
 	// 首先查找当前玩家列表中是否存在这个用户，如果存在,并且用户处于掉线状态下，就处理用户的掉线重连
 	CPlayer *pPlayer = ServerPlayerManager.GetLostPlayer(pUserId);
@@ -311,6 +332,9 @@ void GameFrameManager::SendPlayerLoginSuccess(CPlayer *pPlayer)
     root["LoginIP"] = inet_ntoa(inaddr);
 
 	ServerPlayerManager.SendMsgToEveryone(root);
+
+	//更新服务器在线人数
+	UpdateGameRoomInfo();
 }
 
 /**
@@ -383,7 +407,12 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 		{
 			CPlayer *pPlayer = ServerPlayerManager.GetNewPlayer(connId);
 			if(pPlayer == NULL)
-				return;
+            {
+                //如果不是最新登录的玩家，检测是不是掉线的玩家
+                OnProcessReEnterRoomMes(connId);
+
+                return;
+            }
 
 			// 检测玩家是否已经在房间中了，如果在房间中，是不能进入房间的
 			CRoom *pRoom = ServerRoomManager.GetRoomById(pPlayer->GetRoomId());
@@ -396,7 +425,8 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
                 root["serverid"] = 0;
                 root["GameType"] = m_ServerSet.m_GameId;
                 Sendhtml5(pPlayer->GetConnectID(),(const char*)root.toStyledString().c_str(),root.toStyledString().length());
-				return;
+
+                return;
 			}
 
 			int pRoomIndex = mes["RoomIndex"].asInt();
@@ -742,37 +772,48 @@ void GameFrameManager::OnProcessFrameMes(uint32 connId,Json::Value &mes)
 		break;
 	case IDD_MESSAGE_REENTER_ROOM:                    // 重新回到游戏
 		{
-			CPlayer *pPlayer = ServerPlayerManager.GetPlayer(connId);
-			if(pPlayer == NULL) return;
-
-			CRoom *pRoom = ServerRoomManager.GetRoomById(pPlayer->GetRoomId());
-			if(pRoom == NULL || pRoom->GetRoomState() != ROOMSTATE_GAMING)
-			{
-				// 向当前玩家发送进入游戏房间失败的消息
-                Json::Value root;
-                root["MsgId"] = IDD_MESSAGE_FRAME;
-                root["MsgSubId"] = IDD_MESSAGE_ENTER_ROOM;
-                root["MsgSubId2"] = IDD_MESSAGE_ENTER_ROOM_FAIL;
-                root["ID"] = pPlayer->GetID();
-                Sendhtml5(pPlayer->GetConnectID(),(const char*)root.toStyledString().c_str(),root.toStyledString().length());
-
-				return;
-			}
-
-            Json::Value root;
-            root["MsgId"] = IDD_MESSAGE_FRAME;
-            root["MsgSubId"] = IDD_MESSAGE_REENTER_ROOM;
-            root["ID"] = pPlayer->GetID();
-			ServerPlayerManager.SendMsgToEveryone(root);
-
-			pPlayer->SetState(PLAYERSTATE_GAMING);
-
-			pRoom->OnProcessReEnterRoomMes(pPlayer->GetChairIndex());
+            OnProcessReEnterRoomMes(connId);
 		}
 		break;
 	default:
 		break;
 	}
+}
+
+/// 玩家断线重回房间
+bool GameFrameManager::OnProcessReEnterRoomMes(uint32 connId)
+{
+    CPlayer *pPlayer = ServerPlayerManager.GetPlayer(connId);
+    if(pPlayer == NULL) return false;
+
+    CRoom *pRoom = ServerRoomManager.GetRoomById(pPlayer->GetRoomId());
+    if(pRoom == NULL || pRoom->GetRoomState() != ROOMSTATE_GAMING)
+    {
+        // 向当前玩家发送进入游戏房间失败的消息
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_FRAME;
+        root["MsgSubId"] = IDD_MESSAGE_ENTER_ROOM;
+        root["MsgSubId2"] = IDD_MESSAGE_ENTER_ROOM_FAIL;
+        root["ID"] = pPlayer->GetID();
+        Sendhtml5(pPlayer->GetConnectID(),(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+
+        return false;
+    }
+
+    Json::Value root;
+    root["MsgId"] = IDD_MESSAGE_FRAME;
+    root["MsgSubId"] = IDD_MESSAGE_REENTER_ROOM;
+    root["ID"] = pPlayer->GetID();
+    ServerPlayerManager.SendMsgToEveryone(root);
+
+    pPlayer->SetState(PLAYERSTATE_GAMING);
+
+    //更新玩家状态
+    ServerDBOperator.SetPlayerGameState(pPlayer);
+
+    pRoom->OnProcessReEnterRoomMes(pPlayer->GetChairIndex());
+
+    return true;
 }
 
 /// 更新玩家信息
@@ -844,6 +885,9 @@ void GameFrameManager::OnProcessGameReadyMes(uint32 connId,Json::Value &mes)
 
 	pPlayer->SetState(PLAYERSTATE_READY);
 	pPlayer->SetReadyTime((DWORD)time(NULL));
+
+    //更新玩家状态
+    ServerDBOperator.SetPlayerGameState(pPlayer);
 
 	if(pRoom->GetMaster() < 0)
 		pRoom->SetMaster(pPlayer->GetChairIndex());
@@ -1074,6 +1118,9 @@ void GameFrameManager::AddQueueList(CPlayer *connId)
 	{
 		connId->SetState(PLAYERSTATE_QUEUE);
 
+		//更新玩家状态
+		ServerDBOperator.SetPlayerGameState(connId);
+
 		m_PlayerQueueList.insert(std::pair<uint32,CPlayer*>(connId->GetID(),connId));
 	}
 
@@ -1103,6 +1150,9 @@ void GameFrameManager::DelQueueList(uint32 connId)
 			{
 				(*iter).second->SetState(PLAYERSTATE_NORAML);
 			}
+
+            //更新玩家状态
+            ServerDBOperator.SetPlayerGameState((*iter).second);
 
 			iter = m_PlayerQueueList.erase(iter);
 
@@ -1201,8 +1251,15 @@ void GameFrameManager::UpdateQueueList(void)
 			if(JoinPlayerToGameRoom((*iter).second) == false)
 			{
 				(*iter).second->SetState(PLAYERSTATE_QUEUE);
+
+                //更新玩家状态
+                ServerDBOperator.SetPlayerGameState((*iter).second);
+
 				break;
 			}
+
+            //更新玩家状态
+            ServerDBOperator.SetPlayerGameState((*iter).second);
 
 			iter = m_PlayerQueueList.erase(iter);
 		}

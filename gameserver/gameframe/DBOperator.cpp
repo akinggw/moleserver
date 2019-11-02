@@ -240,10 +240,11 @@ bool DBOperator::GetUserData(unsigned int UserId,UserDataStru &UserData)
 	UserData.RunawayRate = (float)atof(pRecord(0)(0,13).c_str());
 
 	UserData.gType = atoi(pRecord(1)(0,0).c_str());
-	strncpy(UserData.UserName , pRecord(1)(0,1).c_str(),CountArray(UserData.UserName));
-	UserData.sex = atoi(pRecord(1)(0,2).c_str());
-	strncpy(UserData.realName , pRecord(1)(0,3).c_str(),CountArray(UserData.realName));
-	strncpy(UserData.UserIP , pRecord(1)(0,4).c_str(),CountArray(UserData.UserIP));
+	UserData.genable = atoi(pRecord(1)(0,1).c_str());
+	strncpy(UserData.UserName , pRecord(1)(0,2).c_str(),CountArray(UserData.UserName));
+	UserData.sex = atoi(pRecord(1)(0,3).c_str());
+	strncpy(UserData.realName , pRecord(1)(0,4).c_str(),CountArray(UserData.realName));
+	strncpy(UserData.UserIP , pRecord(1)(0,5).c_str(),CountArray(UserData.UserIP));
 
 	return true;
 }
@@ -269,6 +270,19 @@ uint32 DBOperator::IsExistUser(std::string name,std::string password)
 	return atol(pRecord(0)(0,0).c_str());
 }
 
+/// 更新房间状态
+bool DBOperator::UpdateRootState(uint32 pRoomId,int pstate)
+{
+	if(m_DataProvider == NULL) return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "update mol_gameroom set state=" << pstate << " where id=" << pRoomId << ";";
+
+	m_DataProvider->execSql(sqlstr.str());
+
+	return true;
+}
+
 /// 得到游戏房间信息
 bool DBOperator::GetGameRoomInfo(uint32 pRoomId,tagGameRoom *ptagGameRoom)
 {
@@ -288,10 +302,10 @@ bool DBOperator::GetGameRoomInfo(uint32 pRoomId,tagGameRoom *ptagGameRoom)
 	ptagGameRoom->roomrevenue = atoi(pRecord(0)(0,10).c_str());
 	ptagGameRoom->tablecount = atoi(pRecord(0)(0,4).c_str());
 	ptagGameRoom->tableplayercount = atoi(pRecord(0)(0,5).c_str());
-	ptagGameRoom->state = atoi(pRecord(0)(0,14).c_str());
+	ptagGameRoom->gstate = atoi(pRecord(0)(0,17).c_str());
 	ptagGameRoom->QueueGaming = atoi(pRecord(0)(0,15).c_str());
 
-	strncpy(ptagGameRoom->processname , pRecord(0)(0,17).c_str(),CountArray(ptagGameRoom->processname));
+	strncpy(ptagGameRoom->processname , pRecord(0)(0,18).c_str(),CountArray(ptagGameRoom->processname));
 	strncpy(ptagGameRoom->serverip , pRecord(0)(0,6).c_str(),CountArray(ptagGameRoom->serverip));
 	strncpy(ptagGameRoom->servername , pRecord(0)(0,2).c_str(),CountArray(ptagGameRoom->servername));
 

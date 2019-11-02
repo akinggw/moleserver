@@ -268,6 +268,38 @@ void CServerLogicFrame::OnProcessReEnterRoomMes(int playerId)
     std::stringstream ss;
     ss << "玩家" << playerId << "重回房间了.";
 	m_g_GameRoom->Room_Log(BASIC,ss.str());
+
+	Json::Value root;
+	root["MsgId"] = IDD_MESSAGE_ROOM;
+	root["MsgSubId"] = IDD_MESSAGE_ROOM_REENTERGAME;
+	root["gamestate"] = m_GameState;
+	root["gamepielement"] = (int32)m_GamePielement;
+	root["jvindex"] = m_gamejvcount;
+	Json::Value arrayObj;
+	for(int i=0;i<5;i++)
+	{
+		arrayObj[i] = (int)(m_jettonTrad[i]*10.0f);
+	}
+	root["GamePielement"] = arrayObj;
+	Json::Value arrayObj2;
+	for(int i=0;i<5;i++)
+	{
+		arrayObj2[i] = m_colorrecordcount[i];
+	}
+	root["colorrecordcount"] = arrayObj2;
+	Json::Value arrayObj3;
+	for(int i=0;i<(int)m_cardrecord.size();i++)
+	{
+		arrayObj3[i] = m_cardrecord[i];
+	}
+	root["cardrecourdcount"] = arrayObj3;
+
+	root["timexiazhu"] = m_timexiazhu;
+	root["timekaipai"] = m_timekaipai;
+	root["timejiesuan"] = m_timejiesuan;
+
+	//root["unitmoney"] = m_unitmoney;
+	m_g_GameRoom->SendTableMsg(playerId,root);
 }
 
 /// 处理用户定时器消息
@@ -283,6 +315,8 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 		ClearJettonRecord();
 		m_resultCard = 0;
 		m_GameState = GAMESTATE_XIAZHU;
+
+		m_g_GameRoom->GameStart();
 
 		Json::Value root;
 		root["MsgId"] = IDD_MESSAGE_ROOM;
@@ -330,6 +364,8 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 			std::map<uint8,int>::iterator iter = m_colorrecordcount.begin();
 			for(;iter != m_colorrecordcount.end();++iter) (*iter).second = 0;
 		}
+
+		m_g_GameRoom->GameEnd();
 
         m_g_GameRoom->StartTimer(IDD_TIMER_GAME_STARTING, m_timejiesuan);
 	}

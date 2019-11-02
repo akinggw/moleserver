@@ -56,5 +56,6 @@ enum GameState
 #define IDD_MESSAGE_ROOM_GAMEOVER        IDD_MESSAGE_ROOM+4         // 游戏结束消息
 #define IDD_MESSAGE_ROOM_JETTON          IDD_MESSAGE_ROOM+5         // 游戏下注消息
 #define IDD_MESSAGE_ROOM_CLEARJETTON     IDD_MESSAGE_ROOM+6         // 清除下注消息
+#define IDD_MESSAGE_ROOM_REENTERGAME     IDD_MESSAGE_ROOM+7         // 重回房间消息
 
 #endif

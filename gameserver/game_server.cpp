@@ -128,7 +128,7 @@ int main(int argc,char *argv[])
             {
                 m_updateonlineplayercount = 0;
 
-                ServerGameFrameManager.UpdateGameRoomInfo();
+                //ServerGameFrameManager.UpdateGameRoomInfo();
                 RobotManager.RobotsEnterGameRoom();
             }
         }

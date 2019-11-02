@@ -17,7 +17,7 @@ struct UserDataStru
 {
 	UserDataStru():UserId(0),Money(0),BankMoney(0),Revenue(0),TotalResult(0),
 		Level(0),Experience(0),TotalBureau(0),SBureau(0),FailBureau(0),RunawayBureau(0),
-		SuccessRate(0),RunawayRate(0),sex(0),gType(0)
+		SuccessRate(0),RunawayRate(0),sex(0),gType(0),genable(1)
 	{
 		memset(realName,0,sizeof(realName));
 	}
@@ -41,6 +41,7 @@ struct UserDataStru
 	char realName[256];           // 玩家昵称
 	char UserName[256];           // 玩家用户名
 	char UserIP[256];             // 玩家IP
+	int genable;                  // 玩家状态:1正常；0被封
 };
 
 /**
@@ -60,7 +61,7 @@ struct tagGameRoom
     int64 pielement;
     uint32 roomrevenue;
     int QueueGaming;
-    int state;                     // 0-正常；
+    int gstate;                     // 0-正常；1-被封
 };
 
 /**
@@ -90,6 +91,8 @@ public:
     bool UpdateUserData(Player *pPlayer);
     /// 更新指定玩家的身上金币数据
     bool UpdateUserMoney(CPlayer *pPlayer);
+    /// 更新房间状态
+    bool UpdateRootState(uint32 pRoomId,int pstate);
     /// 检测指定玩家是否在游戏中
     bool IsExistUserGaming(uint32 UserId,uint32 *serverid,int32 *roomid,int32 *chairid,uint32 *gametype);
     /// 根据用户ID得到用户的游戏数据

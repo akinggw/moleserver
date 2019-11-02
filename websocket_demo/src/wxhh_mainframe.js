@@ -8,8 +8,8 @@ var health_timeout=6000;
 //var game_jv_count=65;
 var keepalivetimer;
 var keepalivetimer_game;
-var host = "ws://182.61.5.226:6789";
-//var host = "ws://127.0.0.1:3333";
+//var host = "ws://182.61.5.226:6789";
+var host = "ws://127.0.0.1:3333";
 var isLoginSuccuss=false;
 var gamestate = 0;
 var gamepielement = 0;
@@ -1339,7 +1339,7 @@ var CMainFrameLayer = cc.Layer.extend({
 
                 last_health = new Date();
                 clearInterval(keepalivetimer);
-                keepalivetimer = setInterval( function(){keepalive(socket)},5000);
+                keepalivetimer = setInterval( function(){keepalive(socket)},1000);
 
                 if(m_isLoginSuccess == true)
                 {
@@ -1566,7 +1566,7 @@ var CMainFrameLayer = cc.Layer.extend({
 
                                     last_health_game = new Date();
                                     clearInterval(keepalivetimer_game);
-                                    keepalivetimer_game = setInterval( function(){keepalive(gameserversocket,1)},5000);
+                                    keepalivetimer_game = setInterval( function(){keepalive(gameserversocket,1)},1000);
 
                                     console.info("connned.");
                                 }
@@ -1674,6 +1674,7 @@ var CMainFrameLayer = cc.Layer.extend({
                                             switch(objgame.MsgSubId)
                                             {
                                                 case 1001:
+                                                case 1007:
                                                 {
                                                     gamestate = objgame.gamestate;
                                                     gamepielement = objgame.gamepielement;

@@ -1480,48 +1480,7 @@ void CRoom::GameEnd(bool isupdateuserdata)
 	// 重置房间状态
 	Clear();
 
-	if(m_ServerSet.GameType == ROOMTYPE_BISAI)
-	{
-		// 从房间中剔除所有的掉线用户,并且更新所有玩家的数据
-		m_playersLock.Acquire();
-		for(int index = 0;index < GetMaxPlayer();index++)
-		{
-			CPlayer *pPlayer = m_PlayerList[index];
-			if(pPlayer == NULL) continue;
-
-			if(m_PlayerList[index]->GetState() != PLAYERSTATE_LOSTLINE)          // 如果一局结束，但用户已经掉线而且没有回来，先离开房间，然后离开服务器，他需要重新登录才能进入游戏
-			{
-				// 重新将状态设置成正常状态
-				m_PlayerList[index]->SetState(PLAYERSTATE_NORAML);
-			}
-
-			// 更新用户信息到客户端
-			UpdateUserScore(m_PlayerList[index]);
-
-			// 从房间中清除掉这些玩家
-			ClearPlayer(m_PlayerList[index]);
-
-			//// 设置玩家的状态为离开房间
-			//pPlayer->SetRoomId(-1);
-			//pPlayer->SetChairIndex(-1);
-
-			// 更新玩家游戏状态
-			pPlayer->setCurGamingState(false);
-			ServerDBOperator.SetPlayerGameState(pPlayer);
-		}
-		m_playersLock.Release();
-
-		// 向当前服务器中所有用户广播当前这桌已经结束了游戏
-        Json::Value root;
-        root["MsgId"] = IDD_MESSAGE_FRAME;
-        root["MsgSubId"] = IDD_MESSAGE_GAME_END;
-        root["UserID"] = GetID();
-		ServerPlayerManager.SendMsgToEveryone(root);
-
-		return;
-	}
-
-	// 从房间中剔除所有的掉线用户,并且更新所有玩家的数据
+    // 从房间中剔除所有的掉线用户,并且更新所有玩家的数据
 	m_playersLock.Acquire();
 	for(int index = 0;index < GetMaxPlayer();index++)
 	{

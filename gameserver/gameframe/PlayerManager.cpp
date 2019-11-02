@@ -411,6 +411,7 @@ void PlayerManager::ClearPlayer(CPlayer *pPlayer)
 	pPlayer->setCurChairIndex(-1);
 	pPlayer->setCurTableIndex(-1);
 	pPlayer->setCurGamingState(false);
+	pPlayer->SetState(PLAYERSTATE_NORAML);
 	ServerDBOperator.SetPlayerGameState(pPlayer);
 
 	m_PlayersLock.Acquire();
@@ -430,6 +431,10 @@ void PlayerManager::ClearPlayer(CPlayer *pPlayer)
 			m_LostPlayerList.erase(iter);
 
 			m_PlayersLock.Release();
+
+            //更新服务器在线人数
+            ServerGameFrameManager.UpdateGameRoomInfo();
+
 			return;
 		}
 	}
@@ -449,6 +454,10 @@ void PlayerManager::ClearPlayer(CPlayer *pPlayer)
 			m_PlayerList.erase(iter);
 
 			m_PlayersLock.Release();
+
+			//更新服务器在线人数
+            ServerGameFrameManager.UpdateGameRoomInfo();
+
 			return;
 		}
 	}
@@ -468,6 +477,10 @@ void PlayerManager::ClearPlayer(CPlayer *pPlayer)
 			m_RobotList.erase(iter);
 
 			m_PlayersLock.Release();
+
+			//更新服务器在线人数
+            ServerGameFrameManager.UpdateGameRoomInfo();
+
 			return;
 		}
 	}

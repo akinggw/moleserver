@@ -34,6 +34,8 @@ public:
 	void UpdateGameRoomInfo(void);
     /// 更新玩家信息
     void OnProcessUserInfo(CPlayer *pPlayer);
+    /// 玩家断线重回房间
+    bool OnProcessReEnterRoomMes(uint32 connId);
     /// 新建一个新的玩家
     CPlayer* CreateNewPlayer(void);
     /// 发送指定玩家登陆成功的消息

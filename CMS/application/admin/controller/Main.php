@@ -42,14 +42,14 @@ class Main extends Adminbase
     //欢迎首页
     public function index()
     {
-        $onlineusercount = $this->Member_Model->
-            join('userdata ud','ud.userid = mol_member.uid','left')->
-            where('to_days(from_unixtime(lastlogintime, "%Y-%m-%d %H:%i:%s")) = to_days(NOW()) and ud.curgamingstate > 0 and mol_member.gtype != 1')->
-            count();
+        $onlineusercount = $this->gameroom_Model->
+            field('sum(currealplayercount) as pcurrealplayercount,sum(currobotplayercount) as pcurrobotplayercount')->
+            find();
 
         $this->assign('userInfo', $this->_userinfo);
         $this->assign('sys_info', $this->get_sys_info());
         $this->assign('admincount', $onlineusercount);
+       // $this->assign('admincountrobot', $onlineusercount['pcurrobotplayercount']);
         $this->assign('usercount', $this->Member_Model->where('mol_member.gtype != 1')->count());
         $this->assign('machinecount', $this->game_Model->count());
         $this->assign('ordercount', $this->gameroom_Model->count());

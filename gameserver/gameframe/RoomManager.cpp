@@ -613,6 +613,9 @@ void RoomManager::OnProcessDisconnectNetMes(uint32 connId)
 	{
 		pPlayer->SetState(PLAYERSTATE_LOSTLINE);
 
+		//更新玩家状态
+		ServerDBOperator.SetPlayerGameState(pPlayer);
+
 		// 先从玩家列表中摘除这个玩家
 		ServerPlayerManager.DeletePlayer(pPlayer);
 		// 然后加入到掉线列表里
