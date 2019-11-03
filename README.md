@@ -34,6 +34,7 @@ lamp环境的安装，以下以ubuntu server为例:
 1. 后台测试地址：http://182.61.5.226/index.php/admin/index/login.html 账户密码admin admin
 2. 游戏测试地址: http://akinggw.gitee.io_moleserver
 
+其它说明:
 1. 首先下载下代码
 git clone https://gitee.com/akinggw/moleserver.git
 2. 在服务器上安装最新版本的mysql，建立新的数据库moleweb，然后导入moleweb.sql
