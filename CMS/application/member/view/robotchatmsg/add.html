@@ -1,0 +1,23 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">添加机器人发言</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">机器人发言</label>
+                <div class="layui-input-inline">
+                    <textarea name="msg" style="width: 500px;height: 200px;" placeholder="机器人发言" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+

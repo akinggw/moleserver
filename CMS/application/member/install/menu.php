@@ -56,6 +56,13 @@ return [
                         "name" => "机器人上岗时间",
                         "icon" => "icon-huiyuan",
                     ],
+                    [
+                        "route" => "member/robotchatmsg/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "机器人聊天发言",
+                        "icon" => "icon-huiyuan",
+                    ],
                 ],
             ],
         ],

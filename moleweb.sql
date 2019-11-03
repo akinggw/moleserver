@@ -259,6 +259,30 @@ INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mol_robotchatmsg`
+--
+
+DROP TABLE IF EXISTS `mol_robotchatmsg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_robotchatmsg` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `msg` text NOT NULL,
+  `type` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_robotchatmsg`
+--
+
+LOCK TABLES `mol_robotchatmsg` WRITE;
+/*!40000 ALTER TABLE `mol_robotchatmsg` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mol_robotchatmsg` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mol_robotcontroltimes`
 --
 
@@ -1012,4 +1036,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-02 15:54:02
+-- Dump completed on 2019-11-02 18:26:49

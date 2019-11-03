@@ -16,8 +16,23 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 
 #### 安装和编译
 首先我们要搭建好编译环境，推荐使用ubuntu server,然后安装好lamp环境，gcc,g++,makefile等等都要安装好，外部库主要使用了libmysql和libjson,如果编译时缺其它库就安装相应的库，另外代码是在codeblocks下编辑的，编译直接用makefile。
-后台测试地址：http://182.61.5.226/index.php/admin/index/login.html 账户密码admin admin
-游戏测试地址: http://akinggw.gitee.io_moleserver
+
+编译环境的安装，以下以ubuntu server为例:
+1. sudo apt-get update
+2. sudo apt-get upgrade
+3. sudo apt-get dist-upgrade
+4. sudo apt-get install build-essential
+5. sudo apt-get install libmysqlclient-dev
+6. sudo apt-get install libjsoncpp-dev
+
+lamp环境的安装，以下以ubuntu server为例:
+1. sudo apt install apache2 -y
+2. sudo apt install mysql-server mysql-client
+3. sudo apt install php7.2-mysql php7.2-curl php7.2-json php7.2-cgi php7.2 libapache2-mod-php7.2 php7.2-gd 
+
+测试地址:
+1. 后台测试地址：http://182.61.5.226/index.php/admin/index/login.html 账户密码admin admin
+2. 游戏测试地址: http://akinggw.gitee.io_moleserver
 
 1. 首先下载下代码
 git clone https://gitee.com/akinggw/moleserver.git
@@ -34,7 +49,7 @@ dbname=moleweb
 port=3306
 4. 游戏服务器和登录服务器的配置都在这里，另外这里只配置登录服务器，但游戏服务器数据库的配置也使用这个配置，如果您要在另外的服务器启动游戏服务器，需要拷贝这个配置
 5. 游戏服务器的配置在mysql数据库中，具体在mol_gameroom表中，这里配置游戏服务器，添加一台就是一台
-6. 开始启动，登录服务器的启动./account_server 1，带参数，后面跟ID值，这个ID值就是mol_accountserver的ID,mol_accountserver表会实时更新这台游戏服务器的信息，以便于在网站上监控.如果缺少libmysqlclient和libjson的动态库，可以通过sudo apt install libmysqlclient-dev libjson-dev来进行安装
+6. 开始启动，登录服务器的启动./account_server 1，带参数，后面跟ID值，这个ID值就是mol_accountserver的ID,mol_accountserver表会实时更新这台游戏服务器的信息，以便于在网站上监控.如果缺少libmysqlclient和libjson的动态库，可以通过sudo apt install libmysqlclient-dev libjsoncpp-dev来进行安装
 7. 服务器的启动，./game_server 1 带参数，后面跟ID值，这个ID值就是mol_gameroom的ID,mol_gameroom表会实时更新这台游戏服务器的信息，以便于在网站上监控
 8. 然后用浏览器打开websocket_demo.html，可以通过修改IP和端口来连接登录服务器和游戏服务器进入相应的消息测试。
 9. 后端运行启动方式:setsid ./account_server 1

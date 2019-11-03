@@ -220,6 +220,9 @@ window.onload = function () {
                         chatcontent += "<div class='userstatestyle'>"+objgame.RealName+" 进入游戏,大家欢迎!</div>";
                         chatcontent += "</div>";
                         $("#chatshow").append(chatcontent);
+
+                        var div = document.getElementById('chatshowframe');
+                        div.scrollTop = div.scrollHeight;
                     }
                         break;
                     default:
@@ -282,6 +285,9 @@ window.onload = function () {
                         $("#chatshow").append(chatcontent);
 
                         delchatuser(playerid);
+
+                        var div = document.getElementById('chatshowframe');
+                        div.scrollTop = div.scrollHeight;
                     }
                         break;
                     default:
