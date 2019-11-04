@@ -145,6 +145,24 @@ bool DBOperator::InsertPlayerGameRecord(uint32 UserId,int64 Score,int64 Revenue,
 	return true;
 }
 
+bool DBOperator::getplayercontrolconfig(Player *pPlayer,int64 *curresult,int64 *decresult,int *iscontroluser)
+{
+	if(m_DataProvider == NULL || pPlayer == NULL)
+		return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "select totalresult,dectotalresult,isenableusercontrol from mol_userdata where userid=" << pPlayer->GetID() << ";";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	*curresult = _atoi64(pRecord(0)(0,0).c_str());
+	*decresult = _atoi64(pRecord(0)(0,1).c_str());
+	*iscontroluser = atoi(pRecord(0)(0,2).c_str());
+
+	return true;
+}
+
 /// 更新玩家信息
 bool DBOperator::UpdateUserData(Player *pPlayer)
 {
@@ -341,5 +359,56 @@ bool DBOperator::GetRobotEnterRoomTimes(void)
 	if(pRecord.isEmpty()) return false;
 
 	return atoi(pRecord(0)(0,0).c_str()) > 0 ? true : false;
+}
+
+/// 更新玩家总得结果值
+bool DBOperator::UpdateGamingUserTotalResult(int64 probotresult,int64 pplayerresult)
+{
+	if(m_DataProvider == NULL) return false;
+
+	// 先锁定mol_userdata表，防止用户读取
+	std::ostringstream sqlstr;
+	sqlstr << "call updategametotalmoney(" << pplayerresult << "," << probotresult << ");";
+
+	m_DataProvider->execSql(sqlstr.str());
+
+	return true;
+}
+
+/// 得到所有机器人总的输赢值
+int64 DBOperator::GetPlayersTotalResult(int usertype)
+{
+	if(m_DataProvider == NULL)
+		return false;
+
+	std::ostringstream sqlstr;
+
+	if(usertype == 1)
+		sqlstr << "call getrobottotalresult(1);";
+	else
+		sqlstr << "call getrobottotalresult(0);";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	return _atoi64(pRecord(0)(0,0).c_str());
+}
+
+/// 得到机器人控制配置
+bool DBOperator::getrobotcontrolconfig(int64 *probotwinmax, int64 *probotlostmax, int isupdate)
+{
+	if(m_DataProvider == NULL || probotwinmax == NULL || probotlostmax == NULL)
+		return false;
+
+	std::ostringstream sqlstr;
+	sqlstr << "call getrobotcontrolconfig(" << isupdate << ");";
+
+	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
+	if(pRecord.isEmpty()) return false;
+
+	*probotwinmax = _atoi64(pRecord(0)(0,0).c_str());
+	*probotlostmax = _atoi64(pRecord(0)(0,1).c_str());
+
+	return true;
 }
 

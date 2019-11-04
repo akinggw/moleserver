@@ -1,0 +1,41 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">机器人控制</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px;">玩家总输赢</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="playertotalmoney" lay-verify="required" autocomplete="off" placeholder="玩家总输赢" class="layui-input" value="{$data.playertotalmoney}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px;">机器人总输赢</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="robottotalmoney" lay-verify="required" autocomplete="off" placeholder="机器人总输赢" class="layui-input" value="{$data.robottotalmoney}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px;">玩家最大赢值</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="robotwinmax" lay-verify="required" autocomplete="off" placeholder="玩家最大赢值" class="layui-input" value="{$data.robotwinmax}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 150px;">玩家最大输值</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="robotlostmax" lay-verify="required" autocomplete="off" placeholder="玩家最大输值" class="layui-input" value="{$data.robotlostmax}">
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

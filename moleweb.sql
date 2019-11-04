@@ -180,6 +180,33 @@ INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,10
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mol_gametotalmoney`
+--
+
+DROP TABLE IF EXISTS `mol_gametotalmoney`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_gametotalmoney` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `robottotalmoney` bigint(15) NOT NULL DEFAULT '0',
+  `playertotalmoney` bigint(15) NOT NULL DEFAULT '0',
+  `robotwinmax` bigint(15) NOT NULL DEFAULT '0',
+  `robotlostmax` bigint(15) NOT NULL DEFAULT '0',
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_gametotalmoney`
+--
+
+LOCK TABLES `mol_gametotalmoney` WRITE;
+/*!40000 ALTER TABLE `mol_gametotalmoney` DISABLE KEYS */;
+INSERT INTO `mol_gametotalmoney` VALUES (1,0,0,100,-100);
+/*!40000 ALTER TABLE `mol_gametotalmoney` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mol_goldoperaterecords`
 --
 
@@ -270,7 +297,7 @@ CREATE TABLE `mol_robotchatmsg` (
   `msg` text NOT NULL,
   `type` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,6 +306,7 @@ CREATE TABLE `mol_robotchatmsg` (
 
 LOCK TABLES `mol_robotchatmsg` WRITE;
 /*!40000 ALTER TABLE `mol_robotchatmsg` DISABLE KEYS */;
+INSERT INTO `mol_robotchatmsg` VALUES (6,'dsfasf34',1);
 /*!40000 ALTER TABLE `mol_robotchatmsg` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -334,6 +362,9 @@ CREATE TABLE `mol_userdata` (
   `curgametype` int(6) NOT NULL DEFAULT '0',
   `curserverport` int(6) NOT NULL DEFAULT '0',
   `curgamingstate` int(1) NOT NULL DEFAULT '0',
+  `dectotalresult` bigint(15) DEFAULT '0',
+  `agentmoney` bigint(15) DEFAULT '0',
+  `isenableusercontrol` int(1) DEFAULT '0',
   PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -344,7 +375,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,4925,0,0,-76,0,5,2,2,1,0,1,0,-1,-1,0,0,0),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(27,7888,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0),(28,6666,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,4925,0,0,-76,0,5,2,2,1,0,1,0,-1,-1,0,0,0,13222,0,1),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(27,7888,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(28,6666,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -542,6 +573,71 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `gameserver_unlockgameuser`(
 	)
 begin
 	update mol_userdata set curtableindex=-1,curchairindex=-1,curgametype=0,curserverport=0,curgamingstate=0;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getrobotcontrolconfig` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getrobotcontrolconfig`(
+	in ptype int(1)
+	)
+getrobotcontrolconfigroce:begin
+	declare t_error int default 0; 
+	declare probotwinmax bigint(15);
+	declare probotlostmax bigint(15);
+
+	declare continue handler for sqlexception set t_error=1; 
+	
+	set probotwinmax = 0;
+	set probotlostmax = 0;
+	
+	start transaction;
+	
+	select robotwinmax,robotlostmax from mol_gametotalmoney;
+	
+	if t_error=1 then
+		rollback;  
+		select(0);
+	else
+		commit;  
+		select(1);
+	end if;	
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getrobottotalresult` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getrobottotalresult`(
+	in pusertype int(1)
+	)
+begin
+	if pusertype = 1 then
+		select robottotalmoney from mol_gametotalmoney;
+	else 
+		select playertotalmoney from mol_gametotalmoney;
+	end if;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -945,6 +1041,51 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `updategametotalmoney` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updategametotalmoney`(
+	in pplayermoney bigint(15),
+	in probotmoney bigint(15)
+	)
+begin
+	declare t_error int default 0;  -- 定义错误变量
+	declare pcurgamingstate int;
+	
+	declare continue handler for sqlexception set t_error=1; -- 出错处理
+	
+	start transaction;
+	
+	set pcurgamingstate = 0;
+
+	select count(*) into pcurgamingstate from mol_gametotalmoney;	
+	
+	if pcurgamingstate = 0 then
+		insert into mol_gametotalmoney (robottotalmoney,playertotalmoney) values(probotmoney,pplayermoney);
+	else
+		update mol_gametotalmoney set robottotalmoney = robottotalmoney+probotmoney,playertotalmoney = playertotalmoney+pplayermoney;
+	end if;
+	
+	if t_error=1 then
+		rollback; -- 事务回滚
+		select(0);
+	else
+		commit; -- 事务提交  
+		select(1);
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `updateplayergamestate` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1036,4 +1177,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-02 18:26:49
+-- Dump completed on 2019-11-04 10:49:13

@@ -160,6 +160,11 @@ public:
 	/// 游戏开始是调用
 	virtual void GameStart(void) = 0;
 
+	/// 检测当前玩家输赢情况(2:表示玩家赢了；1：表示玩家输了；0：表示不输不赢随机）
+	virtual int IsUserWin(int64 *result = NULL, int64 *sysMax = NULL, int64 *sysMin = NULL, bool isUpdate = false) = 0;
+	/// 检测指定玩家的输赢情况(1:表示玩家输了；2：表示玩家赢了；0：表示不输不赢随机；-1：不控制）
+	virtual int IsSuperPlayerWin(Player *pPlayer,int64 *curresult=NULL,int64 *decResult=NULL) = 0;
+
 	/// 向指定的玩家发送数据
 	virtual void SendTableMsg(int index,Json::Value &msg) = 0;
 	/// 向指定的玩家发送旁观数据

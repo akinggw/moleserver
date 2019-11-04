@@ -110,6 +110,15 @@ public:
     /// 得到房间配置参数
     std::string GetRoomParamaters(uint32 KindID,uint32 ServerID);
 
+	/// 得到所有玩家总的输赢值（1：机器人；0：真人）
+	int64 GetPlayersTotalResult(int usertype);
+	/// 更新玩家总得结果值
+	bool UpdateGamingUserTotalResult(int64 probotresult,int64 pplayerresult);
+	/// 得到玩家控制配置
+	bool getrobotcontrolconfig(int64 *probotwinmax,int64 *probotlostmax,int isupdate=0);
+    /// 得到玩家的输赢结果值
+    bool getplayercontrolconfig(Player *pPlayer,int64 *curresult,int64 *decresult,int *iscontroluser);
+
 private:
 	DataProvider *m_DataProvider;                               /**< 用于访问本地数据库 */
 };

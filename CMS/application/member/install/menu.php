@@ -63,6 +63,13 @@ return [
                         "name" => "机器人聊天发言",
                         "icon" => "icon-huiyuan",
                     ],
+                    [
+                        "route" => "member/robotcontrol/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "机器人控制",
+                        "icon" => "icon-huiyuan",
+                    ],
                 ],
             ],
         ],

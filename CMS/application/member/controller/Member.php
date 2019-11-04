@@ -187,6 +187,8 @@ class Member extends Adminbase
 
             $updatedata['money'] = $data['money'];
             $updatedata['bankmoney'] = $data['bankmoney'];
+            $updatedata['isenableusercontrol'] = $data['isenableusercontrol'];
+            $updatedata['dectotalresult'] = $data['dectotalresult'];
 
             //更新除基本资料外的其他信息
             if (false === $this->Userdata_Model->allowField(true)->save($updatedata, ['userid' => $userid])) {

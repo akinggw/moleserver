@@ -1370,6 +1370,13 @@ bool CRoom::WriteUserScore(int wChairID, int64 lScore, int64 lRevenue, enScoreKi
 
 	isok = ServerDBOperator.UpdateUserData(pPlayer);
 
+	if(isCumulativeResult) {
+        if(pPlayer->GetType() == PLAYERTYPE_NORMAL)
+            ServerDBOperator.UpdateGamingUserTotalResult(0,pPlayer->getCurrentGamingResult());
+        else if(pPlayer->GetType() == PLAYERTYPE_ROBOT)
+            ServerDBOperator.UpdateGamingUserTotalResult(pPlayer->getCurrentGamingResult(),0);
+	}
+
 	m_playersLock.Release();
 
 	return isok;
@@ -1655,6 +1662,72 @@ std::string CRoom::GetRoomParameters(void)
 {
 	return ServerDBOperator.GetRoomParamaters(GetGameId(),
 											  GetRoomMarking());
+}
+
+/**
+ * 检测指定玩家的输赢情况(1:表示玩家输了；2：表示玩家赢了；0：表示不输不赢随机；-1：不控制）
+ *
+ * @param pPlayer 要得到输赢信息的玩家
+ * @param curresult 玩家总输赢
+ * @param decResult 玩家目标输赢
+ */
+int CRoom::IsSuperPlayerWin(Player *pPlayer,int64 *curresult,int64 *decResult)
+{
+	if(pPlayer == NULL) return 0;
+
+	int64 pCurResult,pDecResult;
+	int pIsControlUser = 0;
+	pCurResult=pDecResult=0;
+
+	// 获取玩家控制配置
+	ServerDBOperator.getplayercontrolconfig(pPlayer,&pCurResult,&pDecResult,&pIsControlUser);
+
+	// 不控制玩家
+	if(pIsControlUser == 0)
+        return -1;
+
+	if(curresult && decResult)
+    {
+        *curresult = pCurResult;
+        *decResult = pDecResult;
+    }
+
+	if(pDecResult == -1) return 0;
+
+	if(pCurResult > pDecResult)
+		return 2;
+	else if(pCurResult < pDecResult)
+		return 1;
+
+	return 0;
+}
+
+/// 检测当前玩家输赢情况(2:表示玩家赢了；1：表示玩家输了；0：表示不输不赢随机）
+int CRoom::IsUserWin(int64 *result, int64 *sysMax, int64 *sysMin, bool isUpdate)
+{
+    int64 RobotWinMax = 0;
+    int64 RobotLostMax = 0;
+
+	// 获取机器人控制配置
+	ServerDBOperator.getrobotcontrolconfig(&RobotWinMax, &RobotLostMax, (int)isUpdate);
+
+	int64 totalResult = ServerDBOperator.GetPlayersTotalResult(0);
+
+	if(result != NULL)
+		*result = totalResult;
+
+	*sysMax = RobotWinMax;
+	*sysMin = RobotLostMax;
+
+	if(totalResult > RobotWinMax)
+		return 2;
+
+	//int64 playertotalResult = ServerDBOperator.GetPlayerTotalResult();
+
+	if(totalResult < RobotLostMax/* && playertotalResult > m_ServerOtherSet.RobotWinMax*/)
+		return 1;
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

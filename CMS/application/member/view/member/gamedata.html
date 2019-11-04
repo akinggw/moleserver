@@ -23,6 +23,12 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">代理金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="agentmoney" lay-verify="required" autocomplete="off" placeholder="代理金额" class="layui-input" value="{$data.agentmoney}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">等级</label>
                 <div class="layui-input-inline">
                     <input type="text" name="level" lay-verify="required" autocomplete="off" placeholder="等级" class="layui-input" value="{$data.level}" readonly="readonly" readonly="readonly">
@@ -62,6 +68,21 @@
                 <label class="layui-form-label">游戏状态</label>
                 <div class="layui-input-inline">
                     <input type="text" name="curgamingstate" autocomplete="off" placeholder="游戏状态" class="layui-input" value="{$data.curgamingstate}" readonly="readonly">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否控制</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="isenableusercontrol">
+                        <option value="0" {eq name="$data.isenableusercontrol" value="0" }selected{/eq} >不控制</option>
+                        <option value="1" {eq name="$data.isenableusercontrol" value="1" }selected{/eq} >要控制</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">控制金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="dectotalresult" autocomplete="off" placeholder="控制金额" class="layui-input" value="{$data.dectotalresult}">
                 </div>
             </div>
             <input type="hidden" name="uid" value="{$data.userid}">
