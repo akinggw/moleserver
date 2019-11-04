@@ -39,23 +39,20 @@ lamp环境的安装，以下以ubuntu server为例:
 git clone https://gitee.com/akinggw/moleserver.git
 2. 在服务器上安装最新版本的mysql，建立新的数据库moleweb，然后导入moleweb.sql
 3. 配置数据库，在bin/configs/database.ini
-[LoginServer]
-ipaddress=127.0.0.1
-port=3333
 [database]
 ipaddress=127.0.0.1
 username=root
 userpwd=123456
 dbname=moleweb
 port=3306
-4. 游戏服务器和登录服务器的配置都在这里，另外这里只配置登录服务器，但游戏服务器数据库的配置也使用这个配置，如果您要在另外的服务器启动游戏服务器，需要拷贝这个配置
+4. 游戏服务器和登录服务器都使用这个配置，其它的配置都在网站后台进行配置。
 5. 游戏服务器的配置在mysql数据库中，具体在mol_gameroom表中，这里配置游戏服务器，添加一台就是一台
-6. 开始启动，登录服务器的启动./account_server 1，带参数，后面跟ID值，这个ID值就是mol_accountserver的ID,mol_accountserver表会实时更新这台游戏服务器的信息，以便于在网站上监控.如果缺少libmysqlclient和libjson的动态库，可以通过sudo apt install libmysqlclient-dev libjsoncpp-dev来进行安装
-7. 服务器的启动，./game_server 1 带参数，后面跟ID值，这个ID值就是mol_gameroom的ID,mol_gameroom表会实时更新这台游戏服务器的信息，以便于在网站上监控
-8. 然后用浏览器打开websocket_demo.html，可以通过修改IP和端口来连接登录服务器和游戏服务器进入相应的消息测试。
+6. 开始启动，账号服务器的启动./account_server 1，带参数，后面跟ID值，这个ID值就是mol_accountserver的ID,mol_accountserver表会实时更新这台游戏服务器的信息，以便于在网站上监控.如果缺少libmysqlclient和libjson的动态库，可以通过sudo apt install libmysqlclient-dev libjsoncpp-dev来进行安装
+7. 游戏服务器的启动，./game_server 1 带参数，后面跟ID值，这个ID值就是mol_gameroom的ID,mol_gameroom表会实时更新这台游戏服务器的信息，以便于在网站上监控
+8. 框架带一个完整的游戏示例，在websocket_demo目录下，安装方法是将这个websocket_demo目录拷贝到网站目录下，然后像打开网页一样打开它就可以了，登录地址和端口的修改在websocket_demo/src/wxhh_mainframe.js里
 9. 后端运行启动方式:setsid ./account_server 1
 10. 编译代码直接在主目录直接执行make就可以了，如果要编译成debug版，只需要make debug=1就可以了，另外代码使用了codeblocks进行编辑和管理，但并没有使用codeblocks进行编译，而直接使用了makefile.
-11. 网站后台管理采用YznCMS,YznCMS基于thinkphp写成，二次开发简单快捷，具体安装方法在CMS目录下的readme文件中，后台初始用户名和密码都为admin。因此在使用本框架之前最好先安装好LAMP环境。
+11. 网站后台管理采用YznCMS,YznCMS基于thinkphp写成，二次开发简单快捷，具体安装方法在CMS目录下的readme文件中，后台初始用户名和密码都为admin，网站的配置说明在CMS目录下。因此在使用本框架之前最好先安装好LAMP环境。
 
 #### 联系作者
 欢迎加QQ群交流:131296225

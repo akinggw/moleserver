@@ -40,8 +40,36 @@ CREATE TABLE `mol_accountserver` (
 
 LOCK TABLES `mol_accountserver` WRITE;
 /*!40000 ALTER TABLE `mol_accountserver` DISABLE KEYS */;
-INSERT INTO `mol_accountserver` VALUES (1,'验证服务器2',3333,'127.0.0.1','2019-11-02 15:49:26',0,0);
+INSERT INTO `mol_accountserver` VALUES (1,'验证服务器2',3333,'127.0.0.1','2019-11-04 11:00:01',0,0);
 /*!40000 ALTER TABLE `mol_accountserver` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mol_agentuser`
+--
+
+DROP TABLE IF EXISTS `mol_agentuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_agentuser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL DEFAULT '0',
+  `parentuserid` int(11) NOT NULL DEFAULT '0',
+  `agentlevel` int(1) NOT NULL DEFAULT '0',
+  `agentdivided` int(3) NOT NULL DEFAULT '0',
+  `alipayname` varchar(150) NOT NULL DEFAULT '',
+  `alipayaccount` varchar(150) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_agentuser`
+--
+
+LOCK TABLES `mol_agentuser` WRITE;
+/*!40000 ALTER TABLE `mol_agentuser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mol_agentuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -125,7 +153,7 @@ CREATE TABLE `mol_gamerecords` (
   `agentmoney` bigint(15) NOT NULL DEFAULT '0',
   `curjetton` bigint(15) NOT NULL DEFAULT '0',
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +162,7 @@ CREATE TABLE `mol_gamerecords` (
 
 LOCK TABLES `mol_gamerecords` WRITE;
 /*!40000 ALTER TABLE `mol_gamerecords` DISABLE KEYS */;
-INSERT INTO `mol_gamerecords` VALUES (1,2,-2,0,300001,1,'欢乐斗地主普通场','2019-10-22 13:38:24',0,0,4998,'',0,0),(2,2,-30,0,300001,1,'欢乐斗地主普通场','2019-10-31 23:02:17',0,0,4924,'',0,0);
+INSERT INTO `mol_gamerecords` VALUES (1,2,-2,0,300001,1,'欢乐斗地主普通场','2019-10-22 13:38:24',0,0,4998,'',0,0),(2,2,-30,0,300001,1,'欢乐斗地主普通场','2019-10-31 23:02:17',0,0,4924,'',0,0),(3,2,-2,0,300001,1,'欢乐斗地主普通场','2019-11-04 10:59:05',0,1,4923,'',0,0),(4,2,6,0,300001,1,'欢乐斗地主普通场','2019-11-04 11:00:08',0,1,4929,'',0,0);
 /*!40000 ALTER TABLE `mol_gamerecords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +203,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-11-02 15:50:09',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,1,'2019-11-04 11:01:17',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,7 +230,7 @@ CREATE TABLE `mol_gametotalmoney` (
 
 LOCK TABLES `mol_gametotalmoney` WRITE;
 /*!40000 ALTER TABLE `mol_gametotalmoney` DISABLE KEYS */;
-INSERT INTO `mol_gametotalmoney` VALUES (1,0,0,100,-100);
+INSERT INTO `mol_gametotalmoney` VALUES (1,0,4,100,-100);
 /*!40000 ALTER TABLE `mol_gametotalmoney` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +309,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1572680954,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(27,0,'admin','9724b5e6c56b95f5723009ef81961bfe','','9724b5e6c56b95f5723009ef81961bfe','530765310@qq.com',0,'御宅男','','','','127.0.0.1',1572513665,NULL,1,0,'','',0,0),(28,0,'test2','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1572532833,1572534085,1,0,'','html5',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1572836258,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(27,0,'admin','9724b5e6c56b95f5723009ef81961bfe','','9724b5e6c56b95f5723009ef81961bfe','530765310@qq.com',0,'御宅男','','','','127.0.0.1',1572513665,NULL,1,0,'','',0,0),(28,0,'test2','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1572532833,1572534085,1,0,'','html5',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +334,7 @@ CREATE TABLE `mol_robotchatmsg` (
 
 LOCK TABLES `mol_robotchatmsg` WRITE;
 /*!40000 ALTER TABLE `mol_robotchatmsg` DISABLE KEYS */;
-INSERT INTO `mol_robotchatmsg` VALUES (6,'dsfasf34',1);
+INSERT INTO `mol_robotchatmsg` VALUES (6,'欢迎使用moleserver,更快更强的服务器框架，加QQ群交流：131296225',1);
 /*!40000 ALTER TABLE `mol_robotchatmsg` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,7 +403,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,4925,0,0,-76,0,5,2,2,1,0,1,0,-1,-1,0,0,0,13222,0,1),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(27,7888,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(28,6666,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,4929,0,0,-72,0,7,4,2,1,1,0.5,0.25,-1,-1,0,0,0,13222,0,1),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(27,7888,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(28,6666,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1177,4 +1205,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-04 10:49:13
+-- Dump completed on 2019-11-04 13:32:23
