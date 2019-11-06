@@ -74,7 +74,7 @@ bool IsConnected(uint32 index);
 * @return 如果数据发送成功返回真,否则返回假
 */
 bool Send(uint32 index,CMolMessageOut &out);
-bool Sendhtml5(uint32 index,const char* data,uint32 size);	
+bool Sendhtml5(uint32 index,const char* data,uint32 size);
 
 /**
 * 得到指定客户端的IP地址

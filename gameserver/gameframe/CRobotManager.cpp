@@ -147,7 +147,7 @@ void CRobotManager::UpdateRobot(void)
             Json::Value root;
             root["MsgId"] = IDD_MESSAGE_FRAME;
             root["MsgSubId"] = IDD_MESSAGE_LEAVE_SERVER;
-            root["ID"] = pPlayer->GetID();
+            root["UserID"] = pPlayer->GetID();
 
 			ServerPlayerManager.SendMsgToEveryone(root);
 
@@ -191,7 +191,7 @@ void CRobotManager::UpdateRobot(void)
         Json::Value root;
         root["MsgId"] = IDD_MESSAGE_FRAME;
         root["MsgSubId"] = IDD_MESSAGE_LEAVE_SERVER;
-        root["ID"] = pPlayer->GetID();
+        root["UserID"] = pPlayer->GetID();
 
 		ServerPlayerManager.SendMsgToEveryone(root);
 
