@@ -124,11 +124,11 @@ int main(int argc,char *argv[])
             ServerGameFrameManager.UpdateQueueList();
             RobotManager.UpdateRobot();
 
-            if(m_updateonlineplayercount >= 20)
+            // 每隔60秒处理以下机器人进入游戏房间
+            if(m_updateonlineplayercount >= 60)
             {
                 m_updateonlineplayercount = 0;
 
-                //ServerGameFrameManager.UpdateGameRoomInfo();
                 RobotManager.RobotsEnterGameRoom();
             }
         }

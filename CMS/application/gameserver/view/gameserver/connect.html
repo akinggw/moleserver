@@ -122,7 +122,7 @@ function delchatuser(userid) {
     var gameusers = document.getElementById("gameusers");
     var selectOptions = gameusers.options;
     var optionLength = selectOptions.length;
-    for(var i=0;i <optionLength;i++)
+    for(var i=0;i <optionLength-1;i++)
     {
         if(selectOptions[i].getAttribute('value') == userid){
             gameusers.removeChild(selectOptions[i]);
@@ -266,7 +266,7 @@ window.onload = function () {
 
                         for(var index in objgame.player){
                             var playerinfo = objgame.player[index];
-                           // console.log(playerinfo.Name);
+                            console.log('enter:'+playerinfo.Name+' '+playerinfo.ID);
                             gameuserdata[playerinfo.ID]=playerinfo.RealName;
 
                             if(playerinfo.ID != parseInt($("#userIID").val()))
@@ -277,6 +277,8 @@ window.onload = function () {
                         break;
                     case 909:{
                         var playerid = objgame.UserID;
+
+                        console.log('leave:'+gameuserdata[playerid]+' '+playerid);
 
                         var chatcontent;
                         chatcontent = "<div class='userchatstate'>";
