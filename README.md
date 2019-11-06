@@ -13,6 +13,7 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 6. 这个linux项目只作为一个通用的游戏服务器框架，不再接入具体的实际项目相关的需求。
 7. 网站后台管理功能，已经实现对玩家，游戏，服务器的管理和监控
 8. 机器人功能，在数据库配置好机器人后，机器人就可以使用了 
+9. 玩家无限制分成代理分销，充值，退款等功能
 
 #### 安装和编译
 首先我们要搭建好编译环境，推荐使用ubuntu server,然后安装好lamp环境，gcc,g++,makefile等等都要安装好，外部库主要使用了libmysql和libjson,如果编译时缺其它库就安装相应的库，另外代码是在codeblocks下编辑的，编译直接用makefile。
@@ -59,6 +60,7 @@ port=3306
 email:akinggw@126.com
 
 [截图预览]  
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net3.png)

@@ -1,0 +1,73 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">代理列表</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form search-from" method="get">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="username" placeholder="搜索代理名称">
+                    </div>
+                    <a class="layui-btn search_btn" data-type="reload" id="search_name">搜索</a>
+                </div>
+            </form>
+        </blockquote>
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm layui-btn-danger confirm layui-batch-all" data-href='{:url("delete")}' isMember="0">批量删除</a>
+    </div>
+</script>
+<script type="text/html" id="barTool">
+    <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs">编辑</a>
+    <a href='{:url("Divided")}?id={{ d.id }}' class="layui-btn layui-btn-xs">提现</a>
+    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use('table', function() {
+    var table = layui.table,
+        $ = layui.$,
+        form = layui.form;
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarDemo',
+        url: '{:url("agentuser/manage")}',
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 80, title: 'ID' },
+                { field: 'username', width: 130, title: '用户名' },
+                { field: 'agentlevel', width: 100, title: '代理等级' },
+                { field: 'parentusername', width: 120, title: '上级代理' },
+                { field: 'agentdivided', width: 100, title: '分成比例' },
+                { field: 'alipayname',  width: 150,title: '淘宝用户名' },
+                { field: 'alipayaccount', width: 150, title: '淘宝账号' },
+                { field: 'childagentcount', title: '代理数量' },
+                { field: 'childagentusercount', title: '会员数量' },
+                { field: 'thismothmoney', width: 100, title: '本月充值' },
+                { field: 'totalmothmoney', width: 100, title: '总充值' },
+                { field: 'money', width: 130, title: '总盈利' },
+                { fixed: 'right', width: 220, title: '操作', templet: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+    $("#search_name").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                username: $("#username").val()
+            }
+        })
+    });
+});
+</script>
+{/block}

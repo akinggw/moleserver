@@ -59,8 +59,9 @@ CREATE TABLE `mol_agentuser` (
   `agentdivided` int(3) NOT NULL DEFAULT '0',
   `alipayname` varchar(150) NOT NULL DEFAULT '',
   `alipayaccount` varchar(150) NOT NULL DEFAULT '',
+  `money` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +70,7 @@ CREATE TABLE `mol_agentuser` (
 
 LOCK TABLES `mol_agentuser` WRITE;
 /*!40000 ALTER TABLE `mol_agentuser` DISABLE KEYS */;
+INSERT INTO `mol_agentuser` VALUES (1,2,4,3,50,'test','test@126.com',50.00),(4,28,5,2,50,'test','test@ad.com',12.50),(5,27,0,1,50,'test','test@123.com',6.26);
 /*!40000 ALTER TABLE `mol_agentuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +164,7 @@ CREATE TABLE `mol_gamerecords` (
 
 LOCK TABLES `mol_gamerecords` WRITE;
 /*!40000 ALTER TABLE `mol_gamerecords` DISABLE KEYS */;
-INSERT INTO `mol_gamerecords` VALUES (1,2,-2,0,300001,1,'欢乐斗地主普通场','2019-10-22 13:38:24',0,0,4998,'',0,0),(2,2,-30,0,300001,1,'欢乐斗地主普通场','2019-10-31 23:02:17',0,0,4924,'',0,0),(3,2,-2,0,300001,1,'欢乐斗地主普通场','2019-11-04 10:59:05',0,1,4923,'',0,0),(4,2,6,0,300001,1,'欢乐斗地主普通场','2019-11-04 11:00:08',0,1,4929,'',0,0);
+INSERT INTO `mol_gamerecords` VALUES (1,2,-2,0,300001,1,'欢乐斗地主普通场','2019-10-22 13:38:24',0,0,4998,'',0,0),(2,2,-30,0,300001,1,'欢乐斗地主普通场','2019-10-31 23:02:17',0,0,4924,'',0,0),(3,28,-2,0,300001,1,'欢乐斗地主普通场','2019-11-04 10:59:05',0,1,4923,'',0,0),(4,28,6,0,300001,1,'欢乐斗地主普通场','2019-11-04 11:00:08',0,1,4929,'',0,0);
 /*!40000 ALTER TABLE `mol_gamerecords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +205,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,1,'2019-11-04 11:01:17',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-11-04 11:01:17',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,8 +311,42 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1572836258,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(27,0,'admin','9724b5e6c56b95f5723009ef81961bfe','','9724b5e6c56b95f5723009ef81961bfe','530765310@qq.com',0,'御宅男','','','','127.0.0.1',1572513665,NULL,1,0,'','',0,0),(28,0,'test2','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1572532833,1572534085,1,0,'','html5',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1572836258,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(27,0,'admin','9724b5e6c56b95f5723009ef81961bfe','','9724b5e6c56b95f5723009ef81961bfe','530765310@qq.com',0,'御宅男','','','','127.0.0.1',1572513665,NULL,1,0,'','',0,0),(28,0,'test2','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1572532833,1572534085,1,1,'','html5',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mol_rechargerecordes`
+--
+
+DROP TABLE IF EXISTS `mol_rechargerecordes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mol_rechargerecordes` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `orderid` varchar(30) NOT NULL,
+  `tradeid` varchar(30) NOT NULL,
+  `rechargedate` datetime NOT NULL,
+  `realmoney` decimal(11,2) NOT NULL,
+  `gamemoney` bigint(15) NOT NULL,
+  `type` int(1) NOT NULL,
+  `status` int(2) NOT NULL,
+  `remark` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid1` (`uid`),
+  KEY `uid2` (`uid`,`rechargedate`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mol_rechargerecordes`
+--
+
+LOCK TABLES `mol_rechargerecordes` WRITE;
+/*!40000 ALTER TABLE `mol_rechargerecordes` DISABLE KEYS */;
+INSERT INTO `mol_rechargerecordes` VALUES (1,28,'1234567','123444333','2019-11-06 11:00:00',10.00,1000,1,1,'');
+/*!40000 ALTER TABLE `mol_rechargerecordes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -410,6 +446,65 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'moleweb'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `agentuserdividedinto` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `agentuserdividedinto`(
+	in pmoney decimal(11,2),
+    in pagentuserid int(11),
+    in ptype int(1)
+	)
+agentuserdividedintoproc:begin
+    declare pparentuserid int;
+    declare pdividedmoney decimal(11,2);
+    declare pparentviciedemoney decimal(11,2);
+    declare pagentdivided int;
+    
+    select parentuserid into pparentuserid from mol_agentuser where id=pagentuserid;
+    
+    set pdividedmoney = 0.0;
+    set pparentviciedemoney = 0.0;
+    
+	select agentdivided into pagentdivided from mol_agentuser where id=pagentuserid;		
+	set pdividedmoney = pmoney*(pagentdivided/100.0);    
+
+    if pparentuserid = 0 then    
+		if ptype = 0 then
+			update mol_agentuser set money=money-pdividedmoney where id=pagentuserid;
+		else 
+			update mol_agentuser set money=money+pdividedmoney where id=pagentuserid;
+        end if;
+        
+        select(1);
+        leave agentuserdividedintoproc;	
+	else
+		select agentdivided into pagentdivided from mol_agentuser where id=pparentuserid;
+        
+        set pparentviciedemoney = pdividedmoney*(pagentdivided/100.0);
+        set pdividedmoney = pdividedmoney - pparentviciedemoney;
+        
+		if ptype = 0 then
+			update mol_agentuser set money=money-pdividedmoney where id=pagentuserid;
+		else 
+			update mol_agentuser set money=money+pdividedmoney where id=pagentuserid;
+        end if;        
+        
+		set max_sp_recursion_depth = 30;
+		call agentuserdividedinto(pparentviciedemoney,pparentuserid,ptype);
+    end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `delandroid` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -766,6 +861,54 @@ isrobotincontroltimesproc:begin
     CLOSE getrobotcontroltimes;    
     
     select(pendcollectdate);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `playerrechargemoney` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `playerrechargemoney`(
+	in puid int(11),
+    in porderid int(11),
+    in prealmoney decimal(11,2),
+    in ptype int(1)
+	)
+player_rechargemoneyproc:begin
+	declare pagentuserid int;
+    declare pporderid int;
+    
+    -- 首先检查是否存在这个订单
+    select count(id) into pporderid from mol_rechargerecordes where id=porderid;
+    
+    if pporderid <= 0 then
+        select(0);
+        leave player_rechargemoneyproc;	
+    end if;
+    
+    -- 更新订单状态
+    update mol_rechargerecordes set status=ptype where id=porderid; 
+
+	-- 检测这个玩家是否有代理，如果有代理，要进行代理分成
+    select ruid into pagentuserid from mol_member where uid=puid;
+    
+    if pagentuserid = 0 then 
+        select(0);
+        leave player_rechargemoneyproc;	
+    end if;
+    
+    call agentuserdividedinto(prealmoney,pagentuserid,ptype);
+    
+    select(1);
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1205,4 +1348,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-04 13:32:23
+-- Dump completed on 2019-11-06 15:01:03

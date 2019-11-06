@@ -55,6 +55,7 @@
 <script type="text/html" id="barTool">
     <a href='{:url("edit")}?id={{ d.uid }}' class="layui-btn layui-btn-xs">编辑</a>
     <a href='{:url("gamedata")}?id={{ d.uid }}' class="layui-btn layui-btn-xs">游戏数据</a>
+    <a href='{:url("agent")}?id={{ d.uid }}' class="layui-btn layui-btn-xs">成为代理</a>
     <a href='{:url("delete")}?ids={{ d.uid }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
 </script>
 {/block}
@@ -79,12 +80,12 @@ layui.use('table', function() {
                 { field: 'sex',  width: 100,title: '性别' },
                 { field: 'realname', width: 100, title: '昵称' },
                 { field: 'telephone', title: '手机号码' },
-                { field: 'ipaddress', width: 140, title: 'IP地址' },
+                { field: 'ipaddress', width: 110, title: 'IP地址' },
                 { field: 'createtime', width: 130, title: '注册时间' },
                 { field: 'lastlogintime', width: 130, title: '登录时间' },
-                { field: 'genable', width: 90, title: '是否封号' },
-                { field: 'curgamingstate', width: 90, title: '当前状态' },
-                { fixed: 'right', width: 220, title: '操作', templet: '#barTool' }
+                { field: 'genable', width: 80, title: '是否封号' },
+                { field: 'curgamingstate', width: 80, title: '当前状态' },
+                { fixed: 'right', width: 280, title: '操作', templet: '#barTool' }
             ]
         ],
         page: {}

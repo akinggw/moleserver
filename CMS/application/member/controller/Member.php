@@ -20,6 +20,7 @@ use app\member\model\Userdata as Userdata_Model;
 use app\member\model\androiduserinfo as AndroidUserInfo_Mode;
 use app\gameserver\model\gameroom as gameroom_Model;
 use app\gameserver\model\game as game_Model;
+use app\member\model\Agentuser as Agentuser_Model;
 use think\Db;
 
 class Member extends Adminbase
@@ -33,6 +34,7 @@ class Member extends Adminbase
         $this->AndroidUserInfo_Mode = new AndroidUserInfo_Mode;
         $this->gameroom_Model = new gameroom_Model;
         $this->game_Model = new game_Model;
+        $this->Agentuser_Model = new Agentuser_Model;
     }
 
     /**
@@ -145,6 +147,57 @@ class Member extends Adminbase
             }
 
             $this->assign("data", $data);
+            return $this->fetch();
+        }
+    }
+
+    /**
+     * 代理
+     */
+    public function agent()
+    {
+        if ($this->request->isPost()) {
+            $userid = $this->request->param('id/d', 0);
+            $data = $this->request->post();
+
+            //获取用户信息
+            $userinfo = $this->Agentuser_Model->where(["id" => $userid])->find();
+            if (empty($userinfo)) {
+                $this->error('该代理不存在！');
+            }
+
+            //更新除基本资料外的其他信息
+            if (false === $this->Agentuser_Model->allowField(true)->save($data, ['id' => $userid])) {
+                $this->error('更新失败！');
+            }
+            $this->success("更新成功！", url("member/manage"));
+
+        } else {
+            $userid = $this->request->param('id/d', 0);
+            $data = $this->Agentuser_Model->
+            where(["userid" => $userid])->
+            find();
+
+            if (empty($data)) {
+                $data['userid'] = $userid;
+                $data['parentuserid'] = 0;
+                $data['agentlevel'] = 1;
+
+                $this->Agentuser_Model->allowField(true)->save($data);
+
+                $data = $this->Agentuser_Model->
+                where(["userid" => $userid])->
+                find();
+            }
+
+            $agentdata = $this->Agentuser_Model->
+                join('member mb','mb.uid = mol_agentuser.userid','left')->
+                where('userid <>'.$userid)->
+                field('mol_agentuser.*,mb.username')->
+                select();
+
+            $this->assign("data", $data);
+            $this->assign('agentdata',$agentdata);
             return $this->fetch();
         }
     }

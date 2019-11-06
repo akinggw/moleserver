@@ -1,0 +1,45 @@
+{extend name="admin@index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">编辑代理</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">代理等级</label>
+                <div class="layui-input-inline">
+                    <select class="select" style="width: 150px; height: 31px;" name="agentlevel">
+                        <option value="1" {eq name="$data.agentlevel" value="1" }selected{/eq} >一级代理</option>
+                        <option value="2" {eq name="$data.agentlevel" value="2" }selected{/eq} >二级代理</option>
+                        <option value="3" {eq name="$data.agentlevel" value="3" }selected{/eq} >三级代理</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分成比例</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="agentdivided" lay-verify="required" autocomplete="off" placeholder="分成比例" class="layui-input" value="{$data.agentdivided}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">支付宝用户</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="alipayname" lay-verify="required" autocomplete="off" placeholder="支付宝用户" class="layui-input" value="{$data.alipayname}">
+                </div>
+            </div>
+             <div class="layui-form-item">
+                <label class="layui-form-label">支付宝账号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="alipayaccount" lay-verify="required" autocomplete="off" placeholder="支付宝账号" class="layui-input" value="{$data.alipayaccount}">
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="layui-form-item">
+                <div>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

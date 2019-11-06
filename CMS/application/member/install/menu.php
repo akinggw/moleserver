@@ -72,6 +72,29 @@ return [
                     ],
                 ],
             ],
+            [
+                "route" => "member/agentuser/index",
+                "type" => 1,
+                "status" => 1,
+                "name" => "代理管理",
+                "icon" => "icon-people",
+                "child" => [
+                    [
+                        "route" => "member/agentuser/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "代理列表",
+                        "icon" => "icon-huiyuan",
+                    ],
+                    [
+                        "route" => "member/userchongzhi/manage",
+                        "type" => 1,
+                        "status" => 1,
+                        "name" => "充值记录",
+                        "icon" => "icon-huiyuan",
+                    ],
+                ],
+            ],
         ],
     ],
 ];
