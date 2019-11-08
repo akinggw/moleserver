@@ -33,7 +33,8 @@ lamp环境的安装，以下以ubuntu server为例:
 
 测试地址:
 1. 后台测试地址：http://182.61.5.226/index.php/admin/index/login.html 账户密码admin admin
-2. 游戏测试地址: http://akinggw.gitee.io_moleserver
+2. 代理手机测试地址：http://cms.o4.com/agentuser/index/index.html
+3. 游戏测试地址: http://akinggw.gitee.io_moleserver
 
 其它说明:
 1. 首先下载下代码
@@ -60,6 +61,7 @@ port=3306
 email:akinggw@126.com
 
 [截图预览]  
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net5.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.png)

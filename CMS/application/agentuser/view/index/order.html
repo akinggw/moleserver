@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>充值订单</title>
+    <link href="__STATIC__/agentuser/css/wshop_company_center.css" type="text/css" rel="Stylesheet" />
+    <link href="__STATIC__/agentuser/css/weui.min.css" type="text/css" rel="Stylesheet" />
+    <script src="__STATIC__/libs/jquery/jquery.min.js"></script>
+    <script src="__STATIC__/agentuser/js/layer_mobile/layer.js"></script>
+</head>
+
+<body>
+<div class="listTopcaption">
+    <div class="holder">
+        <a class="listTopArrow"  onclick="history.go(-1)"></a>
+        <a class="listTopArrow home"  href="{:url('/agentuser/Index/index')}"></a>
+        <p>{$ordertitle}</p>
+    </div>
+</div>
+<div class="TopcaptionPos"></div>
+<div id="ulist">
+
+    {volist name="agent_order_info" id="order" empty="$empty"}
+    <section class="ulist clearfix">
+        <div class="info">
+            <p>玩家： <b>{$order.username}</b> 充值金额： <b>{$order.realmoney}</b> 充值日期： <b>{$order.rechargedate}</b></p>
+        </div>
+    </section>
+    {/volist}
+    
+</div>
+</body>
+</html>

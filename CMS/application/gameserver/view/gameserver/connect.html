@@ -120,12 +120,12 @@ function addchatuser(userid,username) {
 
 function delchatuser(userid) {
     var gameusers = document.getElementById("gameusers");
-    var selectOptions = gameusers.options;
-    var optionLength = selectOptions.length;
-    for(var i=0;i <optionLength-1;i++)
+
+    for(var i=0;i <gameusers.length;i++)
     {
-        if(selectOptions[i].getAttribute('value') == userid){
-            gameusers.removeChild(selectOptions[i]);
+        if(gameusers.options[i].value == userid){
+            gameusers.options.remove(i);
+            break;
         }
     }
 }

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>代理管理</title>
+    <link href="__STATIC__/agentuser/css/wshop_company_center.css" type="text/css" rel="Stylesheet" />
+    <link href="__STATIC__/agentuser/css/weui.min.css" type="text/css" rel="Stylesheet" />
+    <script src="__STATIC__/libs/jquery/jquery.min.js"></script>
+    <script src="__STATIC__/agentuser/js/layer_mobile/layer.js"></script>
+</head>
+
+<body>
+<div class="listTopcaption">
+    <div class="holder">
+        <a class="listTopArrow"  onclick="history.go(-1)"></a>
+        <a class="listTopArrow home"  href="{:url('/agentuser/Index/index')}"></a>
+        <p>我的代理</p>
+    </div>
+</div>
+<div class="TopcaptionPos"></div>
+<div class="comspreadstat clearfix">
+    <a href="{:url('Index/index?type=userinfo')}"><span class="spread-item">我的信息<b>{$agentuserinfo.username}</b></span></a>
+    <span class="spread-item">返点<b>{$agentuserinfo.agentdivided}%</b></span>
+    <span class="spread-item">已提现<b>0</b></span>
+    <span class="spread-item">总利润<b>{$agentuserinfo.money}</b></span>
+    <input type="hidden" name="agent_userid" value="{$agentuserinfo.id}">
+</div>
+<div class="comspreadstat clearfix">
+    <a href="{:url('Index/getAllagentuserlist')}"><span class="spread-item">代理列表<b>{$agentuserdata.childagentcount}</b></span></a>
+    <a href="{:url('Index/getAllagentuserlistinfo')}"><span class="spread-item">会员列表<b>{$agentuserdata.childagentusercount}</b></span></a>
+    <a href="{:url('Index/thismonthrecord?type=0')}"><span class="spread-item">本月充值<b>{$agentuserdata.totalmothmoney}</b></span></a>
+    <a href="{:url('Index/thismonthrecord?type=1')}"><span class="spread-item">上月充值<b>{$agentuserdata.thismothmoney}</b></span></a>
+</div>
+
+{if $type eq 'userinfo'}
+    <header class="Thead" style="padding-top: 5px;padding-bottom: 5px;">我的信息</header>
+    <div id="ulist" style="padding: 2px;">
+        <div class="info" style="text-align:left;padding: 6px">用户账号：<span style="color: #ff0000">{$agentuserinfo.username}</span> </div>
+        <div class="info" style="text-align:left;padding: 6px">上级代理：<span style="color: #ff0000">{if $agentuserinfo.lastagentuser eq ''}---无---{else} {$agentuserinfo.lastagentuser} {/if}</span> </div>
+        <div class="info" style="text-align:left;padding: 6px">代理等级：<span style="color: #ff0000">{if $agentuserinfo.agentlevel eq 1}一级代理{elseif $agentuserinfo.agentlevel eq 2}二级代理{else}三级代理{/if}</span> </div>
+        <div class="info" style="text-align:left;padding: 6px">分成比例：<span style="color: #ff0000">{$agentuserinfo.agentdivided}%</span> </div>
+        <div class="info" style="text-align:left;padding: 6px">淘宝用户：<input type="text" name="alipayname" style="width: 200px;display: inline;height: 22px" autocomplete="off" placeholder="淘宝用户名" value="{$agentuserinfo.alipayname}"></div>
+        <div class="info" style="text-align:left;padding: 6px">淘宝账号：<input type="text" name="alipayaccount" style="width: 200px;display: inline;height: 22px" autocomplete="off" placeholder="淘宝账号" value="{$agentuserinfo.alipayaccount}"></div>
+    </div>
+<div class="weui_btn_area">
+    <a class="weui_btn weui_btn_primary js_btn" id="updateuserinfo">修改资料</a>
+    <a class="weui_btn weui_btn_primary js_btn" id="userquit">安全退出</a>
+</div>
+{else}
+    <header class="Thead" style="padding-top: 5px;padding-bottom: 5px;">名下充值订单</header>
+    <div id="ulist">
+        {volist name="agent_order_info" id="order" empty="$empty"}
+        <section class="ulist clearfix">
+            <div class="info">
+                <p>玩家： <b>{$order.username}</b> 充值金额： <b>{$order.realmoney}</b> 充值日期： <b>{$order.rechargedate}</b></p>
+            </div>
+        </section>
+        {/volist}
+    </div>
+{/if}
+
+</body>
+<script>
+    window.onload = function layer_show(){
+        layer_load();
+    }
+
+    function layer_load() {
+        var machine_userid = $('input[name="agent_userid"]').val();
+
+        if(machine_userid <= 0)
+        {
+            layer.open({
+                title: [
+                    '代理商登录',
+                    'background-color:#8DCE16; color:#fff;'
+                ]
+                ,anim: 'up'
+                ,area: ['300px', '100px']
+                ,shadeClose: false
+                ,content: '<div>用户:&nbsp;<input style="width:151px;height:22px" name="username"></div><div>&nbsp;</div><div>密码:&nbsp;<input type="password" style="width:151px;height:22px" name="userpwd"></div>'
+                ,btn: ['确认登录']
+                ,yes: function(){
+
+                    var username=$('input[name="username"]').val();
+                    var userpwd=$('input[name="userpwd"]').val();
+
+                    $.post(
+                        '{:url("Index/userlogin")}',
+                        {
+                            username:username,
+                            userpwd:userpwd,
+                        },
+                        function(d){
+
+                            if(d.error){
+                                layer.open({
+                                    content: d.error
+                                    ,btn: '确定'
+                                    ,yes: function() { location=d.url; }
+                                });
+                            }
+
+                            if(d.success)
+                            {
+                                if(d.url){
+                                    location=d.url;
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    }
+
+    $('#userquit').click(function(){
+        $.post(
+            '{:url("Index/userquit")}',
+
+            function(d){
+                if(d.success)
+                {
+                    if(d.url){
+                        location=d.url;
+                    }
+                }
+
+                if(d.error){
+                    layer.open({
+                        content: d.error
+                        ,btn: '确定'
+                        ,yes: function() { location=d.url; }
+                    });
+                }
+            }
+        );
+    });
+
+    $('#updateuserinfo').click(function(){
+        var alipayname=$('input[name="alipayname"]').val();
+        var alipayaccount=$('input[name="alipayaccount"]').val();
+
+        $.post(
+            '{:url("Index/updateuserinfo")}',
+            {
+                alipayname:alipayname,
+                alipayaccount:alipayaccount,
+            },
+            function(d){
+                if(d.success)
+                {
+                    layer.open({
+                        content: d.success
+                        ,btn: '确定'
+                    });
+                }
+
+                if(d.error){
+                    layer.open({
+                        content: d.error
+                        ,btn: '确定'
+                    });
+                }
+            }
+        );
+    });
+</script>
+</html>
+

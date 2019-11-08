@@ -70,7 +70,7 @@ CREATE TABLE `mol_agentuser` (
 
 LOCK TABLES `mol_agentuser` WRITE;
 /*!40000 ALTER TABLE `mol_agentuser` DISABLE KEYS */;
-INSERT INTO `mol_agentuser` VALUES (1,2,4,3,50,'test','test@126.com',50.00),(4,28,5,2,50,'test','test@ad.com',12.50),(5,27,0,1,50,'test','test@123.com',6.26);
+INSERT INTO `mol_agentuser` VALUES (1,2,4,3,50,'test23','test123@126.com',50.00),(4,28,5,2,50,'test','test@ad.com',12.50),(5,27,0,1,50,'test','test@123.com',6.26);
 /*!40000 ALTER TABLE `mol_agentuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,7 +496,7 @@ agentuserdividedintoproc:begin
 			update mol_agentuser set money=money+pdividedmoney where id=pagentuserid;
         end if;        
         
-		set max_sp_recursion_depth = 30;
+		set max_sp_recursion_depth = 255;
 		call agentuserdividedinto(pparentviciedemoney,pparentuserid,ptype);
     end if;
 end ;;
@@ -1015,11 +1015,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `registergameuser`(
 	)
 registergameuserproc:begin
 	declare lastuserid int;
+    declare agentuserid int;
 	declare t_error int default 0;
 
 	declare continue handler for sqlexception set t_error=1; 
 	
 	set lastuserid = 0;
+    set agentuserid = 0;
 	
 	select uid into lastuserid from mol_member where username=pname;
 	
@@ -1027,11 +1029,13 @@ registergameuserproc:begin
 		select(lastuserid);
 		leave registergameuserproc;
 	end if;
+    
+    select id into agentuserid from mol_agentuser where mol_agentuser.userid = mol_member.uid and mol_member.username = preferrer;
 	
 	start transaction;
 
 	insert into mol_member (gtype,username,password,bankpassword,email,sex,realname,useravatar,telephone,ipaddress,createtime,ruid,identitycard) values(
-		0,pname,ppassword,ppassword,pemail,psex,prealname,puseravatar,ptelephone,pipaddress,unix_timestamp(NOW()),lastuserid,pid);
+		0,pname,ppassword,ppassword,pemail,psex,prealname,puseravatar,ptelephone,pipaddress,unix_timestamp(NOW()),agentuserid,pid);
 	
 	select LAST_INSERT_ID() into lastuserid; 	
     
@@ -1348,4 +1352,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-06 15:01:03
+-- Dump completed on 2019-11-08 17:20:27
