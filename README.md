@@ -15,6 +15,13 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 8. 机器人功能，在数据库配置好机器人后，机器人就可以使用了 
 9. 玩家无限制分成代理分销，充值，退款等功能
 
+#### 系列教程
+
+- [MoleServer游戏服务器框架使用教程（一） ](https://blog.csdn.net/akinggw/article/details/102985982)
+- [MoleServer游戏服务器框架使用教程（二） ](https://blog.csdn.net/akinggw/article/details/102986758)
+- [MoleServer游戏服务器框架使用教程（三） ](https://blog.csdn.net/akinggw/article/details/102987997)
+- [MoleServer游戏服务器框架使用教程（四） ](https://blog.csdn.net/akinggw/article/details/102988586)
+
 #### 安装和编译
 首先我们要搭建好编译环境，推荐使用ubuntu server,然后安装好lamp环境，gcc,g++,makefile等等都要安装好，外部库主要使用了libmysql和libjson,如果编译时缺其它库就安装相应的库，另外代码是在codeblocks下编辑的，编译直接用makefile。
 
@@ -63,6 +70,5 @@ email:akinggw@126.com
 [截图预览]  
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.png)
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net5.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.png)
 
