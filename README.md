@@ -63,6 +63,6 @@ email:akinggw@126.com
 [截图预览]  
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.png)
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net3.png)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net5.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.png)
 
