@@ -31,7 +31,7 @@
 </div>
 <div class="comspreadstat clearfix">
     <a href="{:url('Index/getAllagentuserlist')}"><span class="spread-item">代理列表<b>{$agentuserdata.childagentcount}</b></span></a>
-    <a href="{:url('Index/getAllagentuserlistinfo')}"><span class="spread-item">会员列表<b>{$agentuserdata.childagentusercount}</b></span></a>
+    <a href="{:url('Index/getAllagentuserlistinfo',array('agentuserid'=>$agentuserinfo.id))}"><span class="spread-item">会员列表<b>{$agentuserdata.childagentusercount}</b></span></a>
     <a href="{:url('Index/thismonthrecord?type=0')}"><span class="spread-item">本月充值<b>{$agentuserdata.totalmothmoney}</b></span></a>
     <a href="{:url('Index/thismonthrecord?type=1')}"><span class="spread-item">上月充值<b>{$agentuserdata.thismothmoney}</b></span></a>
 </div>

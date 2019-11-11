@@ -27,11 +27,94 @@
     {volist name="agentuserlistinfo" id="order" empty="$empty"}
     <section class="ulist clearfix">
         <div class="info">
-            <p>玩家： <b>{$order.username}</b> 代理： <b>{$order.ruid}</b> 注册日期： <b>{$order.createtime}</b></p>
+            {if $type eq 'agent'}
+                <p>玩家： <b>{$order.username}</b> 代理： <b>{$order.ruid}</b> 注册日期： <b>{$order.createtime}</b><a class="contentstyleme2" data-type="reload" id="agentuserdel" onclick="agentuserdel({$order.id})">删除代理</a></p>
+            {elseif $type eq 'agentuser'}
+                {if $order.id elt 0}
+                    <p>玩家： <b>{$order.username}</b> 代理： <b>{$order.ruid}</b> 注册日期： <b>{$order.createtime}</b><a class="contentstyleme2" data-type="reload" id="agentuserto" onclick="agentuserto({$order.uid},{$agentuserid})">成为代理</a></p>
+                {/if}
+            {/if}
         </div>
     </section>
     {/volist}
     
 </div>
 </body>
+<script>
+    function agentuserdel(id) {
+        $.post(
+            '{:url("Index/agentuserdel")}',
+            {
+                agentid:id,
+            },
+            function(d){
+
+                if(d.error){
+                    layer.open({
+                        content: d.error
+                        ,btn: '确定'
+                        ,yes: function() { location=d.url; }
+                    });
+                }
+
+                if(d.success)
+                {
+                    if(d.url){
+                        location=d.url;
+                    }
+                }
+            }
+        );
+    }
+
+   function agentuserto(uid,agentuserid) {
+       layer.open({
+           title: [
+               '代理商注册',
+               'background-color:#8DCE16; color:#fff;'
+           ]
+           ,anim: 'up'
+           ,area: ['300px', '100px']
+           ,shadeClose: true
+           ,content: '<div>分成比例:&nbsp;<input style="width:171px;height:22px" name="agentdivided"></div><div>&nbsp;</div><div>淘宝用户:&nbsp;<input style="width:171px;height:22px" name="alipayname"></div><div>&nbsp;</div><div>淘宝账号:&nbsp;<input style="width:171px;height:22px" name="alipayaccount"></div>'
+           ,btn: ['确认注册']
+           ,yes: function(){
+
+               var agentdivided=$('input[name="agentdivided"]').val();
+               var alipayname=$('input[name="alipayname"]').val();
+               var alipayaccount=$('input[name="alipayaccount"]').val();
+               var agentlevel=3;
+
+               $.post(
+                   '{:url("Index/agentuserto")}',
+                   {
+                       agentdivided:agentdivided,
+                       alipayname:alipayname,
+                       alipayaccount:alipayaccount,
+                       agentlevel:agentlevel,
+                       userid:uid,
+                       parentuserid:agentuserid,
+                   },
+                   function(d){
+
+                       if(d.error){
+                           layer.open({
+                               content: d.error
+                               ,btn: '确定'
+                               ,yes: function() { location=d.url; }
+                           });
+                       }
+
+                       if(d.success)
+                       {
+                           if(d.url){
+                               location=d.url;
+                           }
+                       }
+                   }
+               );
+           }
+       });
+    }
+</script>
 </html>

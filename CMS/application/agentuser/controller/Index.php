@@ -75,10 +75,15 @@ class Index extends Base
             $agentuserid = $agentlist[$index]['id'];
 
             $tmpcount = $this->Member_Model->
+            join('mol_agentuser au','au.userid=mol_member.uid','left')->
             where('ruid='.$agentuserid)->
-            count();
+            select();
 
-            $count = $count + $tmpcount;
+            foreach($tmpcount as $kk=>$vv) {
+                if($vv['id'] <= 0) {
+                    $count = $count + 1;
+                }
+            }
 
             $index = $index + 1;
         }
@@ -98,6 +103,7 @@ class Index extends Base
             $agentuserid = $agentlist[$index]['userid'];
 
             $tmpcount = $this->Member_Model->
+            join('mol_agentuser au','au.userid=mol_member.uid','left')->
             where('uid='.$agentuserid)->
             withAttr('createtime', function ($value, $data) {return time_format($value);})->
             withAttr('ruid',function($value,$data){
@@ -133,6 +139,7 @@ class Index extends Base
             $agentuserid = $agentlist[$index]['id'];
 
             $tmplist = $this->Member_Model->
+            join('mol_agentuser au','au.userid=mol_member.uid','left')->
             where('ruid='.$agentuserid)->
             select()->
             withAttr('createtime', function ($value, $data) {return time_format($value);})->
@@ -312,8 +319,8 @@ class Index extends Base
             $this->agentuserlist = [];
             $this->agentuserlistcount=0;
 
-            $this->agentuserlist[$this->agentuserlistcount] = $userinfo;
-            $this->agentuserlistcount=1;
+            //$this->agentuserlist[$this->agentuserlistcount] = $userinfo;
+           // $this->agentuserlistcount=1;
 
             $this->getAllagents($userinfo['id']);
 
@@ -323,6 +330,7 @@ class Index extends Base
         }
 
         $this->assign('empty','<span style=\'margin:10px 0 0 20px;display:block;\'>没有订单数据</span>');
+        $this->assign('type','agent');
         return $this->fetch('agentuserlistinfo');
     }
 
@@ -332,6 +340,7 @@ class Index extends Base
     public function getAllagentuserlistinfo()
     {
         $agentuserinfo = cookie('agent_user_info');
+        $agentuserid=input('param.agentuserid');
 
         if($agentuserinfo != null) {
             $agentuserinfoarray = json_decode($agentuserinfo, true);
@@ -355,6 +364,8 @@ class Index extends Base
         }
 
         $this->assign('empty','<span style=\'margin:10px 0 0 20px;display:block;\'>没有订单数据</span>');
+        $this->assign('agentuserid',$agentuserid);
+        $this->assign('type','agentuser');
         return $this->fetch('agentuserlistinfo');
     }
 
@@ -457,5 +468,51 @@ class Index extends Base
             cookie('agent_user_info',$userinfo);
             return ['success'=>'登录成功','url'=>url('Index/index')];
         }
+    }
+
+    /**
+     * 注册为代理商
+     */
+    public function agentuserto()
+    {
+        $data=input('post.');
+
+        if($data['agentdivided'] == null or $data['alipayname'] == null or $data['alipayaccount'] == null)
+        {
+            return ['error'=>'分成比例,淘宝账号不能为空!','url'=>url('Index/getallagentuserlistinfo')];
+        }
+
+        $userinfo = $this->Agentuser_Model->
+        where('userid="'.$data['uid'].'"')->
+        find();
+
+        if($userinfo != null)
+        {
+            return ['error'=>'当前用户已经是代理了，不能重复注册!','url'=>url('Index/getallagentuserlistinfo')];
+        }
+
+        if($this->Agentuser_Model->save($data))
+        {
+            return ['success'=>'代理注册成功','url'=>url('Index/index')];
+        }
+
+        return ['error'=>'代理注册失败!','url'=>url('Index/getallagentuserlistinfo')];
+    }
+
+    /**
+     * 删除代理
+     */
+    public function agentuserdel()
+    {
+        $data=input('post.');
+
+        if($this->Agentuser_Model->
+            where('id='.$data['agentid'])->
+            delete())
+        {
+            return ['success'=>'代理删除成功','url'=>url('Index/index')];
+        }
+
+        return ['error'=>'代理删除失败!','url'=>url('Index/getallagentuserlistinfo')];
     }
 }
