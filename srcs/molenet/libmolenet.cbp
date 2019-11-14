@@ -67,6 +67,11 @@
 		<Unit filename="../../include/molnet/netallocator/nedmalloc.h" />
 		<Unit filename="../../include/molnet/rc4.h" />
 		<Unit filename="../../include/molnet/recordset.h" />
+		<Unit filename="../../include/molnet/xredis/hiredis.h" />
+		<Unit filename="../../include/molnet/xredis/xLock.h" />
+		<Unit filename="../../include/molnet/xredis/xRedisClient.h" />
+		<Unit filename="../../include/molnet/xredis/xRedisClusterClient.h" />
+		<Unit filename="../../include/molnet/xredis/xRedisPool.h" />
 		<Unit filename="AtomicBoolean.cpp" />
 		<Unit filename="AtomicCounter.cpp" />
 		<Unit filename="AtomicULong.cpp" />
@@ -101,6 +106,17 @@
 		<Unit filename="network.cpp" />
 		<Unit filename="rc4.cpp" />
 		<Unit filename="recordset.cpp" />
+		<Unit filename="xredis/xRedisClient.cpp" />
+		<Unit filename="xredis/xRedisClient_connection.cpp" />
+		<Unit filename="xredis/xRedisClient_hashs.cpp" />
+		<Unit filename="xredis/xRedisClient_keys.cpp" />
+		<Unit filename="xredis/xRedisClient_lists.cpp" />
+		<Unit filename="xredis/xRedisClient_pubsub.cpp" />
+		<Unit filename="xredis/xRedisClient_sets.cpp" />
+		<Unit filename="xredis/xRedisClient_sortedsets.cpp" />
+		<Unit filename="xredis/xRedisClient_strings.cpp" />
+		<Unit filename="xredis/xRedisClusterClient.cpp" />
+		<Unit filename="xredis/xRedisPool.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -3,19 +3,32 @@ CPP = g++
 RM = rm -f
 
 ifeq ($(debug),1)
-	CFLAGS = -I ../../include/molnet -O0 -shared -g -Wall -fexceptions -fPIC -DLINUX -lpthread -lmysqlclient
+	CFLAGS = -I ../../include/molnet -O0 -shared -g -Wall -fexceptions -fPIC -DLINUX -lpthread -lmysqlclient -lhiredis
 else
-	CFLAGS = -I ../../include/molnet -O2 -shared -fexceptions -fPIC -DLINUX -lpthread -lmysqlclient
+	CFLAGS = -I ../../include/molnet -O2 -shared -fexceptions -fPIC -DLINUX -lpthread -lmysqlclient -lhiredis
 endif
 
 OBJDIR = objs
 BIN = ../../libs
 SRCS = ./netallocator/
 SRCS2 = ./html5/
+SRCXREDIS = ./xredis/
 OBJS = $(OBJDIR)/nedmalloc.o \
        $(OBJDIR)/NedAllocatorImpl.o \
 
 CPPOBJS = $(OBJDIR)/NedAllocatedObject.o \
+
+CPPOBJXREDIS = $(OBJDIR)/xRedisClient.o \
+			   $(OBJDIR)/xRedisClient_connection.o \
+			   $(OBJDIR)/xRedisClient_hashs.o \
+			   $(OBJDIR)/xRedisClient_keys.o \
+			   $(OBJDIR)/xRedisClient_lists.o \
+			   $(OBJDIR)/xRedisClient_pubsub.o \
+			   $(OBJDIR)/xRedisClient_sets.o \
+			   $(OBJDIR)/xRedisClient_sortedsets.o \
+			   $(OBJDIR)/xRedisClient_strings.o \
+			   $(OBJDIR)/xRedisClusterClient.o \
+			   $(OBJDIR)/xRedisPool.o \
 
 CPPOBJS3 = $(OBJDIR)/base64.o \
 					       $(OBJDIR)/sha.o \
@@ -48,7 +61,7 @@ CPPOBJS2 = $(OBJDIR)/AtomicBoolean.o \
 		   $(OBJDIR)/CTcpSocketClient.o \
 
 TARGET = $(BIN)/libmolnet.a
-$(TARGET):$(OBJDIR) $(BIN) $(OBJS) $(CPPOBJS) $(CPPOBJS2) $(CPPOBJS3)
+$(TARGET):$(OBJDIR) $(BIN) $(OBJS) $(CPPOBJS) $(CPPOBJS2) $(CPPOBJS3) $(CPPOBJXREDIS)
 #	$(CPP) -o $@ $(OBJDIR)/*.o $(CFLAGS)
 	ar -cr $(TARGET) $(OBJDIR)/*.o
 
@@ -63,9 +76,12 @@ $(OBJS):$(OBJDIR)/%.o:$(SRCS)%.c
 
 $(CPPOBJS):$(OBJDIR)/%.o:$(SRCS)%.cpp
 	$(CPP) -c $(CFLAGS) $< -o $@
-	
+
 $(CPPOBJS3):$(OBJDIR)/%.o:$(SRCS2)%.cpp
-	$(CPP) -c $(CFLAGS) $< -o $@	
+	$(CPP) -c $(CFLAGS) $< -o $@
+
+$(CPPOBJXREDIS):$(OBJDIR)/%.o:$(SRCXREDIS)%.cpp
+	$(CPP) -c $(CFLAGS) $< -o $@
 
 $(CPPOBJS2):$(OBJDIR)/%.o:%.cpp
 	$(CPP) -c $(CFLAGS) $< -o $@

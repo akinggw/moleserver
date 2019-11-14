@@ -32,6 +32,7 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 4. sudo apt-get install build-essential
 5. sudo apt-get install libmysqlclient-dev
 6. sudo apt-get install libjsoncpp-dev
+7. sudo apt-get install libhiredis-dev
 
 lamp环境的安装，以下以ubuntu server为例:
 1. sudo apt install apache2 -y
@@ -62,6 +63,7 @@ port=3306
 9. 后端运行启动方式:setsid ./account_server 1
 10. 编译代码直接在主目录直接执行make就可以了，如果要编译成debug版，只需要make debug=1就可以了，另外代码使用了codeblocks进行编辑和管理，但并没有使用codeblocks进行编译，而直接使用了makefile.
 11. 网站后台管理采用YznCMS,YznCMS基于thinkphp写成，二次开发简单快捷，具体安装方法在CMS目录下的readme文件中，后台初始用户名和密码都为admin，网站的配置说明在CMS目录下。因此在使用本框架之前最好先安装好LAMP环境。
+12. 有关于xredis的使用方法，请参考：https://gitee.com/0xsky/xredis
 
 #### 联系作者
 欢迎加QQ群交流:131296225
