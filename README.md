@@ -38,6 +38,7 @@ lamp环境的安装，以下以ubuntu server为例:
 1. sudo apt install apache2 -y
 2. sudo apt install mysql-server mysql-client
 3. sudo apt install php7.2-mysql php7.2-curl php7.2-json php7.2-cgi php7.2 libapache2-mod-php7.2 php7.2-gd 
+4. sudo apt install redis-server (可选)
 
 测试地址:
 1. 后台测试地址：http://182.61.5.226/index.php/admin/index/login.html 账户密码admin admin

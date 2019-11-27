@@ -5,5 +5,7 @@
 		<Project filename="games/example/game_example.cbp" />
 		<Project filename="accountserver/accountserver.cbp" />
 		<Project filename="srcs/molenet/libmolenet.cbp" />
+		<Project filename="games/lhd/lhd.cbp" />
+		<Project filename="games/lunpan/lunpan.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

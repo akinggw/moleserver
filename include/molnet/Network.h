@@ -1,6 +1,9 @@
 #ifndef Network
 #define Network
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 #include "common.h"
 #include "CircularBuffer.h"
 #include "Socket.h"
@@ -117,5 +120,7 @@ void System_Update(void);
 std::string GetIniSectionItem(const char* FileName,const char* Section,const char* Item);
 
 }
+
+#pragma clang diagnostic pop
 
 #endif // Network

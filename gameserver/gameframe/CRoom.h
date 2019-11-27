@@ -141,6 +141,7 @@ public:
 	virtual inline int GetLostPlayerCount(void) { return (int)m_lostPlayerList.size(); }
 	/// 清除掉线玩家列表中玩家
 	void ClearLostPlayerById(int id);
+
 	/// 清空当前房间数据
 	virtual void Clear(void);
 	/// 剔除指定的玩家，必须在游戏空闲时间才能剔除
@@ -151,6 +152,8 @@ public:
 	virtual void GameEnd(bool isupdateuserdata=true);
 	/// 游戏开始是调用
 	virtual void GameStart(void);
+    /// 更新指定玩家的数据
+    virtual void UpdateUserScore(Player *pPlayer);
 
 	/// 检测当前玩家输赢情况(2:表示玩家赢了；1：表示玩家输了；0：表示不输不赢随机）
 	virtual int IsUserWin(int64 *result = NULL, int64 *sysMax = NULL, int64 *sysMin = NULL, bool isUpdate = false);
@@ -209,8 +212,6 @@ private:
 	bool IsExistLostPlayer(int index);
 	/// 删除所有的定时器
 	void DeleteAllTimer(void);
-    /// 更新指定玩家的数据
-    void UpdateUserScore(Player *pPlayer);
 
 	//时间组件
 protected:

@@ -149,6 +149,7 @@ public:
 	virtual int GetPlayerIndex(uint32 connId) = 0;
 	/// 得到当前房间中掉线玩家人数
 	virtual inline int GetLostPlayerCount(void) = 0;
+
 	/// 清空当前房间数据
 	virtual void Clear(void) = 0;
 	/// 剔除指定的玩家，必须在游戏空闲时间才能剔除
@@ -159,6 +160,8 @@ public:
 	virtual void GameEnd(bool isupdateuserdata=true) = 0;
 	/// 游戏开始是调用
 	virtual void GameStart(void) = 0;
+    /// 更新指定玩家的数据
+    virtual void UpdateUserScore(Player *pPlayer) = 0;
 
 	/// 检测当前玩家输赢情况(2:表示玩家赢了；1：表示玩家输了；0：表示不输不赢随机）
 	virtual int IsUserWin(int64 *result = NULL, int64 *sysMax = NULL, int64 *sysMin = NULL, bool isUpdate = false) = 0;
