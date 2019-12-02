@@ -1,0 +1,39 @@
+[11:47][2019-12-02 11:47:17] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:47] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:47] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:47] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[14:09][2019-12-02 14:09:22] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[14:09] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[14:09] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[14:09] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[14:09] [BSC] GameFrameManager.cpp:236 OnProcessUserRegisterMes iS RUNNING3.
+[14:18][2019-12-02 14:18:55] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[14:18] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[14:18] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[14:18] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[14:19] [BSC] DBOperator.cpp:181 RegisterGameUser call registergameuser('test7','d0970714757783e6cf17b26fb8e2298f','test@126.com',0,'test7','','','','127.0.0.1','');
+[14:25] [BSC] DBOperator.cpp:181 RegisterGameUser call registergameuser('test6','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1','');
+[14:44][2019-12-02 14:44:55] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[14:44] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[14:44] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[14:44] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[16:20][2019-12-02 16:20:23] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[16:20] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[16:20] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[16:20] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[16:54][2019-12-02 16:54:20] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[16:54] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[16:54] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[16:54] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[17:03][2019-12-02 17:03:57] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[17:03] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[17:03] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[17:03] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[17:13][2019-12-02 17:13:23] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[17:13] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[17:13] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[17:13] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
+[17:24][2019-12-02 17:24:42] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[17:24] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[17:24] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[17:24] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...

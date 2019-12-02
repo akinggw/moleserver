@@ -1021,7 +1021,7 @@ registergameuserproc:begin
 	declare continue handler for sqlexception set t_error=1; 
 	
 	set lastuserid = 0;
-    set agentuserid = 0;
+    	set agentuserid = -1;
 	
 	select uid into lastuserid from mol_member where username=pname;
 	
@@ -1030,7 +1030,9 @@ registergameuserproc:begin
 		leave registergameuserproc;
 	end if;
     
-    select id into agentuserid from mol_agentuser where mol_agentuser.userid = mol_member.uid and mol_member.username = preferrer;
+    	if preferrer <> '' then
+		select id into agentuserid from mol_agentuser where mol_agentuser.userid = mol_member.uid and mol_member.username = preferrer;
+	end if;
 	
 	start transaction;
 

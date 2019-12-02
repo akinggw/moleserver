@@ -309,21 +309,21 @@ bool DBOperator::GetOnlineGameRooms(std::vector<tagGameRoom> &pgamerooms)
 	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
 	if(pRecord.isEmpty()) return false;
 
-	for(int i=0;i<pRecord.Count();i++)
+	for(int i=0;i<pRecord(0).rows();i++)
     {
         tagGameRoom ptagGameRoom;
-        ptagGameRoom.gameid = atoi(pRecord(i)(0,1).c_str());
-        ptagGameRoom.gamingtype = atoi(pRecord(i)(0,7).c_str());
-        ptagGameRoom.serverport = atoi(pRecord(i)(0,3).c_str());
-        ptagGameRoom.lastmoney = atol(pRecord(i)(0,8).c_str());
-        ptagGameRoom.pielement = atol(pRecord(i)(0,9).c_str());
-        ptagGameRoom.roomrevenue = atoi(pRecord(i)(0,10).c_str());
-        ptagGameRoom.tablecount = atoi(pRecord(i)(0,4).c_str());
-        ptagGameRoom.tableplayercount = atoi(pRecord(i)(0,5).c_str());
-        ptagGameRoom.state = atoi(pRecord(i)(0,14).c_str());
+        ptagGameRoom.gameid = atoi(pRecord(0)(i,1).c_str());
+        ptagGameRoom.gamingtype = atoi(pRecord(0)(i,7).c_str());
+        ptagGameRoom.serverport = atoi(pRecord(0)(i,3).c_str());
+        ptagGameRoom.lastmoney = atol(pRecord(0)(i,8).c_str());
+        ptagGameRoom.pielement = atol(pRecord(0)(i,9).c_str());
+        ptagGameRoom.roomrevenue = atoi(pRecord(0)(i,10).c_str());
+        ptagGameRoom.tablecount = atoi(pRecord(0)(i,4).c_str());
+        ptagGameRoom.tableplayercount = atoi(pRecord(0)(i,5).c_str());
+        ptagGameRoom.state = atoi(pRecord(0)(i,14).c_str());
 
-        strncpy(ptagGameRoom.serverip , pRecord(i)(0,6).c_str(),CountArray(ptagGameRoom.serverip));
-        strncpy(ptagGameRoom.servername , pRecord(i)(0,2).c_str(),CountArray(ptagGameRoom.servername));
+        strncpy(ptagGameRoom.serverip , pRecord(0)(i,6).c_str(),CountArray(ptagGameRoom.serverip));
+        strncpy(ptagGameRoom.servername , pRecord(0)(i,2).c_str(),CountArray(ptagGameRoom.servername));
 
         pgamerooms.push_back(ptagGameRoom);
     }
@@ -376,18 +376,18 @@ bool DBOperator::GetGameInfos(std::vector<GameDataInfo> &pGameDataInfos)
 	RecordSetList pRecord = m_DataProvider->execSql(sqlstr.str());
 	if(pRecord.isEmpty()) return false;
 
-	for(int i=0;i<pRecord.Count();i++)
+	for(int i=0;i<pRecord(0).rows();i++)
     {
         GameDataInfo pGameDataInfo;
-        pGameDataInfo.GameID = atoi(pRecord(i)(0,0).c_str());
-        pGameDataInfo.GameType = atoi(pRecord(i)(0,2).c_str());
-        pGameDataInfo.MaxVersion = atoi(pRecord(i)(0,3).c_str());
-        pGameDataInfo.GameState = atol(pRecord(i)(0,7).c_str());
-        pGameDataInfo.showindex = atol(pRecord(i)(0,8).c_str());
+        pGameDataInfo.GameID = atoi(pRecord(0)(i,0).c_str());
+        pGameDataInfo.GameType = atoi(pRecord(0)(i,2).c_str());
+        pGameDataInfo.MaxVersion = atoi(pRecord(0)(i,3).c_str());
+        pGameDataInfo.GameState = atol(pRecord(0)(i,7).c_str());
+        pGameDataInfo.showindex = atol(pRecord(0)(i,8).c_str());
 
-        strncpy(pGameDataInfo.GameName , pRecord(i)(0,1).c_str(),CountArray(pGameDataInfo.GameName));
-        strncpy(pGameDataInfo.ProcessName , pRecord(i)(0,4).c_str(),CountArray(pGameDataInfo.ProcessName));
-        strncpy(pGameDataInfo.GameLogo , pRecord(i)(0,5).c_str(),CountArray(pGameDataInfo.GameLogo));
+        strncpy(pGameDataInfo.GameName , pRecord(0)(i,1).c_str(),CountArray(pGameDataInfo.GameName));
+        strncpy(pGameDataInfo.ProcessName , pRecord(0)(i,4).c_str(),CountArray(pGameDataInfo.ProcessName));
+        strncpy(pGameDataInfo.GameLogo , pRecord(0)(i,5).c_str(),CountArray(pGameDataInfo.GameLogo));
 
         pGameDataInfos.push_back(pGameDataInfo);
     }

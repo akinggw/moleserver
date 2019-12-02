@@ -1,0 +1,8 @@
+[16:20][2019-12-02 16:20:35] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game2_server_normal.log'
+[16:20] [BSC] game_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[16:20] [BSC] game_server.cpp:80 main 游戏服务器龙虎斗普通场:ip:127.0.0.1,端口:3336 启动成功。
+[16:20] [BSC] game_server.cpp:82 main 服务器启动成功，开始处理...
+[16:57][2019-12-02 16:57:35] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game2_server_normal.log'
+[16:57] [BSC] game_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[16:57] [BSC] game_server.cpp:80 main 游戏服务器龙虎斗普通场:ip:127.0.0.1,端口:3336 启动成功。
+[16:57] [BSC] game_server.cpp:82 main 服务器启动成功，开始处理...

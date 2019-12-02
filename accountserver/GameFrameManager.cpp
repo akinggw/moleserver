@@ -180,6 +180,8 @@ void GameFrameManager::OnProcessUserRegisterMes(uint32 connId,Json::Value &mes)
 	std::string pReferrer = mes["Referrer"].asString();
 	std::string pcardnumber = mes["cardnumber"].asString();
 
+	if(pRealName.empty()) pRealName = pUserName;
+
 	// 如果用户名和密码太长，是不能注册的
 	if(pUserName.length() >= 20 || pUserPW.length() >= 50 || pReferrer.length() >= 20 ||
 		pUserName.empty() || pUserPW.empty())
