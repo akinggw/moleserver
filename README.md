@@ -74,4 +74,5 @@ email:akinggw@126.com
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.png)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen66.png)
 

@@ -309,10 +309,10 @@ void CServerLogicFrame::LoadServerConfig(void)
     m_carBeiLv[CARTYPE_HU] = json_object["hu"].asFloat();
     m_carBeiLv[CARTYPE_HONG] = json_object["he"].asFloat();
 
-	m_timegamestart=json_object['gamestart'].asInt();
-	m_timexiazhu=json_object['xiazhu'].asInt();
-	m_timekaipai=json_object['kaipai'].asInt();
-	m_timejiesuan=json_object['jiesuan'].asInt();
+	m_timegamestart=json_object["gamestart"].asInt();
+	m_timexiazhu=json_object["xiazhu"].asInt();
+	m_timekaipai=json_object["kaipai"].asInt();
+	m_timejiesuan=json_object["jiesuan"].asInt();
 }
 
 /// 统计指定玩家的下注总额
