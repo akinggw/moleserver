@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.28, for Linux (x86_64)
 --
 -- Host: localhost    Database: moleweb
 -- ------------------------------------------------------
--- Server version	5.7.27-0ubuntu0.18.04.1
+-- Server version	5.7.28-0ubuntu0.18.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `mol_accountserver` (
 
 LOCK TABLES `mol_accountserver` WRITE;
 /*!40000 ALTER TABLE `mol_accountserver` DISABLE KEYS */;
-INSERT INTO `mol_accountserver` VALUES (1,'验证服务器2',3333,'127.0.0.1','2019-11-04 11:00:01',0,0);
+INSERT INTO `mol_accountserver` VALUES (1,'验证服务器2',3333,'127.0.0.1','2019-12-05 11:56:20',0,0);
 /*!40000 ALTER TABLE `mol_accountserver` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `mol_agentuser` (
   `alipayaccount` varchar(150) NOT NULL DEFAULT '',
   `money` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `mol_agentuser` (
 
 LOCK TABLES `mol_agentuser` WRITE;
 /*!40000 ALTER TABLE `mol_agentuser` DISABLE KEYS */;
-INSERT INTO `mol_agentuser` VALUES (1,2,4,3,50,'test23','test123@126.com',50.00),(4,28,5,2,50,'test','test@ad.com',12.50),(5,27,0,1,50,'test','test@123.com',6.26);
+INSERT INTO `mol_agentuser` VALUES (1,2,0,3,50,'test23','test123@126.com',50.00),(4,22,1,2,50,'test','test@ad.com',12.50),(8,28,1,3,23,'adsfsad','2332423@sdaf.com',0.00);
 /*!40000 ALTER TABLE `mol_agentuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +119,7 @@ CREATE TABLE `mol_game` (
   `state` int(1) NOT NULL DEFAULT '0',
   `showindex` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=300002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=300004 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ CREATE TABLE `mol_game` (
 
 LOCK TABLES `mol_game` WRITE;
 /*!40000 ALTER TABLE `mol_game` DISABLE KEYS */;
-INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0,12);
+INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0,12),(300002,'龙虎斗',0,16777218,'libgame_lhd.so','lhdlog.png','haha',0,11),(300003,'神兽转盘',0,16777218,'libgame_sszp.so','sszplog.png','haha',0,10);
 /*!40000 ALTER TABLE `mol_game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `mol_gamerecords` (
   `agentmoney` bigint(15) NOT NULL DEFAULT '0',
   `curjetton` bigint(15) NOT NULL DEFAULT '0',
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,6 @@ CREATE TABLE `mol_gamerecords` (
 
 LOCK TABLES `mol_gamerecords` WRITE;
 /*!40000 ALTER TABLE `mol_gamerecords` DISABLE KEYS */;
-INSERT INTO `mol_gamerecords` VALUES (1,2,-2,0,300001,1,'欢乐斗地主普通场','2019-10-22 13:38:24',0,0,4998,'',0,0),(2,2,-30,0,300001,1,'欢乐斗地主普通场','2019-10-31 23:02:17',0,0,4924,'',0,0),(3,28,-2,0,300001,1,'欢乐斗地主普通场','2019-11-04 10:59:05',0,1,4923,'',0,0),(4,28,6,0,300001,1,'欢乐斗地主普通场','2019-11-04 11:00:08',0,1,4929,'',0,0);
 /*!40000 ALTER TABLE `mol_gamerecords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +195,7 @@ CREATE TABLE `mol_gameroom` (
   `gstate` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `gameid` (`gameid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +204,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-11-04 11:01:17',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,1,'2019-12-02 16:55:27',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0),(2,300002,'龙虎斗普通场',3336,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-05 11:57:28',0,0,'{\r\n\"long\":5.0,\r\n\"hu\":5.0,\r\n\"he\":5.0,\r\n\"gamestart\":5,\r\n\"xiazhu\":55,\r\n\"kaipai\":15,\r\n\"jiesuan\":5\r\n}',0),(3,300003,'神兽转盘普通场',3307,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-05 11:57:28',0,0,'{\r\n\"shangzhuangcount\":10,\r\n\"zhuangminmoney\":10000,\r\n\"qinglong\":20,\r\n\"baihu\":20,\r\n\"zhuque\":20,\r\n\"xuanwu\":20,\r\n\"xiaoqinglong\":5,\r\n\"xiaobaihu\":5,\r\n\"xiaofenghuang\":5,\r\n\"xiaowugui\":5,\r\n\"gamestart\":5,\r\n\"xiazhu\":55,\r\n\"kaipai\":15,\r\n\"jiesuan\":5\r\n}',0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +231,7 @@ CREATE TABLE `mol_gametotalmoney` (
 
 LOCK TABLES `mol_gametotalmoney` WRITE;
 /*!40000 ALTER TABLE `mol_gametotalmoney` DISABLE KEYS */;
-INSERT INTO `mol_gametotalmoney` VALUES (1,0,4,100,-100);
+INSERT INTO `mol_gametotalmoney` VALUES (1,0,404,100,-100);
 /*!40000 ALTER TABLE `mol_gametotalmoney` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +310,7 @@ CREATE TABLE `mol_member` (
 
 LOCK TABLES `mol_member` WRITE;
 /*!40000 ALTER TABLE `mol_member` DISABLE KEYS */;
-INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1572836258,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(27,0,'admin','9724b5e6c56b95f5723009ef81961bfe','','9724b5e6c56b95f5723009ef81961bfe','530765310@qq.com',0,'御宅男','','','','127.0.0.1',1572513665,NULL,1,0,'','',0,0),(28,0,'test2','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1572532833,1572534085,1,1,'','html5',0,0);
+INSERT INTO `mol_member` VALUES (2,0,'test','d0970714757783e6cf17b26fb8e2298f','/asdf/sadfsa.png','14e1b600b1fd579f47433b88e8d85291','test@126.com',0,'test12','','23423434','','127.0.0.1',1570688921,1575518107,1,0,'','html5',0,0),(22,1,'悲凉的小蘑菇','35fafcb81da97d05bb0d56cb3a2cf770','7.png','35fafcb81da97d05bb0d56cb3a2cf770','80484@163.com',1,'悲凉的小蘑菇 ','','','','66.141.188.142',1571207848,NULL,1,0,'','',0,0),(27,0,'admin','9724b5e6c56b95f5723009ef81961bfe','','9724b5e6c56b95f5723009ef81961bfe','530765310@qq.com',0,'御宅男','','','','127.0.0.1',1572513665,NULL,1,0,'','',0,0),(28,0,'test2','d0970714757783e6cf17b26fb8e2298f','','d0970714757783e6cf17b26fb8e2298f','',0,'','','','','127.0.0.1',1572532833,1572534085,1,1,'','html5',0,0);
 /*!40000 ALTER TABLE `mol_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -439,7 +438,7 @@ CREATE TABLE `mol_userdata` (
 
 LOCK TABLES `mol_userdata` WRITE;
 /*!40000 ALTER TABLE `mol_userdata` DISABLE KEYS */;
-INSERT INTO `mol_userdata` VALUES (2,4929,0,0,-72,0,7,4,2,1,1,0.5,0.25,-1,-1,0,0,0,13222,0,1),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(27,7888,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(28,6666,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0);
+INSERT INTO `mol_userdata` VALUES (2,5320,0,9,328,8,163,6,2,2,0,0.333333,0,-1,-1,0,0,0,0,0,0),(22,3695,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(27,7888,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(28,6666,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(37,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0),(38,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `mol_userdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1021,7 +1020,7 @@ registergameuserproc:begin
 	declare continue handler for sqlexception set t_error=1; 
 	
 	set lastuserid = 0;
-    	set agentuserid = -1;
+    set agentuserid = -1;
 	
 	select uid into lastuserid from mol_member where username=pname;
 	
@@ -1030,10 +1029,10 @@ registergameuserproc:begin
 		leave registergameuserproc;
 	end if;
     
-    	if preferrer <> '' then
+    if preferrer <> '' then
 		select id into agentuserid from mol_agentuser where mol_agentuser.userid = mol_member.uid and mol_member.username = preferrer;
 	end if;
-	
+    
 	start transaction;
 
 	insert into mol_member (gtype,username,password,bankpassword,email,sex,realname,useravatar,telephone,ipaddress,createtime,ruid,identitycard) values(
@@ -1354,4 +1353,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-08 17:20:27
+-- Dump completed on 2019-12-05 15:54:58
