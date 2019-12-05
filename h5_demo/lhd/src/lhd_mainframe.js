@@ -48,6 +48,10 @@ function starttimer(timenum) {
             clearInterval(v_game_timer_id);
         }
 
+        if(v_game_timer_current_time < 4) {
+            cc.audioEngine.playEffect(s_sound_clock, false);
+        }
+
         v_number_timer_sprite.setString(v_game_timer_current_time);
     },1000);
 }
@@ -85,6 +89,8 @@ function showcard(type,card,isshow) {
     var color = (tmp & 240) >> 4;
     var value = (tmp & 15);
 
+    cc.audioEngine.playEffect(s_sound_DispatchCard, false);
+
     var size = cc.director.getWinSize();
     v_card_result_sprite_anim.setPosition(size.width / 2, size.height / 2+130);
     v_card_result_sprite_anim.setVisible(isshow);
@@ -97,7 +103,14 @@ function showcard(type,card,isshow) {
                 v_card_result_sprite_anim.setVisible(!isshow);
                 v_card_result_sprite_xian.setVisible(isshow);
 
-                showcard(2,v_card_two_value,true);
+                cc.audioEngine.playEffect(v_sound_dians_list[value], false);
+
+                var p_timer_id = setInterval( function() {
+                    clearInterval(p_timer_id);
+
+                    showcard(2, v_card_two_value, true);
+                },500);
+
                 },v_card_result_sprite_anim);
             var moveTo = cc.moveTo(0.2, v_card_result_sprite_xian.getPosition());
             var seq = cc.sequence(moveTo, showPosition);
@@ -115,9 +128,26 @@ function showcard(type,card,isshow) {
                 v_card_result_sprite_anim.setVisible(!isshow);
                 v_card_result_sprite_zhuang.setVisible(isshow);
 
-                if(v_current_gaming_result == 0) ShowGameState(6,true);
-                else if(v_current_gaming_result == 1) ShowGameState(5,true);
-                else if(v_current_gaming_result == 2) ShowGameState(4,true);
+                cc.audioEngine.playEffect(v_sound_dians_list[value], false);
+
+                var p_timer_id = setInterval( function() {
+                    clearInterval(p_timer_id);
+
+                    if (v_current_gaming_result == 0) {
+                        ShowGameState(6, true);
+
+                        cc.audioEngine.playEffect(s_sound_DragonY, false);
+                    }
+                    else if (v_current_gaming_result == 1) {
+                        ShowGameState(5, true);
+
+                        cc.audioEngine.playEffect(s_sound_Tigery, false);
+                    }
+                    else if (v_current_gaming_result == 2) {
+                        ShowGameState(4, true);
+                    }
+                },2000);
+
             }, v_card_result_sprite_anim);
             var moveTo = cc.moveTo(0.2, v_card_result_sprite_zhuang.getPosition());
             var seq = cc.sequence(moveTo, showPosition);
@@ -175,7 +205,7 @@ function ShowGameState(type,isshow) {
             else if(type == 6) {
                 v_long_win_sprite.setVisible(!isshow);
             }
-        },10000);
+        },2000);
     }
 }
 
@@ -429,6 +459,20 @@ var CMainFrameLayer = cc.Layer.extend({
         //this.bgsprite.setScale(size.height / this.sprite.getContentSize().height);
         this.addChild(v_long_win_sprite, 19000);
 
+        v_sound_dians_list[0] = s_sound_1_dian;
+        v_sound_dians_list[1] = s_sound_2_dian;
+        v_sound_dians_list[2] = s_sound_3_dian;
+        v_sound_dians_list[3] = s_sound_4_dian;
+        v_sound_dians_list[4] = s_sound_5_dian;
+        v_sound_dians_list[5] = s_sound_6_dian;
+        v_sound_dians_list[6] = s_sound_7_dian;
+        v_sound_dians_list[7] = s_sound_8_dian;
+        v_sound_dians_list[8] = s_sound_9_dian;
+        v_sound_dians_list[9] = s_sound_10_dian;
+        v_sound_dians_list[10] = s_sound_11_dian;
+        v_sound_dians_list[11] = s_sound_12_dian;
+        v_sound_dians_list[12] = s_sound_13_dian;
+
         v_gameover_bg_sprite.setVisible(false);
         v_gameover_bg_lost_sprite.setVisible(false);
         v_gameover_bg_win_sprite.setVisible(false);
@@ -505,6 +549,8 @@ var CMainFrameLayer = cc.Layer.extend({
         this.s_50000_btn.setScale(1.2);
         this.s_50000_btn.setPosition(size.width / 2+339, size.height / 2-195);
 
+        cc.audioEngine.playMusic(s_sound_BGM_Room_4, true);
+
         //事件监听器
         var pigListener = cc.EventListener.create({
             //单击事件
@@ -559,7 +605,6 @@ function MenuItemProcess(obj) {
     if(v_user_mouse_isprocess == false)
         return;
 
-    clearalljettonsprites();
     m_MenuItemObjTag = obj.getTag();
 };
 
@@ -648,7 +693,7 @@ function MenuItemMousePro(touch,event) {
 
             var row1 = {};
             row1.MsgId = 1000;
-            row1.MsgSubId = 1004;
+            row1.MsgSubId = 1002;
             row1.CardType = index;
             row1.JettonMoney = m_MenuItemObjTag;
 
@@ -656,6 +701,8 @@ function MenuItemMousePro(touch,event) {
 
             m_myselfusermoney = m_myselfusermoney - m_MenuItemObjTag;
             v_user_money_text.setString(m_myselfusermoney);
+
+            cc.audioEngine.playEffect(s_sound_AddGold, false);
 
             break;
         }

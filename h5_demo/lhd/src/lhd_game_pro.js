@@ -159,8 +159,10 @@ function OnProcessGameSocketOnMessage(msg) {
                 }
             }
             else if(objgame.MsgSubId == 908) {
-                m_myselfusermoney = objgame.Money;
-                v_user_money_text.setString(m_myselfusermoney);
+                if(objgame.ID == m_myselfUserId) {
+                    m_myselfusermoney = objgame.Money;
+                    v_user_money_text.setString(m_myselfusermoney);
+                }
             }
         }
             break;
@@ -171,6 +173,8 @@ function OnProcessGameSocketOnMessage(msg) {
                     v_current_gaming_result = objgame.curGamingResult;
                     v_card_one_value = objgame.cardone;
                     v_card_two_value = objgame.cardtwo;
+
+                    cc.audioEngine.playEffect(s_sound_tingzhixiazhu, false);
 
                     showcard(1,v_card_one_value,true);
                     EnableMouseProcess(false);
@@ -186,9 +190,12 @@ function OnProcessGameSocketOnMessage(msg) {
                     if(m_myselfUserId == pplayerid) {
                         v_game_user_jetton_total = v_game_user_jetton_total + pMoney;
                     }
+                    else {
+                        GamingJetton(pCarType,pMoney);
+                    }
 
                     v_game_alluser_jetton_total = v_game_alluser_jetton_total + pMoney;
-                    GamingJetton(pCarType,pMoney);
+
                     showusergamingjettons();
                 }
                     break;
@@ -202,6 +209,16 @@ function OnProcessGameSocketOnMessage(msg) {
 
                     v_card_result_sprite_xian.setVisible(false);
                     v_card_result_sprite_zhuang.setVisible(false);
+
+                    if(usergamingresult > 0) {
+                        cc.audioEngine.playEffect(s_sound_EndWin, false);
+                    }
+                    else if(usergamingresult < 0) {
+                        cc.audioEngine.playEffect(s_sound_EndLost, false);
+                    }
+                    else {
+                        cc.audioEngine.playEffect(s_sound_EndDraw, false);
+                    }
 
                     showgameresult(usergamingresult,true);
                     ShowGamingResult();
@@ -231,6 +248,8 @@ function OnProcessGameSocketOnMessage(msg) {
                     EnableMouseProcess(true);
                     ShowGameState(3,true);
                     StartGamingTimer();
+
+                    cc.audioEngine.playEffect(s_sound_GameStart, false);
                 }
                     break;
                 case 1006: {

@@ -1364,7 +1364,7 @@ bool CRoom::WriteUserScore(int wChairID, int64 lScore, int64 lRevenue, enScoreKi
 											pPlayer->GetRoomId(),
 											pPlayer->GetChairIndex(),
 											pPlayer->GetMoney(),
-											"",
+											pgametip,
 											pAgentmoney,
 											pcurJetton);
 

@@ -42,10 +42,12 @@ void CServerLogicFrame::OnProcessPlayerRoomMes(int playerId,Json::Value &mes)
 
 			m_xiazhus[playerId][pCarType]+=pTempMoney;
 
+			Player *pPlayer = m_g_GameRoom->GetPlayer(playerId);
+
             Json::Value out;
             out["MsgId"] = IDD_MESSAGE_ROOM;
             out["MsgSubId"] = IDD_MESSAGE_ROOM_XIAZHU;
-            out["playerid"] = playerId;
+            out["playerid"] = (pPlayer != NULL ? pPlayer->GetID() : playerId);
             out["CarType"] = (int)pCarType;
             out["Money"] = (int)pTempMoney;
             m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);

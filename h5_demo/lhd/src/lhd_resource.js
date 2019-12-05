@@ -58,6 +58,35 @@ var s_reg_reg_2_sprite = "mainframe/reg_reg_2.png";
 var s_btnloginclose_1_sprite = "mainframe/btnloginclose_1.png";
 var s_btnloginclose_2_sprite = "mainframe/btnloginclose_2.png";
 
+var s_sound_BGM_Room_4 = "sounds/BGM_Room_4.mp3";
+var s_sound_AddGold = "sounds/AddGold.wav";
+var s_sound_clock = "sounds/clock.ogg";
+var s_sound_DispatchCard = "sounds/DispatchCard.wav";
+var s_sound_DragonY = "sounds/DragonY.wav";
+var s_sound_EndDraw = "sounds/EndDraw.wav";
+var s_sound_EndLost = "sounds/EndLost.wav";
+var s_sound_EndWin = "sounds/EndWin.wav";
+var s_sound_Equaly = "sounds/Equaly.wav";
+var s_sound_GameStart = "sounds/GameStart.wav";
+var s_sound_kaipai = "sounds/kaipai.wav";
+var s_sound_MENU = "sounds/MENU.wav";
+var s_sound_Tigery = "sounds/Tigery.wav";
+var s_sound_tingzhixiazhu = "sounds/tingzhixiazhu.wav";
+var s_sound_youxikaishi = "sounds/youxikaishi.wav";
+var s_sound_1_dian = "sounds/1dian.wav";
+var s_sound_2_dian = "sounds/2dian.wav";
+var s_sound_3_dian = "sounds/3dian.wav";
+var s_sound_4_dian = "sounds/4dian.wav";
+var s_sound_5_dian = "sounds/5dian.wav";
+var s_sound_6_dian = "sounds/6dian.wav";
+var s_sound_7_dian = "sounds/7dian.wav";
+var s_sound_8_dian = "sounds/8dian.wav";
+var s_sound_9_dian = "sounds/9dian.wav";
+var s_sound_10_dian = "sounds/10dian.wav";
+var s_sound_11_dian = "sounds/11dian.wav";
+var s_sound_12_dian = "sounds/12dian.wav";
+var s_sound_13_dian = "sounds/13dian.wav";
+
 var g_resources = [
     s_bgsprite,
     s_100_1_sprite,
@@ -113,5 +142,35 @@ var g_resources = [
     s_reg_reg_1_sprite,
     s_reg_reg_2_sprite,
     s_btnloginclose_1_sprite,
-    s_btnloginclose_2_sprite
+    s_btnloginclose_2_sprite,
+
+    s_sound_BGM_Room_4,
+    s_sound_AddGold,
+    s_sound_clock,
+    s_sound_DispatchCard,
+    s_sound_DragonY,
+    s_sound_Tigery,
+    s_sound_EndDraw,
+    s_sound_EndLost,
+    s_sound_EndWin,
+    s_sound_Equaly,
+    s_sound_GameStart,
+    s_sound_kaipai,
+    s_sound_MENU,
+    s_sound_tingzhixiazhu,
+    s_sound_youxikaishi,
+
+    s_sound_1_dian,
+    s_sound_2_dian,
+    s_sound_3_dian,
+    s_sound_4_dian,
+    s_sound_5_dian,
+    s_sound_6_dian,
+    s_sound_7_dian,
+    s_sound_8_dian,
+    s_sound_9_dian,
+    s_sound_10_dian,
+    s_sound_11_dian,
+    s_sound_12_dian,
+    s_sound_13_dian
 ];

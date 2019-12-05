@@ -50,6 +50,7 @@ var v_current_gaming_result = 0;
 var v_gaming_result_vector = [];
 var v_game_user_jetton_total = 0;
 var v_game_alluser_jetton_total = 0;
+var v_sound_dians_list = [];
 
 function getCirclePosition3(angle,radius,center,isfan) {
     var pangle = angle*3.14159265359/180;
