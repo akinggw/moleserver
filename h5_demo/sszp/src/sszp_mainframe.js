@@ -717,8 +717,13 @@ var CSszpScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
+        var size = cc.director.getWinSize();
+
         m_MainFrameLayer = new CMainFrameLayer();
         this.addChild(m_MainFrameLayer);
+        m_MainFrameLayer.setAnchorPoint(0, 0);
+        m_MainFrameLayer.setPosition(0, size.height);
+        m_MainFrameLayer.setRotation(90);        
         m_MainFrameLayer.init();
     }
 });
