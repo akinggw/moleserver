@@ -11,6 +11,8 @@ cc.game.onStart = function(){
     }else{
         cc.loader.resPath = "res";
     }
+
+    cc.view.enableAutoFullScreen(true);
     cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
     cc.view.enableRetina(false);
     cc.view.adjustViewPort(true);
