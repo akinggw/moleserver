@@ -75,9 +75,10 @@ int CZhuangManager::OnProcessGameStart(void)
 	if(m_curZhuangId != -1 &&
 		m_curShangZhuangCount == m_totalShangZhuangCount)
 	{
-		CMolMessageOut out(IDD_MESSAGE_ROOM);
-		out.write16(IDD_MESSAGE_ROOM_XIAZHUANG);
-		out.write16(1);
+        Json::Value out;
+        out["MsgId"] = IDD_MESSAGE_ROOM;
+        out["MsgSubId"] = IDD_MESSAGE_ROOM_XIAZHUANG;
+        out["State"] = 1;
 		m_g_myselfRoom->SendTableMsg(m_curZhuangId,out);
 	}
 

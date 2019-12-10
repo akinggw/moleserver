@@ -13,6 +13,7 @@ BIN = ../../bin/games
 CPPOBJS = $(OBJDIR)/ServerLogicModule.o \
        $(OBJDIR)/cserverlogicframe.o \
        $(OBJDIR)/GameLogic.o \
+       $(OBJDIR)/czhuangmanager.o \
        $(OBJDIR)/crobotlogicframe.o \
        $(OBJDIR)/CServerServiceManager.o \
 

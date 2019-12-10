@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e9120ea1-bce3-4083-8397-5b30c7862fcf" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-474481717">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.3" value="2" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="html" value="1" />
+          <entry key="js" value="10" />
+          <entry key="json" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="1" />
+          <entry key="JSON" value="1" />
+          <entry key="JavaScript" value="10" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="html" value="7" />
+          <entry key="js" value="6358" />
+          <entry key="json" value="40" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="7" />
+          <entry key="JSON" value="40" />
+          <entry key="JavaScript" value="6358" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="-344117357">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="22" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="11" />
+          <entry key="project.open.time.2" value="7" />
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.24" value="1" />
+          <entry key="project.open.time.31" value="1" />
+          <entry key="project.open.time.39" value="2" />
+          <entry key="project.opened" value="24" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="js" value="25" />
+          <entry key="json" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JSON" value="1" />
+          <entry key="JavaScript" value="25" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="html" value="5" />
+          <entry key="js" value="9832" />
+          <entry key="json" value="210" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="5" />
+          <entry key="JSON" value="210" />
+          <entry key="JavaScript" value="9832" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="-1932530783">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="8" />
+          <entry key="project.open.time.1" value="5" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.28" value="1" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.opened" value="8" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="html" value="4" />
+          <entry key="js" value="5529" />
+          <entry key="json" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="4" />
+          <entry key="JSON" value="4" />
+          <entry key="JavaScript" value="5529" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="js" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JavaScript" value="6" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sszp_mainframe.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="482">
+              <caret line="750" column="54" lean-forward="true" selection-start-line="750" selection-start-column="54" selection-end-line="750" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sszp_resource.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="1" column="19" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sszp_game_pro.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="287">
+              <caret line="234" column="78" lean-forward="true" selection-start-line="234" selection-start-column="78" selection-end-line="234" selection-end-column="78" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sszp_account_pro.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6707">
+              <caret line="353" column="44" lean-forward="true" selection-start-line="353" selection-start-column="44" selection-end-line="353" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>splitStr</find>
+      <find>v_MainLoginlayer</find>
+      <find>m_userloginpassword_str</find>
+      <find>alert</find>
+      <find>v_user_game_jushu</find>
+      <find>v_user_mouse_isprocess</find>
+      <find>v_game_waiting_sprite</find>
+      <find>v_game_record_sprite_long_count</find>
+      <find>v_current_gaming_result</find>
+      <find>m_myselfusermoney</find>
+      <find>v_GamingState_sprite_one</find>
+      <find>state_kaipai.png</find>
+      <find>CLoginLayer</find>
+      <find>showcard</find>
+      <find>console.info</find>
+      <find>v_card_result_sprite_xian.setTextureRect</find>
+      <find>v_card_result_sprite_anim</find>
+      <find>m_MenuItemObjTag</find>
+      <find>v_game_jetton_long_total</find>
+      <find>clearalljettonsprites</find>
+      <find>CMainFrameLayer</find>
+      <find>m_curShowAnimFrame</find>
+      <find>m_curDecPosition</find>
+      <find>SSZP_CARDTYPE_QINGLONG</find>
+      <find>setColor</find>
+      <find>v_game_record_sprite_list</find>
+      <find>m_all_jettonsprites</find>
+      <find>m_labelallJettons</find>
+      <find>m_myselfUserId</find>
+      <find>addvaluetogamerecord</find>
+    </findStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/wxhh_mainframe.js" />
+        <option value="$PROJECT_DIR$/src/wxhh_resource.js" />
+        <option value="$PROJECT_DIR$/src/lunpan_resource.js" />
+        <option value="$PROJECT_DIR$/src/lunpan_mainframe.js" />
+        <option value="$PROJECT_DIR$/src/lhd_network.js" />
+        <option value="$PROJECT_DIR$/src/lhd_account_pro.js" />
+        <option value="$PROJECT_DIR$/src/lhd_common.js" />
+        <option value="$PROJECT_DIR$/src/lhd_game_pro.js" />
+        <option value="$PROJECT_DIR$/src/lhd_mainframe.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/src/lhd_resource.js" />
+        <option value="$PROJECT_DIR$/project.json" />
+        <option value="$PROJECT_DIR$/cocos2d-js-v3.6-min.js" />
+        <option value="$PROJECT_DIR$/src/sszp_common.js" />
+        <option value="$PROJECT_DIR$/src/sszp_resource.js" />
+        <option value="$PROJECT_DIR$/src/sszp_account_pro.js" />
+        <option value="$PROJECT_DIR$/src/sszp_game_pro.js" />
+        <option value="$PROJECT_DIR$/src/sszp_mainframe.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="27" />
+    <option name="width" value="1880" />
+    <option name="height" value="750" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="sszp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sszp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sszp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sszp" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sszp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sszp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e9120ea1-bce3-4083-8397-5b30c7862fcf" name="Default Changelist" comment="" />
+      <created>1574327460473</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574327460473</updated>
+      <workItem from="1574327461955" duration="1312000" />
+      <workItem from="1574382887017" duration="1144000" />
+      <workItem from="1574558657935" duration="6635000" />
+      <workItem from="1574566096678" duration="15306000" />
+      <workItem from="1574650577746" duration="3621000" />
+      <workItem from="1574655598667" duration="4098000" />
+      <workItem from="1574666660664" duration="5481000" />
+      <workItem from="1574727892499" duration="15747000" />
+      <workItem from="1574820549835" duration="5658000" />
+      <workItem from="1574834924698" duration="237000" />
+      <workItem from="1574835338423" duration="7112000" />
+      <workItem from="1574901309310" duration="10822000" />
+      <workItem from="1574987364600" duration="730000" />
+      <workItem from="1574991435546" duration="10668000" />
+      <workItem from="1575073514515" duration="18066000" />
+      <workItem from="1575246993175" duration="18679000" />
+      <workItem from="1575274871120" duration="1970000" />
+      <workItem from="1575276935861" duration="1150000" />
+      <workItem from="1575349974364" duration="8962000" />
+      <workItem from="1575438068870" duration="5548000" />
+      <workItem from="1575448291518" duration="372000" />
+      <workItem from="1575449094609" duration="37000" />
+      <workItem from="1575449227276" duration="443000" />
+      <workItem from="1575449732473" duration="95000" />
+      <workItem from="1575450046015" duration="1892000" />
+      <workItem from="1575511461536" duration="1250000" />
+      <workItem from="1575517981159" duration="60000" />
+      <workItem from="1575530580360" duration="218000" />
+      <workItem from="1575594865695" duration="9787000" />
+      <workItem from="1575618232022" duration="3026000" />
+      <workItem from="1575678838618" duration="3640000" />
+      <workItem from="1575689260893" duration="9354000" />
+      <workItem from="1575852487686" duration="23999000" />
+      <workItem from="1575938783427" duration="8661000" />
+      <workItem from="1575947769925" duration="4314000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="210094000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="27" width="1920" height="972" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1890625" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/wxhh_mainframe.js" />
+    <entry file="file://$PROJECT_DIR$/src/wxhh_resource.js" />
+    <entry file="file://$PROJECT_DIR$/res/loading.js" />
+    <entry file="file://$PROJECT_DIR$/src/lunpan_resource.js" />
+    <entry file="file://$PROJECT_DIR$/src/lunpan_mainframe.js" />
+    <entry file="file://$PROJECT_DIR$/src/lhd_network.js" />
+    <entry file="file://$PROJECT_DIR$/NoSleep.min.js" />
+    <entry file="file://$PROJECT_DIR$/src/loading.js" />
+    <entry file="file://$PROJECT_DIR$/src/md5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1215" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lhd_mainframe.js" />
+    <entry file="file://$PROJECT_DIR$/src/lhd_account_pro.js" />
+    <entry file="file://$PROJECT_DIR$/src/lhd_common.js" />
+    <entry file="file://$PROJECT_DIR$/src/lhd_game_pro.js" />
+    <entry file="file://$PROJECT_DIR$/src/lhd_resource.js" />
+    <entry file="file://$PROJECT_DIR$/src/js.cookie.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cocos2d-js-v3.6-min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="413" column="243" selection-start-line="413" selection-start-column="243" selection-end-line="413" selection-end-column="243" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sszp_account_pro.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6707">
+          <caret line="353" column="44" lean-forward="true" selection-start-line="353" selection-start-column="44" selection-end-line="353" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sszp_common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sszp_game_pro.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="234" column="78" lean-forward="true" selection-start-line="234" selection-start-column="78" selection-end-line="234" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sszp_resource.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sszp_mainframe.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="750" column="54" lean-forward="true" selection-start-line="750" selection-start-column="54" selection-end-line="750" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

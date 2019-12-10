@@ -125,10 +125,12 @@ void CServerLogicFrame::OnProcessPlayerRoomMes(int playerId,Json::Value &mes)
 						}
 					}
 
+					Player *pPlayer = m_g_GameRoom->GetPlayer(playerId);
+
                     Json::Value out;
                     out["MsgId"] = IDD_MESSAGE_ROOM;
                     out["MsgSubId"] = IDD_MESSAGE_ROOM_XIAZHU;
-                    out["playerId"] = playerId;
+                    out["playerId"] = (pPlayer == NULL ? playerId : pPlayer->GetID());
                     out["CardType"] = (int)pYaZhuType;
                     out["Money"] = (int)pTempMoney;
                     out["state"] = 1;
@@ -249,10 +251,10 @@ void CServerLogicFrame::OnProcessEnterRoomMsg(int playerId)
 
     Json::Value arrayObj2;
 	std::map<tagCardType, int>::iterator iter = m_carBeiLv.begin();
-	for (; iter != m_carBeiLv.end(); ++iter)
+	for (int i=0; iter != m_carBeiLv.end(); ++iter,i++)
 	{
-        arrayObj2["CardType"] = (*iter).first;
-        arrayObj2["BeiLv"] = (*iter).second;
+        arrayObj2[i]["CardType"] = (*iter).first;
+        arrayObj2[i]["BeiLv"] = (*iter).second;
 	}
 	out["BeiLvs"] = arrayObj2;
 
@@ -407,7 +409,7 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 	{
 		m_g_GameRoom->StopTimer(IDD_TIMER_GAME_KAIPAI);
 
-		if((int)m_GameRecords.size() >= 30)
+		if((int)m_GameRecords.size() >= 9)
 			m_GameRecords.erase(m_GameRecords.begin());
 
 		m_GameRecords.push_back(m_curGamingResult);

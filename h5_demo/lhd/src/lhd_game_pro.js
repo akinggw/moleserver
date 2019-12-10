@@ -46,7 +46,7 @@ function OnProcessGameSocketOnOpen() {
 
     last_health_game = new Date();
     clearInterval(keepalivetimer_game);
-    keepalivetimer_game = setInterval( function(){keepalive_account(m_gameserversocket)},1000);
+    keepalivetimer_game = setInterval( function(){keepalive_game(m_gameserversocket)},1000);
 }
 
 function ShowGameStateImage() {
