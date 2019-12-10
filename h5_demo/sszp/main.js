@@ -18,15 +18,6 @@ cc.game.onStart = function(){
     //cc.view.enableRetina(false);
     cc.view.resizeWithBrowserSize(true);
 
-    if(!cc.sys.isNative)
-    {
-        var cb = function(event)
-        {
-        };
-
-        cc.screen.autoFullScreen(document.getElementById("gameCanvas"), cb);
-    }
-
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
         cc.director.runScene(new CSszpScene());
