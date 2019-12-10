@@ -15,8 +15,17 @@ cc.game.onStart = function(){
     cc.view.adjustViewPort(true);
     cc.view.enableAutoFullScreen(true);
     cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
-    cc.view.enableRetina(false);
+    //cc.view.enableRetina(false);
     cc.view.resizeWithBrowserSize(true);
+
+    if(!cc.sys.isNative)
+    {
+        var cb = function(event)
+        {
+        };
+
+        cc.screen.autoFullScreen(document.getElementById("gameCanvas"), cb);
+    }
 
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
