@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>神兽转盘H5</title>
     <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
-    <meta name="viewport" content="width=801,user-scalable=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="full-screen" content="yes"/>
-    <meta name="screen-orientation" content="portrait"/>
+    <meta name="screen-orientation" content="landscape"/>
+    <meta name="x5-orientation" content="landscape">
     <meta name="x5-fullscreen" content="true"/>
     <meta name="360-fullscreen" content="true"/>
     <style>
@@ -25,29 +26,4 @@
 <body style="padding:0; margin: 0; background: #000;">
 <canvas id="gameCanvas" width="800" height="480"></canvas>
 </body>
-<script>
-    var detectOrient = function() {
-        var width = document.documentElement.clientWidth,
-            height = document.documentElement.clientHeight,
-            wrapper = document.getElementById("gameCanvas"),
-            style = "";
-        if(width >= height) { // 竖屏
-            style += "width:100%";
-            style += "height:100%;";
-            style += "-webkit-transform: rotate(0); transform: rotate(0);";
-            style += "-webkit-transform-origin: 0 0;";
-            style += "transform-origin: 0 0;";
-        } else { // 横屏
-            style += "width:" + height + "px;";// 注意旋转后的宽高切换
-            style += "height:" + width + "px;";
-            style += "-webkit-transform: rotate(90deg); transform: rotate(90deg);";
-            // 注意旋转中点的处理
-            style += "-webkit-transform-origin: " + width / 2 + "px " + width / 2 + "px;";
-            style += "transform-origin: " + width / 2 + "px " + width / 2 + "px;";
-        }
-        wrapper.style.cssText = style;
-    }
-    window.onresize = detectOrient;
-    detectOrient();
-</script>
 </html>
