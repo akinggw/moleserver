@@ -13,7 +13,7 @@ cc.game.onStart = function(){
     }
 
     cc.view.enableAutoFullScreen(true);
-    cc.view.setDesignResolutionSize(designSize.height,designSize.width, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
     cc.view.enableRetina(false);
     cc.view.adjustViewPort(true);
     cc.view.resizeWithBrowserSize(true);

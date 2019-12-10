@@ -720,7 +720,6 @@ var CSszpScene = cc.Scene.extend({
         m_MainFrameLayer = new CMainFrameLayer();
         this.addChild(m_MainFrameLayer);
         m_MainFrameLayer.init();
-        m_MainFrameLayer.setRotation(90);
     }
 });
 
