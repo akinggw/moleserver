@@ -25,4 +25,29 @@
 <body style="padding:0; margin: 0; background: #000;">
 <canvas id="gameCanvas" width="800" height="480"></canvas>
 </body>
+<script>
+    var detectOrient = function() {
+        var width = document.documentElement.clientWidth,
+            height = document.documentElement.clientHeight,
+            wrapper = document.getElementById("gameCanvas"),
+            style = "";
+        if(width >= height) { // 竖屏
+            style += "width:100%";
+            style += "height:100%;";
+            style += "-webkit-transform: rotate(0); transform: rotate(0);";
+            style += "-webkit-transform-origin: 0 0;";
+            style += "transform-origin: 0 0;";
+        } else { // 横屏
+            style += "width:" + height + "px;";// 注意旋转后的宽高切换
+            style += "height:" + width + "px;";
+            style += "-webkit-transform: rotate(90deg); transform: rotate(90deg);";
+            // 注意旋转中点的处理
+            style += "-webkit-transform-origin: " + width / 2 + "px " + width / 2 + "px;";
+            style += "transform-origin: " + width / 2 + "px " + width / 2 + "px;";
+        }
+        wrapper.style.cssText = style;
+    }
+    window.onresize = detectOrient;
+    detectOrient();
+</script>
 </html>
