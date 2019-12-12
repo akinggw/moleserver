@@ -7,6 +7,7 @@ ifeq ($(debug),1)
 	cd ./games/lhd && make clean && make debug=1
 	cd ./games/lunpan && make clean && make debug=1
 	cd ./games/sszp && make clean && make debug=1
+	cd ./games/bcbm && make clean && make debug=1
 else
 	cd ./srcs/molenet && make clean && make
 	cd ./accountserver && make clean && make
@@ -15,5 +16,6 @@ else
 	cd ./games/lhd && make clean && make
 	cd ./games/lunpan && make clean && make
 	cd ./games/sszp && make clean && make
+	cd ./games/bcbm && make clean && make
 endif
 $(info,"project compile succeed.")

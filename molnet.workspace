@@ -8,5 +8,6 @@
 		<Project filename="games/lhd/lhd.cbp" />
 		<Project filename="games/lunpan/lunpan.cbp" />
 		<Project filename="games/sszp/sszp.cbp" />
+		<Project filename="games/bcbm/bcbm.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
