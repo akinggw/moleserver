@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project name="Javascript compress project" basedir="." default="compile">
+
+    <!-- The classpath should be modified to the real closure compiler jar file path -->
+    <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="./compiler.jar"/>
+    <target name="compile">
+        <jscomp compilationLevel="simple" warning="quiet"
+                debug="false" output="./game.min.js">
+                <!-- Uncomment the line below to enable sourcemap generation -->
+            <!--sourceMapOutputFile="./cocos2d-js-sourcemap" sourceMapFormat="V3"> -->
+            <sources dir="./">
+                <!-- You may need to modify the file name to the actual downloaded file name -->
+                <file name="cocos2d-js-lite.js"/>
+                <!-- Put your own js files here, dependency order is also important -->
+            </sources>
+        </jscomp>
+    </target>
+</project>
