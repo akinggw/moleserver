@@ -23,12 +23,20 @@ window.onload=function()
        oBox.style.top=(iHegiht-oBox.offsetHeight)/2+'px';
    }
 }
+
+function frameauto() {
+var ifm = document.getElementById("frame_1");
+var subWeb = document.frames ? document.frames["frame_1"].document : ifm.contentDocument;
+if (ifm != null && subWeb != null) {
+    ifm.height = subWeb.body.scrollHeight;
+}
+}
 </script>
 </head>
 <body style="padding:0; margin: 0; background: #000;">
 <div class="wrapper" id="wrapper">
   <div class="phone view_1" id="phone_1">
-    <iframe width="800" height="480" frameborder="0" scrolling="no" src="game.html" id="frame_1"></iframe>
+    <iframe width="100%" height="100%" frameborder="0" scrolling="no" src="game.html" id="frame_1" name="frame_1" onload="frameauto()"></iframe>
   </div>
 </div>
 </body>
