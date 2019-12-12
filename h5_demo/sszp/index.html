@@ -3,28 +3,33 @@
 <head>
     <meta charset="utf-8">
     <title>神兽转盘H5</title>
-    <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
-    <meta name="viewport" content="width=801,user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="full-screen" content="yes"/>
-    <meta name="screen-orientation" content="landscape"/>
-    <meta name="360-fullscreen" content="true"/>
-    <meta name="x5-orientation" content="landscape">
-    <meta name="x5-fullscreen" content="true">
-    <meta name="x5-page-mode" content="default">
     <style>
-        body, canvas, div {
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            -khtml-user-select: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
+          .wrapper{ position:absolute;}		
+	  .phone.view_1 {
+	    transform: rotateZ(90deg);		
+	  }
     </style>
-    <script src="cocos2d-js-v3.6-min.js"></script>
-    <script src="main.js"></script>
+<script>
+window.onload=function()
+{
+   var oBox=document.getElementById('wrapper');
+   adjustResize();
+   window.onresize=window.onscroll=adjustResize;
+   function adjustResize()
+   {
+       var iWidth=document.documentElement.clientWidth;
+       var iHegiht=Math.max(document.documentElement.clientHeight,document.body.clientHeight);
+       oBox.style.left=(iWidth-oBox.offsetWidth)/2+'px';
+       oBox.style.top=(iHegiht-oBox.offsetHeight)/2+'px';
+   }
+}
+</script>
 </head>
 <body style="padding:0; margin: 0; background: #000;">
-<canvas id="gameCanvas" width="800" height="480"></canvas>
+<div class="wrapper" id="wrapper">
+  <div class="phone view_1" id="phone_1">
+    <iframe width="800" height="480" frameborder="0" scrolling="no" src="game.html" id="frame_1"></iframe>
+  </div>
+</div>
 </body>
 </html>
