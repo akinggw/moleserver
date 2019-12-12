@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>神兽转盘H5</title>
+    <style>
+          .wrapper{ position:absolute;}		
+	  .phone.view_1 {
+	    transform: rotateZ(90deg);		
+	  }
+    </style>
+<script>
+window.onload=function()
+{
+   var oBox=document.getElementById('wrapper');
+   adjustResize();
+   window.onresize=window.onscroll=adjustResize;
+   function adjustResize()
+   {
+       var iWidth=document.documentElement.clientWidth;
+       var iHegiht=Math.max(document.documentElement.clientHeight,document.body.clientHeight);
+       oBox.style.left=(iWidth-oBox.offsetWidth)/2+'px';
+       oBox.style.top=(iHegiht-oBox.offsetHeight)/2+'px';
+   }
+}
+
+function frameauto() {
+var ifm = document.getElementById("frame_1");
+var subWeb = document.frames ? document.frames["frame_1"].document : ifm.contentDocument;
+if (ifm != null && subWeb != null) {
+    ifm.height = subWeb.body.scrollHeight;
+}
+}
+</script>
+</head>
+<body style="padding:0; margin: 0; background: #000;">
+<div class="wrapper" id="wrapper">
+  <div class="phone view_1" id="phone_1">
+    <iframe width="1280" height="800" frameborder="0" scrolling="no" src="game.html" id="frame_1" allowfullscreen name="frame_1"></iframe>
+  </div>
+</div>
+</body>
+</html>
