@@ -1,52 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello Cocos2d-JS</title>
+    <meta charset="utf-8">
+    <title>神兽转盘H5</title>
+    <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
+    <meta name="viewport" content="width=801,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="yes"/>
+    <meta name="screen-orientation" content="landscape"/>
+    <meta name="360-fullscreen" content="true"/>
+    <meta name="x5-orientation" content="landscape">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="default">
+    <style>
+        body, canvas, div {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+    <script src="cocos2d-js-v3.6-min.js"></script>
+    <script src="main.js"></script>
 </head>
-<body>   
-    <canvas id="gameCanvas" width="800" height="450"></canvas>
-    <script type="text/javascript" src="cocos2d-js-v3.9.js" charset="UTF-8"></script>
-    <script type="text/javascript">
-          window.onload = function(){
-              cc.game.onStart = function(){
-
-	    var designSize = cc.size(800,480);
-	    var screenSize = cc.view.getFrameSize();
-
-	    if(!cc.sys.isNative && screenSize.height < 800){
-		designSize = cc.size(480,320);
-		cc.loader.resPath = "res";
-	    }else{
-		cc.loader.resPath = "res";
-	    }
-
-	    cc.view.adjustViewPort(true);
-	    cc.view.enableAutoFullScreen(true);
-	    cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
-	    //cc.view.enableRetina(false);
-	    cc.view.resizeWithBrowserSize(true);
-
-                  //load resources
-                  cc.LoaderScene.preload(["HelloWorld.png"], function () {
-                      var MyScene = cc.Scene.extend({
-                          onEnter:function () {
-                              this._super();
-                              var size = cc.director.getWinSize();
-                              var sprite = cc.Sprite.create("HelloWorld.png");
-                              sprite.setPosition(size.width / 2, size.height / 2);
-                              sprite.setScale(0.8);
-                              this.addChild(sprite, 0);
-
-                              var label = cc.LabelTTF.create("Hello World", "Arial", 40);
-                              label.setPosition(size.width / 2, size.height / 2);
-                              this.addChild(label, 1);
-                          }
-                      });
-                      cc.director.runScene(new MyScene());
-                  }, this);
-              };
-              cc.game.run("gameCanvas");
-          };
-    </script>
+<body style="padding:0; margin: 0; background: #000;">
+<canvas id="gameCanvas" width="800" height="480"></canvas>
 </body>
 </html>
