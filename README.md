@@ -77,3 +77,6 @@ email:akinggw@126.com
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen66.png)
 ![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen111.png)
 
+[游戏测试]  
+ [demo](http://akinggw.gitee.io/moleserver)   
+
