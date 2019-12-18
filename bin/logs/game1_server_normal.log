@@ -1,4 +1,0 @@
-[09:21][2019-12-18 09:21:04] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game1_server_normal.log'
-[09:21] [BSC] game_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
-[09:21] [BSC] game_server.cpp:80 main 游戏服务器欢乐斗地主普通场:ip:127.0.0.1,端口:3335 启动成功。
-[09:21] [BSC] game_server.cpp:82 main 服务器启动成功，开始处理...

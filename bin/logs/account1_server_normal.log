@@ -1,8 +1,0 @@
-[09:20][2019-12-18 09:20:55] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
-[09:20] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
-[09:20] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
-[09:20] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
-[09:29][2019-12-18 09:29:34] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
-[09:29] [BSC] account_server.cpp:59 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
-[09:29] [BSC] account_server.cpp:79 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
-[09:29] [BSC] account_server.cpp:81 main 服务器启动成功，开始处理...
