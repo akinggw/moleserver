@@ -1,0 +1,21 @@
+{
+    "debugMode" : 0,
+    "noCache": false,
+    "showFPS" : false,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"../",
+
+    "modules"       : ["cocos2d", "extensions", "external"],
+
+    "jsList" : [
+        "src/md5.js",
+        "src/js.cookie.min.js",
+        "src/bcbm_resource.js",
+        "src/bcbm_common.js",
+        "src/bcbm_game_pro.js",
+        "src/bcbm_account_pro.js",
+        "src/bcbm_mainframe.js"
+    ]
+}

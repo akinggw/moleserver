@@ -71,11 +71,13 @@ port=3306
 email:akinggw@126.com
 
 [截图预览]  
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.png)
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.png)
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.png)
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen66.png)
-![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen111.png)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net1.jpg)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net2.jpg)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/net4.jpg)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen66.jpg)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen111.jpg)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen201.jpg)
+![输入图片说明](https://gitee.com/akinggw/moleserver/raw/master/screen/screen202.jpg)
 
 [游戏测试]  
  [demo](http://akinggw.gitee.io/moleserver)   

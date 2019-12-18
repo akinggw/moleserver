@@ -337,7 +337,7 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 		if(!m_issupercontrol)
 		{
 			m_curGamingResult = GetGamingResult();
-			OnProcessOpenRate();
+			//OnProcessOpenRate();
 		}
 		else
 		{
@@ -372,7 +372,7 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
 
         Json::Value out;
         out["MsgId"] = IDD_MESSAGE_ROOM;
-        out["MsgSubId"] = IDD_MESSAGE_ROOM_STARTXIAZHU;
+        out["MsgSubId"] = IDD_MESSAGE_ROOM_FAPAI;
         out["GameState"] = m_GameState;
         out["curGamingResult"] = m_curGamingResult;
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);

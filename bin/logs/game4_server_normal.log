@@ -1,0 +1,8 @@
+[09:21][2019-12-18 09:21:28] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game4_server_normal.log'
+[09:21] [BSC] game_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[09:21] [BSC] game_server.cpp:80 main 游戏服务器奔驰宝马普通场:ip:127.0.0.1,端口:3308 启动成功。
+[09:21] [BSC] game_server.cpp:82 main 服务器启动成功，开始处理...
+[09:29][2019-12-18 09:29:58] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game4_server_normal.log'
+[09:29] [BSC] game_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[09:29] [BSC] game_server.cpp:80 main 游戏服务器奔驰宝马普通场:ip:127.0.0.1,端口:3308 启动成功。
+[09:29] [BSC] game_server.cpp:82 main 服务器启动成功，开始处理...
