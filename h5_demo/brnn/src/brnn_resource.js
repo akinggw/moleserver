@@ -13,6 +13,8 @@ var v_sprite_pop_ok_2 = "mainframe/pop_ok_2.png";
 var v_sprite_reg_reg_1 = "mainframe/reg_reg_1.png";
 var v_sprite_reg_reg_2 = "mainframe/reg_reg_2.png";
 
+var v_game_sprite_game_bg = "game/game_bg.jpg";
+
 var g_resources = [
     v_sprite_btnloginclose_1,
     v_sprite_btnloginclose_2,
@@ -27,5 +29,7 @@ var g_resources = [
     v_sprite_pop_ok_1,
     v_sprite_pop_ok_2,
     v_sprite_reg_reg_1,
-    v_sprite_reg_reg_2
+    v_sprite_reg_reg_2,
+
+    v_game_sprite_game_bg
 ];

@@ -32,19 +32,14 @@
     <!--<meta name="browsermode" content="application">-->
     <meta name="x5-page-mode" content="app">
     <style>.cocosVideo:-moz-full-screen{transform:matrix(1,0,0,1,0,0) !important;}.cocosVideo:full-screen{transform:matrix(1,0,0,1,0,0) !important;}.cocosVideo:-webkit-full-screen{transform:matrix(1,0,0,1,0,0) !important;}</style>
+    <script src="index.js"></script>
     <script src="cocos2d-js-v3.6-min.js"></script>
     <script src="main.js"></script>
-    <script src="index.js"></script>
 </head>
-<body>
-<div id="Cocos2dGameContainer" style="transform: rotate(0deg); width: 800px; height: 480px; margin: 0px; padding: 0px;">
+<body style="padding:0; margin: 0; background: #000;">
+<div id="Cocos2dGameContainer" style="transform: rotate(0deg); width: 1920px; height: 618px; margin: 0px; padding: 0px;">
 <canvas id="gameCanvas" width="800" height="480"></canvas>
 </div>
-<div id="splash" style="display: none;">
-    <div class="progress-bar stripes">
-        <span style="width: 100%;"></span>
-    </div>
-</div>
-<div id="orientationswipe" onclick="requestFullScreen()" style="display: none;"></div>
+<div id="orientationswipe" onclick="requestFullScreen()" style="display: inline ;"></div>
 </body>
 </html>
