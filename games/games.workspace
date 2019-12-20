@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="example/game_example.cbp" />
+		<Project filename="lhd/lhd.cbp" />
+		<Project filename="lunpan/lunpan.cbp" />
+		<Project filename="sszp/sszp.cbp" />
+		<Project filename="bcbm/bcbm.cbp" />
+		<Project filename="brnn/brnn.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

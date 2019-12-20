@@ -13,10 +13,9 @@
 
 #include <jsoncpp/json/json.h>
 
-using namespace network;
-
+using namespace network;
 #define IDD_MESSAGE_ROOM_FAPAI      IDD_MESSAGE_ROOM+1         // 发牌消息
-#define IDD_MESSAGE_ROOM_XIAZHU     IDD_MESSAGE_ROOM+2         // 下注消息 
+#define IDD_MESSAGE_ROOM_XIAZHU     IDD_MESSAGE_ROOM+2         // 下注消息
 #define IDD_MESSAGE_ROOM_GAMEEND    IDD_MESSAGE_ROOM+3         // 结算消息
 #define IDD_MESSAGE_ROOM_ENTERGAME  IDD_MESSAGE_ROOM+4         // 进入游戏消息
 #define IDD_MESSAGE_ROOM_STARTXIAZHU  IDD_MESSAGE_ROOM+5         // 开始下注消息
@@ -40,7 +39,7 @@ enum tagCarType
 	CARTYPE_NULL
 };
 
-/** 
+/**
  * 游戏阶段
  */
 enum GameState

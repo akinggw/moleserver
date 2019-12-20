@@ -1,0 +1,21 @@
+{
+    "debugMode" : 0,
+    "noCache": false,
+    "showFPS" : false,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"../",
+
+    "modules"       : ["cocos2d", "extensions", "external"],
+
+    "jsList" : [
+        "src/md5.js",
+        "src/js.cookie.min.js",
+        "src/brnn_resource.js",
+        "src/brnn_common.js",
+        "src/brnn_game_pro.js",
+        "src/brnn_account_pro.js",
+        "src/brnn_mainframe.js"
+    ]
+}
