@@ -1,0 +1,25 @@
+/*.content-holder,.flag-holder,.logo-holder,.form-holder {
+	border:1px green solid;
+}*/
+html {
+  	height:101%;
+  	width:100%;	
+  	margin:0;
+  	padding:0;
+    overflow: hidden;
+}
+
+#orientationswipe {
+    margin: 0 auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #000;
+    z-index: 999;
+    display : none;
+    opacity: .4;
+}

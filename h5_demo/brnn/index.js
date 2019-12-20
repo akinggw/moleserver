@@ -151,6 +151,7 @@ function setOnResize() {
 
 window.addEventListener('load', function() {
     orientationswipe = document.getElementById("orientationswipe");
+    console.log(window.orientation);
     if(window.orientation == 0 || window.orientation == 180){
         displaySwipe();
         maxPorHet = window.innerHeight;
@@ -174,6 +175,6 @@ window.addEventListener('load', function() {
     if(isFullscreenEnabled()) {
         orientationswipe.style.display = "none";
     } else {
-        orientationswipe.style.backgroundImage = "url(swipe2.gif)";
+        orientationswipe.style.backgroundImage = "url('swipe2.gif')";
     }
 }, false);
