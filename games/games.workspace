@@ -7,5 +7,6 @@
 		<Project filename="sszp/sszp.cbp" />
 		<Project filename="bcbm/bcbm.cbp" />
 		<Project filename="brnn/brnn.cbp" />
+		<Project filename="hlddz/hlddz.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

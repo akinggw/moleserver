@@ -1,0 +1,7 @@
+[09:19][2019-12-23 09:19:32] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_error.log'
+[09:28]epoll: Returned invalid fd (no pointer) of FD 14
+[09:30]epoll: Returned invalid fd (no pointer) of FD 14
+[09:30]epoll: Returned invalid fd (no pointer) of FD 14
+[11:06][2019-12-23 11:06:40] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_error.log'
+[11:35][2019-12-23 11:35:46] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_error.log'
+[13:02][2019-12-23 13:02:37] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_error.log'

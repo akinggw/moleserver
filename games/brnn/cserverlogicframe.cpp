@@ -276,7 +276,7 @@ void CServerLogicFrame::OnProcessReEnterRoomMes(int playerId)
 
     Json::Value out;
     out["MsgId"] = IDD_MESSAGE_ROOM;
-    out["MsgSubId"] = IDD_MESSAGE_ROOM_ENTERGAME;
+    out["MsgSubId"] = IDD_MESSAGE_ROOM_REENTERGAME;
     out["GameState"] = m_GameState;
     out["timegamestart"] = m_timegamestart;
     out["timexiazhu"] = m_timexiazhu;
@@ -287,8 +287,13 @@ void CServerLogicFrame::OnProcessReEnterRoomMes(int playerId)
     out["TotalShangZhuangCount"] = m_ZhuangManager.getTotalShangZhuangCount();
     out["CurShangZhuangCount"] = m_ZhuangManager.GetCurShangZhuangCount();
     out["ZhuangTotalWinResult"] = (Json::Int64)m_ZhuangManager.GetZhuangTotalWinResult();
-	for(int i=0;i<4;i++) out["userareajetton"] = (Json::Int64)getuserareajetton((YaZhuType)i);
-	for(int i=0;i<25;i++) out["cards"] = m_cards[i];
+	for(int i=0;i<4;i++) out["userareajetton"][i] = (Json::Int64)getuserareajetton((YaZhuType)i);
+	for(int i=0;i<25;i++) out["cards"][i] = m_cards[i];
+	out["zhuangcardtype"] = m_CGameLogic.GetCardType(m_cards,5);
+	out["othercardtype1"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*5,5);
+	out["othercardtype2"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*(5*2),5);
+	out["othercardtype3"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*(5*3),5);
+	out["othercardtype4"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*(5*4),5);
 	m_g_GameRoom->SendTableMsg(playerId,out);
 }
 
@@ -317,7 +322,13 @@ void CServerLogicFrame::OnProcessTimerMsg(int timerId,int curTimer)
         Json::Value out;
         out["MsgId"] = IDD_MESSAGE_ROOM;
         out["MsgSubId"] = IDD_MESSAGE_ROOM_FAPAI;
-        for(int i=0;i<25;i++) out["cards"] = m_cards[i];
+	out["GameState"] = STATE_GAMING;
+        for(int i=0;i<25;i++) out["cards"][i] = m_cards[i];
+        out["zhuangcardtype"] = m_CGameLogic.GetCardType(m_cards,5);
+        out["othercardtype1"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*5,5);
+        out["othercardtype2"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*(5*2),5);
+        out["othercardtype3"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*(5*3),5);
+        out["othercardtype4"] = m_CGameLogic.GetCardType(m_cards+sizeof(uint8)*(5*4),5);
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 		m_GameState=STATE_GAMING;
@@ -835,6 +846,7 @@ void CServerLogicFrame::TongJiUserGamingResult()
         out["MsgId"] = IDD_MESSAGE_ROOM;
         out["MsgSubId"] = IDD_MESSAGE_ROOM_GAMEEND;
         out["OldTotalResult"] = (Json::Int64)pOldTotalResult;
+	out["State"] = 1;
         Json::Value arrayValue;
 		std::map<YaZhuType,int64>::iterator iter4 = m_usertotalresultlist.begin();
 		for(int i=0;iter4 != m_usertotalresultlist.end();++iter4,i++)
@@ -842,7 +854,7 @@ void CServerLogicFrame::TongJiUserGamingResult()
 			arrayValue[i]["YaZhuType"] = (int)(*iter4).first;
 			arrayValue[i]["Money"] = (Json::Int64)(-(*iter4).second);
 		}
-		out["usertotalresultlist"] = arrayValue;
+		out["Jettons"] = arrayValue;
 		m_g_GameRoom->SendTableMsg(m_ZhuangManager.getCurrentZhuang(),out);
 	}
 
@@ -922,6 +934,7 @@ void CServerLogicFrame::startgame(void)
     Json::Value out;
     out["MsgId"] = IDD_MESSAGE_ROOM;
     out["MsgSubId"] = IDD_MESSAGE_ROOM_STARTXIAZHU;
+    out["GameState"] = STATE_XIAZHU;
     out["CurrentZhuang"] = m_ZhuangManager.getCurrentZhuang();
     out["TotalShangZhuangCount"] = m_ZhuangManager.getTotalShangZhuangCount();
     out["CurShangZhuangCount"] = m_ZhuangManager.GetCurShangZhuangCount();

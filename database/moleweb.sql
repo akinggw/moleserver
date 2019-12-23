@@ -231,7 +231,7 @@ CREATE TABLE `mol_gametotalmoney` (
 
 LOCK TABLES `mol_gametotalmoney` WRITE;
 /*!40000 ALTER TABLE `mol_gametotalmoney` DISABLE KEYS */;
-INSERT INTO `mol_gametotalmoney` VALUES (1,0,-3596,100,-100);
+INSERT INTO `mol_gametotalmoney` VALUES (1,0,-3596,1000,-1000);
 /*!40000 ALTER TABLE `mol_gametotalmoney` ENABLE KEYS */;
 UNLOCK TABLES;
 
