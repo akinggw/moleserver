@@ -73,7 +73,8 @@ typedef uint32_t uint32;
 typedef uint16_t uint16;
 typedef uint8_t uint8;
 typedef unsigned long int DWORD;
-
+typedef uint8_t BYTE;
+typedef uint16_t WORD;
 #endif
 
 #include "Singleton.h"

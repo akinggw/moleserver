@@ -401,7 +401,7 @@ void CServerLogicFrame::OnProcessReEnterRoomMes(int playerId)
 				}
 				for ( uint16 i = 0; i < 3; i++ )
 				{
-					mes["bBackCard"][i] = m_GameLogic.ChangeCardDate(m_bBackCard[i]);
+					out["bBackCard"][i] = m_GameLogic.ChangeCardDate(m_bBackCard[i]);
 				}
 
 				uint8 uindex = 0;
@@ -696,7 +696,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 	if (m_bCallScorePhase==CSD_NORMAL)
 	{
 		//效验参数
-		ASSERT(((bLandScore==1)||(bLandScore==4)));
+		assert(((bLandScore==1)||(bLandScore==4)));
 		if ((bLandScore!=1)&&(bLandScore!=4)) return false;
 
 		//设置变量
@@ -733,14 +733,15 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 					else
 					{
 						//发送消息
-						CMolMessageOut out(IDD_MESSAGE_ROOM);
-						out.write16(SUB_S_LAND_SCORE);
-						out.write16(wChairID);
-						out.write16(bLandScore);
-						out.write16(m_wCurrentUser);
-						out.write16(m_wShowTimes);
-						out.write16(m_bCallScorePhase);
-						out.write16(cbPreCallScorePhase);
+                        Json::Value out;
+                        out["MsgId"] = IDD_MESSAGE_ROOM;
+                        out["MsgSubId"] = SUB_S_LAND_SCORE;
+                        out["ChairId"] = wChairID;
+                        out["CurrentLandScore"] = bLandScore;
+                        out["CurrentUser"] = m_wCurrentUser;
+                        out["ShowTimes"] = m_wShowTimes;
+                        out["cbCallScorePhase"] = m_bCallScorePhase;
+                        out["PreCallScorePhase"] = cbPreCallScorePhase;
 						m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 						m_bCallScorePhase=CSD_NORMAL;
@@ -749,25 +750,25 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 
 
 						//游戏变量
-						ZeroMemory( m_bGiveUpBanker, sizeof( m_bGiveUpBanker ) );
-						ZeroMemory( m_bBackCard, sizeof( m_bBackCard ) );
-						ZeroMemory( m_bHandCardData, sizeof( m_bHandCardData ) );
-						ZeroMemory( m_bBrightCard, sizeof( m_bBrightCard ) );
+						memset( m_bGiveUpBanker, 0,sizeof( m_bGiveUpBanker ) );
+						memset( m_bBackCard, 0,sizeof( m_bBackCard ) );
+						memset( m_bHandCardData, 0,sizeof( m_bHandCardData ) );
+						memset( m_bBrightCard, 0,sizeof( m_bBrightCard ) );
 
 						//开始录像
 						Player *pPlayer = m_g_GameRoom->GetPlayer(m_wFirstUser);
 						if(pPlayer == NULL) return false;
-						m_g_GameRoom->StartVideoTape(pPlayer,m_g_GameRoom);
+						//m_g_GameRoom->StartVideoTape(pPlayer,m_g_GameRoom);
 
 						m_bLandScore=0;
 						int64 pResult,pMax,pMin;
 						pResult=pMax=pMin=0;
 						int robotState = m_g_GameRoom->IsUserWin(&pResult,&pMax,&pMin);//1赢2输3不赢不输
-						WORD cbAndroidUserCount = 0 ;
-						WORD wAndroidUser[ GAME_PLAYER ] = {0};
+						uint16 cbAndroidUserCount = 0 ;
+						uint16 wAndroidUser[ GAME_PLAYER ] = {0};
 
 						//机器人个数
-						for ( BYTE wChairID = 0; wChairID < GAME_PLAYER; ++wChairID )
+						for ( uint8 wChairID = 0; wChairID < GAME_PLAYER; ++wChairID )
 						{
 							Player *pPlayer = m_g_GameRoom->GetPlayer(wChairID);
 							if (pPlayer==NULL)	continue;
@@ -778,7 +779,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 							}
 						}
 
-						WORD wHaveGoodCardAndroidUser = INVALID_CHAIR ;
+						uint16 wHaveGoodCardAndroidUser = INVALID_CHAIR ;
 						if ( 0 < cbAndroidUserCount )
 						{
 							wHaveGoodCardAndroidUser = wAndroidUser[ rand() % cbAndroidUserCount ] ;
@@ -788,48 +789,48 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 						if ( 2 == robotState && wHaveGoodCardAndroidUser != INVALID_CHAIR )
 						{
 							//混乱扑克
-							BYTE bRandCard[54];
+							uint8 bRandCard[54];
 							m_GameLogic.RandCardList( bRandCard, sizeof( bRandCard ) / sizeof( bRandCard[ 0 ] ) );
 
-							BYTE cbGoodCard[ NORMAL_COUNT ] ;
+							uint8 cbGoodCard[ NORMAL_COUNT ] ;
 							m_GameLogic.GetGoodCardData( cbGoodCard ) ;
 
 							//抽取好牌
 							m_GameLogic.RemoveGoodCardData( cbGoodCard, NORMAL_COUNT, bRandCard, FULL_COUNT ) ;
 
 							//分发扑克
-							CopyMemory( m_bHandCardData[ wHaveGoodCardAndroidUser ], cbGoodCard, sizeof( BYTE ) *NORMAL_COUNT ) ;
+							memcpy( m_bHandCardData[ wHaveGoodCardAndroidUser ], cbGoodCard, sizeof( uint8 ) *NORMAL_COUNT ) ;
 							m_bCardCount[ wHaveGoodCardAndroidUser ] = NORMAL_COUNT;
-							for ( WORD i = 0, j = 0; i < GAME_PLAYER; i++ )
+							for ( uint16 i = 0, j = 0; i < GAME_PLAYER; i++ )
 							{
 								if ( i != wHaveGoodCardAndroidUser )
 								{
 									m_bCardCount[ i ] = 17;
-									CopyMemory( &m_bHandCardData[ i ], &bRandCard[ j * 17 ], sizeof( BYTE ) * 17 );
+									memcpy( &m_bHandCardData[ i ], &bRandCard[ j * 17 ], sizeof( uint8 ) * 17 );
 									++j ;
 								}
 							}
-							CopyMemory( m_bBackCard, &bRandCard[ 34 ], sizeof( m_bBackCard ) );
+							memcpy( m_bBackCard, &bRandCard[ 34 ], sizeof( m_bBackCard ) );
 							m_GameLogic.SortCardList( m_bBackCard, 3, ST_ORDER );
 						}
 						else
 						{
 							//混乱扑克
-							BYTE  bRandCard[ 54 ];
-							if (rand()%100 < m_g_GameRoom->GetUserWinOrLostRate())
-							{
-								m_GameLogic.GetGoodCard(bRandCard);
-							}
-							else
+							uint8  bRandCard[ 54 ];
+							//if (rand()%100 < m_g_GameRoom->GetUserWinOrLostRate())
+							//{
+							//	m_GameLogic.GetGoodCard(bRandCard);
+							//}
+							//else
 								m_GameLogic.RandCardList( bRandCard, sizeof( bRandCard ) / sizeof( bRandCard[ 0 ] ) );//混乱扑克
 
 							//分发扑克
-							for ( WORD i = 0; i < GAME_PLAYER; i++ )
+							for ( uint16 i = 0; i < GAME_PLAYER; i++ )
 							{
 								m_bCardCount[ i ] = m_bCardCount[ i ];
-								CopyMemory( &m_bHandCardData[ i ], &bRandCard[ i * m_bCardCount[ i ] ], sizeof( BYTE ) * m_bCardCount[ i ] );
+								memcpy( &m_bHandCardData[ i ], &bRandCard[ i * m_bCardCount[ i ] ], sizeof( uint8 ) * m_bCardCount[ i ] );
 							}
-							CopyMemory( m_bBackCard, &bRandCard[ 51 ], sizeof( m_bBackCard ) );
+							memcpy( m_bBackCard, &bRandCard[ 51 ], sizeof( m_bBackCard ) );
 							m_GameLogic.SortCardList( m_bBackCard, 3, ST_ORDER );
 						}
 
@@ -839,27 +840,28 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 							m_wCurrentUser = m_wFirstUser;
 						}
 
-						CMolMessageOut out2(IDD_MESSAGE_ROOM);
-						out2.write16(SUB_S_SEND_CARD);
-						out2.write16(m_wCurrentUser);
-						for ( WORD i = 0; i < 3; i++ )
+                        Json::Value out2;
+                        out2["MsgId"] = IDD_MESSAGE_ROOM;
+                        out2["MsgSubId"] = SUB_S_SEND_CARD;
+                        out2["CurrentUser"] = m_wCurrentUser;
+						for ( uint16 i = 0; i < 3; i++ )
 						{
-							out2.write16(m_GameLogic.ChangeCardDate(m_bBackCard[i]));
+							out2["bBackCard"][i] = m_GameLogic.ChangeCardDate(m_bBackCard[i]);
 						}
-						for ( WORD i = 0; i < GAME_PLAYER; i++ )
+						for ( uint16 i = 0; i < GAME_PLAYER; i++ )
 						{
-							for ( WORD j = 0; j < 17; j++ )
+							for ( uint16 j = 0; j < 17; j++ )
 							{
-								out2.write16(m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]));
+								out2["cbHandCardData"][i][j]=m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]);
 							}
 						}
-						for ( WORD i = 0; i < GAME_PLAYER; i++ )
+						for ( uint16 i = 0; i < GAME_PLAYER; i++ )
 						{
 							m_g_GameRoom->SendTableMsg(i,out2);
 						}
 
 						//排列扑克
-						for ( WORD i = 0; i < GAME_PLAYER; i++ )
+						for ( uint16 i = 0; i < GAME_PLAYER; i++ )
 						{
 							m_GameLogic.SortCardList( m_bHandCardData[ i ], m_bCardCount[ i ], ST_ORDER );
 						}
@@ -900,7 +902,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 		if (m_bLandScore==1)
 		{
 			bContinue=true;
-			WORD wNextUser=(wChairID+1)%GAME_PLAYER;
+			uint16 wNextUser=(wChairID+1)%GAME_PLAYER;
 			if (wNextUser==m_wFirstUser)
 			{
 				m_bCallScorePhase=CSD_GAMESTART;
@@ -913,7 +915,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 			m_wFirstUser=wChairID;
 			//切换玩家
 			m_wCurrentUser = INVALID_CHAIR;
-			WORD wUser = (wChairID+1)%GAME_PLAYER;
+			uint16 wUser = (wChairID+1)%GAME_PLAYER;
 			while (  wUser != wChairID )
 			{
 				if ( m_bGiveUpBanker[wUser] == false )
@@ -935,7 +937,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 	else if (m_bCallScorePhase==CSD_SNATCHLAND)
 	{
 		//效验参数
-		ASSERT((bLandScore==2)||(bLandScore==4));
+		assert((bLandScore==2)||(bLandScore==4));
 		if ((bLandScore!=2)&&(bLandScore!=4)) return false;
 
 		//设置变量
@@ -967,7 +969,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 		if ( m_bCallScorePhase == CSD_SNATCHLAND )
 		{
 			m_wCurrentUser = INVALID_CHAIR;
-			WORD wUser = (wChairID+1)%GAME_PLAYER;
+			uint16 wUser = (wChairID+1)%GAME_PLAYER;
 			while (  wUser != wChairID && wUser != (m_wFirstUser+1)%GAME_PLAYER )
 			{
 				if ( m_bGiveUpBanker[wUser] == false )
@@ -996,14 +998,15 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 	m_bScoreInfo[wChairID]=bLandScore;
 
 	//发送消息
-	CMolMessageOut out(IDD_MESSAGE_ROOM);
-	out.write16(SUB_S_LAND_SCORE);
-	out.write16(wChairID);
-	out.write16(bLandScore);
-	out.write16(m_wCurrentUser);
-	out.write16(m_wShowTimes);
-	out.write16(m_bCallScorePhase);
-	out.write16(cbPreCallScorePhase);
+    Json::Value out;
+    out["MsgId"] = IDD_MESSAGE_ROOM;
+    out["MsgSubId"] = SUB_S_LAND_SCORE;
+    out["ChairId"] = wChairID;
+    out["CurrentLandScore"] = bLandScore;
+    out["CurrentUser"] = m_wCurrentUser;
+    out["ShowTimes"] = m_wShowTimes;
+    out["cbCallScorePhase"] = m_bCallScorePhase;
+    out["PreCallScorePhase"] = cbPreCallScorePhase;
 	m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 	//叫分结束游戏延时开始
@@ -1012,7 +1015,6 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 		m_cbCount++;
 		if (m_cbCount>=2)
 		{
-			::OutputDebugString(TEXT("测试，多次发牌！！！"));
 			return false;
 		}
 		//设置状态
@@ -1020,14 +1022,15 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 		m_bEndFlag=false;
 		//发送底牌
 		m_bCardCount[m_wBankerUser]=20;
-		CopyMemory(&m_bHandCardData[m_wBankerUser][17],m_bBackCard,sizeof(m_bBackCard));
+		memcpy(&m_bHandCardData[m_wBankerUser][17],m_bBackCard,sizeof(m_bBackCard));
 		m_GameLogic.SortCardList(m_bHandCardData[m_wBankerUser],m_bCardCount[m_wBankerUser],ST_ORDER);
 
 		//发送消息
-		CMolMessageOut out(IDD_MESSAGE_ROOM);
-		out.write16(SUB_S_GAME_START);
-		out.write16(m_wCurrentUser);
-		out.write16(m_wBankerUser);
+        Json::Value out;
+        out["MsgId"] = IDD_MESSAGE_ROOM;
+        out["MsgSubId"] = SUB_S_GAME_START;
+        out["CurrentUser"] = m_wCurrentUser;
+        out["wBankerUser"] = m_wBankerUser;
 		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 		//出牌信息
@@ -1045,7 +1048,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 	//玩家断线超时不叫或不抢
 	if(m_bUserOffLine[m_wCurrentUser] && m_bCallScorePhase!=CSD_GAMESTART && m_wCurrentUser!=INVALID_CHAIR)
 	{
-		WORD wNextChairID=(wChairID+1)%GAME_PLAYER;
+		uint16 wNextChairID=(wChairID+1)%GAME_PLAYER;
 		if( !m_PassTime[wNextChairID] )
 		{
 			m_g_GameRoom->StartTimer(IDI_LAND_SCORE_MISS+wNextChairID,30);
@@ -1058,7 +1061,7 @@ bool CServerLogicFrame::OnUserLandScore(WORD wChairID, int bLandScore)
 	return true;
 }
 //玩家明牌
-bool CServerLogicFrame::OnUserBrightCard(WORD wChairID)
+bool CServerLogicFrame::OnUserBrightCard(uint16 wChairID)
 {
 	m_bBrightCard[wChairID]= true;
 	m_lBrightCard*=2;
@@ -1072,10 +1075,11 @@ bool CServerLogicFrame::OnUserBrightCard(WORD wChairID)
 	//BrightCard.bBrightCard = bBright;
 
 	//发送消息
-	CMolMessageOut out(IDD_MESSAGE_ROOM);
-	out.write16(SUB_S_BRIGHT_CARD);
-	out.write16(wChairID);
-	out.write16(m_wShowTimes);
+    Json::Value out;
+    out["MsgId"] = IDD_MESSAGE_ROOM;
+    out["MsgSubId"] = SUB_S_BRIGHT_CARD;
+    out["ChairId"] = wChairID;
+    out["ShowTimes"] = m_wShowTimes;
 	m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 	return true;
@@ -1083,7 +1087,7 @@ bool CServerLogicFrame::OnUserBrightCard(WORD wChairID)
 
 
 //玩家出牌
-bool CServerLogicFrame::OnUserOutCard(WORD wChairID, BYTE bCardData[], int bCardCount)
+bool CServerLogicFrame::OnUserOutCard(uint16 wChairID, uint8 bCardData[], int bCardCount)
 {
 	//效验状态
 
@@ -1132,11 +1136,11 @@ bool CServerLogicFrame::OnUserOutCard(WORD wChairID, BYTE bCardData[], int bCard
 	//最后出牌记录
 	m_bTurnCardCount=bCardCount;
 	m_bOutCardCount[wChairID]++;
-	CopyMemory(m_bTurnCardData,bCardData,sizeof(BYTE)*bCardCount);
+	memcpy(m_bTurnCardData,bCardData,sizeof(uint8)*bCardCount);
 
 
 	//本轮出牌记录
-	CopyMemory(m_cbNowTurnOutCard[wChairID],bCardData,sizeof(BYTE)*bCardCount);
+	memcpy(m_cbNowTurnOutCard[wChairID],bCardData,sizeof(uint8)*bCardCount);
 	m_nNowTurnOutCount[wChairID] = bCardCount;
 
 
@@ -1161,23 +1165,25 @@ bool CServerLogicFrame::OnUserOutCard(WORD wChairID, BYTE bCardData[], int bCard
 
 	if (m_wCurrentUser != INVALID_CHAIR)
 	{
-		CopyMemory(m_cbLastTurnOutCard[m_wCurrentUser],m_cbNowTurnOutCard[m_wCurrentUser],sizeof(BYTE)*m_nNowTurnOutCount[m_wCurrentUser]);
+		memcpy(m_cbLastTurnOutCard[m_wCurrentUser],m_cbNowTurnOutCard[m_wCurrentUser],sizeof(uint8)*m_nNowTurnOutCount[m_wCurrentUser]);
 		m_nLastTurnOutCount[m_wCurrentUser] = m_nNowTurnOutCount[m_wCurrentUser];
 		m_nNowTurnOutCount[m_wCurrentUser] = 0;
 	}
 
 	//构造数据
 	int bYaPaiFlag=((m_bYaPaiFlag==true)?1:0);
-	CMolMessageOut out(IDD_MESSAGE_ROOM);
-	out.write16(SUB_S_OUT_CARD);
-	out.write16(wChairID);
-	out.write16(m_wShowTimes);
-	out.write16(m_wCurrentUser);
-	out.write16(bYaPaiFlag);
-	out.write16(m_bTurnCardCount);
+
+    Json::Value out;
+    out["MsgId"] = IDD_MESSAGE_ROOM;
+    out["MsgSubId"] = SUB_S_OUT_CARD;
+    out["ChairId"] = wChairID;
+    out["ShowTimes"] = m_wShowTimes;
+    out["CurrentUser"] = m_wCurrentUser;
+    out["YaPaiFlag"] = bYaPaiFlag;
+    out["OutCardCount"] = m_bTurnCardCount;
 	for (int i=0;i<m_bTurnCardCount;i++)
 	{
-		out.write16(m_GameLogic.ChangeCardDate(m_bTurnCardData[i]));
+		out["OutCardData"][i]=m_GameLogic.ChangeCardDate(m_bTurnCardData[i]);
 	}
 
 	m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
@@ -1191,7 +1197,7 @@ bool CServerLogicFrame::OnUserOutCard(WORD wChairID, BYTE bCardData[], int bCard
 		//当前玩家非首出牌断线超时不出
 		if(m_bUserOffLine[m_wCurrentUser] && m_bTurnCardCount!=0)
 		{
-			WORD wNextChairID=(wChairID+1)%GAME_PLAYER;
+			uint16 wNextChairID=(wChairID+1)%GAME_PLAYER;
 			if( !m_PassTime[wNextChairID] )
 			{
 				m_g_GameRoom->StartTimer(IDI_OUT_CARD_MISS+wNextChairID,30);
@@ -1232,7 +1238,7 @@ bool CServerLogicFrame::OnUserOutCard(WORD wChairID, BYTE bCardData[], int bCard
 }
 
 //用户不出
-bool CServerLogicFrame::OnUserPassCard(WORD wChairID)
+bool CServerLogicFrame::OnUserPassCard(uint16 wChairID)
 {
 	//效验状态
 	if (m_curGameState!=GS_WK_PLAYING) return true;
@@ -1249,24 +1255,26 @@ bool CServerLogicFrame::OnUserPassCard(WORD wChairID)
 	{
 		m_bTurnCardCount=0;
 
-		CopyMemory(m_cbLastTurnOutCard,m_cbNowTurnOutCard,sizeof(m_cbLastTurnOutCard));
-		CopyMemory(m_nLastTurnOutCount,m_nNowTurnOutCount,sizeof(m_nLastTurnOutCount));
+		memcpy(m_cbLastTurnOutCard,m_cbNowTurnOutCard,sizeof(m_cbLastTurnOutCard));
+		memcpy(m_nLastTurnOutCount,m_nNowTurnOutCount,sizeof(m_nLastTurnOutCount));
 	}
 
 	//出牌记录
 	m_nNowTurnOutCount[wChairID] = 0;
-	CopyMemory(m_cbLastTurnOutCard[m_wCurrentUser],m_cbNowTurnOutCard[m_wCurrentUser],sizeof(BYTE)*m_nNowTurnOutCount[m_wCurrentUser]);
+	memcpy(m_cbLastTurnOutCard[m_wCurrentUser],m_cbNowTurnOutCard[m_wCurrentUser],sizeof(uint8)*m_nNowTurnOutCount[m_wCurrentUser]);
 	m_nLastTurnOutCount[m_wCurrentUser] = m_nNowTurnOutCount[m_wCurrentUser];
 	m_nNowTurnOutCount[m_wCurrentUser] = 0;
 
 
 	//发送数据
 	int bNewTurn=(m_bTurnCardCount==0)?1:0;		//1为true,0为false
-	CMolMessageOut out(IDD_MESSAGE_ROOM);
-	out.write16(SUB_S_PASS_CARD);
-	out.write16(wChairID);
-	out.write16(m_wCurrentUser);
-	out.write16(bNewTurn);
+
+    Json::Value out;
+    out["MsgId"] = IDD_MESSAGE_ROOM;
+    out["MsgSubId"] = SUB_S_PASS_CARD;
+    out["ChairId"] = wChairID;
+    out["CurrentUser"] = m_wCurrentUser;
+    out["bNewTurn"] = bNewTurn;
 	m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 	//玩家断线超时不出
@@ -1275,7 +1283,7 @@ bool CServerLogicFrame::OnUserPassCard(WORD wChairID)
 		//当前玩家非首出牌断线超时不出牌
 		if(m_bUserOffLine[m_wCurrentUser]&& m_bTurnCardCount!=0 )
 		{
-			WORD wNextChairID=(wChairID+1)%GAME_PLAYER;
+			uint16 wNextChairID=(wChairID+1)%GAME_PLAYER;
 			if( !m_PassTime[wNextChairID] )
 			{
 				m_g_GameRoom->StartTimer(IDI_OUT_CARD_MISS+wNextChairID,30);
@@ -1303,17 +1311,18 @@ bool CServerLogicFrame::OnUserPassCard(WORD wChairID)
 	return true;
 }
 //玩家托管
-bool CServerLogicFrame::OnUserTrustee(WORD wChairID,int isAutoPlay)
+bool CServerLogicFrame::OnUserTrustee(uint16 wChairID,int isAutoPlay)
 {
 	bool bTrustee=(isAutoPlay==1)?true:false;
 
 	m_bUserTrustee[ wChairID ] = bTrustee;
 
 	//变量定义
-	CMolMessageOut out(IDD_MESSAGE_ROOM);
-	out.write16(SUB_S_TRUSTEE);
-	out.write16(wChairID);
-	out.write16(isAutoPlay);
+    Json::Value out;
+    out["MsgId"] = IDD_MESSAGE_ROOM;
+    out["MsgSubId"] = SUB_S_TRUSTEE;
+    out["ChairId"] = wChairID;
+    out["isAutoPlay"] = isAutoPlay;
 	m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 	return true;
@@ -1327,9 +1336,9 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 
 	if(pRoom->GetRoomType() == ROOMTYPE_BISAI)
 	{
-		m_MatchOver=true;
+		/*m_MatchOver=true;
 		bool isok=false;
-		LONG MatchScore[GAME_PLAYER];//比赛玩家积分
+		uint32 MatchScore[GAME_PLAYER];//比赛玩家积分
 		memset(MatchScore,0,sizeof(MatchScore));
 		for(int i=0;i<GAME_PLAYER;i++)
 		{
@@ -1345,11 +1354,11 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 				{
 					isok=true;
 				}
-			//}
+			//}*/
 
 			//每局结束计算玩家积分
-			LONG lCellScore=1/*m_g_GameRoom->GetGamePielement()*/;	//单元积分
-			if (m_wBankerUser!=INVALID_CHAIR)//排除超三次重发牌结束的情况
+		//	uint32 lCellScore=1/*m_g_GameRoom->GetGamePielement()*/;	//单元积分
+			/*if (m_wBankerUser!=INVALID_CHAIR)//排除超三次重发牌结束的情况
 			{
 				bool bLandWin=(m_bCardCount[m_wBankerUser]==0)?true:false;
 
@@ -1365,25 +1374,26 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 					pPlayer->SetMatchResult(pPlayer->GetMatchResult()+MatchScore[i]);
 				}
 			}
-		}
+		}*/
 
-		for(int i=0;i<GAME_PLAYER;i++)
+		/*for(int i=0;i<GAME_PLAYER;i++)
 		{
 			Player *pPlayer = pRoom->GetPlayer(i);
 			if(pPlayer == NULL) continue;
 
 			// 得到比赛排名
 			pPlayer->GetPlayerRanking();
-		}
+		}*/
 
 		//发送信息
-		CMolMessageOut out(IDD_MESSAGE_ROOM);
-		out.write16(SUB_S_MATCH_END);
-		for (int i=0;i<GAME_PLAYER;i++)
-		{
-			out.write32(MatchScore[i]);
-		}
-		m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
+       // Json::Value out;
+       // out["MsgId"] = IDD_MESSAGE_ROOM;
+       // out["MsgSubId"] = SUB_S_MATCH_END;
+		//for (int i=0;i<GAME_PLAYER;i++)
+		//{
+		//	out["MatchScore"][i] = MatchScore[i];
+		//}
+		//m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 
 		//随机选择下一局首叫牌玩家
@@ -1394,10 +1404,10 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 		//	pPlayer->SendReadyMsg();
 		//}
 
-		if(isok)
-		{
-			m_g_GameRoom->StartTimer(IDI_DELAY_READY,3);	//延时发准备消息
-		}
+		//if(isok)
+		//{
+		//	m_g_GameRoom->StartTimer(IDI_DELAY_READY,3);	//延时发准备消息
+		//}
 	}
 	else
 	{
@@ -1411,8 +1421,8 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 					//春天判断
 					if ( wChairID == m_wBankerUser )
 					{
-						WORD wUser1 = ( m_wBankerUser + 1 ) % GAME_PLAYER;
-						WORD wUser2 = ( m_wBankerUser + 2 ) % GAME_PLAYER;
+						uint16 wUser1 = ( m_wBankerUser + 1 ) % GAME_PLAYER;
+						uint16 wUser2 = ( m_wBankerUser + 2 ) % GAME_PLAYER;
 						if ( ( m_bOutCardCount[ wUser1 ] == 0 ) && ( m_bOutCardCount[ wUser2 ] == 0 ) ) m_lThuntian *= 2;
 					}
 					else
@@ -1420,13 +1430,13 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 						if ( m_bOutCardCount[ m_wBankerUser ] == 1 ) m_lThuntian *= 2;
 					}
 
-					LONG lCellScore=m_g_GameRoom->GetGamePielement();	//单元积分
+					uint32 lCellScore=m_g_GameRoom->GetGamePielement();	//单元积分
 					int64 lGameScore[GAME_PLAYER];						//玩家金币
 
 					bool bLandWin=(m_bCardCount[m_wBankerUser]==0)?true:false;
 
 					//计算积分
-					for (WORD i=0;i<GAME_PLAYER;i++)
+					for (uint16 i=0;i<GAME_PLAYER;i++)
 					{
 						if (i==m_wBankerUser)
 						{
@@ -1441,7 +1451,7 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 					//int wShowTimes=m_lSnatchLand*m_lBrightCard*m_wBombTime * m_lThuntian;//倍数显示
 
 					//积分平衡
-					for (WORD i=0;i<GAME_PLAYER;i++)
+					for (uint16 i=0;i<GAME_PLAYER;i++)
 					{
 						if (lGameScore[i]<0)
 						{
@@ -1452,7 +1462,7 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 								//金币调整
 								if (i==m_wBankerUser)
 								{
-									for (WORD j=0;j<GAME_PLAYER;j++)
+									for (uint16 j=0;j<GAME_PLAYER;j++)
 									{
 										if (j!=m_wBankerUser)
 										{
@@ -1481,7 +1491,7 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 					int64 lScore=0;
 					int64 lRevenue=0;
 					enScoreKind ScoreKind;
-					for (WORD i=0;i<GAME_PLAYER;i++)
+					for (uint16 i=0;i<GAME_PLAYER;i++)
 					{
 						//计算税收
 						lRevenue=0;
@@ -1493,9 +1503,9 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 							mole2d::network::System_Log(str);				*/
 							lGameScore[i]=lGameScore[i]-lRevenue;
 
-							CString tmpStr;
-							tmpStr.Format(TEXT("%s刚赢走了%ld金币，朋友您得加油了！"),pRoom->Utf8ConverToWideChar( pRoom->GetPlayer(i)->GetName()).GetBuffer(),lGameScore[i]);
-							pRoom->SendTrumpetMes(IDD_MESSAGE_TYPE_SUPER_SMAILL_MSG,tmpStr.GetBuffer());
+							//char tmpStr[256];
+							//sprintf(tmpStr,"%s刚赢走了%ld金币，朋友您得加油了！",pRoom->GetPlayer(i)->GetName().c_str(),lGameScore[i]);
+							//pRoom->SendTrumpetMes(IDD_MESSAGE_TYPE_SUPER_SMAILL_MSG,tmpStr.GetBuffer());
 						}
 						lScore = lGameScore[i];
 						ScoreKind = lScore > 0 ? enScoreKind_Win : enScoreKind_Lost;
@@ -1503,23 +1513,23 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 					}
 
 					//发送信息
-					CMolMessageOut out(IDD_MESSAGE_ROOM);
-					out.write16(SUB_S_GAME_END);
-					out.write16(m_lSnatchLand);
-					out.write16(m_lBrightCard);
-					out.write16(m_wBombTime);
-					out.write16(m_lThuntian);
-					//out.write16(wShowTimes);
+                    Json::Value out;
+                    out["MsgId"] = IDD_MESSAGE_ROOM;
+                    out["MsgSubId"] = SUB_S_GAME_END;
+                    out["SnatchLand"] = m_lSnatchLand;
+                    out["BrightCard"] = m_lBrightCard;
+                    out["BombTime"]	= m_wBombTime;
+                    out["Thuntian"] = m_lThuntian;
 					for (int i=0;i<GAME_PLAYER;i++)
 					{
-						out.write64(lGameScore[i]);
+						out["GameScore"][i] = (Json::Int64)lGameScore[i];
 					}
 					for (int i=0;i<GAME_PLAYER;i++)
 					{
-						out.write16(m_bCardCount[i]);
+						out["CardCount"][i] = m_bCardCount[i];
 						for (int j=0;j<m_bCardCount[i];j++)
 						{
-							out.write16(m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]));
+							out["HandCardData"][i][j] = m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]);
 						}
 					}
 					m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
@@ -1535,22 +1545,23 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 				else	//超三次重发牌解散游戏
 				{
 					//发送信息
-					CMolMessageOut out(IDD_MESSAGE_ROOM);
-					out.write16(SUB_S_GAME_END);
-					out.write16(1);
-					out.write16(1);
-					out.write16(1);
-					out.write16(1);
+                    Json::Value out;
+                    out["MsgId"] = IDD_MESSAGE_ROOM;
+                    out["MsgSubId"] = SUB_S_GAME_END;
+                    out["SnatchLand"] = 1;
+                    out["BrightCard"] = 1;
+                    out["BombTime"]	= 1;
+                    out["Thuntian"] = 1;
 					for (int i=0;i<GAME_PLAYER;i++)
 					{
-						out.write64(0);
+						out["GameScore"][i] = 0;
 					}
 					for (int i=0;i<GAME_PLAYER;i++)
 					{
-						out.write16(m_bCardCount[i]);
+						out["CardCount"][i] = m_bCardCount[i];
 						for (int j=0;j<m_bCardCount[i];j++)
 						{
-							out.write16(m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]));
+							out["HandCardData"][i][j] = m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]);
 						}
 					}
 					m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
@@ -1573,15 +1584,15 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 			else
 			{
 				//手上未出炸弹计算
-				for ( WORD wUserID = 0; wUserID < GAME_PLAYER; ++wUserID )
+				for ( uint16 wUserID = 0; wUserID < GAME_PLAYER; ++wUserID )
 				{
 					//分析扑克
 					tagAnalyseResult AnalyseResult ;
-					ZeroMemory(&AnalyseResult, sizeof( AnalyseResult ) );
+					memset(&AnalyseResult,0, sizeof( AnalyseResult ) );
 					m_GameLogic.AnalysebCardData(m_bHandCardData[wUserID], m_bCardCount[wUserID], AnalyseResult) ;
 
 					//炸弹
-					for (WORD i=1;i <= AnalyseResult.cbFourCount;i++)
+					for (uint16 i=1;i <= AnalyseResult.cbFourCount;i++)
 					{
 						m_wBombTime *= 2;
 					}
@@ -1598,7 +1609,7 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 				//设置状态
 			m_curGameState=GS_WK_FREE;
 
-			LONG lCellScore=m_g_GameRoom->GetGamePielement();	//单元积分
+			uint32 lCellScore=m_g_GameRoom->GetGamePielement();	//单元积分
 			int64 lGameScore[GAME_PLAYER];
 			lGameScore[wChairID] = -(lCellScore*m_lSnatchLand*m_lBrightCard*m_wBombTime*m_lThuntian*2);
 
@@ -1615,7 +1626,7 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 					lGameScore[wChairID] = - pUserMoney;
 				}
 				//计算积分
-				for (WORD i=0;i<GAME_PLAYER;i++)
+				for (uint16 i=0;i<GAME_PLAYER;i++)
 				{
 					if ( i != wChairID ) lGameScore[i] = (-lGameScore[wChairID])/2;
 				}
@@ -1624,7 +1635,7 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 				int64 lScore=0;
 				int64 lRevenue=0;
 				enScoreKind ScoreKind;
-				for (WORD i=0;i<GAME_PLAYER;i++)
+				for (uint16 i=0;i<GAME_PLAYER;i++)
 				{
 					//计算税收
 					lRevenue=0;
@@ -1640,25 +1651,25 @@ void CServerLogicFrame::OverGame(WORD wChairID,Room *pRoom,bool isrunarray)
 			}
 
 			//发送信息
-			CMolMessageOut out(IDD_MESSAGE_ROOM);
-			out.write16(SUB_S_GAME_END);
-			out.write16(m_lSnatchLand);
-			out.write16(m_lBrightCard);
-			out.write16(m_wBombTime);
-			out.write16(m_lThuntian);
-			//out.write16(wShowTimes);
-			for (int i=0;i<GAME_PLAYER;i++)
-			{
-				out.write64(lGameScore[i]);
-			}
-			for (int i=0;i<GAME_PLAYER;i++)
-			{
-				out.write16(m_bCardCount[i]);
-				for (int j=0;j<m_bCardCount[i];j++)
-				{
-					out.write16(m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]));
-				}
-			}
+            Json::Value out;
+            out["MsgId"] = IDD_MESSAGE_ROOM;
+            out["MsgSubId"] = SUB_S_GAME_END;
+            out["SnatchLand"] = m_lSnatchLand;
+            out["BrightCard"] = m_lBrightCard;
+            out["BombTime"]	= m_wBombTime;
+            out["Thuntian"] = m_lThuntian;
+            for (int i=0;i<GAME_PLAYER;i++)
+            {
+                out["GameScore"][i] = (Json::Int64)lGameScore[i];
+            }
+            for (int i=0;i<GAME_PLAYER;i++)
+            {
+                out["CardCount"][i] = m_bCardCount[i];
+                for (int j=0;j<m_bCardCount[i];j++)
+                {
+                    out["HandCardData"][i][j] = m_GameLogic.ChangeCardDate(m_bHandCardData[i][j]);
+                }
+            }
 			m_g_GameRoom->SendTableMsg(INVALID_CHAIR,out);
 
 			//随机选择下一局首叫牌玩家
@@ -1725,7 +1736,7 @@ void CServerLogicFrame::Clear(void)
 
 }
 //测试用
-bool CServerLogicFrame::Test( BYTE bAllCard[])
+bool CServerLogicFrame::Test( uint8 bAllCard[])
 {
 	/*//获取目录
 	TCHAR szPath[MAX_PATH]=TEXT("");

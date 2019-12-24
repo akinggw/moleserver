@@ -93,12 +93,11 @@ void CRobotLogicFrame::OnProcessPlayerRoomMes(Json::Value &mes)
 			//ËùÓÐÆË¿Ë
 			uint16 cbHandCardData[3][20];
 			uint8 ChangeHandCardData[3][20];
-			uint8 uindex = 0;
 			for ( uint16 i = 0; i < GAME_PLAYER; i++ )
 			{
 				for ( uint16 j = 0; j < 17; j++ )
 				{
-					cbHandCardData[i][j]=mes["cbHandCardData"][uindex++].asInt();
+					cbHandCardData[i][j]=mes["cbHandCardData"][i][j].asInt();
 					ChangeHandCardData[i][j]=m_GameLogic.OnChangeCardDate(cbHandCardData[i][j]);
 				}
 				m_GameLogic.SetUserCard(i, ChangeHandCardData[i], 17) ;

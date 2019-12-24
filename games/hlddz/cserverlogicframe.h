@@ -32,6 +32,29 @@ public:
 	virtual void OnProcessTimerMsg(int timerId,int curTimer);
 
 private:
+	//玩家叫分
+	bool OnUserLandScore(uint16 wChairID, int bLandScore);
+	//玩家明牌
+	bool OnUserBrightCard(uint16 wChairID);
+	//玩家出牌
+	bool OnUserOutCard(uint16 wChairID, uint8 bCardData[], int bCardCount);
+	//玩家放弃
+	bool OnUserPassCard(uint16 wChairID);
+	//玩家托管
+	bool OnUserTrustee(uint16 wChairID,int isAutoPlay);
+	//jackPot
+	bool OnJackPot(int nBoomCount);
+
+private:
+	// 清空游戏资源
+	void Clear(void);
+	// 游戏结束
+	void OverGame(uint16 wChairID,Room *pRoom,bool isrunarray=false);
+	//测试用
+	bool Test(uint8 bAllCard[]);
+
+
+private:
 	Room *m_g_GameRoom;                                  /**< 游戏房间 */
 
 protected:

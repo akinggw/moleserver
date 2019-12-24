@@ -749,7 +749,7 @@ void CServerLogicFrame::GameEnd(void)
 			pResult += pTmpResult;
 
 			char str[256];
-			sprintf(str,"%s:%lld",m_GameLogic.GetCarTypeName((*iterTwo).first).c_str(),(*iterTwo).second);
+			sprintf(str,"%s:%ld",m_GameLogic.GetCarTypeName((*iterTwo).first).c_str(),(*iterTwo).second);
 			jettonstr+=str;
 		}
 
@@ -815,7 +815,7 @@ void CServerLogicFrame::GameEnd(void)
 		for(;iter != m_usertotaljettonlist.end();++iter)
 		{
 			char str[256];
-			sprintf(str,"%s%s:%lld",jettonstr,m_GameLogic.GetCarTypeName((*iter).first).c_str(),(*iter).second);
+			sprintf(str,"%s%s:%ld",jettonstr,m_GameLogic.GetCarTypeName((*iter).first).c_str(),(*iter).second);
 		}
 
 		enScoreKind ScoreKind = pTotalResult > 0 ? enScoreKind_Win : enScoreKind_Lost;
