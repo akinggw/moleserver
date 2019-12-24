@@ -29,7 +29,7 @@ var m_yaoshaiIndex=0;
 var m_yaoshaiCount=0;
 var m_all_card_data = [];
 var m_all_card_types = [];
-var m_user_mouse_isprocess = true;
+var m_user_mouse_isprocess = false;
 var m_MenuItemObjTag = 100;
 var m_all_jettonsprites = [];
 var m_all_jettonsprites_count = 0;
@@ -207,6 +207,13 @@ function FaPai(cards,index=0) {
     var color = (tmp & 240) >> 4;
     var value = (tmp & 15);
 
+    if(tmp == 78 || tmp == 79) {
+        value = value % 14;
+    }
+    else {
+        value = value - 1;
+    }
+
     v_card_result_sprite_anim.setPosition(size.width / 2, size.height / 2+50);
     v_card_result_sprite_anim.setVisible(true);
 
@@ -236,7 +243,7 @@ function FaPai(cards,index=0) {
             },1000);
         }
     },v_card_result_sprite_anim);
-    var moveTo = cc.moveTo(0.1, v_card_result_sprite[index].getPosition());
+    var moveTo = cc.moveTo(0.2, v_card_result_sprite[index].getPosition());
     var seq = cc.sequence(moveTo, showPosition);
     v_card_result_sprite_anim.runAction(seq);
 }
@@ -647,6 +654,8 @@ function MenuItemMousePro(touch,event) {
     //当前触摸点是否在rect范围内
     var boolRet = cc.rectContainsPoint(rect, posInNode);
 
+    console.info(posInNode.x + " " + posInNode.y);
+
     if (m_MenuItemObjTag == 0)
         return boolRet;
 
@@ -655,9 +664,15 @@ function MenuItemMousePro(touch,event) {
         return;
     }
 
+    var p_JettonArea = [];
+    p_JettonArea[0] = cc.rect(104,259,176,125);
+    p_JettonArea[1] = cc.rect(296,259,176,125);
+    p_JettonArea[2] = cc.rect(483,259,176,125);
+    p_JettonArea[3] = cc.rect(687,259,176,125);
+
     for (var i = 0; i<4; i++)
     {
-        var iscontains = cc.rectContainsPoint(m_JettonArea[i],posInNode);
+        var iscontains = cc.rectContainsPoint(p_JettonArea[i],posInNode);
 
         if(iscontains) {
             GamingJetton(i,m_MenuItemObjTag,true);

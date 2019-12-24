@@ -249,7 +249,9 @@ function OnProcessGameSocketOnMessage(msg) {
                         cc.audioEngine.playEffect(v_game_sound_EndDraw, false);
                     }
 
+                    m_GameState=STATE_GAMEEND;
                     showgameresult(pusertotalmoney,true);
+                    ShowGamingState(m_GameState);
                     m_myuserlabelResult.setString("成绩:"+m_usertotalGamingResult);
                 }
                     break;
