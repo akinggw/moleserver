@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libmajiang" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="libmajiang" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Unit filename="../../include/MahJong/MahJongAlg.h" />
+		<Unit filename="../../include/MahJong/MahJongLogic.h" />
+		<Unit filename="../../include/MahJong/MahJongStruct.h" />
+		<Unit filename="MahJongAlg.cpp" />
+		<Unit filename="MahJongLogic.cpp" />
+		<Unit filename="makefile" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

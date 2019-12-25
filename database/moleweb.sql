@@ -119,7 +119,7 @@ CREATE TABLE `mol_game` (
   `state` int(1) NOT NULL DEFAULT '0',
   `showindex` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=300008 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=300009 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ CREATE TABLE `mol_game` (
 
 LOCK TABLES `mol_game` WRITE;
 /*!40000 ALTER TABLE `mol_game` DISABLE KEYS */;
-INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0,12),(300002,'龙虎斗',0,16777218,'libgame_lhd.so','lhdlog.png','haha',0,11),(300003,'神兽转盘',0,16777218,'libgame_sszp.so','sszplog.png','haha',0,10),(300004,'奔驰宝马',0,16777218,'libgame_bcbm.so','bcbmlog.png','haha',0,9),(300005,'百人牛牛',0,16777218,'libgame_brnn.so','brnnlog.png','haha',0,8),(300006,'欢乐斗地主',0,16777218,'libgame_hlddz.so','hlddzlogo.png','haha',0,7),(300007,'李逵劈鱼',0,16777218,'libgame_lkpy.so','lkpylogo.png','haha',0,6);
+INSERT INTO `mol_game` VALUES (300001,'欢乐斗地主',0,16777218,'libgame_ddz.so','hlddzlog.png','haha',0,12),(300002,'龙虎斗',0,16777218,'libgame_lhd.so','lhdlog.png','haha',0,11),(300003,'神兽转盘',0,16777218,'libgame_sszp.so','sszplog.png','haha',0,10),(300004,'奔驰宝马',0,16777218,'libgame_bcbm.so','bcbmlog.png','haha',0,9),(300005,'百人牛牛',0,16777218,'libgame_brnn.so','brnnlog.png','haha',0,8),(300006,'欢乐斗地主',0,16777218,'libgame_hlddz.so','hlddzlogo.png','haha',0,7),(300007,'李逵劈鱼',0,16777218,'libgame_lkpy.so','lkpylogo.png','haha',0,6),(300008,'血战麻将',0,16777218,'libgame_xzmj.so','xzmjlogo.png','haha',0,5);
 /*!40000 ALTER TABLE `mol_game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `mol_gamerecords` (
   `agentmoney` bigint(15) NOT NULL DEFAULT '0',
   `curjetton` bigint(15) NOT NULL DEFAULT '0',
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +195,7 @@ CREATE TABLE `mol_gameroom` (
   `gstate` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `gameid` (`gameid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +204,7 @@ CREATE TABLE `mol_gameroom` (
 
 LOCK TABLES `mol_gameroom` WRITE;
 /*!40000 ALTER TABLE `mol_gameroom` DISABLE KEYS */;
-INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,1,'2019-12-02 16:55:27',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0),(2,300002,'龙虎斗普通场',3336,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-05 11:57:28',0,0,'{\r\n\"long\":5.0,\r\n\"hu\":5.0,\r\n\"he\":5.0,\r\n\"gamestart\":5,\r\n\"xiazhu\":55,\r\n\"kaipai\":15,\r\n\"jiesuan\":5\r\n}',0),(3,300003,'神兽转盘普通场',3307,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-10 12:00:29',0,0,'{\r\n\"shangzhuangcount\":10,\r\n\"zhuangminmoney\":10000,\r\n\"qinglong\":20,\r\n\"baihu\":20,\r\n\"zhuque\":20,\r\n\"xuanwu\":20,\r\n\"xiaoqinglong\":5,\r\n\"xiaobaihu\":5,\r\n\"xiaofenghuang\":5,\r\n\"xiaowugui\":5,\r\n\"gamestart\":5,\r\n\"xiazhu\":55,\r\n\"kaipai\":15,\r\n\"jiesuan\":5\r\n}',0),(4,300004,'奔驰宝马普通场',3308,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-18 12:59:54',0,0,'{\r\n\"falali\":40,\r\n\"lanbojili\":30,\r\n\"masailadi\":20,\r\n\"baoshijie\":10,\r\n\"benci\":5,\r\n\"baoma\":5,\r\n\"aodi\":5,\r\n\"dazong\":5,\r\n\"zhuangminmoney\":10,\r\n\"shangzhuangcount\":5,\r\n\"gamestart\":3,\r\n\"xiazhu\":20,\r\n\"kaipai\":15,\r\n\"jiesuan\":6\r\n}',0),(5,300005,'百人牛牛普通场',3309,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,'{\r\n\"shangzhuangcount\":10,\r\n\"minzhuangmoney\":10000,\r\n\"gamestart\":3,\r\n\"xiazhu\":20,\r\n\"kaipai\":25,\r\n\"jiesuan\":5\r\n}',0),(6,300006,'欢乐斗地主普通场',3310,100,3,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,NULL,0),(7,300007,'李逵劈鱼普通场',3311,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,NULL,0);
+INSERT INTO `mol_gameroom` VALUES (1,300001,'欢乐斗地主普通场',3335,1,100,'127.0.0.1',0,10,1,1,0,1,'2019-12-02 16:55:27',0,0,'{\r\n\"方块\":3.8,\r\n\"梅花\":3.8,\r\n\"黑桃\":4.0,\r\n\"红桃\":4.0,\r\n\"王\":20.0,\r\n\"开始时间\":3,\r\n\"下注时间\":55,\r\n\"开牌时间\":5,\r\n\"结算时间\":5\r\n}',0),(2,300002,'龙虎斗普通场',3336,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-05 11:57:28',0,0,'{\r\n\"long\":5.0,\r\n\"hu\":5.0,\r\n\"he\":5.0,\r\n\"gamestart\":5,\r\n\"xiazhu\":55,\r\n\"kaipai\":15,\r\n\"jiesuan\":5\r\n}',0),(3,300003,'神兽转盘普通场',3307,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-10 12:00:29',0,0,'{\r\n\"shangzhuangcount\":10,\r\n\"zhuangminmoney\":10000,\r\n\"qinglong\":20,\r\n\"baihu\":20,\r\n\"zhuque\":20,\r\n\"xuanwu\":20,\r\n\"xiaoqinglong\":5,\r\n\"xiaobaihu\":5,\r\n\"xiaofenghuang\":5,\r\n\"xiaowugui\":5,\r\n\"gamestart\":5,\r\n\"xiazhu\":55,\r\n\"kaipai\":15,\r\n\"jiesuan\":5\r\n}',0),(4,300004,'奔驰宝马普通场',3308,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-18 12:59:54',0,0,'{\r\n\"falali\":40,\r\n\"lanbojili\":30,\r\n\"masailadi\":20,\r\n\"baoshijie\":10,\r\n\"benci\":5,\r\n\"baoma\":5,\r\n\"aodi\":5,\r\n\"dazong\":5,\r\n\"zhuangminmoney\":10,\r\n\"shangzhuangcount\":5,\r\n\"gamestart\":3,\r\n\"xiazhu\":20,\r\n\"kaipai\":15,\r\n\"jiesuan\":6\r\n}',0),(5,300005,'百人牛牛普通场',3309,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,'{\r\n\"shangzhuangcount\":10,\r\n\"minzhuangmoney\":10000,\r\n\"gamestart\":3,\r\n\"xiazhu\":20,\r\n\"kaipai\":25,\r\n\"jiesuan\":5\r\n}',0),(6,300006,'欢乐斗地主普通场',3310,100,3,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,NULL,0),(7,300007,'李逵劈鱼普通场',3311,1,100,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,NULL,0),(8,300008,'血战麻将普通场',3312,100,4,'127.0.0.1',0,10,1,1,0,0,'2019-12-24 14:07:08',0,0,NULL,0);
 /*!40000 ALTER TABLE `mol_gameroom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1353,4 +1353,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-24 15:23:35
+-- Dump completed on 2019-12-25 11:13:18

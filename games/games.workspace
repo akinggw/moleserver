@@ -8,5 +8,6 @@
 		<Project filename="bcbm/bcbm.cbp" />
 		<Project filename="brnn/brnn.cbp" />
 		<Project filename="hlddz/hlddz.cbp" />
+		<Project filename="xzmj/xzmj.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
