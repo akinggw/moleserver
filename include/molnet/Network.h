@@ -2,7 +2,7 @@
 #define Network
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated"
 
 #include "common.h"
 #include "CircularBuffer.h"

@@ -55,6 +55,10 @@
 		<Unit filename="gameparamconfig.h" />
 		<Unit filename="gameserver_common.h" />
 		<Unit filename="makefile" />
+		<Unit filename="matching/CBasicMatchingMode.cpp" />
+		<Unit filename="matching/CBasicMatchingMode.h" />
+		<Unit filename="matching/CDieOutMatchingMode.cpp" />
+		<Unit filename="matching/CDieOutMatchingMode.h" />
 		<Unit filename="videoPlayback/CVideoPlaybackManager.cpp" />
 		<Unit filename="videoPlayback/CVideoPlaybackManager.h" />
 		<Extensions>

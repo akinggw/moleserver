@@ -13,6 +13,9 @@
 
 class DataProvider;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+
 /**
  * 用于建立数据库管理的一个工厂类
  */
@@ -30,5 +33,7 @@ private:
 	~DataProviderFactory(void)
 		throw();
 };
+
+#pragma clang diagnostic pop
 
 #endif

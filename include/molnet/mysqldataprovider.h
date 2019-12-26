@@ -18,6 +18,9 @@
 #include "connectPool.h"
 #include "dataprovider.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+
 /**
  * mysql的数据库操作实现类
  */
@@ -69,5 +72,7 @@ public:
 private:
 	ConnectPool m_ConnectPool;                             /**< 数据的连接池 */
 };
+
+#pragma clang diagnostic pop
 
 #endif

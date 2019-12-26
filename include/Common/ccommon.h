@@ -28,17 +28,6 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-//存储长度
-#ifdef _UNICODE
-	#define Counstd::stringBuffer Counstd::stringBufferW
-#else
-	#define Counstd::stringBuffer Counstd::stringBufferA
-#endif
-
-//存储长度
-#define Counstd::stringBufferA(String) ((uint32)((lstrlenA(String)+1)*sizeof(CHAR)))
-#define Counstd::stringBufferW(String) ((uint32)((lstrlenW(String)+1)*sizeof(WCHAR)))
-
 //////////////////////////////////////////////////////////////////////////
 
 //接口释放

@@ -645,12 +645,12 @@ void PlayerManager::UpdatePlayersTableInfo(void)
 		CRoom *pRoom = ServerRoomManager.GetUnderFullRoom();
 		if(pRoom == NULL) break;
 
-		CMolMessageOut out(IDD_MESSAGE_FRAME);
-		out.write16(IDD_MESSAGE_FRAME_ROOM_UNDERFULL);
-		out.write16(pRoom->GetID());
-		out.write16(pRoom->GetMaxPlayer() - pRoom->GetPlayerCount());
-
-		Send((*iter).second->GetConnectID(),out);
+        Json::Value out;
+        out["MsgId"] = IDD_MESSAGE_FRAME;
+        out["MsgSubId"] = IDD_MESSAGE_FRAME_ROOM_UNDERFULL;
+        out["RoomID"] = pRoom->GetID();
+        out["ChairCount"] = pRoom->GetMaxPlayer() - pRoom->GetPlayerCount();
+		Sendhtml5((*iter).second->GetConnectID(),(const char*)out.toStyledString().c_str(),out.toStyledString().length());
 	}
 	m_PlayersLock.Release();
 }

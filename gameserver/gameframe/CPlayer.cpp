@@ -2,6 +2,7 @@
 
 #include "../GameFrameManager.h"
 #include "PlayerManager.h"
+#include "../matching/CDieOutMatchingMode.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -15,6 +16,14 @@ CPlayer::CPlayer(PlayerType type)
 	m_CurGamingState(false),m_roomentermoneyfirst(0),m_roomentermoneysecond(0),m_curGamingResult(0)
 {
 	SetType(type);
+
+	m_MatchCount=0;
+	m_TotalMatchCount=0;
+	m_MatchResult=0;
+	m_IsMatching=false;
+	m_MatchRoomIndex=-1;
+	m_IsMatchingLostOnline=false;
+	m_IsMatchSignUp=false;
 
 	if(m_PlayerType == PLAYERTYPE_ROBOT)
 	{
@@ -33,6 +42,14 @@ CPlayer::CPlayer(int id,uint32 conid)
 	m_CurGamingState(false),m_roomentermoneyfirst(0),m_roomentermoneysecond(0),m_curGamingResult(0)
 {
 	SetType(PLAYERTYPE_NORMAL);
+
+	m_MatchCount=0;
+	m_TotalMatchCount=0;
+	m_MatchResult=0;
+	m_IsMatching=false;
+	m_MatchRoomIndex=-1;
+	m_IsMatchingLostOnline=false;
+	m_IsMatchSignUp=false;
 }
 
 CPlayer::~CPlayer()
@@ -213,5 +230,12 @@ void CPlayer::SendGameMsg(Json::Value &msg)
 /// 发送准备消息
 void CPlayer::SendReadyMsg(void)
 {
+	ServerGameFrameManager.OnProcessGameReadyMatchingMes(this);
+}
 
+/// 获取指定玩家比赛中排名
+void CPlayer::GetPlayerRanking(void)
+{
+	if(m_ServerSet.GameType == ROOMTYPE_BISAI)
+		CTabelFrameManager::getSingleton().GetPlayerRanking(this);
 }

@@ -179,6 +179,37 @@ public:
 	virtual void SendGameMsg(Json::Value &msg) = 0;
 	/// 发送准备消息
 	virtual void SendReadyMsg(void) = 0;
+
+	/// 是否处于比赛中
+	virtual bool IsMatching(void) = 0;
+	/// 设置是否比赛中
+	virtual void SetMatching(bool im) = 0;
+	/// 是否比赛报名
+	virtual bool IsMatchSignUp(void) = 0;
+	/// 设置是否比赛报名
+	virtual void SetMatchSignUp(bool ms) = 0;
+	/// 比赛局数
+	virtual void SetMatchCount(int count) = 0;
+	/// 得到比赛局数
+	virtual int GetMatchCount(void) = 0;
+	/// 比赛总局数
+	virtual void SetTotalMatchCount(int count) = 0;
+	/// 得到比赛总局数
+	virtual int GetTotalMatchCount(void) = 0;
+	/// 比赛分数
+	virtual void SetMatchResult(int64 result) = 0;
+	/// 得到比赛分数
+	virtual int64 GetMatchResult(void) = 0;
+	/// 获取指定玩家比赛中排名
+	virtual void GetPlayerRanking(void) = 0;
+	/// 设置比赛房间索引
+	virtual void SetMatchRoomIndex(int index) = 0;
+	/// 得到比赛房间索引
+	virtual int GetMatchRoomIndex(void) = 0;
+	/// 是否比赛中掉线
+	virtual bool IsMatchingLostLine(void) = 0;
+	/// 设置是否比赛中掉线
+	virtual void SetMatchingLostLine(bool mlo) = 0;
 };
 
 #endif

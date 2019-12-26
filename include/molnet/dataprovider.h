@@ -14,6 +14,9 @@
 
 #include "recordset.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+
 /**
  * 我们要操作的数据库类型
  */
@@ -74,5 +77,7 @@ protected:
 	bool mIsConnected;                  /**< 数据库的连接状态 */
 	std::string mSql;                   /**< 用于存储最近的SQL语句 */
 };
+
+#pragma clang diagnostic pop
 
 #endif

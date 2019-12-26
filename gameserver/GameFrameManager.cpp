@@ -4,6 +4,7 @@
 #include "gameframe/DBOperator.h"
 #include "gameframe/RoomManager.h"
 #include "gameframe/PlayerManager.h"
+#include "matching/CDieOutMatchingMode.h"
 
 #include <map>
 #include <sstream>
@@ -896,10 +897,44 @@ void GameFrameManager::OnProcessGameReadyMes(uint32 connId,Json::Value &mes)
 }
 
 /// 用于处理用户离开消息
-void GameFrameManager::OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes)
+void GameFrameManager::OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes,bool ismatching)
 {
 	CPlayer *pPlayer = ServerPlayerManager.GetPlayer(connId);
 	if(pPlayer == NULL) return;
+
+	// 这个地方只处理消息到达的，从比赛中来的不处理
+	if(m_ServerSet.GameType == ROOMTYPE_BISAI && !ismatching)
+	{
+		// 如果玩家处于比赛中，就没法退出比赛了
+		if(pPlayer->IsMatching()) return;
+
+		if(pPlayer->IsMatchSignUp())
+		{
+			// 如果是比赛房间，要先加上报名费
+			pPlayer->SetMoney(pPlayer->GetMoney() + m_ServerSet.lastMoney);
+			ServerDBOperator.UpdateUserData(pPlayer);
+		}
+
+		// 设置玩家为报名状态
+		pPlayer->SetMatchSignUp(false);
+
+		// 向当前服务器中所有玩家更新这个玩家的信息
+		ServerGameFrameManager.UpdatePlayerMoney(pPlayer);
+
+		// 从比赛场中删除这个玩家
+		CTabelFrameManager::getSingleton().DeletePlayer(pPlayer,true);
+	}
+
+	// 如果是比赛房间，向玩家发送退赛成功消息
+	if(m_ServerSet.GameType == ROOMTYPE_BISAI)
+	{
+        Json::Value root;
+        root["MsgId"] = IDD_MESSAGE_FRAME;
+        root["MsgSubId"] = IDD_MESSAGE_ENTER_ROOM;
+        root["MsgSubId2"] = IDD_MESSAGE_ENTER_ROOM_TUISAI_SUC;
+
+		Sendhtml5(pPlayer->GetConnectID(),(const char*)root.toStyledString().c_str(),root.toStyledString().length());
+	}
 
 	CRoom *pRoom = ServerRoomManager.GetRoomById(pPlayer->GetRoomId());
 	if(pRoom == NULL) return;
@@ -922,6 +957,10 @@ void GameFrameManager::OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes)
 
 	pPlayer->SetRoomId(-1);
 	pPlayer->SetChairIndex(-1);
+
+	// 准备好了的用户是否继续开始游戏
+	if(m_ServerSet.GameType != ROOMTYPE_BISAI)
+		pRoom->OnProcessContinueGaming();
 }
 
 bool GameFrameManager::JoinPlayerToGameRoom(CPlayer *pPlayer,int pRoomIndex,int pChairIndex,bool isQueue)
@@ -1266,3 +1305,38 @@ void GameFrameManager::UpdateQueueList(void)
 		m_PlayerQueueListLock.Release();
 	}
 }
+
+/// 处理玩家比赛中准备开始游戏
+void GameFrameManager::OnProcessGameReadyMatchingMes(CPlayer *pPlayer)
+{
+	if(pPlayer == NULL) return;
+
+	CRoom *pRoom = ServerRoomManager.GetRoomById(pPlayer->GetRoomId());
+	if(pRoom == NULL) return;
+
+	//// 如果房间在游戏中或者玩家在准备状态，是不能准备的
+	//if(pPlayer->GetState() != PLAYERSTATE_NORAML)
+	//	return;
+
+	// 向所有在线玩家广播这个玩家已经准备好了
+    Json::Value out;
+    out["MsgId"] = IDD_MESSAGE_FRAME;
+    out["MsgSubId"] = IDD_MESSAGE_READY_START;
+    out["ID"] = pPlayer->GetID();
+	ServerPlayerManager.SendMsgToEveryone(out);
+
+	if(pPlayer->GetState() == PLAYERSTATE_LOSTLINE)
+		pPlayer->SetMatchingLostLine(true);
+
+	// 将玩家状态设置成准备状态
+	pPlayer->SetState(PLAYERSTATE_READY);
+	pPlayer->SetReadyTime((DWORD)time(NULL));
+
+	// 设置房间房主（如果房间人数为1的话）
+	if(pRoom->GetMaster() < 0)
+		pRoom->SetMaster(pPlayer->GetChairIndex());
+
+	// 调用房间逻辑
+	pRoom->OnProcessPlayerReadyMes(pPlayer->GetChairIndex());
+}
+

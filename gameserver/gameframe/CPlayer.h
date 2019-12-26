@@ -197,6 +197,37 @@ public:
 	/// 得到当前游戏结果输赢值
 	inline int64 getCurrentGamingResult(void) { return m_curGamingResult; }
 
+	/// 是否处于比赛中
+	virtual bool IsMatching(void) { return m_IsMatching; }
+	/// 设置是否比赛中
+	virtual void SetMatching(bool im) { m_IsMatching = im; }
+	/// 是否比赛报名
+	virtual bool IsMatchSignUp(void) { return m_IsMatchSignUp; }
+	/// 设置是否比赛报名
+	virtual void SetMatchSignUp(bool ms) { m_IsMatchSignUp = ms; }
+	/// 比赛局数
+	virtual void SetMatchCount(int count) { m_MatchCount = count; }
+	/// 得到比赛局数
+	virtual int GetMatchCount(void) { return m_MatchCount; }
+	/// 比赛总局数
+	virtual void SetTotalMatchCount(int count) { m_TotalMatchCount = count; }
+	/// 得到比赛总局数
+	virtual int GetTotalMatchCount(void) { return m_TotalMatchCount; }
+	/// 比赛分数
+	virtual void SetMatchResult(int64 result) { m_MatchResult = result; }
+	/// 得到比赛分数
+	virtual int64 GetMatchResult(void) { return m_MatchResult; }
+	/// 获取指定玩家比赛中排名
+	virtual void GetPlayerRanking(void);
+	/// 设置比赛房间索引
+	virtual void SetMatchRoomIndex(int index) { m_MatchRoomIndex = index; }
+	/// 得到比赛房间索引
+	virtual int GetMatchRoomIndex(void) { return m_MatchRoomIndex; }
+	/// 是否比赛中掉线
+	virtual bool IsMatchingLostLine(void) { return m_IsMatchingLostOnline; }
+	/// 设置是否比赛中掉线
+	virtual void SetMatchingLostLine(bool mlo) { m_IsMatchingLostOnline = mlo; }
+
 private:
 	/// 删除所有的定时器
 	void DeleteAllTimer(void);
@@ -247,12 +278,19 @@ private:
 	int32 m_CurTableIndex;                          /**< 当前所在游戏桌子ID */
 	int32 m_CurChairIndex;                          /**< 当前所在游戏椅子ID */
 	bool m_CurGamingState;                          /**< 当前玩家游戏状态 */
-	bool m_IsMatchSignUp;                           /**< 是否报名当前比赛 */
 	bool m_isChoujiang;                                 /**< 是否可以游戏后抽奖 */
 
 	DWORD           m_RealyTime;                  /**< 准备时间 */
 
 	RobotLogicFrame *m_RobotLogicFrame;             /**< 机器人处理框架 */
+
+	int             m_MatchCount;                   /**< 比赛局数 */
+	int             m_TotalMatchCount;              /**< 比赛总局数 */
+	int64           m_MatchResult;                  /**< 比赛分数 */
+	bool            m_IsMatching;                   /**< 是否处于比赛中 */
+	int             m_MatchRoomIndex;               /**< 玩家所在比赛房间索引 */
+	bool            m_IsMatchingLostOnline;         /**< 是否在比赛中掉线 */
+	bool            m_IsMatchSignUp;                           /**< 是否报名当前比赛 */
 };
 
 #endif

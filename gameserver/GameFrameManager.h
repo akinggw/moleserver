@@ -42,8 +42,10 @@ public:
     void SendPlayerLoginSuccess(CPlayer *pPlayer);
     /// 用于处理用户加入房间
     bool JoinPlayerToGameRoom(CPlayer *pPlayer,int pRoomIndex=-1,int pChairIndex=-1,bool isQueue=true);
+	/// 处理玩家比赛中准备开始游戏
+	void OnProcessGameReadyMatchingMes(CPlayer *pPlayer);
 
-private:
+public:
 	/// 用于处理用户登录消息
 	void OnProcessUserLoginMes(uint32 connId,Json::Value &mes);
     /// 先处理游戏框架消息
@@ -51,7 +53,7 @@ private:
     /// 用于处理用户准备消息
     void OnProcessGameReadyMes(uint32 connId,Json::Value &mes);
     /// 用于处理用户离开消息
-    void OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes);
+    void OnProcessGameLeaveRoomMes(uint32 connId,Json::Value &mes,bool ismatching=false);
 
 public:
 	/// 加入一个玩家到排队列表中
@@ -75,7 +77,7 @@ public:
 	/// 得到当前排队机器人数
 	int GetQueueRobotPlayerCount(void);
 
-private:
+public:
     /// 更新玩家身上的钱
     void UpdatePlayerMoney(Player *pPlayer);
     /// 用于处理用户进入房间

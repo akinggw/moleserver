@@ -12,6 +12,10 @@
 #include "common.h"
 #include <string>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+
+
 /**
  * 基本的数据库异常
  */
@@ -156,5 +160,7 @@ class RsColumnHeadersNotSet : public std::exception
 {
 
 };
+
+#pragma clang diagnostic pop
 
 #endif

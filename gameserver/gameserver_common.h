@@ -25,8 +25,11 @@ struct ServerSet
 	ServerSet()
 		: GameType(0),TableCount(0),PlayerCount(0),lastMoney(0),m_RoomRevenue(0),m_Pielement(0),
 		  m_GameId(0),m_iDBPort(0),m_iServerPort(0),m_GameStartMode(enStartMode_FullReady),
-		  m_QueueGaming(false),RoomId(0)
+		  m_QueueGaming(false),RoomId(0),m_MatchingType(0),m_MatchingLoopCount(0),m_MatchingMaxPalyer(0),m_MatchingTime(0),m_MatchingDate(0),
+		  m_MatchingGroupCount(1),m_MatchingTimerPlayer(false),m_MatchingMode(0),m_MatchingLastMoney(0),m_MatchingLastLevel(0),
+		  m_MatchingShiPeiRenShu(false),m_MatchingChouJiang(false)
 	{
+        m_isVideoRecord=false;
 	}
 
 	int RoomId;                         // 房间ID
@@ -55,6 +58,21 @@ struct ServerSet
 
 	char							m_sServerIPAddr[128];			//服务器IP地址
 	int								m_iServerPort;				//服务器端口
+
+	bool                            m_isVideoRecord;            //是否录像
+
+	uint8                           m_MatchingType;             //比赛类型
+	int                             m_MatchingLoopCount;        //比赛轮数
+	int                             m_MatchingMaxPalyer;        //比赛最大人数
+	uint64                          m_MatchingTime;             //开赛时间
+	int                             m_MatchingDate;             //比赛日期
+	int                             m_MatchingGroupCount;       //分组数
+	bool                            m_MatchingTimerPlayer;      //是否要定时
+	uint8                           m_MatchingMode;             //比赛模式
+	int64                           m_MatchingLastMoney;        //最低比赛积分
+	int                             m_MatchingLastLevel;        //最低比赛等级
+	bool                            m_MatchingShiPeiRenShu;     //是否匹配比赛人数
+	bool                            m_MatchingChouJiang;        //是否比赛结束后抽奖
 };
 
 //时间子项

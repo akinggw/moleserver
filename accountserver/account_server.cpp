@@ -25,7 +25,11 @@ int main(int argc,char *argv[])
     }
 
     m_accountserverid = atoi(argv[1]);
-	getcwd(m_curProgress_Path,256);
+	if(getcwd(m_curProgress_Path,256) == NULL)
+	{
+        LOG_ERROR("得到当前目录失败.");
+        return 0;
+	}
 
 	new GameFrameManager();
 	new DBOperator();

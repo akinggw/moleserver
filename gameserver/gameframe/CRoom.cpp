@@ -13,7 +13,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <sys/stat.h> 　
+#include <sys/stat.h>
 #include <sys/types.h>
 
 std::wstring getCurrentTime(std::wstring str)
@@ -1818,7 +1818,10 @@ void CRoom::EndVideoTape(void)
 
 	//获取目录
 	char m_curProgress_Path[256];
-	getcwd(m_curProgress_Path,256);
+	if(getcwd(m_curProgress_Path,256) == NULL) {
+         LOG_ERROR("得到当前目录失败.");
+         return;
+	}
 
 	//头像名称
 	std::string strDirName = std::string(m_curProgress_Path + std::string("/Videos"));

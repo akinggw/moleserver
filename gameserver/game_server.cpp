@@ -10,6 +10,7 @@
 #include "gameframe/PlayerManager.h"
 #include "gameframe/RoomManager.h"
 #include "gameframe/CRobotManager.h"
+#include "matching/CDieOutMatchingMode.h"
 
 ServerSet m_ServerSet;
 ServerServiceManager         *m_g_ServerServiceManager = NULL;        //游戏逻辑接口
@@ -18,10 +19,10 @@ int main(int argc,char *argv[])
 {
     char strTmp[1024];
    	NetMessage myMes;
-   	void *handle = NULL;
 	char m_curProgress_Path[256];
 	uint32 m_curTime = time(NULL);
 	int m_updateonlineplayercount = 0;
+	srand((uint32)time(0));
 
 	if(argc < 2)
     {
@@ -30,10 +31,14 @@ int main(int argc,char *argv[])
     }
 
     m_ServerSet.RoomId = atoi(argv[1]);
-	getcwd(m_curProgress_Path,256);
-	srand((uint32)time(0));
+	if(getcwd(m_curProgress_Path,256) == NULL)
+	{
+        LOG_ERROR("得到当前目录失败.");
+        return 0;
+	}
 
 	new GameFrameManager();
+	new CTabelFrameManager();
 	new DBOperator();
 	new PlayerManager();
 	new RoomManager();
@@ -139,12 +144,12 @@ int main(int argc,char *argv[])
     ServerDBOperator.Shutdown();
 	CleanMolNet();
 
-	dlclose(handle);
 	delete DBOperator::getSingletonPtr();
 	delete GameFrameManager::getSingletonPtr();
 	delete PlayerManager::getSingletonPtr();
 	delete RoomManager::getSingletonPtr();
 	delete CRobotManager::getSingletonPtr();
+	delete CTabelFrameManager::getSingletonPtr();
 
     return 0;
 }
