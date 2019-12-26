@@ -10,6 +10,11 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <dirent.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/stat.h> 　
+#include <sys/types.h>
 
 std::wstring getCurrentTime(std::wstring str)
 {
@@ -919,6 +924,19 @@ bool CRoom::IsReadyed(void)
  */
 void CRoom::SendTableMsg(int index,Json::Value &msg)
 {
+	if(m_VideoPlaybackManager.GetState() == VIDEO_RECORDING)
+	{
+		if(index != INVALID_CHAIR)
+		{
+			if(index == m_VideoPlaybackManager.GetMeUserChairIndex())
+				OnTapeGameMessage((const char*)msg.toStyledString().c_str(),msg.toStyledString().length());
+		}
+		else
+		{
+			OnTapeGameMessage((const char*)msg.toStyledString().c_str(),msg.toStyledString().length());
+		}
+	}
+
 	if(index != INVALID_CHAIR)
 	{
 		m_playersLock.Acquire();
@@ -936,7 +954,7 @@ void CRoom::SendTableMsg(int index,Json::Value &msg)
 			}
 			else
 			{
-				if(pPlayer->GetConnectID() == NULL ||
+				if(pPlayer->GetConnectID() == 0 ||
 					IsConnected(pPlayer->GetConnectID()) == false)
 				{
 					m_playersLock.Release();
@@ -985,7 +1003,7 @@ void CRoom::SendLookOnMes(int index,Json::Value &msg)
 			{
 				if((*iter).second[index] == NULL) continue;
 
-				if((*iter).second[index]->GetConnectID() == NULL ||
+				if((*iter).second[index]->GetConnectID() == 0 ||
 					IsConnected((*iter).second[index]->GetConnectID()) == false)
 					continue;
 
@@ -1012,7 +1030,7 @@ void CRoom::SendAllPlayerMsg(Json::Value &msg)
 	{
 		if(m_PlayerList[i] == NULL) continue;
 
-		if(m_PlayerList[i]->GetConnectID() == NULL ||
+		if(m_PlayerList[i]->GetConnectID() == 0 ||
 			IsConnected(m_PlayerList[i]->GetConnectID()) == false)
 			continue;
 
@@ -1036,7 +1054,7 @@ void CRoom::SendAllLookOnPlayerMsg(Json::Value &msg)
 		{
 			if((*iter).second[index] == NULL) continue;
 
-			if((*iter).second[index]->GetConnectID() == NULL ||
+			if((*iter).second[index]->GetConnectID() == 0 ||
 				IsConnected((*iter).second[index]->GetConnectID()) == false)
 				continue;
 
@@ -1728,6 +1746,120 @@ int CRoom::IsUserWin(int64 *result, int64 *sysMax, int64 *sysMin, bool isUpdate)
 		return 1;
 
 	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// 开始录制
+void CRoom::StartVideoTape(Player *pPlayer,Room *pRoom)
+{
+	if(m_VideoPlaybackManager.GetState() != VIDEO_NULL ||
+		pPlayer == NULL || pRoom == NULL) return;
+
+	m_VideoPlaybackManager.Clear();
+
+	m_VideoPlaybackManager.SetMeUserID(pPlayer->GetID());
+	m_VideoPlaybackManager.SetMeUserChairIndex(pPlayer->GetChairIndex());
+	m_VideoPlaybackManager.SetGameDll(m_ServerSet.ClientMudleName);
+
+	m_VideoPlaybackManager.AddRoom(VPRoom(pRoom->GetID(),
+		pRoom->GetName(),
+		pRoom->GetMaxPlayer(),
+		pRoom->GetRoomType(),
+		pRoom->GetRoomState(),
+		pRoom->GetRoomGameType(),
+		pRoom->GetChouShui(),
+		pRoom->GetLastMoney(),
+		pRoom->GetMaster(),
+		pRoom->GetCurrentPlayer()));
+
+	for ( WORD wChairID = 0; wChairID < pRoom->GetMaxPlayer(); ++wChairID )
+	{
+		CPlayer *ppPlayer = static_cast<CPlayer*>(pRoom->GetPlayer(wChairID));
+		if(ppPlayer == NULL) continue;
+
+		m_VideoPlaybackManager.AddUser(VPPlayer(ppPlayer->GetID(),
+			ppPlayer->GetConnectID(),
+			ppPlayer->GetRoomId(),
+			ppPlayer->GetChairIndex(),
+			ppPlayer->GetState(),
+			ppPlayer->GetType(),
+			ppPlayer->IsLookOn(),
+			ppPlayer->GetName(),
+			ppPlayer->GetMoney(),
+			ppPlayer->GetBankMoney(),
+			ppPlayer->GetTotalResult(),
+			ppPlayer->GetRevenue(),
+			ppPlayer->GetLevel(),
+			ppPlayer->GetExperience(),
+			"",
+			ppPlayer->GetTotalBureau(),
+			ppPlayer->GetSuccessBureau(),
+			ppPlayer->GetRunawayBureau(),
+			ppPlayer->GetFailBureau(),
+			ppPlayer->GetSuccessRate(),
+			ppPlayer->GetRunawayrate(),
+			ppPlayer->GetSex(),
+			ppPlayer->GetRealName(),
+			ppPlayer->GetSysType(),
+			ppPlayer->GetLoginIP(),
+			ppPlayer->GetDeviceType()));
+	}
+
+	m_VideoPlaybackManager.SetState(VIDEO_RECORDING);
+	m_bvideotapeTime = timeGetTime();
+}
+
+/// 结束录制
+void CRoom::EndVideoTape(void)
+{
+	if(m_VideoPlaybackManager.GetState() != VIDEO_RECORDING ||
+		m_VideoPlaybackManager.GetRoom() == NULL) return;
+
+	//获取目录
+	char m_curProgress_Path[256];
+	getcwd(m_curProgress_Path,256);
+
+	//头像名称
+	std::string strDirName = std::string(m_curProgress_Path + std::string("/Videos"));
+
+	// 检测文件是否存在
+    DIR *dp = opendir(strDirName.c_str());
+    if (dp == NULL) {
+        int isCreate = mkdir(strDirName.c_str(),S_IRUSR | S_IWUSR | S_IXUSR | S_IRWXG | S_IRWXO);
+        if(isCreate == -1)
+            return;
+    }
+    closedir(dp);
+
+	VPPlayer *pPlayer = NULL;
+	for ( WORD wChairID = 0; wChairID < m_VideoPlaybackManager.GetRoom()->m_MaxCount; ++wChairID )
+	{
+		pPlayer = m_VideoPlaybackManager.GetUser(wChairID);
+		if(pPlayer->m_Id == m_VideoPlaybackManager.GetMeUserID())
+			break;
+	}
+
+	srand((uint32)time(NULL));
+	char tempFilepath[256];
+	sprintf(tempFilepath,"%s\\Server_%s_%d_%d.xbvod",strDirName.c_str(),(pPlayer ? pPlayer->m_Name : ""),(uint32)time(NULL),rand()%10000);
+
+	m_VideoPlaybackManager.Sava(tempFilepath);
+	m_VideoPlaybackManager.SetState(VIDEO_NULL);
+}
+
+//记录游戏消息
+void CRoom::OnTapeGameMessage(const void * pBuffer, WORD wDataSize)
+{
+	if(m_VideoPlaybackManager.GetState() != VIDEO_RECORDING) return;
+
+	if(wDataSize >= VIDEO_BUFFER_SIZE)
+	{
+		return;
+	}
+
+	m_VideoPlaybackManager.AddFrame(new VideoGameStep(timeGetTime() - m_bvideotapeTime,pBuffer,wDataSize));
+	m_bvideotapeTime = timeGetTime();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

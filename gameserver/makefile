@@ -18,12 +18,14 @@ OBJS_GF = $(OBJDIR)/DBOperator.o \
 	   $(OBJDIR)/RoomManager.o \
 	   $(OBJDIR)/CRobotManager.o \
 
+OBJS_VPM = $(OBJDIR)/CVideoPlaybackManager.o \
+
 OBJS = $(OBJDIR)/GameFrameManager.o \
 	   $(OBJDIR)/gameparamconfig.o \
 	   $(OBJDIR)/game_server.o \
 
 TARGET = $(BIN)/game_server
-$(TARGET):$(OBJDIR) $(BIN) $(OBJS) $(OBJS_GF)
+$(TARGET):$(OBJDIR) $(BIN) $(OBJS) $(OBJS_GF) $(OBJS_VPM)
 	$(CPP) -o $@ $(OBJDIR)/*.o $(CFLAGS)
 
 $(OBJDIR):
@@ -33,6 +35,9 @@ $(BIN):
 	mkdir -p ./$@
 
 $(OBJS_GF):$(OBJDIR)/%.o:gameframe/%.cpp
+	$(CPP) -c -g $(CFLAGS) $< -o $@
+
+$(OBJS_VPM):$(OBJDIR)/%.o:videoPlayback/%.cpp
 	$(CPP) -c -g $(CFLAGS) $< -o $@
 
 $(OBJS):$(OBJDIR)/%.o:%.cpp

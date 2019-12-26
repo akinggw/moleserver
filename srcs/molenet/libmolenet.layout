@@ -2,27 +2,12 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="AtomicULong.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="779" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Socket.cpp" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7380" topLine="335" />
-		</Cursor>
-	</File>
-	<File name="../../include/molnet/Socket.h" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3371" topLine="109" />
-		</Cursor>
-	</File>
 	<File name="xredis/xRedisPool.cpp" open="1" top="0" tabpos="42" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="403" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="AtomicBoolean.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AtomicBoolean.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="769" topLine="0" />
 		</Cursor>
@@ -50,11 +35,6 @@
 	<File name="netallocator/NedAllocatedObject.h" open="0" top="0" tabpos="31" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="447" />
-		</Cursor>
-	</File>
-	<File name="../../include/molnet/MolNetMessage.h" open="1" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="326" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="netallocator/nedmalloc.c" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -127,11 +107,6 @@
 			<Cursor1 position="377" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="../../include/molnet/CTcpSocketClient.h" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2273" topLine="80" />
-		</Cursor>
-	</File>
 	<File name="xredis/xRedisClient_strings.cpp" open="1" top="0" tabpos="40" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="387" topLine="0" />
@@ -182,6 +157,11 @@
 			<Cursor1 position="147" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="../../include/molnet/CTcpSocketClient.h" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2273" topLine="80" />
+		</Cursor>
+	</File>
 	<File name="SocketLinux.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1602" topLine="0" />
@@ -222,6 +202,11 @@
 			<Cursor1 position="748" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="../../include/molnet/MolNetMessage.h" open="1" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="326" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="../../include/molnet/xredis/xRedisClusterClient.h" open="1" top="0" tabpos="45" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="291" topLine="0" />
@@ -245,6 +230,21 @@
 	<File name="SocketOpsLinux.cpp" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="416" topLine="52" />
+		</Cursor>
+	</File>
+	<File name="AtomicULong.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="779" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Socket.cpp" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7380" topLine="335" />
+		</Cursor>
+	</File>
+	<File name="../../include/molnet/Socket.h" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3371" topLine="109" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

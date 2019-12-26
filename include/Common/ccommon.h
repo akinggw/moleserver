@@ -30,14 +30,14 @@
 
 //存储长度
 #ifdef _UNICODE
-	#define CountStringBuffer CountStringBufferW
+	#define Counstd::stringBuffer Counstd::stringBufferW
 #else
-	#define CountStringBuffer CountStringBufferA
+	#define Counstd::stringBuffer Counstd::stringBufferA
 #endif
 
 //存储长度
-#define CountStringBufferA(String) ((uint32)((lstrlenA(String)+1)*sizeof(CHAR)))
-#define CountStringBufferW(String) ((uint32)((lstrlenW(String)+1)*sizeof(WCHAR)))
+#define Counstd::stringBufferA(String) ((uint32)((lstrlenA(String)+1)*sizeof(CHAR)))
+#define Counstd::stringBufferW(String) ((uint32)((lstrlenW(String)+1)*sizeof(WCHAR)))
 
 //////////////////////////////////////////////////////////////////////////
 

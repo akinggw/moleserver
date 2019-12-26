@@ -181,6 +181,13 @@ public:
 	virtual void StopAllTimer(void) = 0;
 	//virtual std::string WideCharConverToUtf8(CString& str)=NULL;
 
+	/// 开始录制
+	virtual void StartVideoTape(Player *pPlayer,Room *pRoom) = 0;
+	/// 结束录制
+	virtual void EndVideoTape(void) = 0;
+	//记录游戏消息
+	virtual void OnTapeGameMessage(const void * pBuffer, WORD wDataSize) = 0;
+
 	/// 打印日志
 	virtual void Room_Log(enLogLevel loglevel,std::string log) = 0;
 	/// 得到房间配置参数

@@ -55,6 +55,8 @@
 		<Unit filename="gameparamconfig.h" />
 		<Unit filename="gameserver_common.h" />
 		<Unit filename="makefile" />
+		<Unit filename="videoPlayback/CVideoPlaybackManager.cpp" />
+		<Unit filename="videoPlayback/CVideoPlaybackManager.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

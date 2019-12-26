@@ -7,29 +7,9 @@
 			<Cursor1 position="11472" topLine="366" />
 		</Cursor>
 	</File>
-	<File name="GameFrameManager.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1384" topLine="14" />
-		</Cursor>
-	</File>
-	<File name="GameFrameManager.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="12460" topLine="409" />
-		</Cursor>
-	</File>
-	<File name="DBOperator.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="DBOperator.h" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4739" topLine="129" />
-		</Cursor>
-	</File>
-	<File name="../include/Common/ccommon.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5048" topLine="93" />
-		</Cursor>
-	</File>
-	<File name="makefile" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="395" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="account_server.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -37,14 +17,34 @@
 			<Cursor1 position="3018" topLine="91" />
 		</Cursor>
 	</File>
+	<File name="../include/Common/ccommon.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5048" topLine="93" />
+		</Cursor>
+	</File>
+	<File name="../include/molnet/common.h" open="1" top="0" tabpos="63" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2740" topLine="93" />
+		</Cursor>
+	</File>
+	<File name="GameFrameManager.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1384" topLine="14" />
+		</Cursor>
+	</File>
 	<File name="../include/Common/defines.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="8975" topLine="111" />
 		</Cursor>
 	</File>
-	<File name="../include/molnet/common.h" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="makefile" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1383" topLine="51" />
+			<Cursor1 position="395" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GameFrameManager.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12460" topLine="409" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

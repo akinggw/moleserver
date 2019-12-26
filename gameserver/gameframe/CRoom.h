@@ -6,6 +6,7 @@
 
 #include "../../include/molnet/netallocator/NedAllocatedObject.h"
 
+#include "../videoPlayback/CVideoPlaybackManager.h"
 #include "CRoom.h"
 #include "CPlayer.h"
 
@@ -172,6 +173,13 @@ public:
 	/// 关闭所有的定时器
 	virtual void StopAllTimer(void);
 
+	/// 开始录制
+	virtual void StartVideoTape(Player *pPlayer,Room *pRoom);
+	/// 结束录制
+	virtual void EndVideoTape(void);
+	//记录游戏消息
+	virtual void OnTapeGameMessage(const void * pBuffer, WORD wDataSize);
+
 	/// 打印日志
 	virtual void Room_Log(enLogLevel loglevel,std::string log);
 	/// 得到房间配置参数
@@ -246,6 +254,10 @@ private:
 	Mutex m_playersLock;                          /**< 用于玩家操作 */
 
 	ServerLogicFrame* m_ServerLogicFrame;               /**< 用于处理游戏逻辑 */
+
+private:
+	CVideoPlaybackManager          m_VideoPlaybackManager;               /**< 游戏录制回放 */
+	uint32                         m_bvideotapeTime;                     //用于录制
 };
 
 #endif
