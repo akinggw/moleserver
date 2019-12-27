@@ -12,6 +12,8 @@ ifeq ($(debug),1)
 	cd ./games/brnn && make clean && make debug=1
 	cd ./games/hlddz && make clean && make debug=1
 	cd ./games/xzmj && make clean && make debug=1
+	cd ./games/zjh && make clean && make debug=1
+	cd ./games/dzpk && make clean && make debug=1
 else
 	cd ./srcs/molenet && make clean && make
 	cd ./srcs/MahJong && make clean && make
@@ -25,5 +27,7 @@ else
 	cd ./games/brnn && make clean && make
 	cd ./games/hlddz && make clean && make
 	cd ./games/xzmj && make clean && make
+	cd ./games/zjh && make clean && make
+	cd ./games/dzpk && make clean && make
 endif
 $(info,"project compile succeed.")
