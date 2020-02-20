@@ -15,6 +15,9 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 8. 机器人功能，在数据库配置好机器人后，机器人就可以使用了 
 9. 玩家无限制分成代理分销，充值，退款等功能
 
+#### 官方网站:
+http://mivms.kfapp8.cc/  
+
 #### 系列教程
 
 - [MoleServer游戏服务器框架使用教程（一） ](https://blog.csdn.net/akinggw/article/details/102985982)

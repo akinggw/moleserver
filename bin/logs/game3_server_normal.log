@@ -1,0 +1,8 @@
+[11:48][2020-02-14 11:48:39] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game3_server_normal.log'
+[11:48] [BSC] game_server.cpp:68 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:48] [BSC] game_server.cpp:85 main 游戏服务器神兽转盘普通场:ip:127.0.0.1,端口:3307 启动成功。
+[11:48] [BSC] game_server.cpp:87 main 服务器启动成功，开始处理...
+[12:15][2020-02-14 12:15:43] opening '/media/ou/DATA/Linux/moleserver/bin/logs/game3_server_normal.log'
+[12:15] [BSC] game_server.cpp:68 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:15] [BSC] game_server.cpp:85 main 游戏服务器神兽转盘普通场:ip:127.0.0.1,端口:3307 启动成功。
+[12:15] [BSC] game_server.cpp:87 main 服务器启动成功，开始处理...

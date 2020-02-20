@@ -1,0 +1,44 @@
+[11:48][2020-02-14 11:48:08] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:48] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:48] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:48] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[12:15][2020-02-14 12:15:11] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[12:15] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[12:15] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[12:15] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[10:45][2020-02-15 10:45:54] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[10:45] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[10:45] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[10:45] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[10:46][2020-02-15 10:46:55] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[10:46] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[10:46] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[10:46] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:10][2020-02-15 11:10:24] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:10] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:10] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:10] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:12][2020-02-15 11:12:01] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:12] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:12] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:12] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:13][2020-02-15 11:13:25] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:13] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:13] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:13] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:13][2020-02-15 11:13:53] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:13] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:13] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:13] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:14][2020-02-15 11:14:16] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:14] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:14] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:14] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:15][2020-02-15 11:15:38] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:15] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:15] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:15] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
+[11:15][2020-02-15 11:15:59] opening '/media/ou/DATA/Linux/moleserver/bin/logs/account1_server_normal.log'
+[11:15] [BSC] account_server.cpp:63 main 数据库:127.0.0.1 root 123456 moleweb 连接成功。
+[11:15] [BSC] account_server.cpp:83 main 登陆服务器:127.0.0.1,端口:3333 启动成功。
+[11:15] [BSC] account_server.cpp:85 main 服务器启动成功，开始处理...
