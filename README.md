@@ -16,7 +16,7 @@ https://gitee.com/akinggw/Mole2dConfrontationplatform
 9. 玩家无限制分成代理分销，充值，退款等功能
 
 #### 官方网站:
-http://mivms.kfapp8.cc/  
+http://akinggw.gitee.io/moleserver/
 
 #### 系列教程
 
